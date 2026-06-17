@@ -157,8 +157,7 @@ CREATE TABLE site_content (
 -- ==========================================
 
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users read own profile" ON profiles FOR SELECT USING (auth.uid() = id);
-CREATE POLICY "Admin reads all profiles" ON profiles FOR SELECT USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+CREATE POLICY "Public read profiles" ON profiles FOR SELECT USING (true);
 
 ALTER TABLE experiences ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public reads published" ON experiences FOR SELECT USING (is_published = true);
