@@ -18,7 +18,7 @@ export type BookingRequest = {
 };
 
 export async function createBooking(data: BookingRequest) {
-  const supabase = createAdminClient();
+  const supabase = createAdminClient() as any;
 
   try {
     // 1. Calculate financial splits (SafarDZ takes 15%)
