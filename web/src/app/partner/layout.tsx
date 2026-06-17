@@ -1,6 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { SidebarNav } from "@/components/partner/sidebar-nav";
 
 export default function PartnerLayout({
   children,
@@ -18,26 +19,7 @@ export default function PartnerLayout({
             </span>
           </Link>
         </div>
-        <nav className="flex-1 space-y-1 p-4">
-          <div className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-4 px-2">
-            Espace Partenaire
-          </div>
-          <Link href="/partner" className="flex items-center space-x-3 rounded-lg bg-secondary-container px-3 py-2 text-on-secondary-container transition-all">
-            <span className="font-medium">Dashboard</span>
-          </Link>
-          <Link href="/partner/bookings" className="flex items-center space-x-3 rounded-lg px-3 py-2 text-on-surface hover:bg-surface-variant transition-all">
-            <span className="font-medium">Réservations</span>
-          </Link>
-          <Link href="/partner/boats" className="flex items-center space-x-3 rounded-lg px-3 py-2 text-on-surface hover:bg-surface-variant transition-all">
-            <span className="font-medium">Ma Flotte</span>
-          </Link>
-          <Link href="/partner/availability" className="flex items-center space-x-3 rounded-lg px-3 py-2 text-on-surface hover:bg-surface-variant transition-all">
-            <span className="font-medium">Disponibilités</span>
-          </Link>
-          <Link href="/partner/earnings" className="flex items-center space-x-3 rounded-lg px-3 py-2 text-on-surface hover:bg-surface-variant transition-all">
-            <span className="font-medium">Revenus</span>
-          </Link>
-        </nav>
+        <SidebarNav />
         <div className="border-t border-outline-variant p-4">
           <form action="/auth/signout" method="POST">
             <Button variant="ghost" className="w-full justify-start text-error hover:bg-error-container hover:text-on-error-container">
