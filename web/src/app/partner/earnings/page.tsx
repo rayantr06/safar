@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Download, TrendingUp, DollarSign, Wallet, ArrowRightLeft } from "lucide-react";
+import { Download, TrendingUp, DollarSign, Wallet, ArrowRightLeft, Clock } from "lucide-react";
 import { formatPriceDA } from "@/lib/utils/format";
 
 export default async function PartnerEarningsPage() {

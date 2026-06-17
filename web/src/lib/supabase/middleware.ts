@@ -60,11 +60,11 @@ export async function updateSession(request: NextRequest) {
 
   if (user && path.startsWith("/admin")) {
     // Check if user is actually an admin
-    const { data: profile } = await supabase
+    const { data: profile } = (await supabase
       .from("profiles")
       .select("role")
       .eq("id", user.id)
-      .single();
+      .single()) as any;
 
     if (profile?.role !== "admin") {
       const url = request.nextUrl.clone();

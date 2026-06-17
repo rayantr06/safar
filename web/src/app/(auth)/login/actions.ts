@@ -23,11 +23,11 @@ export async function login(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser();
   
   if (user) {
-    const { data: profile } = await supabase
+    const { data: profile } = (await supabase
       .from("profiles")
       .select("role")
       .eq("id", user.id)
-      .single();
+      .single()) as any;
 
     if (profile?.role === "admin") {
       redirect("/admin");

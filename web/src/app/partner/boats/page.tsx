@@ -92,7 +92,7 @@ export default async function PartnerBoatsPage() {
                 
                 <div className="mt-6 pt-4 border-t border-surface-variant flex justify-between items-center">
                   <div className="font-mono font-bold text-primary">
-                    {exp.type === 'private' ? `${exp.price_total / 100} DA` : `${exp.price_per_seat! / 100} DA / pers`}
+                    {exp.type === 'private' ? `${(exp.price_total ?? 0) / 100} DA` : `${(exp.price_per_seat ?? 0) / 100} DA / pers`}
                   </div>
                   <Button variant="outline" size="sm">
                     <Edit2 className="h-3 w-3 mr-2" /> Modifier

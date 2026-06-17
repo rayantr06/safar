@@ -157,3 +157,75 @@ export type SiteContent = {
   updated_by: string | null;
   updated_at: string;
 };
+
+export interface Database {
+  public: {
+    Tables: {
+      profiles: {
+        Row: Profile;
+        Insert: Partial<Profile>;
+        Update: Partial<Profile>;
+      };
+      providers: {
+        Row: Provider;
+        Insert: Partial<Provider>;
+        Update: Partial<Provider>;
+      };
+      boats: {
+        Row: Boat;
+        Insert: Partial<Boat>;
+        Update: Partial<Boat>;
+      };
+      destinations: {
+        Row: Destination;
+        Insert: Partial<Destination>;
+        Update: Partial<Destination>;
+      };
+      experiences: {
+        Row: Experience;
+        Insert: Partial<Experience>;
+        Update: Partial<Experience>;
+      };
+      experience_images: {
+        Row: ExperienceImage;
+        Insert: Partial<ExperienceImage>;
+        Update: Partial<ExperienceImage>;
+      };
+      time_slots: {
+        Row: TimeSlot;
+        Insert: Partial<TimeSlot>;
+        Update: Partial<TimeSlot>;
+      };
+      bookings: {
+        Row: Booking;
+        Insert: Partial<Booking>;
+        Update: Partial<Booking>;
+      };
+      booking_status_history: {
+        Row: BookingStatusHistory;
+        Insert: Partial<BookingStatusHistory>;
+        Update: Partial<BookingStatusHistory>;
+      };
+      provider_payouts: {
+        Row: ProviderPayout;
+        Insert: Partial<ProviderPayout>;
+        Update: Partial<ProviderPayout>;
+      };
+      site_content: {
+        Row: SiteContent;
+        Insert: Partial<SiteContent>;
+        Update: Partial<SiteContent>;
+      };
+    };
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      [_ in never]: never;
+    };
+    Enums: {
+      [_ in never]: never;
+    };
+  };
+}
+
