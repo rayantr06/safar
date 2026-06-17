@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { generateBookingRef, calculateCommission } from "@/lib/utils/booking-ref";
 import { revalidatePath } from "next/cache";
 
@@ -18,7 +18,7 @@ export type BookingRequest = {
 };
 
 export async function createBooking(data: BookingRequest) {
-  const supabase = (await createClient()) as any;
+  const supabase = createAdminClient();
 
   try {
     // 1. Calculate financial splits (SafarDZ takes 15%)
