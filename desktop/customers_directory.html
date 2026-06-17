@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Customers | Safar DZ Partner Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#364571",
+                    "on-background": "#1b1c14",
+                    "outline": "#747684",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#261900",
+                    "inverse-surface": "#303129",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#eae9dc",
+                    "secondary-container": "#bbcbff",
+                    "tertiary": "#513a00",
+                    "surface-bright": "#fcfaed",
+                    "tertiary-fixed": "#ffdea1",
+                    "surface-dim": "#dcdace",
+                    "on-tertiary-container": "#febf21",
+                    "surface-container": "#f0eee1",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "surface-container-highest": "#e5e3d6",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#434653",
+                    "surface-tint": "#2c57c0",
+                    "on-secondary-container": "#465581",
+                    "surface": "#fcfaed",
+                    "primary-container": "#1e4db6",
+                    "on-primary": "#ffffff",
+                    "background": "#fcfaed",
+                    "tertiary-fixed-dim": "#fbbc1c",
+                    "primary-fixed": "#dbe1ff",
+                    "tertiary-container": "#6e5000",
+                    "on-error": "#ffffff",
+                    "on-surface": "#1b1c14",
+                    "primary": "#003693",
+                    "on-error-container": "#93000a",
+                    "secondary": "#4e5d8a",
+                    "on-primary-container": "#b8c8ff",
+                    "inverse-on-surface": "#f3f1e4",
+                    "on-secondary-fixed": "#061943",
+                    "secondary-fixed-dim": "#b6c5f9",
+                    "outline-variant": "#c4c6d5",
+                    "secondary-fixed": "#dbe1ff",
+                    "inverse-primary": "#b4c5ff",
+                    "surface-container-low": "#f6f4e7",
+                    "on-primary-fixed-variant": "#003ea7",
+                    "on-primary-fixed": "#00174b",
+                    "surface-variant": "#e5e3d6",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "base": "8px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "display-lg-mobile": ["Space Mono"],
+                    "headline-sm": ["Space Mono"],
+                    "headline-md": ["Space Mono"],
+                    "label-md": ["Inter"],
+                    "display-lg": ["Space Mono"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .customer-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 54, 147, 0.08);
+        }
+        
+        .drawer-open { transform: translateX(0); }
+        .drawer-closed { transform: translateX(100%); }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-outline-variant flex flex-col p-4 space-y-2 z-30">
+<div class="mb-8 px-4 py-2">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Safar DZ</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Partner Portal</p>
+<p class="text-[10px] text-on-surface-variant opacity-70">Béjaïa, DZ</p>
+</div>
+<nav class="flex-grow space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="earnings_finance.html">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md">Earnings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer bg-primary-container text-on-primary-container font-bold rounded-lg transition-all duration-200" href="customers_directory.html">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md">Customers</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="boat_management.html">
+<span class="material-symbols-outlined">directions_boat</span>
+<span class="font-label-md">Boat Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="availability_control.html">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-label-md">Availability</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="notifications_center.html">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-md">Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="business_reports.html">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="partner_settings.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+</nav>
+<button class="w-full py-3 px-4 bg-primary text-on-primary rounded-xl font-label-md flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+            Add New Boat
+        </button>
+<div class="pt-4 border-t border-outline-variant mt-4 space-y-1">
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-primary transition-colors rounded-lg">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md">Help Center</span>
+</div>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-primary transition-colors rounded-lg" href="discovery_page.html">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 flex-1 flex flex-col h-screen overflow-hidden relative">
+<!-- TopNavBar -->
+<header class="w-full h-16 bg-surface shadow-sm flex justify-between items-center px-margin-desktop border-b border-outline-variant z-20">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary">Customers</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors" onclick="window.location.href='notifications_center.html'">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined">translate</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer p-1 hover:bg-surface-container-high rounded-lg transition-colors">
+<img alt="Partner profile picture" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A professional portrait of a confident middle-aged Algerian man with a friendly smile, dressed in a smart-casual linen shirt suitable for a marine tourism business owner. The background is a blurred Mediterranean harbor scene with soft, natural morning light, creating a trustworthy and warm professional persona for the platform's profile section." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWvz0ACk2q_tplcLaQ8seNFkoyT3UlEKoA7w4qthrQNTXz0G7eE17lId5UK6d1BNgAALwI8PLOX2_8CW0IJcNLICsaK5Ng7PYz3nrUbqNWMrycXGSGOfUP7HMIwoQplh2VUrzUo6s8RX7dvK6zFUeU6Ovgu3PSXyzophSJCWCARB1qAA-aT-w6Tx1V75CTcqDE-yDUaAyc4G2gGihoIfmNj8kUrMPVmY4Y41BAx-ILGSGyIhkfZlJ84XveMKXb4b2Tz3DS11EEVM4"/>
+<span class="font-label-md text-on-surface hidden lg:block">Karim B.</span>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<div class="flex-1 overflow-y-auto p-margin-desktop bg-surface-bright hide-scrollbar pb-20">
+<!-- Summary Stats -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-10">
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant flex items-center justify-between">
+<div>
+<p class="font-label-md text-on-surface-variant">Total Clients</p>
+<p class="font-headline-sm text-headline-sm text-primary">1,284</p>
+</div>
+<span class="material-symbols-outlined text-primary text-4xl opacity-20">group</span>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant flex items-center justify-between">
+<div>
+<p class="font-label-md text-on-surface-variant">Repeat Customers</p>
+<p class="font-headline-sm text-headline-sm text-tertiary">342</p>
+</div>
+<span class="material-symbols-outlined text-tertiary text-4xl opacity-20">repeat</span>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant flex items-center justify-between">
+<div>
+<p class="font-label-md text-on-surface-variant">Customer Loyalty</p>
+<p class="font-headline-sm text-headline-sm text-secondary">26%</p>
+</div>
+<span class="material-symbols-outlined text-secondary text-4xl opacity-20">loyalty</span>
+</div>
+</div>
+<!-- Header and Simple Search -->
+<div class="flex justify-between items-end mb-6">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Customer Directory</h3>
+<p class="font-body-md text-on-surface-variant">Identifying your most frequent sea travelers.</p>
+</div>
+<div class="relative w-72">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface border border-outline-variant rounded-full py-2 pl-10 pr-4 font-body-md focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="Search by name or phone..." type="text"/>
+</div>
+</div>
+<!-- Customer Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Repeated Customer Card -->
+<div class="customer-card bg-surface-container-lowest p-6 rounded-xl border border-outline-variant cursor-pointer transition-all flex flex-col gap-4 relative overflow-hidden group" onclick="openDrawer('Amine Rezki')">
+<div class="absolute top-0 right-0 p-3">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Top Client</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-xl">AR</div>
+<div>
+<p class="font-headline-sm text-[20px] text-on-surface">Amine Rezki</p>
+<p class="font-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">call</span>
+                                +213 555 12 34 56
+                            </p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-2">
+<div class="bg-surface-container-high p-3 rounded-lg">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase">Trips Taken</p>
+<p class="font-headline-sm text-headline-sm text-primary">12</p>
+</div>
+<div class="bg-surface-container-high p-3 rounded-lg">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase">Last Trip</p>
+<p class="font-body-md font-bold text-on-surface">Oct 14, 2024</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-primary font-bold font-label-md mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span>View detail history</span>
+<span class="material-symbols-outlined">chevron_right</span>
+</div>
+</div>
+<!-- Customer Card 2 -->
+<div class="customer-card bg-surface-container-lowest p-6 rounded-xl border border-outline-variant cursor-pointer transition-all flex flex-col gap-4 group" onclick="openDrawer('Lydia Mansouri')">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary font-bold text-xl">LM</div>
+<div>
+<p class="font-headline-sm text-[20px] text-on-surface">Lydia Mansouri</p>
+<p class="font-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">call</span>
+                                +213 770 45 67 89
+                            </p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-2">
+<div class="bg-surface-container-high p-3 rounded-lg">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase">Trips Taken</p>
+<p class="font-headline-sm text-headline-sm text-primary">4</p>
+</div>
+<div class="bg-surface-container-high p-3 rounded-lg">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase">Last Trip</p>
+<p class="font-body-md font-bold text-on-surface">Sep 28, 2024</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-primary font-bold font-label-md mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span>View detail history</span>
+<span class="material-symbols-outlined">chevron_right</span>
+</div>
+</div>
+<!-- Customer Card 3 -->
+<div class="customer-card bg-surface-container-lowest p-6 rounded-xl border border-outline-variant cursor-pointer transition-all flex flex-col gap-4 group" onclick="openDrawer('Yassine Belkacem')">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-outline-variant flex items-center justify-center text-on-surface font-bold text-xl">YB</div>
+<div>
+<p class="font-headline-sm text-[20px] text-on-surface">Yassine Belkacem</p>
+<p class="font-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">call</span>
+                                +213 661 22 33 44
+                            </p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-2">
+<div class="bg-surface-container-high p-3 rounded-lg">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase">Trips Taken</p>
+<p class="font-headline-sm text-headline-sm text-primary">2</p>
+</div>
+<div class="bg-surface-container-high p-3 rounded-lg">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase">Last Trip</p>
+<p class="font-body-md font-bold text-on-surface">Aug 05, 2024</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-primary font-bold font-label-md mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span>View detail history</span>
+<span class="material-symbols-outlined">chevron_right</span>
+</div>
+</div>
+<!-- Repeating Cards to fill space -->
+<div class="customer-card bg-surface-container-lowest p-6 rounded-xl border border-outline-variant cursor-pointer transition-all flex flex-col gap-4 group" onclick="openDrawer('Sarah Hamidi')">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-primary-fixed-dim flex items-center justify-center text-primary font-bold text-xl">SH</div>
+<div>
+<p class="font-headline-sm text-[20px] text-on-surface">Sarah Hamidi</p>
+<p class="font-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">call</span>
+                                +213 550 99 88 77
+                            </p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-2">
+<div class="bg-surface-container-high p-3 rounded-lg">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase">Trips Taken</p>
+<p class="font-headline-sm text-headline-sm text-primary">8</p>
+</div>
+<div class="bg-surface-container-high p-3 rounded-lg">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase">Last Trip</p>
+<p class="font-body-md font-bold text-on-surface">Oct 30, 2024</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-primary font-bold font-label-md mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span>View detail history</span>
+<span class="material-symbols-outlined">chevron_right</span>
+</div>
+</div>
+<!-- Customer Card 5 -->
+<div class="customer-card bg-surface-container-lowest p-6 rounded-xl border border-outline-variant cursor-pointer transition-all flex flex-col gap-4 group" onclick="openDrawer('Omar Toudji')">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-tertiary-fixed-dim flex items-center justify-center text-tertiary font-bold text-xl">OT</div>
+<div>
+<p class="font-headline-sm text-[20px] text-on-surface">Omar Toudji</p>
+<p class="font-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">call</span>
+                                +213 540 11 22 33
+                            </p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-2">
+<div class="bg-surface-container-high p-3 rounded-lg">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase">Trips Taken</p>
+<p class="font-headline-sm text-headline-sm text-primary">1</p>
+</div>
+<div class="bg-surface-container-high p-3 rounded-lg">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase">Last Trip</p>
+<p class="font-body-md font-bold text-on-surface">Oct 25, 2024</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-primary font-bold font-label-md mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span>View detail history</span>
+<span class="material-symbols-outlined">chevron_right</span>
+</div>
+</div>
+<!-- Customer Card 6 -->
+<div class="customer-card bg-surface-container-lowest p-6 rounded-xl border border-outline-variant cursor-pointer transition-all flex flex-col gap-4 group" onclick="openDrawer('Nadir Kerrou')">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-secondary-fixed-dim flex items-center justify-center text-secondary font-bold text-xl">NK</div>
+<div>
+<p class="font-headline-sm text-[20px] text-on-surface">Nadir Kerrou</p>
+<p class="font-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">call</span>
+                                +213 790 88 44 22
+                            </p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-2">
+<div class="bg-surface-container-high p-3 rounded-lg">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase">Trips Taken</p>
+<p class="font-headline-sm text-headline-sm text-primary">5</p>
+</div>
+<div class="bg-surface-container-high p-3 rounded-lg">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase">Last Trip</p>
+<p class="font-body-md font-bold text-on-surface">Oct 12, 2024</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-primary font-bold font-label-md mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span>View detail history</span>
+<span class="material-symbols-outlined">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full py-6 bg-surface-container-lowest border-t border-outline-variant flex justify-between items-center px-margin-desktop mt-auto">
+<span class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Safar DZ Tourism. All rights reserved.</span>
+<div class="flex gap-6">
+<span class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Privacy Policy</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Terms of Service</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Partner Agreement</span>
+</div>
+</footer>
+<!-- Customer Detail Drawer Overlay -->
+<div class="fixed inset-0 bg-black/40 z-40 opacity-0 pointer-events-none transition-opacity duration-300" id="drawer-overlay" onclick="closeDrawer()"></div>
+<!-- Customer Detail Drawer Content -->
+<div class="fixed right-0 top-0 h-screen w-full max-w-md bg-surface shadow-2xl z-50 drawer-closed transition-transform duration-300 ease-in-out border-l border-outline-variant flex flex-col" id="customer-drawer">
+<div class="p-6 border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Customer Detail</h4>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors" onclick="closeDrawer()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-8">
+<!-- Profile Header -->
+<div class="flex flex-col items-center text-center gap-3">
+<div class="w-24 h-24 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-3xl mb-2" id="drawer-avatar">AR</div>
+<h5 class="font-headline-md text-headline-md text-on-surface" id="drawer-name">Amine Rezki</h5>
+<div class="flex items-center gap-2 px-4 py-2 bg-surface-container-high rounded-full">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">call</span>
+<span class="font-body-md text-on-surface">+213 555 12 34 56</span>
+</div>
+</div>
+<!-- Stats Overview -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-1">Total Spent</p>
+<p class="font-headline-sm text-headline-sm text-primary">145,000 DA</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-1">Favorite Trip</p>
+<p class="font-body-md font-bold text-on-surface">Sunset Private</p>
+</div>
+</div>
+<!-- Booking History -->
+<div class="space-y-4">
+<h6 class="font-label-md text-label-md text-on-surface border-b border-outline-variant pb-2">Full Booking History</h6>
+<!-- History Item -->
+<div class="flex gap-4 p-4 rounded-lg bg-surface-bright border border-outline-variant">
+<div class="w-12 h-12 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A luxurious sunset view over the turquoise waters of the Mediterranean Sea near Bejaia, Algeria. A small white boat is gently floating in the calm water as the sky turns orange and purple. The scene is serene, modern, and captures the premium essence of a sunset cruise experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOdLr9dDaGYkEnIEbrWYyzvQh-CnfUUqvO61NxUjCrcYP9rnISex6oXwkx7AxajtKgEssZOHD9yS71fJfgr1ick9xr-E-dT4ip5_cflj2uB5XOXqkMwrTli1duqnzA8P02b34m3tEMf-szIAe_cRP7-OO61p8M4XC4S3G7dMbBWK6Ee1Thi8YdVM92Sj5Cw_mZcQ6rk838KkZTpp3BtG_8j2aZ5z-xwNocKncg575stj4GCG2ivj4EvRjCyA9vi1Eu1XrU0Big3As"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="font-label-md text-on-surface">Béjaïa Caves Discovery</p>
+<span class="text-[12px] text-on-surface-variant">Oct 14, 2024</span>
+</div>
+<p class="text-[12px] text-primary font-bold">12,500 DA • 4 Persons</p>
+</div>
+</div>
+<!-- History Item -->
+<div class="flex gap-4 p-4 rounded-lg bg-surface-bright border border-outline-variant">
+<div class="w-12 h-12 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Close-up of clear blue sea water rippling near the rocky coast of Algeria. The lighting is bright and summery, showcasing the pristine natural beauty of the Béjaïa coast. The style is crisp and commercial, emphasizing discovery and luxury adventure on the water." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQbd5g5K0hsqTw-aPTKi1KFgFH5dXG9Oc9-IHbumEBs0SkXgsrgqGo3RPMblC1GbrjErQ10HY0pY23ShpyMc1C8yfZFywrHmnPCM-0zhC2jiVD_XZ7k7cFK3O2SOtLeaI5hPPlzIzhSsoYR4aJN08p8PG8N3vmEIrxOfDHln3QRy9IOlmGng-dOsJ4u4LC_lbrPLykQq7PZOprmgvv3cA-LXUBOnXw5nYGx3tvqX9akJ9RBRILGaXBys7chBQI7ddINhLRXw_5I20"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="font-label-md text-on-surface">Private Sunset Yacht</p>
+<span class="text-[12px] text-on-surface-variant">Sep 02, 2024</span>
+</div>
+<p class="text-[12px] text-primary font-bold">45,000 DA • 2 Persons</p>
+</div>
+</div>
+<!-- History Item -->
+<div class="flex gap-4 p-4 rounded-lg bg-surface-bright border border-outline-variant">
+<div class="w-12 h-12 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A beautiful Mediterranean coastline with white sand and deep blue water. The sun is high, creating sharp shadows and vibrant colors. The overall aesthetic is inviting and warm, suggesting a perfect day for a boat trip or a coastal excursion in North Africa." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC47H3PHiRDIdvksR-LSgPFptjT4BcnBFtFWLqECoxHSzIMYGi-XIUm_juZNjKVNzOhXPRvAbYpkqnSk_2tPpowfH6VtRqyOtULs6GnrBi7Pve8yDSlpXl5z5civMUOTpFWUwevAsSnBwkG01k6-tjEvVkz2CY7IsQZmZ6Sb4uNdGiweHbAIsORpKKK7zeGuz90mbD6CxKnZCFvcp6BqJPKhWrSUb3RdyNGY7x8vefZs928nlYv_KYxx3zE_VzRK5gKyntMDV3iCSQ"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="font-label-md text-on-surface">Island Snorkeling Day</p>
+<span class="text-[12px] text-on-surface-variant">Aug 15, 2024</span>
+</div>
+<p class="text-[12px] text-primary font-bold">8,000 DA • 1 Person</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Reward Action -->
+<div class="p-6 bg-surface-container-low border-t border-outline-variant">
+<button class="w-full py-4 bg-tertiary text-on-tertiary rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">card_giftcard</span>
+                    Send Reward / Discount
+                </button>
+</div>
+</div>
+</main>
+<script>
+        function openDrawer(name) {
+            const drawer = document.getElementById('customer-drawer');
+            const overlay = document.getElementById('drawer-overlay');
+            const drawerName = document.getElementById('drawer-name');
+            const drawerAvatar = document.getElementById('drawer-avatar');
+            
+            drawerName.innerText = name;
+            const initials = name.split(' ').map(n => n[0]).join('');
+            drawerAvatar.innerText = initials;
+            
+            overlay.classList.remove('pointer-events-none', 'opacity-0');
+            overlay.classList.add('opacity-100');
+            
+            drawer.classList.remove('drawer-closed');
+            drawer.classList.add('drawer-open');
+        }
+
+        function closeDrawer() {
+            const drawer = document.getElementById('customer-drawer');
+            const overlay = document.getElementById('drawer-overlay');
+            
+            overlay.classList.add('pointer-events-none', 'opacity-0');
+            overlay.classList.remove('opacity-100');
+            
+            drawer.classList.remove('drawer-open');
+            drawer.classList.add('drawer-closed');
+        }
+    </script>
+</body></html>

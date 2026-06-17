@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Safar DZ | Bookings Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#b6c5f9",
+                    "on-primary-container": "#b8c8ff",
+                    "tertiary": "#513a00",
+                    "on-tertiary-fixed": "#261900",
+                    "surface-container-high": "#eae9dc",
+                    "on-secondary-container": "#465581",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "background": "#fcfaed",
+                    "primary-container": "#1e4db6",
+                    "outline-variant": "#c4c6d5",
+                    "tertiary-container": "#6e5000",
+                    "on-surface": "#1b1c14",
+                    "on-surface-variant": "#434653",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#003ea7",
+                    "on-error": "#ffffff",
+                    "on-background": "#1b1c14",
+                    "surface-container-low": "#f6f4e7",
+                    "surface-container-highest": "#e5e3d6",
+                    "secondary": "#4e5d8a",
+                    "surface-tint": "#2c57c0",
+                    "surface-container": "#f0eee1",
+                    "primary-fixed": "#dbe1ff",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#dcdace",
+                    "primary": "#003693",
+                    "tertiary-fixed": "#ffdea1",
+                    "primary-fixed-dim": "#b4c5ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "40px",
+                    "base": "8px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "display-lg": ["Space Mono"],
+                    "body-md": ["Inter"],
+                    "headline-sm": ["Space Mono"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Space Mono"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e5e3d6;
+            border-radius: 10px;
+        }
+        .side-panel-transition {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md overflow-x-hidden">
+<!-- Side Navigation Bar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-primary dark:bg-primary-container shadow-xl flex flex-col p-4 z-50">
+<div class="mb-8 px-2">
+<h1 class="font-headline-sm text-headline-sm font-bold text-on-primary">Safar DZ</h1>
+<p class="text-on-primary/60 text-label-sm font-label-sm">Admin Console</p>
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Dashboard Tab -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-primary/80 hover:text-on-primary hover:bg-primary-fixed-dim/10 transition-colors rounded-lg font-label-md text-label-md" href="admin_command_center_final.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Bookings Tab (Active) -->
+<a class="flex items-center gap-3 px-3 py-2 bg-secondary-container text-on-secondary-container rounded-lg font-bold font-label-md text-label-md" href="bookings_management_dashboard.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+<span>Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-primary/80 hover:text-on-primary hover:bg-primary-fixed-dim/10 transition-colors rounded-lg font-label-md text-label-md" href="boat_owners_partners_management.html">
+<span class="material-symbols-outlined">handshake</span>
+<span>Partners</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-primary/80 hover:text-on-primary hover:bg-primary-fixed-dim/10 transition-colors rounded-lg font-label-md text-label-md" href="activities_catalog.html">
+<span class="material-symbols-outlined">explore</span>
+<span>Experiences</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-primary/80 hover:text-on-primary hover:bg-primary-fixed-dim/10 transition-colors rounded-lg font-label-md text-label-md" href="finance_commissions_dashboard.html">
+<span class="material-symbols-outlined">payments</span>
+<span>Finance</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-primary/80 hover:text-on-primary hover:bg-primary-fixed-dim/10 transition-colors rounded-lg font-label-md text-label-md" href="partner_settings.html">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-on-primary/10 flex items-center gap-3 px-2">
+<img alt="Admin User Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-on-primary/20" data-alt="A professional headshot of a middle-aged Mediterranean male administrator with a friendly expression. He is wearing a clean white linen shirt, set against a blurred background of a modern office with warm wooden accents and soft lighting. The image maintains a high-key, professional aesthetic consistent with a luxury tourism marketplace dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBC5VFxQroLyrZGip-7n8q0_zLb72S_YFbE27EdEdZVaMoM1AtC9ieqgZ0hScIOV0eSkhLTnv5-rsocOYHhYHnJ6vwqxfUa1vu60O2-1uHr5EmkvRD7GPSzDx9t5BckVboO_aYVEVFpJ-9oKFENAOEnxe8DAwOXeKfD9c1Szn26TnO3Mrm6vHvc8JoAfZ4BvgFHFYZ2Jw2CBix6TN5P_HNhnn7cSGrz4kT-pEv6G_xthpG8q3bnQLLGzkV1KF-FSgywI-X5Ti1DLU"/>
+<div>
+<p class="text-on-primary font-bold text-label-md">Amine K.</p>
+<p class="text-on-primary/60 text-label-sm">Head of Operations</p>
+</div>
+</div>
+</aside>
+<!-- Top App Bar -->
+<header class="w-full h-16 sticky top-0 bg-surface/80 backdrop-blur-md shadow-sm flex items-center justify-between px-margin-desktop ml-64 z-40">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-label-md focus:ring-2 focus:ring-primary" placeholder="Search by name, phone, or ID..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors relative" onclick="window.location.href='notifications_center.html'">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 p-margin-desktop min-h-screen">
+<!-- Dashboard Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary font-bold">Bookings</h2>
+<p class="text-on-surface-variant font-body-md">Manage every adventure from request to completion.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-6 py-3 bg-surface-container-highest text-primary font-bold rounded-xl flex items-center gap-2 hover:bg-surface-variant transition-all" onclick="window.location.href='bookings_management_dashboard.html'">
+<span class="material-symbols-outlined">download</span>
+                    Export Bookings
+                </button>
+<button class="px-6 py-3 bg-primary text-on-primary font-bold rounded-xl flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-lg">
+<span class="material-symbols-outlined">add</span>
+                    + Create Booking
+                </button>
+</div>
+</div>
+<!-- Summary Cards (Bento Grid) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+<!-- Pending -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="p-2 bg-tertiary-fixed text-on-tertiary-fixed rounded-lg material-symbols-outlined">pending_actions</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant bg-surface-container px-2 py-1 rounded-full">+2 from yesterday</span>
+</div>
+<div class="mt-4">
+<p class="font-headline-sm text-headline-sm font-display-lg text-primary">12</p>
+<p class="text-label-md font-label-md text-on-surface-variant">Pending Requests</p>
+</div>
+</div>
+<!-- Confirmed -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="p-2 bg-secondary-container text-on-secondary-container rounded-lg material-symbols-outlined">verified</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant bg-surface-container px-2 py-1 rounded-full">Busy day</span>
+</div>
+<div class="mt-4">
+<p class="font-headline-sm text-headline-sm font-display-lg text-primary">36</p>
+<p class="text-label-md font-label-md text-on-surface-variant">Confirmed Trips</p>
+</div>
+</div>
+<!-- Upcoming -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="p-2 bg-primary-fixed text-on-primary-fixed rounded-lg material-symbols-outlined">sailing</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant bg-surface-container px-2 py-1 rounded-full">Next: 14:00</span>
+</div>
+<div class="mt-4">
+<p class="font-headline-sm text-headline-sm font-display-lg text-primary">8</p>
+<p class="text-label-md font-label-md text-on-surface-variant">Upcoming Departures</p>
+</div>
+</div>
+<!-- Cancelled -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="p-2 bg-error-container text-on-error-container rounded-lg material-symbols-outlined">cancel</span>
+<span class="text-label-sm font-label-sm text-error bg-error-container/20 px-2 py-1 rounded-full">-5% vs last week</span>
+</div>
+<div class="mt-4">
+<p class="font-headline-sm text-headline-sm font-display-lg text-primary">3</p>
+<p class="text-label-md font-label-md text-on-surface-variant">Cancelled (This Week)</p>
+</div>
+</div>
+</div>
+<!-- Filters & Main Table Section -->
+<div class="flex flex-col lg:flex-row gap-gutter">
+<div class="flex-1 space-y-6">
+<!-- Advanced Filters -->
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-wrap items-center gap-4">
+<div class="flex-1 min-w-[200px]">
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1 ml-1">Experience Type</label>
+<select class="w-full bg-surface-container-low border-none rounded-lg text-label-md py-2 px-3">
+<option>All Types</option>
+<option>Private Boat</option>
+<option>Shared Seats</option>
+<option>Sunset Cruise</option>
+</select>
+</div>
+<div class="flex-1 min-w-[150px]">
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1 ml-1">Date</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg text-label-md py-2 px-3" type="date"/>
+</div>
+<div class="flex-1 min-w-[150px]">
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1 ml-1">Status</label>
+<select class="w-full bg-surface-container-low border-none rounded-lg text-label-md py-2 px-3">
+<option>All Statuses</option>
+<option>Pending</option>
+<option>Confirmed</option>
+<option>Completed</option>
+<option>Cancelled</option>
+</select>
+</div>
+<div class="flex-1 min-w-[200px]">
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1 ml-1">Boat Owner</label>
+<select class="w-full bg-surface-container-low border-none rounded-lg text-label-md py-2 px-3">
+<option>All Partners</option>
+<option>Yacine - Béjaïa Marine</option>
+<option>Samir - Coast Tours</option>
+</select>
+</div>
+</div>
+<!-- Bookings Table -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/30 overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant/20">
+<tr>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">ID</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">Customer</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">Experience</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">Boat Owner</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">Date & Time</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">Status</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Table Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer group" onclick="toggleSidePanel(true)">
+<td class="px-6 py-4 font-display-lg text-label-sm text-primary">#BK-9421</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold text-xs">RM</div>
+<span class="font-label-md text-on-surface">Reda Mansouri</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant text-label-md">Private: Les Aiguades</td>
+<td class="px-6 py-4 text-on-surface-variant text-label-md">Yacine B.</td>
+<td class="px-6 py-4">
+<p class="text-on-surface font-label-md">Oct 24, 2024</p>
+<p class="text-on-surface-variant text-xs">10:30 AM</p>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed rounded-full text-[10px] font-bold uppercase tracking-wider">Pending</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-on-surface-variant hover:text-primary rounded-lg transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Table Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer group">
+<td class="px-6 py-4 font-display-lg text-label-sm text-primary">#BK-9420</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-bold text-xs">SK</div>
+<span class="font-label-md text-on-surface">Sofia Kaci</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant text-label-md">Sunset Shared Tour</td>
+<td class="px-6 py-4 text-on-surface-variant text-label-md">Mounir D.</td>
+<td class="px-6 py-4">
+<p class="text-on-surface font-label-md">Oct 24, 2024</p>
+<p class="text-on-surface-variant text-xs">17:00 PM</p>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold uppercase tracking-wider">Confirmed</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-on-surface-variant hover:text-primary rounded-lg transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Table Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer group">
+<td class="px-6 py-4 font-display-lg text-label-sm text-primary">#BK-9419</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">AH</div>
+<span class="font-label-md text-on-surface">Amir Hamdi</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant text-label-md">Discovery: Ziama</td>
+<td class="px-6 py-4 text-on-surface-variant text-label-md">Samir T.</td>
+<td class="px-6 py-4">
+<p class="text-on-surface font-label-md">Oct 23, 2024</p>
+<p class="text-on-surface-variant text-xs">09:00 AM</p>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-surface-container-highest text-on-surface-variant rounded-full text-[10px] font-bold uppercase tracking-wider">Completed</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-on-surface-variant hover:text-primary rounded-lg transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-4 bg-surface-container-low/30 border-t border-outline-variant/10 flex justify-between items-center">
+<span class="text-label-sm text-on-surface-variant">Showing 1-10 of 248 bookings</span>
+<div class="flex gap-2">
+<button class="p-2 bg-surface-container rounded-lg text-on-surface-variant disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="p-2 bg-surface-container rounded-lg text-on-surface-variant">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Calendar Widget -->
+<div class="w-full lg:w-80 shrink-0 space-y-6">
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-bold text-on-surface font-label-md">Availability Calendar</h3>
+<span class="text-xs text-primary font-bold">TODAY</span>
+</div>
+<!-- Micro Calendar -->
+<div class="grid grid-cols-7 gap-1 text-center mb-4">
+<div class="text-[10px] font-bold text-on-surface-variant">S</div>
+<div class="text-[10px] font-bold text-on-surface-variant">M</div>
+<div class="text-[10px] font-bold text-on-surface-variant">T</div>
+<div class="text-[10px] font-bold text-on-surface-variant">W</div>
+<div class="text-[10px] font-bold text-on-surface-variant">T</div>
+<div class="text-[10px] font-bold text-on-surface-variant text-primary underline">F</div>
+<div class="text-[10px] font-bold text-on-surface-variant">S</div>
+<div class="h-8 flex items-center justify-center text-xs text-on-surface-variant/40">20</div>
+<div class="h-8 flex items-center justify-center text-xs text-on-surface-variant/40">21</div>
+<div class="h-8 flex items-center justify-center text-xs text-on-surface-variant/40">22</div>
+<div class="h-8 flex items-center justify-center text-xs text-on-surface-variant/40">23</div>
+<div class="h-8 flex items-center justify-center text-xs font-bold bg-primary text-on-primary rounded-lg">24</div>
+<div class="h-8 flex items-center justify-center text-xs">25</div>
+<div class="h-8 flex items-center justify-center text-xs">26</div>
+</div>
+<!-- Time Slots -->
+<div class="space-y-3">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Today's Slots</p>
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
+<span class="font-display-lg text-xs font-bold text-primary">09:00</span>
+<div class="h-2 flex-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-full"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">FULL</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
+<span class="font-display-lg text-xs font-bold text-primary">13:30</span>
+<div class="h-2 flex-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-fixed-dim w-2/3"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">4 SEATS</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl border border-primary/20">
+<span class="font-display-lg text-xs font-bold text-primary">16:00</span>
+<div class="h-2 flex-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed-dim w-1/4"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">AVAILABLE</span>
+</div>
+</div>
+</div>
+<div class="bg-primary/5 p-6 rounded-2xl border border-primary/10">
+<h4 class="font-bold text-primary text-label-md mb-2">Weather Forecast</h4>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-4xl text-tertiary-fixed-dim">sunny</span>
+<div>
+<p class="font-display-lg text-lg font-bold text-on-surface">26°C</p>
+<p class="text-xs text-on-surface-variant">Low wind, perfect for sailing.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Side Panel Details (Overlay) -->
+<div class="fixed inset-y-0 right-0 w-full max-w-md bg-surface-container-lowest shadow-2xl z-[60] side-panel-transition translate-x-full border-l border-outline-variant/30 flex flex-col" id="sidePanel">
+<div class="p-6 border-b border-outline-variant/10 flex items-center justify-between">
+<div>
+<h3 class="font-bold text-primary font-headline-sm">Booking Details</h3>
+<span class="text-xs font-display-lg text-on-surface-variant">#BK-9421</span>
+</div>
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-colors" onclick="toggleSidePanel(false)">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8">
+<!-- Customer Info -->
+<section>
+<h4 class="text-label-sm font-bold text-on-surface-variant uppercase tracking-widest mb-4">Customer Info</h4>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-16 h-16 rounded-2xl bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold text-xl">RM</div>
+<div>
+<p class="font-bold text-on-surface text-body-lg">Reda Mansouri</p>
+<p class="text-on-surface-variant text-label-md">+213 550 12 34 56</p>
+</div>
+</div>
+<button class="w-full py-3 bg-[#25D366] text-white font-bold rounded-xl flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">chat</span>
+                    WhatsApp Customer
+                </button>
+</section>
+<!-- Experience Info -->
+<section>
+<h4 class="text-label-sm font-bold text-on-surface-variant uppercase tracking-widest mb-4">Experience</h4>
+<div class="rounded-2xl overflow-hidden mb-3">
+<img alt="Béjaïa Les Aiguades Experience" class="w-full h-40 object-cover" data-alt="A cinematic aerial shot of the crystal clear turquoise waters at Les Aiguades beach in Béjaïa, Algeria. A small traditional white boat is anchored near dramatic rocky cliffs, with sunlight shimmering on the Mediterranean Sea. The scene is bright and airy, capturing a serene vacation mood with warm natural lighting and a high-end travel aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCW1fpNqT2SG7OdmfGaM1nUxsjT4Nse84e6BXcIb1Wg8M1oWsgR5dotABe_unl-bgpUjd16XCvMXKbdA6kvdO52pzSIk-4Cjt19RkjXsoPuEzbixE9uCdc7A71yYA25-OUMRXbEVAd_lFi2zZgT-V4TPMoQXMWGTIWnZXUZHnov12ZNkIJmQz36stqlgunnu2JM-bEbhwJ7Z5JzcxXVowyqbQPwB9uzk7YzCOdQTqP6tSV4pK9awrlXNv2AV_BZpVTiGAlK8NcbIbY"/>
+</div>
+<div class="space-y-2">
+<p class="font-bold text-on-surface">Private Tour: Les Aiguades Hidden Gems</p>
+<div class="flex items-center gap-4 text-on-surface-variant text-label-md">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 4 Hours</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">group</span> Up to 6 People</span>
+</div>
+</div>
+</section>
+<!-- Partner Info -->
+<section>
+<h4 class="text-label-sm font-bold text-on-surface-variant uppercase tracking-widest mb-4">Assigned Partner</h4>
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-2xl">
+<div class="flex items-center gap-3">
+<img alt="Partner Avatar" class="w-10 h-10 rounded-full object-cover" data-alt="A portrait of a cheerful Algerian boat captain with sun-weathered skin and a warm smile, wearing a blue maritime cap. He is standing on a pier with boat masts in the background under a bright clear sky. The photo is high-resolution, professional, and reflects trust and local hospitality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdjt-YhhFVD-zocAh7Jj3TG7eoAIMbXYLuqCNkrIjWqDC-1k11e8KaaxRDzaFJOxJyrfLpquiuW-bKVagk-27XwRPBIpfHgNbtoM8rqQWxnS3y6MHeZkkXAJPKmerYx4baM3EqTNKVDEwsDRFFl0ibKjj1xos6oN09k-ouvqBycBbbT5X054m48dccw3ju_7OHq1Mhj_KjnhoUt03iY30zL66kFy10d4G_6mIcP_tIRm-9U2auGg1jMQyzpkcwIGUvlpTsSNnU7vk"/>
+<div>
+<p class="font-bold text-on-surface text-label-md">Yacine B.</p>
+<p class="text-xs text-on-surface-variant">Béjaïa Marine Fleet</p>
+</div>
+</div>
+<button class="text-primary font-bold text-xs underline">Change</button>
+</div>
+</section>
+<!-- Financial Breakdown -->
+<section class="bg-surface-container-low p-6 rounded-2xl space-y-4">
+<h4 class="text-label-sm font-bold text-on-surface-variant uppercase tracking-widest">Financials</h4>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-label-md">
+<span class="text-on-surface-variant">Customer Payment</span>
+<span class="font-bold text-on-surface font-display-lg">20,000 DA</span>
+</div>
+<div class="flex justify-between items-center text-label-md">
+<span class="text-on-surface-variant">Safar Commission (15%)</span>
+<span class="font-bold text-tertiary-fixed-variant font-display-lg">- 3,000 DA</span>
+</div>
+<div class="pt-2 border-t border-outline-variant/20 flex justify-between items-center">
+<span class="font-bold text-on-surface">Partner Earnings</span>
+<span class="font-bold text-primary font-display-lg text-lg">17,000 DA</span>
+</div>
+</div>
+</section>
+</div>
+<div class="p-6 bg-surface-container border-t border-outline-variant/30 grid grid-cols-2 gap-3">
+<button class="py-3 px-4 border border-outline text-on-surface font-bold rounded-xl hover:bg-surface-container-highest transition-colors">
+                Cancel
+            </button>
+<button class="py-3 px-4 bg-primary text-on-primary font-bold rounded-xl shadow-md hover:opacity-90 active:scale-95 transition-all">
+                Mark Confirmed
+            </button>
+<button class="col-span-2 py-3 px-4 bg-surface-container-highest text-primary font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">send</span>
+                Send Booking Reminder
+            </button>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full py-4 mt-auto bg-surface-container-low dark:bg-surface-container-lowest flex justify-between items-center px-margin-desktop ml-64 border-t border-outline-variant/10">
+<p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Safar DZ. Algerian Tourism Marketplace.</p>
+<div class="flex gap-6">
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:underline hover:text-primary transition-opacity" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:underline hover:text-primary transition-opacity" href="#">Terms of Service</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:underline hover:text-primary transition-opacity" href="#">Support</a>
+</div>
+</footer>
+<script>
+        function toggleSidePanel(show) {
+            const panel = document.getElementById('sidePanel');
+            if (show) {
+                panel.classList.remove('translate-x-full');
+            } else {
+                panel.classList.add('translate-x-full');
+            }
+        }
+
+        // Close panel when clicking outside if we wanted an overlay (optional)
+        // For this design, we'll keep it as a side-drawer triggered by table clicks.
+    </script>
+</body></html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Safar DZ | Destinations Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-effect {
+            backdrop-filter: blur(8px);
+            background: rgba(252, 250, 237, 0.8);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #b6c5f9;
+            border-radius: 10px;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        .animate-slide-in {
+            animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed-dim": "#b6c5f9",
+                      "on-primary-container": "#b8c8ff",
+                      "surface-container-high": "#eae9dc",
+                      "tertiary": "#513a00",
+                      "on-tertiary-fixed": "#261900",
+                      "background": "#fcfaed",
+                      "on-secondary-container": "#465581",
+                      "on-secondary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "tertiary-container": "#6e5000",
+                      "on-surface": "#1b1c14",
+                      "primary-container": "#1e4db6",
+                      "outline-variant": "#c4c6d5",
+                      "on-primary-fixed-variant": "#003ea7",
+                      "on-error": "#ffffff",
+                      "on-background": "#1b1c14",
+                      "on-surface-variant": "#434653",
+                      "error-container": "#ffdad6",
+                      "on-tertiary": "#ffffff",
+                      "surface-tint": "#2c57c0",
+                      "surface-container-lowest": "#ffffff",
+                      "inverse-on-surface": "#f3f1e4",
+                      "surface-container-low": "#f6f4e7",
+                      "surface-container-highest": "#e5e3d6",
+                      "secondary": "#4e5d8a",
+                      "on-tertiary-container": "#febf21",
+                      "outline": "#747684",
+                      "on-secondary-fixed": "#061943",
+                      "surface-bright": "#fcfaed",
+                      "on-tertiary-fixed-variant": "#5c4300",
+                      "surface": "#fcfaed",
+                      "surface-variant": "#e5e3d6",
+                      "secondary-fixed": "#dbe1ff",
+                      "secondary-container": "#bbcbff",
+                      "inverse-primary": "#b4c5ff",
+                      "on-secondary-fixed-variant": "#364571",
+                      "tertiary-fixed-dim": "#fbbc1c",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed": "#00174b",
+                      "inverse-surface": "#303129",
+                      "surface-container": "#f0eee1",
+                      "primary-fixed": "#dbe1ff",
+                      "surface-dim": "#dcdace",
+                      "error": "#ba1a1a",
+                      "tertiary-fixed": "#ffdea1",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "primary": "#003693"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "40px",
+                      "base": "8px",
+                      "container-max": "1280px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "headline-sm": ["Space Mono"],
+                      "display-lg-mobile": ["Space Mono"],
+                      "body-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-md": ["Space Mono"],
+                      "label-sm": ["Inter"],
+                      "display-lg": ["Space Mono"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-secondary-fixed selection:text-on-secondary-fixed overflow-x-hidden">
+<!-- Sidebar Navigation Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-primary flex flex-col h-full py-6 shadow-xl z-50">
+<div class="px-6 mb-8 flex flex-col gap-1">
+<span class="font-headline-md text-headline-md font-bold text-on-primary">Safar DZ</span>
+<span class="font-headline-sm text-[12px] opacity-70 text-on-primary tracking-widest uppercase">Admin Portal</span>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-on-primary rounded-lg mx-2 my-1 transition-colors duration-200" href="admin_command_center_final.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-on-primary rounded-lg mx-2 my-1 transition-colors duration-200" href="bookings_management_dashboard.html">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-label-md">Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-on-primary rounded-lg mx-2 my-1 transition-colors duration-200" href="boat_owners_partners_management.html">
+<span class="material-symbols-outlined">handshake</span>
+<span class="font-label-md">Partners</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-on-primary rounded-lg mx-2 my-1 transition-colors duration-200" href="activities_catalog.html">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-md">Experiences</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-on-primary rounded-lg mx-2 my-1 transition-colors duration-200" href="boat_management_dashboard.html">
+<span class="material-symbols-outlined">sailing</span>
+<span class="font-label-md">Boats Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-on-primary rounded-lg mx-2 my-1 transition-colors duration-200" href="customers_crm_dashboard.html">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md">Customers</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-on-primary rounded-lg mx-2 my-1 transition-colors duration-200" href="availability_management_control_center.html">
+<span class="material-symbols-outlined">event_available</span>
+<span class="font-label-md">Availability</span>
+</a>
+<!-- Active Tab: Destinations -->
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg mx-2 my-1 scale-[0.98] transition-transform" href="destinations_management_dashboard.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-label-md">Destinations</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full py-3 bg-tertiary-fixed-dim text-on-tertiary-fixed font-bold rounded-xl flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+                New Experience
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-surface/80 backdrop-blur-md flex justify-between items-center px-10 shadow-sm z-40 bg-surface-container-low/50">
+<div class="flex items-center gap-4 bg-surface-container-high px-4 py-2 rounded-full w-96">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-outline" placeholder="Search by destination name..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">settings</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">help</span>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-xs font-bold leading-none">Admin User</p>
+<p class="text-[10px] text-outline">Super Admin</p>
+</div>
+<img alt="Admin Avatar" class="w-10 h-10 rounded-full border-2 border-primary-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDo16MP99eWbadx78ESrc_yRBWxX2w8wcRs619xwNF05Y8AZ0kIBi3Fn5BDZLFebBpvdEI1R5ceIFC3fm8xftFA0rIz-qUro-2WsmrHMGrTrowCJlGvnNNHaz9yPYK74EZCwWwFRHLpoDLVqz1NmnGCZJbxcARiycqTQgLcqVcXp39PLU6MNMcJvyHWwPi4_1pLyal9eDKjNQrMsox32m1xdLyPdMX79Z7tI0jd4rU7kADu5RSG1OMCllDnK-Oc9SOJWKOTnuPdEw"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Body -->
+<div class="pt-24 pb-12 px-10 max-w-[1440px] mx-auto">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary">Destinations</h1>
+<p class="text-on-surface-variant font-body-md mt-1">Manage the places where Safar DZ adventures happen.</p>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary/5 transition-colors flex items-center gap-2" onclick="window.location.href='experiences_catalog_management.html'">
+<span class="material-symbols-outlined">grid_view</span>
+                        Manage Experiences
+                    </button>
+<button class="px-6 py-3 bg-primary text-on-primary font-bold rounded-xl shadow-lg hover:shadow-primary/20 transition-all flex items-center gap-2" onclick="window.location.href='destinations_management_dashboard.html'">
+<span class="material-symbols-outlined">add_location_alt</span>
+                        + Add Destination
+                    </button>
+</div>
+</div>
+<!-- Summary Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-surface-container-high shadow-sm hover:shadow-md transition-shadow">
+<div class="w-10 h-10 bg-secondary-container text-on-secondary-container rounded-lg flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">map</span>
+</div>
+<p class="text-on-surface-variant text-label-sm uppercase tracking-wider">Total Destinations</p>
+<h3 class="text-[32px] font-bold text-on-surface mt-1">8</h3>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-surface-container-high shadow-sm hover:shadow-md transition-shadow">
+<div class="w-10 h-10 bg-tertiary-container text-on-tertiary-container rounded-lg flex items-center justify-center mb-4">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="text-on-surface-variant text-label-sm uppercase tracking-wider">Active Destinations</p>
+<h3 class="text-[32px] font-bold text-on-surface mt-1">6 <span class="text-label-md text-outline font-normal">published</span></h3>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-surface-container-high shadow-sm hover:shadow-md transition-shadow">
+<div class="w-10 h-10 bg-primary-container text-on-primary-container rounded-lg flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">sailing</span>
+</div>
+<p class="text-on-surface-variant text-label-sm uppercase tracking-wider">Experiences</p>
+<h3 class="text-[32px] font-bold text-on-surface mt-1">32</h3>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-surface-container-high shadow-sm hover:shadow-md transition-shadow">
+<div class="w-10 h-10 bg-on-tertiary-container/10 text-tertiary-container rounded-lg flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">star</span>
+</div>
+<p class="text-on-surface-variant text-label-sm uppercase tracking-wider">Featured</p>
+<h3 class="text-[32px] font-bold text-on-surface mt-1">3 <span class="text-label-md text-outline font-normal">highlighted</span></h3>
+</div>
+</div>
+<!-- Filters & Search -->
+<div class="flex flex-wrap items-center justify-between gap-4 mb-8 bg-surface-container-low/50 p-4 rounded-2xl">
+<div class="flex items-center gap-4 flex-1 min-w-[300px]">
+<div class="relative flex-1">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-surface-container-lowest border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Search by name..." type="text"/>
+</div>
+<select class="bg-surface-container-lowest border-outline-variant rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary">
+<option>All Status</option>
+<option>Published</option>
+<option>Draft</option>
+</select>
+<select class="bg-surface-container-lowest border-outline-variant rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary">
+<option>Exp. Count: Any</option>
+<option>High to Low</option>
+<option>Low to High</option>
+</select>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2.5 rounded-xl border border-outline-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">sort</span>
+</button>
+<button class="p-2.5 rounded-xl border border-outline-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Destinations Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1: Cap Carbon -->
+<a class="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-surface-container-high flex flex-col" onclick="openDetail('Cap Carbon')" href="experiences_catalog_management.html">
+<div class="h-56 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A majestic aerial view of Cap Carbon in Bejaia Algeria featuring its iconic natural stone arch and steep cliffs dropping into the crystal clear deep blue Mediterranean Sea during a bright sunny day. The lighting is warm and golden highlighting the rugged textures of the coastal limestone. The atmosphere is serene and breathtaking capturing the wild beauty of North Africa's coastline with a startup travel brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5O3DEq5LzldztJTUmy9XGEgc3arKoM2HmQTPRRt_tVXd3P7ta6t_EmCL_Bn_R_fZdwGX5dYRgRP8rfPoiIpl6ikIRN3iHcWiZaxZM0zoUsqVKosaKKuLpTaZRx90Hh5CUWdMNcWG2ZRLNF7sbADbBTcr6pKPPcJlC4GGvGDLI_EpitLiVJ4XMU1qzkv5E63LZYGlpy8ERd_0VCqOG0_m0btzPJuL6DKytPQotFHeTsY5sInTGqeAZ0ZAWbola0Bc-vs0IixGicD0"/>
+<div class="absolute top-4 left-4 bg-primary/90 backdrop-blur-md text-on-primary text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1 uppercase tracking-widest">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">star</span>
+                            Featured
+                        </a>
+<div class="absolute top-4 right-4 bg-tertiary-container text-on-tertiary-container text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+                            Published
+                        </div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Cap Carbon</h4>
+<div class="flex items-center text-primary font-bold">
+<span class="material-symbols-outlined mr-1 text-sm">sailing</span>
+<span class="text-xs">12 exp.</span>
+</div>
+</div>
+<p class="text-on-surface-variant font-body-md text-sm line-clamp-2 mb-6">Home to the highest lighthouse in the world, this iconic cape offers breathtaking panoramic views and hidden sea caves.</p>
+<div class="mt-auto flex items-center justify-between border-t border-outline-variant/30 pt-4">
+<div class="flex gap-2">
+<button class="p-2 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-secondary-container hover:text-on-secondary-container transition-colors">
+<span class="material-symbols-outlined text-xl">visibility</span>
+</button>
+</div>
+<button class="flex items-center gap-1 text-xs font-bold text-error hover:underline">
+<span class="material-symbols-outlined text-lg">visibility_off</span>
+                                Hide
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 2: Gouraya National Park -->
+<a class="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-surface-container-high flex flex-col" onclick="openDetail('Gouraya Park')" href="experiences_catalog_management.html">
+<div class="h-56 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A lush green panoramic view of Gouraya National Park in Algeria overlooking the Mediterranean coast with deep azure waters. The scene captures the rolling forested hills under a soft afternoon sun creating a warm inviting atmosphere. The visual style is premium and tactile emphasizing high-quality travel photography for an upscale tourism marketplace platform with a focus on local Mediterranean charm." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBON_gnpxzDnoirlAN0cE-Rka4mUL7pguZMHT32th5ly41oZFG2foekGWgueZfkf5RGDiFhFNUzlZqzJXGwBD_ldgVgTnJPD7PiSV-a4ESAPnepzaFOW3J9Fsiv4tsZ-61qapEHquqH1K9ZcBRCjosBVQiNUljl7P3Nj3egzV7NaFhk6fdukmcCLFP89KH_6gXuU96x9lK6B7ZLA54K_upa5D2PQhR3wSCsbWxlY8p9hsIO39ttXjn-4e_MGnVHEc63mPBgzP5hz7g"/>
+<div class="absolute top-4 right-4 bg-tertiary-container text-on-tertiary-container text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+                            Published
+                        </a>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Gouraya Park</h4>
+<div class="flex items-center text-primary font-bold">
+<span class="material-symbols-outlined mr-1 text-sm">sailing</span>
+<span class="text-xs">15 exp.</span>
+</div>
+</div>
+<p class="text-on-surface-variant font-body-md text-sm line-clamp-2 mb-6">A biosphere reserve where mountains meet the sea. Famous for monkeys and historic forts perched on cliffs.</p>
+<div class="mt-auto flex items-center justify-between border-t border-outline-variant/30 pt-4">
+<div class="flex gap-2">
+<button class="p-2 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-secondary-container hover:text-on-secondary-container transition-colors">
+<span class="material-symbols-outlined text-xl">visibility</span>
+</button>
+</div>
+<button class="flex items-center gap-1 text-xs font-bold text-error hover:underline">
+<span class="material-symbols-outlined text-lg">visibility_off</span>
+                                Hide
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 3: Tichy Beaches -->
+<a class="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-surface-container-high flex flex-col" onclick="openDetail('Tichy')" href="experiences_catalog_management.html">
+<div class="h-56 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A tranquil golden beach in Tichy Algeria with gentle turquoise waves washing over the warm ivory sand during a sunset. The sky is painted with soft hues of orange and pink reflecting Mediterranean warmth and hospitality. The photography style is modern and tech-forward yet evocative of a serene luxury beach vacation in North Africa with clean functional hierarchy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAorX96FjF-rc6rHU235aogtiAYI9FpLKvZh73lzhy32zabpB9TxBX_EM0IFH5sEpcOEIjpnFd-rnVVgrvVs1iJb_yfg37e-vgBLsauAnbbSspR9NMj4IuWaGql1bLftIijqq4sFa-vmuK2G4dG6xeXP30y49WyzsNAtZ1ntB2SxYfsX-lat831z_N32LX0wamPY39FjH4eqTHKccIZeBERAGGd2GGGuUjzj1v60kJFnnb13ByELvA8_yCagYBKo2PM6d26xkP8d-Q"/>
+<div class="absolute top-4 right-4 bg-outline-variant/80 backdrop-blur-md text-on-surface-variant text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+                            Draft
+                        </a>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Tichy</h4>
+<div class="flex items-center text-primary font-bold">
+<span class="material-symbols-outlined mr-1 text-sm">sailing</span>
+<span class="text-xs">5 exp.</span>
+</div>
+</div>
+<p class="text-on-surface-variant font-body-md text-sm line-clamp-2 mb-6">Long stretches of sandy beaches and a vibrant summer atmosphere. The perfect destination for family leisure.</p>
+<div class="mt-auto flex items-center justify-between border-t border-outline-variant/30 pt-4">
+<div class="flex gap-2">
+<button class="p-2 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-secondary-container hover:text-on-secondary-container transition-colors">
+<span class="material-symbols-outlined text-xl">visibility</span>
+</button>
+</div>
+<button class="flex items-center gap-1 text-xs font-bold text-error hover:underline">
+<span class="material-symbols-outlined text-lg">visibility_off</span>
+                                Hide
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Side Detail Panel (Overlay) -->
+<div class="fixed inset-0 z-[60] pointer-events-none opacity-0 transition-opacity duration-300" id="detailPanel">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-on-surface/40 backdrop-blur-sm pointer-events-auto" onclick="closeDetail()"></div>
+<!-- Content Panel -->
+<div class="absolute right-0 top-0 h-full w-full max-w-2xl bg-background shadow-2xl pointer-events-auto transform translate-x-full transition-transform duration-500 ease-out flex flex-col animate-slide-in" id="panelBody">
+<div class="relative h-72 w-full">
+<img class="w-full h-full object-cover" data-alt="Close-up detail of a Mediterranean coastal destination featuring rugged limestone cliffs and sapphire blue waters under clear skies. The lighting is crisp and midday showcasing the vibrant natural colors of the Algerian coast. The aesthetic is modern and clean with a focus on tactile textures and premium visual presentation for a high-end tourism marketplace." id="detailImg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxD8__YAkMKaDgScuHDRnUgYc_WkrFR7J2HhLw-h5uNBMsPgDmaovkxrKs8hGhwMF2TQH1q4yznyZBnSG9XXRnx72r95nMRYJPCEWcW3pivMrHG5vPbDmgP5QJqx6jk25jWRWXJnApa2cMK3fFAHxmBVWuyJRWa9QKUFuROWHaWnMHXDo3WnjYKvTJUJFl3T7fil_CvmA2MUFhHVCokdcXc4xj1ZUs9U0sxHj2JqyCv1blgwDRXBGL_mAIy5UmRFGyqvNd9uDoYpY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<button class="absolute top-6 right-6 w-10 h-10 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-colors" onclick="closeDetail()">
+<span class="material-symbols-outlined">close</span>
+</button>
+<div class="absolute bottom-6 left-10 text-white">
+<h2 class="font-headline-md text-headline-md" id="detailTitle">Cap Carbon</h2>
+<p class="flex items-center gap-2 opacity-90 text-sm">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                        Béjaïa, Algeria
+                    </p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-10">
+<!-- Description -->
+<div class="mb-10">
+<h5 class="text-label-sm font-bold uppercase tracking-widest text-outline mb-3">About this destination</h5>
+<p class="text-on-surface-variant font-body-md leading-relaxed" id="detailDesc">
+                        Cap Carbon is a spectacular headland in Algeria, on the Mediterranean Sea, located in the Gouraya National Park, North of Béjaïa. It offers some of the most dramatic coastal views in Africa and is a cornerstone of Algerian marine tourism.
+                    </p>
+</div>
+<!-- Stats / Performance -->
+<div class="grid grid-cols-3 gap-4 mb-10">
+<div class="bg-surface-container-low p-4 rounded-2xl text-center">
+<p class="text-[10px] uppercase font-bold text-outline">Total Bookings</p>
+<p class="text-xl font-bold text-primary mt-1">1,248</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-2xl text-center">
+<p class="text-[10px] uppercase font-bold text-outline">Revenue</p>
+<p class="text-xl font-bold text-primary mt-1">4.2M DZD</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-2xl text-center">
+<p class="text-[10px] uppercase font-bold text-outline">Rating</p>
+<div class="flex items-center justify-center gap-1 mt-1">
+<span class="text-xl font-bold text-primary">4.9</span>
+<span class="material-symbols-outlined text-tertiary-container text-lg" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+<!-- Connected Experiences -->
+<div class="mb-10">
+<div class="flex items-center justify-between mb-4">
+<h5 class="text-label-sm font-bold uppercase tracking-widest text-outline">Connected Experiences</h5>
+<button class="text-primary font-bold text-xs hover:underline">Manage All</button>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-4 p-4 rounded-2xl border border-outline-variant/30 hover:border-primary transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded-xl bg-primary/10 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Thumbnail of a private boat trip experience with azure waters" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBQ9Umtgt2fQbSK6r-hQmW6_Danu9SXUhw3HBOLNZqJp7_24I0R-cABn391n-Xif9Bj-tzUeg8Vvw89IotblPH1oGewandYs3vmIPBSFwQgdUkrSWq0Z1UVizz6WnOhWrTJ5F32pYE94JqEWXxYeykLeNNAenxIVNdO6NEwFCHKlxddieTvRL1_ELVDMLXooLxwwAP_okP1vinohtbRAQOk9kcE2-v2nbr703SccotgaMeGTG8Mih0V9QRyv0e8iQXyEt34qlHAvI"/>
+</div>
+<div class="flex-1">
+<p class="font-bold text-sm">Private Boat Trip - Coastal Exploration</p>
+<p class="text-xs text-outline">4 hours • From 12,000 DZD</p>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+<div class="flex items-center gap-4 p-4 rounded-2xl border border-outline-variant/30 hover:border-primary transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded-xl bg-primary/10 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Thumbnail of a sunset cruise experience with warm golden colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr-fKyOVVb6Wp9TAXtNFmJexaSX0qb_21fCj9LwcbcFN5kpMggjX53mMU7hoFLeG2cZYXLVJS1Fr3gznUR9De10gf46UjQTt3YrslsQy-75HqhK3bkhcJQdtrIcwEre4huzWN2K-CJavERs0BFdw6A_XfAv4jiSHbTNKhGiENwYvoCN0FaiEJpMyAw0LQsgMUe6yPp5qUSGYHFEMuNy-av1gynj5zGcipQ9pCfUYv9kvR7vKdb67rWGpimsTMxrDwcm0YflnYQlug"/>
+</div>
+<div class="flex-1">
+<p class="font-bold text-sm">Mediterranean Sunset Cruise</p>
+<p class="text-xs text-outline">2 hours • From 8,500 DZD</p>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Gallery -->
+<div class="mb-6">
+<h5 class="text-label-sm font-bold uppercase tracking-widest text-outline mb-4">Media Gallery</h5>
+<div class="grid grid-cols-3 gap-3">
+<div class="aspect-square rounded-xl bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Gallery view 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDzHtxNPUh9xOXNLYY6ULeayQwh8AO1dWWWDRGeYoxEChLk6M_8YU5B-879RY6VI4EtpshzGM-Ftt8ASqfSOYG0ey3L15IX9CLK8KCecNY3rC0oB-GrqSqKW7d2ncgt0KiQBWYXuXocKgj8MdlqCiUDxtKQmfm67lS70MsvrZ4hFODxgUhBYCrkDMYZ8WrHNmPh6J-HA4Xb-yVEH-lAGryweAkxhL2hHNZ5RCrXxE8AifaiU2QO21weAT6A_RwtPT6VDZCFxvAAhE"/>
+</div>
+<div class="aspect-square rounded-xl bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Gallery view 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXL79YE2KLELW1Rlft27uO1d4gNT4wW1PSexGfEGGaL4_wPEJApVPuMIuZ5KfYKy17ZLBfsxNP43HWynyGro-r0zZv8F9erZYSX98Am0nY5JduFy4W0FXtj_OqqE65vZCD4QMiB2gMfaDImmcPXZpnfMnE7NG0RRQYRkhC1I5X2RIGBRXmY4P7ZjtBFo4G_hok9BxzGq3dmyTfOGCX7EHLBN34P7VFltPjhjE9-6iWZuQh8wSpFxF7akD-cf2XGsUXEwHg7nxqN58"/>
+</div>
+<div class="relative aspect-square rounded-xl bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover opacity-50" data-alt="Gallery view 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd1_3_HedFIwNhOofMumln_dDEaLUJEaYKsOuxLo74WQeCEGnScZV2Iw9-v559TJfpdCAXFHO6g1ZVLvt0wbC_0P-mtikz6ai0dX6Ll7N7KTLD3a1cMyekIhbh1DslXtgC0xhb0J3VSmIVvoLKkGmKETEmaq4hzVtVbyWo-QGktKqf4FF7UCdbUtcnpFiF2GBkD94-B1h1mhhAMK8Hd3bJuLwSdUulsCWmJEo8vnNMnBmkVS89i_i5kCiaqDj2FT0FhS-Tg9CLzhI"/>
+<div class="absolute inset-0 flex items-center justify-center font-bold text-on-surface">+12</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-10 border-t border-outline-variant/30 flex gap-4">
+<button class="flex-1 py-4 bg-primary text-on-primary font-bold rounded-2xl hover:opacity-90 transition-opacity">Edit Destination</button>
+<button class="px-6 py-4 bg-surface-container-high text-on-surface-variant font-bold rounded-2xl hover:bg-surface-container-highest transition-colors">Archive</button>
+</div>
+</div>
+</div>
+<script>
+        function openDetail(name) {
+            const panel = document.getElementById('detailPanel');
+            const panelBody = document.getElementById('panelBody');
+            const detailTitle = document.getElementById('detailTitle');
+            
+            detailTitle.innerText = name;
+            
+            panel.classList.remove('opacity-0', 'pointer-events-none');
+            panelBody.classList.remove('translate-x-full');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDetail() {
+            const panel = document.getElementById('detailPanel');
+            const panelBody = document.getElementById('panelBody');
+            
+            panel.classList.add('opacity-0', 'pointer-events-none');
+            panelBody.classList.add('translate-x-full');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body></html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Safar DZ Admin - Boat Owners & Partners</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "outline": "#747684",
+                "on-background": "#1b1c14",
+                "tertiary-fixed-dim": "#fbbc1c",
+                "surface-container-low": "#f6f4e7",
+                "surface-container": "#f0eee1",
+                "outline-variant": "#c4c6d5",
+                "error-container": "#ffdad6",
+                "secondary-fixed-dim": "#b6c5f9",
+                "on-error": "#ffffff",
+                "surface": "#fcfaed",
+                "on-tertiary-fixed-variant": "#5c4300",
+                "on-primary-fixed": "#00174b",
+                "on-tertiary": "#ffffff",
+                "on-primary": "#ffffff",
+                "secondary-fixed": "#dbe1ff",
+                "surface-tint": "#2c57c0",
+                "surface-container-lowest": "#ffffff",
+                "primary-container": "#1e4db6",
+                "on-error-container": "#93000a",
+                "surface-container-highest": "#e5e3d6",
+                "on-tertiary-container": "#febf21",
+                "on-primary-container": "#b8c8ff",
+                "primary-fixed": "#dbe1ff",
+                "inverse-on-surface": "#f3f1e4",
+                "on-surface-variant": "#434653",
+                "tertiary": "#513a00",
+                "surface-container-high": "#eae9dc",
+                "on-primary-fixed-variant": "#003ea7",
+                "secondary-container": "#bbcbff",
+                "secondary": "#4e5d8a",
+                "on-secondary-fixed-variant": "#364571",
+                "on-secondary-container": "#465581",
+                "primary": "#003693",
+                "error": "#ba1a1a",
+                "on-secondary": "#ffffff",
+                "surface-bright": "#fcfaed",
+                "tertiary-fixed": "#ffdea1",
+                "on-secondary-fixed": "#061943",
+                "surface-variant": "#e5e3d6",
+                "on-tertiary-fixed": "#261900",
+                "inverse-surface": "#303129",
+                "surface-dim": "#dcdace",
+                "inverse-primary": "#b4c5ff",
+                "primary-fixed-dim": "#b4c5ff",
+                "tertiary-container": "#6e5000",
+                "on-surface": "#1b1c14",
+                "background": "#fcfaed"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "container-max": "1280px",
+                "margin-mobile": "16px",
+                "gutter": "24px",
+                "base": "8px",
+                "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                "headline-md": ["Space Mono"],
+                "body-md": ["Inter"],
+                "headline-sm": ["Space Mono"],
+                "display-lg": ["Space Mono"],
+                "body-lg": ["Inter"],
+                "label-sm": ["Inter"],
+                "label-md": ["Inter"]
+            },
+            "fontSize": {
+                "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .partner-row:hover {
+            background-color: rgba(0, 54, 147, 0.04);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c4c6d5;
+            border-radius: 10px;
+        }
+        .paper-texture {
+            background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen paper-texture">
+<!-- Side Navigation -->
+<aside class="bg-primary h-screen w-64 fixed left-0 top-0 shadow-lg flex flex-col p-4 z-20">
+<div class="mb-10 px-2 flex items-center gap-3">
+<div class="w-10 h-10 bg-on-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1;">sailing</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-on-primary leading-tight">Safar DZ</h1>
+<p class="font-label-sm text-label-sm text-on-primary/60">Admin Console</p>
+</div>
+</div>
+<nav class="flex-grow space-y-1">
+<a class="flex items-center gap-3 p-3 text-on-primary/80 hover:text-on-primary hover:bg-primary-container/20 transition-colors rounded-lg active:scale-95 transition-transform" href="admin_command_center_final.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-primary/80 hover:text-on-primary hover:bg-primary-container/20 transition-colors rounded-lg active:scale-95 transition-transform" href="bookings_management_dashboard.html">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-label-md">Bookings</span>
+</a>
+<a class="flex items-center gap-3 p-3 bg-secondary-container text-on-secondary-container rounded-lg font-bold active:scale-95 transition-transform" href="boat_owners_partners_management.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">handshake</span>
+<span class="font-label-md">Partners</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-primary/80 hover:text-on-primary hover:bg-primary-container/20 transition-colors rounded-lg active:scale-95 transition-transform" href="experiences_catalog_management.html">
+<span class="material-symbols-outlined">sailing</span>
+<span class="font-label-md">Experiences</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-primary/80 hover:text-on-primary hover:bg-primary-container/20 transition-colors rounded-lg active:scale-95 transition-transform" href="finance_commissions_dashboard.html">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md">Finance</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-primary/80 hover:text-on-primary hover:bg-primary-container/20 transition-colors rounded-lg active:scale-95 transition-transform" href="partner_settings.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto">
+<button class="w-full py-3 px-4 bg-tertiary-fixed-dim text-on-tertiary-fixed font-bold rounded-xl flex items-center justify-center gap-2 shadow-md hover:brightness-110 transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+<span class="font-label-md">New Listing</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pl-64 flex flex-col min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="w-full h-16 sticky top-0 z-10 bg-surface/80 backdrop-blur-md flex justify-between items-center px-10 shadow-sm border-b border-outline-variant/20">
+<div class="flex items-center bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant/30 w-96">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-full ml-2" placeholder="Search partners, boats or phone numbers..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative text-on-surface-variant hover:text-primary transition-colors" onclick="window.location.href='notifications_center.html'">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant"></div>
+<a class="flex items-center gap-3 cursor-pointer group" href="admin_command_center_final.html">
+<div class="text-right">
+<p class="font-label-md text-on-surface group-hover:text-primary transition-colors">Admin Portal</p>
+<p class="text-[10px] text-outline font-bold uppercase tracking-wider">Manager</p>
+</a>
+<img alt="Admin Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPB8fpx9SEJUYLvLqyrlpuAW-46JfeT1wEuwCUwRepQadE9KjXNcAmzjpwr76KOlTIQ8tk7TYhoMTslGz1B_WyE5vBHx6NWuEnqFVIXoQkeqxcAzQHVEPPrDxd7zWFINIp0VTDjcVkk_LByGjr7-pMpLzSiZQ5e9MX1Vi0SWfyFat9v8wxG-deLuXcbAAaus4ZOJzkpI9x-zoCz9y_kIUszuFTp0rMc-3iAp7TWjcrTqqrNT6e-6quzheJQiJ9fVp71B_2D_F16uI"/>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-10 space-y-10">
+<!-- Page Header -->
+<div class="flex justify-between items-end">
+<div class="space-y-1">
+<h2 class="font-headline-md text-headline-md text-primary">Boat Owners & Partners</h2>
+<p class="font-body-md text-on-surface-variant">Manage your network of sea experience providers in the Béjaïa region.</p>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 px-6 py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary/5 transition-colors" onclick="window.location.href='boat_owners_partners_management.html'">
+<span class="material-symbols-outlined">download</span>
+<span>Export Partners</span>
+</button>
+<button class="flex items-center gap-2 px-6 py-3 bg-primary text-on-primary font-bold rounded-xl shadow-lg shadow-primary/20 hover:brightness-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined">person_add</span>
+<span>+ Add Partner</span>
+</button>
+</div>
+</div>
+<!-- KPI Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-3xl border border-outline-variant/20 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined p-2 bg-primary/10 text-primary rounded-lg">group</span>
+<span class="text-success text-label-sm font-bold bg-green-100 text-green-700 px-2 py-0.5 rounded-full">+2 this week</span>
+</div>
+<div class="mt-4">
+<p class="text-on-surface-variant font-label-md">Active Partners</p>
+<p class="font-headline-sm text-on-surface">34 <span class="text-label-md font-normal text-outline">owners</span></p>
+</div>
+</div>
+<div class="bg-tertiary-fixed p-6 rounded-3xl border border-tertiary-fixed-dim/30 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined p-2 bg-on-tertiary-fixed-variant/10 text-on-tertiary-fixed-variant rounded-lg">pending_actions</span>
+</div>
+<div class="mt-4">
+<p class="text-on-tertiary-fixed-variant font-label-md">Pending Approval</p>
+<p class="font-headline-sm text-on-tertiary-fixed">5 <span class="text-label-md font-normal text-on-tertiary-fixed-variant/70">requests</span></p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-3xl border border-outline-variant/20 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined p-2 bg-secondary/10 text-secondary rounded-lg">directions_boat</span>
+</div>
+<div class="mt-4">
+<p class="text-on-surface-variant font-label-md">Active Boats</p>
+<p class="font-headline-sm text-on-surface">52 <span class="text-label-md font-normal text-outline">vessels</span></p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-3xl border border-outline-variant/20 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined p-2 bg-primary/10 text-primary rounded-lg">payments</span>
+</div>
+<div class="mt-4">
+<p class="text-on-surface-variant font-label-md">Partner Earnings</p>
+<p class="font-headline-sm text-on-surface font-headline-sm">4.8M <span class="text-label-md font-normal text-outline">DA Total</span></p>
+</div>
+</div>
+</div>
+<!-- Directory Section -->
+<div class="bg-white rounded-3xl shadow-sm border border-outline-variant/20 overflow-hidden flex flex-col lg:flex-row h-[800px]">
+<!-- Filter and List -->
+<div class="flex-grow flex flex-col border-r border-outline-variant/20">
+<!-- Filter Bar -->
+<div class="p-6 border-b border-outline-variant/10 bg-surface-container-lowest/50 flex flex-wrap gap-4 items-center">
+<div class="flex items-center gap-2 px-3 py-2 bg-background rounded-lg border border-outline-variant/30 text-body-md min-w-[200px]">
+<span class="material-symbols-outlined text-outline text-sm">filter_list</span>
+<select class="bg-transparent border-none focus:ring-0 p-0 text-label-md w-full">
+<option>Status: All</option>
+<option>Status: Active</option>
+<option>Status: Pending</option>
+</select>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 bg-background rounded-lg border border-outline-variant/30 text-body-md min-w-[180px]">
+<select class="bg-transparent border-none focus:ring-0 p-0 text-label-md w-full">
+<option>Performance: Top</option>
+<option>Performance: New</option>
+</select>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 bg-background rounded-lg border border-outline-variant/30 text-body-md">
+<span class="material-symbols-outlined text-outline text-sm">location_on</span>
+<select class="bg-transparent border-none focus:ring-0 p-0 text-label-md">
+<option>Location: Béjaïa</option>
+</select>
+</div>
+<div class="ml-auto text-label-sm text-outline font-bold">Showing 34 results</div>
+</div>
+<!-- Partner Table/List -->
+<div class="flex-grow overflow-y-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-surface-container-high/50 backdrop-blur-sm z-10">
+<tr>
+<th class="p-4 pl-8 font-label-md text-outline uppercase tracking-wider border-b border-outline-variant/20">Partner</th>
+<th class="p-4 font-label-md text-outline uppercase tracking-wider border-b border-outline-variant/20">Fleet</th>
+<th class="p-4 font-label-md text-outline uppercase tracking-wider border-b border-outline-variant/20">Activity</th>
+<th class="p-4 font-label-md text-outline uppercase tracking-wider border-b border-outline-variant/20">Revenue (DA)</th>
+<th class="p-4 font-label-md text-outline uppercase tracking-wider border-b border-outline-variant/20 text-center">Status</th>
+<th class="p-4 pr-8 font-label-md text-outline uppercase tracking-wider border-b border-outline-variant/20">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Row 1 -->
+<tr class="partner-row cursor-pointer transition-colors group bg-secondary-container/10">
+<td class="p-4 pl-8">
+<div class="flex items-center gap-3">
+<img alt="Amine Ben Avatar" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPmaLN060ZBr97Mp2YKDuOB3AvfRhClBzXd1MccWwuLmsENZZnvbgZDEUFiyOov4NI8tNV0WXKpc4LnMBgcCsQzmFbjqXD-7n9keERBziqV5KKR0fCrs2obBvZEARNdtqm32zH6o8wXWq5StN0kEIdLjLHAvyaXPzK2iF_ixV-96SzRtD5eCvqXZnChMd_5c8xfee0obG5mrJ_Kctsm-icLUuoplRTPvj-A01FWpQJWWv7uEuE_TNExoar5p483-l8GMiP66BP3vM"/>
+<div>
+<p class="font-bold text-on-surface">Amine Ben</p>
+<p class="text-label-sm text-outline">ID: SAF-0922</p>
+</div>
+</div>
+</td>
+<td class="p-4 font-headline-sm text-[16px]">2 Boats</td>
+<td class="p-4 text-on-surface-variant">145 Trips</td>
+<td class="p-4 font-headline-sm text-[16px] text-primary">2,400,000</td>
+<td class="p-4 text-center">
+<span class="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 rounded-full text-[10px] font-bold uppercase tracking-widest">
+<span class="w-1.5 h-1.5 rounded-full bg-green-700 mr-1.5"></span>
+                                            Active
+                                        </span>
+</td>
+<td class="p-4 pr-8">
+<div class="flex gap-2">
+<button class="p-2 bg-[#25D366]/10 text-[#25D366] rounded-lg hover:bg-[#25D366]/20 transition-colors" title="WhatsApp Partner">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</button>
+<button class="p-2 bg-outline-variant/10 text-outline rounded-lg hover:bg-outline-variant/20 transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="partner-row cursor-pointer transition-colors group">
+<td class="p-4 pl-8">
+<div class="flex items-center gap-3">
+<img alt="Salim Captain Avatar" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9-g0aJ-ghlD4Vrzeub5rIgoagKd0PmpTU2WWrTtdMVJ3fIGqeGzFnhPx-XzpZDXahpHeEh--qhIJkN2AjlrCW1HbvSMbfNNxDKfd5L8tJE-vOAwcMS9pmJy7EKxUDaGkQWxahul2HRyuoE-15Ta-ZCdHvo-LZ9lcH_iaBFHV1ct-qm2OYp3yY5EuOk4SCtOrl1XGZ4ZokOv32N3u2MmV3EStkOvI7JecppG_oCBL8vOsZnyQA0oynNwYv22si33qLZyQrLQcUbvg"/>
+<div>
+<p class="font-bold text-on-surface">Salim Captain</p>
+<p class="text-label-sm text-outline">ID: SAF-1044</p>
+</div>
+</div>
+</td>
+<td class="p-4 font-headline-sm text-[16px]">1 Boat</td>
+<td class="p-4 text-on-surface-variant">82 Trips</td>
+<td class="p-4 font-headline-sm text-[16px] text-primary">1,200,000</td>
+<td class="p-4 text-center">
+<span class="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 rounded-full text-[10px] font-bold uppercase tracking-widest">
+<span class="w-1.5 h-1.5 rounded-full bg-green-700 mr-1.5"></span>
+                                            Active
+                                        </span>
+</td>
+<td class="p-4 pr-8">
+<div class="flex gap-2">
+<button class="p-2 bg-[#25D366]/10 text-[#25D366] rounded-lg hover:bg-[#25D366]/20 transition-colors">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</button>
+<button class="p-2 bg-outline-variant/10 text-outline rounded-lg hover:bg-outline-variant/20 transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="partner-row cursor-pointer transition-colors group">
+<td class="p-4 pl-8">
+<div class="flex items-center gap-3">
+<img alt="Yacine M. Avatar" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmOz5qaSldhTqb93vQ0Z_H9Ur1PdtdtuNYSLZz73wKNoMkDTaYeS1mL3qxfGQwg4LZgmGFlQDqUwQAzmo0e2nE5VJaKc8zfmYRT93Hq1j412oxteiJQj6Y3sZgeqhMVyHnMoUTxPwfYgJxJbtbwHhYXmjta2efnmHFg1Oe9WeSWBRIgqQzCRT85VxcHQifUDqaV9RCYg9QHvSjdITv1dLnTiE8b7z5qvOHwwwv9ctn2cPgAq_k0zuyxixjD7bmX5dV6mrzwSsCOac"/>
+<div>
+<p class="font-bold text-on-surface">Yacine M.</p>
+<p class="text-label-sm text-outline">ID: SAF-4412</p>
+</div>
+</div>
+</td>
+<td class="p-4 font-headline-sm text-[16px]">3 Boats</td>
+<td class="p-4 text-on-surface-variant">12 Trips</td>
+<td class="p-4 font-headline-sm text-[16px] text-primary">210,000</td>
+<td class="p-4 text-center">
+<span class="inline-flex items-center px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-[10px] font-bold uppercase tracking-widest">
+<span class="w-1.5 h-1.5 rounded-full bg-yellow-700 mr-1.5"></span>
+                                            Pending
+                                        </span>
+</td>
+<td class="p-4 pr-8">
+<div class="flex gap-2">
+<button class="p-2 bg-[#25D366]/10 text-[#25D366] rounded-lg hover:bg-[#25D366]/20 transition-colors">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</button>
+<button class="p-2 bg-outline-variant/10 text-outline rounded-lg hover:bg-outline-variant/20 transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Profile Detail Overlay (Right Side) -->
+<aside class="w-full lg:w-96 bg-surface-container-lowest border-l border-outline-variant/20 overflow-y-auto custom-scrollbar flex flex-col">
+<div class="p-8 border-b border-outline-variant/20 text-center">
+<div class="relative w-24 h-24 mx-auto mb-4">
+<img alt="Amine Ben Detailed Avatar" class="w-full h-full rounded-full object-cover ring-4 ring-primary/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6xZH9hrsuaWfYG37ARAdraHGoAcBsDJFJOlX0GNeTHstZQtsdGSK4CM5dUEmJVu1L6yHCOY17jLmk0ZYOigDusNcvMhSS9NlmQz3ehrESWzVNCwO9u-yWUnH0lg3ztBAJSGYXl657lWRuI9mQ71ejb_l90BcRQWvkH4uoSqUfX0Fj0F06z4AI17xQjoJ1UpKBmMLpgkTtfUT3-q4sZdoedGUaLzBzfmmytvzxoWjCdbBEOch8t6uwE5Ohgsrn3UgKnBF87nSBxAs"/>
+<span class="absolute bottom-1 right-1 w-5 h-5 bg-green-500 border-2 border-white rounded-full"></span>
+</div>
+<h3 class="font-headline-sm text-[20px] text-on-surface">Amine Ben</h3>
+<div class="flex items-center justify-center gap-1 text-on-surface-variant text-label-md mt-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                            Port of Béjaïa
+                        </div>
+<div class="mt-6 flex gap-2">
+<button class="flex-grow py-2.5 bg-[#25D366] text-white font-bold rounded-xl flex items-center justify-center gap-2 shadow-sm hover:brightness-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+                                WhatsApp Partner
+                            </button>
+<button class="p-2.5 bg-primary/5 text-primary rounded-xl border border-primary/20 hover:bg-primary/10">
+<span class="material-symbols-outlined">mail</span>
+</button>
+</div>
+</div>
+<!-- Fleet Section -->
+<div class="p-8 space-y-4">
+<h4 class="font-label-md text-outline uppercase tracking-widest text-[10px] font-extrabold">Active Fleet</h4>
+<div class="space-y-3">
+<div class="bg-surface p-4 rounded-2xl border border-outline-variant/20 flex items-center gap-4">
+<div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">sailing</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Sea Explorer</p>
+<p class="text-label-sm text-outline">Motor Boat • 12 Cap</p>
+</div>
+<span class="ml-auto material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<div class="bg-surface p-4 rounded-2xl border border-outline-variant/20 flex items-center gap-4">
+<div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">sailing</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Blue Wave</p>
+<p class="text-label-sm text-outline">Yacht • 8 Cap</p>
+</div>
+<span class="ml-auto material-symbols-outlined text-outline">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Finance Section -->
+<div class="p-8 bg-surface-container/30 mt-auto">
+<h4 class="font-label-md text-outline uppercase tracking-widest text-[10px] font-extrabold mb-4">Finance Overview</h4>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-label-md">
+<span class="text-on-surface-variant">Total Generated</span>
+<span class="font-headline-sm text-[16px] text-on-surface">300,000 DA</span>
+</div>
+<div class="flex justify-between items-center text-label-md">
+<span class="text-on-surface-variant">Safar Commission (15%)</span>
+<span class="font-headline-sm text-[16px] text-error">45,000 DA</span>
+</div>
+<div class="pt-3 border-t border-outline-variant/20 flex justify-between items-center">
+<span class="font-bold text-on-surface">Partner Payout</span>
+<span class="font-headline-sm text-[20px] text-primary">255,000 DA</span>
+</div>
+</div>
+<button class="w-full mt-6 py-3 border-2 border-dashed border-outline-variant text-outline font-bold rounded-xl hover:border-primary hover:text-primary transition-colors">
+                            Send Announcement
+                        </button>
+</div>
+</aside>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full py-4 mt-auto border-t border-outline-variant flex justify-between items-center px-10 bg-surface-container-lowest/50">
+<p class="font-label-sm text-label-sm text-outline">© 2024 Safar DZ - Algerian Tourism Marketplace</p>
+<div class="flex gap-6">
+<a class="font-label-sm text-label-sm text-outline hover:text-primary transition-colors" href="#">Support</a>
+<a class="font-label-sm text-label-sm text-outline hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-outline hover:text-primary transition-colors" href="#">Terms</a>
+</div>
+</footer>
+</main>
+<script>
+        // Simple micro-interaction for rows
+        document.querySelectorAll('.partner-row').forEach(row => {
+            row.addEventListener('click', () => {
+                document.querySelectorAll('.partner-row').forEach(r => r.classList.remove('bg-secondary-container/10'));
+                row.classList.add('bg-secondary-container/10');
+            });
+        });
+    </script>
+</body></html>

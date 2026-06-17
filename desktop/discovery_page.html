@@ -1,0 +1,462 @@
+<!DOCTYPE html><html class="light" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<title>Safar DZ | Découvrez Béjaïa</title>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .travel-stamp {
+            border: 2px dashed currentColor;
+            transform: rotate(-3deg);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 8px;
+        }
+        .organic-blob {
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .postcard-shadow {
+            box-shadow: 0 4px 20px -2px rgba(0, 54, 147, 0.1);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#2c57c0",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "surface-container-low": "#f6f4e7",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#434653",
+                        "secondary-fixed-dim": "#b6c5f9",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#c4c6d5",
+                        "on-secondary-fixed-variant": "#364571",
+                        "inverse-surface": "#303129",
+                        "surface-container-highest": "#e5e3d6",
+                        "surface-container": "#f0eee1",
+                        "primary-fixed": "#dbe1ff",
+                        "surface-bright": "#fcfaed",
+                        "on-primary-container": "#b8c8ff",
+                        "error": "#ba1a1a",
+                        "primary-container": "#1e4db6",
+                        "on-primary-fixed-variant": "#003ea7",
+                        "tertiary-fixed": "#ffdea1",
+                        "surface": "#fcfaed",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#465581",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#513a00",
+                        "background": "#fcfaed",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#6e5000",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#febf21",
+                        "on-tertiary-fixed": "#261900",
+                        "tertiary-fixed-dim": "#fbbc1c",
+                        "on-secondary-fixed": "#061943",
+                        "inverse-primary": "#b4c5ff",
+                        "secondary-container": "#bbcbff",
+                        "on-primary-fixed": "#00174b",
+                        "outline": "#747684",
+                        "surface-dim": "#dcdace",
+                        "primary": "#003693",
+                        "on-background": "#1b1c14",
+                        "inverse-on-surface": "#f3f1e4",
+                        "secondary": "#4e5d8a",
+                        "on-surface": "#1b1c14",
+                        "surface-variant": "#e5e3d6",
+                        "surface-container-high": "#eae9dc"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Space Mono"],
+                        "display-lg-mobile": ["Space Mono"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Space Mono"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg": ["Space Mono"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md">
+<header class="sticky top-0 z-50 bg-background/80 backdrop-blur-md shadow-sm">
+<nav class="flex justify-between items-center w-full px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="h-10 w-auto flex items-center">https://lh3.googleusercontent.com/aida/AP1WRLvyp4Hm0dt9nwYoVkh2hHqAYCaBlu_uo-Vef_Njlauo_y38EVX-mcpWMvUSf9Ybcg6aacg_8_SKtVnF4BLt2j4cfziYjJbK12iz_O-ztK9E8Gc1AMVEiOUOC4s2Nl836fR_sfU3wG-T-p71lLGi7a9UY7LWYTqFy6WU_3n0nCNM-GQPh7bcpiR3VNiIuTz-Hoahh9aHicMVC5O09TZvFWxSD4a_smz8jtnENYZoe7-qv7NeRYU-eJBgsx0</div>
+<div class="hidden md:flex items-center gap-8"><a class="text-primary border-b-2 border-primary pb-1 font-bold text-label-md" href="activities_catalog.html">Experiences</a><a class="text-on-surface-variant hover:text-primary transition-colors text-label-md" href="discovery_page.html">Destinations</a><a class="text-on-surface-variant hover:text-primary transition-colors text-label-md" href="#">About</a></div>
+<div class="flex items-center gap-4"><button class="hidden lg:block text-on-surface-variant hover:text-primary text-label-md font-label-md px-4 py-2 rounded-lg transition-all">Contact</button><button class="bg-primary text-on-primary text-label-md font-label-md px-6 py-2.5 rounded-full hover:bg-primary-container hover:text-on-primary-container transition-all active:scale-95" onclick="window.location.href='booking_request_form.html'">Book Now</button></div>
+</nav>
+</header>
+<main>
+<section class="relative pt-16 pb-24 md:pb-32 px-margin-mobile md:px-margin-desktop overflow-hidden">
+<div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="relative z-10">
+<span class="inline-block text-primary font-headline-sm text-headline-sm mb-4 travel-stamp bg-secondary-fixed/30 border-primary/20">Summer '24</span>
+<h1 class="text-display-lg-mobile md:text-display-lg font-display-lg mb-6 text-primary leading-tight">Choisissez votre prochaine aventure</h1>
+<p class="text-body-lg text-on-surface-variant mb-10 max-w-xl">Des sorties en mer, des découvertes et des moments inoubliables au cœur de la Méditerranée.</p>
+<div class="glass-card p-4 md:p-6 rounded-[2rem] shadow-lg border border-white/50 flex flex-col md:flex-row gap-4 items-center">
+<div class="w-full md:flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="flex flex-col gap-1 px-4 py-2 border-r border-outline-variant/30">
+<label class="text-label-sm text-on-surface-variant uppercase tracking-wider">Destination</label>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">location_on</span>
+<input class="bg-transparent border-none p-0 focus:ring-0 text-on-surface font-semibold placeholder:text-outline" placeholder="Où allez-vous ?" type="text">
+</div>
+</div>
+<div class="flex flex-col gap-1 px-4 py-2 border-r border-outline-variant/30">
+<label class="text-label-sm text-on-surface-variant uppercase tracking-wider">Dates</label>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">calendar_today</span>
+<input class="bg-transparent border-none p-0 focus:ring-0 text-on-surface font-semibold placeholder:text-outline" placeholder="Ajouter dates" type="text">
+</div>
+</div>
+<div class="flex flex-col gap-1 px-4 py-2">
+<label class="text-label-sm text-on-surface-variant uppercase tracking-wider">Passagers</label>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">group</span>
+<input class="bg-transparent border-none p-0 focus:ring-0 text-on-surface font-semibold placeholder:text-outline" placeholder="Qui vient ?" type="text">
+</div>
+</div>
+</div>
+<button class="w-full md:w-auto aspect-square bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-primary-container transition-all shadow-md group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">search</span>
+</button>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -top-12 -right-12 w-64 h-64 bg-tertiary-fixed-dim/40 organic-blob animate-pulse blur-3xl"></div>
+<div class="absolute -bottom-12 -left-12 w-64 h-64 bg-primary-fixed-dim/40 organic-blob blur-3xl"></div>
+<div class="relative rounded-[3rem] overflow-hidden aspect-[4/5] shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-700">
+<img class="w-full h-full object-cover" data-alt="A cinematic, high-angle shot of a luxurious white sailboat gliding across the vibrant, crystal-clear turquoise waters of the Mediterranean Sea near the coastline of Bejaia. The golden hour lighting creates a warm, shimmering glow on the water surface and the boat's polished deck. In the background, lush green cliffs and limestone rock formations meet the deep blue horizon. The aesthetic is clean, premium, and evocative of a high-end Mediterranean travel magazine." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqvydzkA1Tpk1xqbNllDP0RC9qluxu7V0KmMbGmJGH9XLapI8zmYPaoIaUZAvKJhRVBubLIE_tk8bkgnBPhUZ12vSyF166GtuRUX3Nb6QUPSJU-klAbGIzY5b6P-EZIpeuv3O3JQEcda4vDZaI9SBKx-iw_hX1xJgSzNdKF0WG5dEFLb2UzobGaoNpndA9n5olNnF081Sz-x3GA7w2OLzLhVO63mEiDxCYL4v4HDtyqR4KPhw-mggIy1e_lpOIaRmVaPaXuBhfamM">
+</div>
+<div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-2xl shadow-xl postcard-shadow rotate-[-6deg] max-w-[200px]">
+<p class="font-headline-sm text-primary text-[14px] leading-tight">"La perle de la Méditerranée vous attend."</p>
+<div class="mt-2 flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-tertiary-fixed"></div>
+<span class="text-label-sm text-on-surface-variant">Algeria Stamps</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-16 bg-surface-container-low">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<h2 class="font-headline-md text-headline-md text-primary mb-12 flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary-container">sailing</span>
+                    Explorez par catégorie
+                </h2>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+<a class="group cursor-pointer" href="activities_catalog.html">
+<div class="aspect-square rounded-3xl overflow-hidden relative mb-4">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A vertical shot of a sleek modern motor yacht anchored in a secluded cove with incredibly clear turquoise water. The deck is furnished with white cushions, suggesting luxury and relaxation. The surrounding environment consists of rugged limestone cliffs reflecting the warm Mediterranean sun. The overall style is high-end, clean, and aspirational, following the Safar DZ royal blue and warm paper color scheme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlWKUCUJLU2-1yhXbPPMHxrp6E3oPGCx1isV7F_e2ecsez99pVZ3_JF-KL8ivG3ieXKN3EjOGJ1tTBmqwu6IHBRg3mTGyM8Ks0ZiQcTdShigt5u7FzBgXOfsciP9oyUxS3gnrRED68Z_Z5eBLLsLUifM9QvF425P-KrLSZyktH_MnhngWqZm4Xxu0ToE_aZiCqRDsSOXtYUL5bbcNjZ4vm8s34yPX3fxOjB1e0erFmYUNYgsO4jfsEmu7lqdsod4HRBFqLkBrJ1YA">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent"></a>
+<div class="absolute bottom-4 left-4 text-on-primary">
+<h3 class="font-headline-sm text-label-md">Bateaux privés</h3>
+</div>
+</div>
+</div>
+<a class="group cursor-pointer" href="activities_catalog.html">
+<div class="aspect-square rounded-3xl overflow-hidden relative mb-4">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="An atmospheric shot of a traditional wooden coastal boat carrying a small group of happy travelers through a sea cave. Sunlight filters through an opening in the cave ceiling, illuminating the emerald water below. The mood is adventurous and authentic, capturing the local heritage of Bejaia. The color palette emphasizes deep sea greens and natural rock tones, consistent with the brand's tactile Mediterranean aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiUMNg517iw3rvwS3lsO5HDCk-34xXaq2tBtEyZuAgjfFYsjfQ1KzScMQyIj1T7cHFikUMjX6G-v3-Rfg2VLqItBm1g25i0yLVECQI9KDUuxqVIDFFAgJpbygWGK4ASN9PUeonGSWvIU4HdGE2e-QBSaZQDL4HJN7oeQivq7JH1kPRnyJiPLR9yCyy6oKdOKYImfxOSBo3zTsFZ7QStQnTrr1ISMOpw9qs2g11QKxohZ1LiH3Zxwgg6m-w0qIUrIC0FhtV7ZvP_iI">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent"></a>
+<div class="absolute bottom-4 left-4 text-on-primary">
+<h3 class="font-headline-sm text-label-md">Balades en bateau</h3>
+</div>
+</div>
+</div>
+<a class="group cursor-pointer" href="activities_catalog.html">
+<div class="aspect-square rounded-3xl overflow-hidden relative mb-4">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Action-oriented shot of a white and blue jet ski cutting through the sea, creating a spray of white foam. The rider is blurred in the background to focus on the speed and the vibrant Mediterranean water. High contrast, bright daylight, and a feeling of excitement. The composition is dynamic, using the diagonal spray to lead the eye, styled like a modern action-sports photography piece." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3VHtna-BNDwEX-2uzlA_IFScLgHlKZwOez5fDnu6W8JH4cfPvjjIwbftDPwgnQkPVcvMvfLGgzNjDJ91ZoWJArAOXLtK-yOFbyPZRCxNWz6SiNk_NNn0RwsGjDqtFWvd9_RZC3fuM_cjyp_A2UF2mW1CKRza87NGLtUC_YXtM1KCMUCt34uQ0WlkFRFra7KAOM3gac3UXNmz7bFNGm4yctLyUQta1Y7yPYKorstM8niJSGT31OQgxLvkGJU_OCE-SfKDvO_dTphs">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent"></a>
+<div class="absolute bottom-4 left-4 text-on-primary">
+<h3 class="font-headline-sm text-label-md">Jet Ski</h3>
+</div>
+</div>
+</div>
+<a class="group cursor-pointer" href="activities_catalog.html">
+<div class="aspect-square rounded-3xl overflow-hidden relative mb-4">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A scenic aerial view of the Cap Carbon lighthouse perched on a high, white limestone cliff over the Mediterranean Sea. Below, the water is a deep sapphire blue, with white waves crashing against the rocks. The scene is majestic and peaceful, showcasing the natural beauty of Bejaia. The lighting is crisp morning sun, highlighting the textures of the stone and vegetation in a premium travel style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1f7dHINbq0C5DLXE9GbBEde5HjcAD0RWKsyrbKD1oGltwLnCu3VyDq0ZoO8Ktgogrs1sAMYSxgdrOkJ2xyQ3DU3VY9XaHjuUU9MP1aXp3jNr2wHzIEwEL5iRa9URRSvSeptQfl8ErTgXnl6OZNfPYdwTSffPjYbcBpfb1RI83Ccos5TG3D8EejiiYuqnozj22YlytD6_JGQ2FyD__9GRSgSPklDtcsYRMtvJV1Sp3SWpKEzUSD2oVYKzbHWn9WAL5uYICMQqqrKA">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent"></a>
+<div class="absolute bottom-4 left-4 text-on-primary">
+<h3 class="font-headline-sm text-label-md">Découvrir Béjaïa</h3>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary mb-2">Expériences à la une</h2>
+<p class="text-on-surface-variant">Nos aventures les plus appréciées par la communauté.</p>
+</div>
+<button class="text-primary font-bold hover:underline flex items-center gap-2" onclick="window.location.href='boat_seats_experience_details.html'">
+                    Voir tout <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+<div class="bg-white rounded-[2rem] overflow-hidden postcard-shadow border border-surface-container-highest flex flex-col group hover:-translate-y-2 transition-all duration-300">
+<div class="relative h-64">
+<img class="w-full h-full object-cover" data-alt="A beautiful, vibrant photo of a hidden beach in Bejaia with emerald green water and fine white sand. Two people are seen snorkeling in the shallow water, showing the scale of the landscape. The shot is framed by overhanging Mediterranean pines, creating a sense of a secret paradise. The lighting is bright and summery, with soft shadows, styled with the Safar DZ warm paper and royal blue accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqwcAZu3dSxG3EaPcYp3LCR6aJaJBbtaLW5clNLlA2_sb1a0jEABEwljs7JR7nStyAT563Y0fg7HKZj89dYbRoQ7g-ktneHABNgXUd_W6ktO0kF8cZleILVzab_ngZvM0b5-rqcBy3f2vQ3cp00MqM06fz5Kd0y8pr4VP3cOw6_-bND0AOhr2jH3JmUAaOSacNw5JBFLNu2xEtJjTsBjm303TV0sJe7Ss7CEMxjCLpEwcd_n39iQ1iUydeR3cv220fxEEUrjMsiwA">
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-tertiary-container text-on-tertiary-container text-label-sm px-3 py-1 rounded-full font-bold">Populaire</span>
+</div>
+<button class="absolute top-4 right-4 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-primary hover:bg-white transition-all">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Cap Carbon Adventure</h3>
+<div class="flex items-center text-tertiary">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold ml-1">4.9</span>
+</div>
+</div>
+<p class="text-on-surface-variant flex items-center gap-1 mb-6">
+<span class="material-symbols-outlined text-[18px]">location_on</span> Béjaïa
+                        </p>
+<div class="grid grid-cols-2 gap-4 mb-8">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<span class="text-label-sm">4 Heures</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">group</span>
+<span class="text-label-sm">Jusqu'à 6 pers.</span>
+</div>
+</div>
+<div class="mt-auto flex items-center justify-between">
+<div>
+<span class="text-label-sm text-on-surface-variant block uppercase tracking-tighter">À partir de</span>
+<span class="font-headline-md text-headline-sm text-primary">20,000 DA</span>
+</div>
+<button class="bg-primary text-on-primary px-5 py-3 rounded-2xl hover:bg-primary-container transition-all text-label-md font-bold" onclick="window.location.href='boat_seats_experience_details.html'">Voir l'expérience</button>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-[2rem] overflow-hidden postcard-shadow border border-surface-container-highest flex flex-col group hover:-translate-y-2 transition-all duration-300">
+<div class="relative h-64">
+<img class="w-full h-full object-cover" data-alt="A peaceful image of a sunset over the Gulf of Bejaia from the deck of a boat. The sky is painted in soft oranges, pinks, and purples, reflecting beautifully on the calm sea. A bottle of fresh juice and local fruits are arranged on a small table in the foreground, suggesting a romantic and high-quality picnic experience. The visual style is warm, welcoming, and serene, perfect for an unforgettable Mediterranean moment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrTxPCSTiJMkxTgimoIHwHMY8FCcCGXTWPWoRKT_SBp_yS5uqXG38EWCYAi3ta5dlv7SRatQ3DRM64egHy40pk_-VxJUStymfhPbQpSW2W3N84jX3xHvdp4bTzlnRkBv-FU_wvo7kGzqc6ChiZ0TCQ1UgfgEpzQSFGtu1oRskHYnVGGw11Hwlba1mILe2S0F_oXMU7bw0Tjciv-PebCvnidyMxVcszyV-PutEkGWqfHHwZe9K6f752KZCe_BiWb2gzzMG_lV-dGUA">
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-primary-container text-on-primary-container text-label-sm px-3 py-1 rounded-full font-bold">Idéal famille</span>
+</div>
+<button class="absolute top-4 right-4 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-primary hover:bg-white transition-all">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Sunset Picnic Cruise</h3>
+<div class="flex items-center text-tertiary">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold ml-1">5.0</span>
+</div>
+</div>
+<p class="text-on-surface-variant flex items-center gap-1 mb-6">
+<span class="material-symbols-outlined text-[18px]">location_on</span> Béjaïa Port
+                        </p>
+<div class="grid grid-cols-2 gap-4 mb-8">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<span class="text-label-sm">3 Heures</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">group</span>
+<span class="text-label-sm">Jusqu'à 8 pers.</span>
+</div>
+</div>
+<div class="mt-auto flex items-center justify-between">
+<div>
+<span class="text-label-sm text-on-surface-variant block uppercase tracking-tighter">À partir de</span>
+<span class="font-headline-md text-headline-sm text-primary">15,000 DA</span>
+</div>
+<button class="bg-primary text-on-primary px-5 py-3 rounded-2xl hover:bg-primary-container transition-all text-label-md font-bold" onclick="window.location.href='boat_seats_experience_details.html'">Voir l'expérience</button>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-[2rem] overflow-hidden postcard-shadow border border-surface-container-highest flex flex-col group hover:-translate-y-2 transition-all duration-300">
+<div class="relative h-64">
+<img class="w-full h-full object-cover" data-alt="An underwater photograph of clear coastal waters with sunlight beams piercing through the surface. Several small colorful fish are visible swimming near a rocky seafloor. The water clarity is exceptional, emphasizing the pristine natural environment of the Mediterranean coast in Algeria. The lighting is high-key and bright, capturing the magic of discovery in a premium, startup-inspired UI style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlTaQ_Kq7nPqPu42lHnohWMeHOLk1WSW2npoPdCwaoT7o3NMfiFxoTdgX4Z8w-H5Ji6vz9h0MDGsa7-aNJ_9euzXm1qTnGg38QyDZ_Try_IljCqztRXKysqUsGPyAvWv0dHJZf40SapjoTASNoNhki3N2TA4uQuyyybA6dlmOouunJmrwLVMSL9vPj15bDPq_CPIHaUDKFb70bZSapM0zFpaxDbReDOwei2D8ATx2kDDLx0Sw7wadEufEO_i_HhB-3rHVF0f_KBAw">
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-secondary-container text-on-secondary-container text-label-sm px-3 py-1 rounded-full font-bold">Aventure</span>
+</div>
+<button class="absolute top-4 right-4 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-primary hover:bg-white transition-all">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Les Grottes Féeriques</h3>
+<div class="flex items-center text-tertiary">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold ml-1">4.8</span>
+</div>
+</div>
+<p class="text-on-surface-variant flex items-center gap-1 mb-6">
+<span class="material-symbols-outlined text-[18px]">location_on</span> Boulimat
+                        </p>
+<div class="grid grid-cols-2 gap-4 mb-8">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<span class="text-label-sm">5 Heures</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">group</span>
+<span class="text-label-sm">6-10 pers.</span>
+</div>
+</div>
+<div class="mt-auto flex items-center justify-between">
+<div>
+<span class="text-label-sm text-on-surface-variant block uppercase tracking-tighter">À partir de</span>
+<span class="font-headline-md text-headline-sm text-primary">18,000 DA</span>
+</div>
+<button class="bg-primary text-on-primary px-5 py-3 rounded-2xl hover:bg-primary-container transition-all text-label-md font-bold" onclick="window.location.href='boat_seats_experience_details.html'">Voir l'expérience</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-surface-variant/30 overflow-hidden">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<h2 class="font-headline-md text-headline-md text-primary mb-12">Destinations Incontournables</h2>
+<div class="flex gap-8 overflow-x-auto pb-8 snap-x no-scrollbar">
+<div class="min-w-[300px] md:min-w-[400px] snap-center">
+<div class="relative rounded-[2.5rem] overflow-hidden aspect-[4/3] group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A wide panoramic view of the coastline of Gouraya National Park in Bejaia. Rugged cliffs covered in Mediterranean scrub vegetation plunge into the sapphire blue sea. The sky is clear with a few wispy clouds. The lighting is strong midday sun, bringing out the vibrant colors of the natural landscape. The style is grand and cinematic, following the modern Mediterranean summer journal aesthetic of Safar DZ." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCE-hs2CLsMSJ_4MjbLiMhgRxnUgsiw0xl6FrGQ5GkkiWOcchRDkaPIB2kqQx4wNOPiKGlvRo2P_JlPKVWTG8gNposhMVd2SZdzPPNNUt9EN-GgLSm5bgLVorllF_xGsJ2xbwp6T9FxVzqvHimK4UZ_2S3KLaA7MXwWRdG32Fdu_xxL6woCrWTIqrlEtaCkQva4scNw2daQoWh1C2gGIBRSaQUQ37kG31phxeySAS8ovmezT0jZImvHWp7Uxc0cMJBVQ2-U0wJlm0">
+<div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors"></div>
+<div class="absolute bottom-8 left-8 text-white">
+<h3 class="font-headline-md text-headline-sm mb-2">Gouraya</h3>
+<p class="text-body-md opacity-90 max-w-[250px]">Un parc national sauvage où la montagne rencontre la mer.</p>
+</div>
+</div>
+</div>
+<div class="min-w-[300px] md:min-w-[400px] snap-center">
+<div class="relative rounded-[2.5rem] overflow-hidden aspect-[4/3] group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Close-up shot of Boulimat beach with its characteristic clear, shallow water and smooth rounded pebbles on the shore. People are relaxing on sun loungers in the distance, creating a peaceful vacation atmosphere. The focus is on the sparkling clarity of the water under the hot summer sun. The aesthetic is tactile and refreshing, using a palette of light blues and warm neutrals." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5y5hvB7yDfdcUcf6ihqMijqJE4zRLyfd4xngvo5sarVVVCB7Cw29xg-TnEYxtvO5CmTpfFpb1h7qHsOtT_50Dwr9kXlAo86FCu5Rdh1xS9EeKSLBSAszAXUKHs1j05UPKNDHdBVd6zPxxrL46ERHaFqE_1qsIl0UGubXWYQHXJ4-y6Rgv3a2JlVSghVZ1f1HeijunPJyc_yRkhyV9LpoUsva5AeLORLXopQDh4RhLloN8m4eJVJOY0_pknqs0PVGUabG0a17WEDQ">
+<div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors"></div>
+<div class="absolute bottom-8 left-8 text-white">
+<h3 class="font-headline-md text-headline-sm mb-2">Boulimat</h3>
+<p class="text-body-md opacity-90 max-w-[250px]">L'endroit idéal pour une journée détente en famille.</p>
+</div>
+</div>
+</div>
+<div class="min-w-[300px] md:min-w-[400px] snap-center">
+<div class="relative rounded-[2.5rem] overflow-hidden aspect-[4/3] group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="An adventurous shot of a small boat entering a hidden cove accessible only by sea. The water is an intense, glowing emerald color due to the reflection from underwater limestone. The surrounding rocks are dark and textured, providing a dramatic contrast. The mood is one of discovery and mystery, capturing the essence of the 'Hidden Beaches' category in Bejaia." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAclJs1x8iCoQ0KC-kcEAMTRPEP3cfNci5Fy5I17MatDvAnHs9bv7CG4auDIblt_qZ6CCkc9u06abmp4CZ9U1lqvQxgK4YGdXY7NunfRvr2uS_jhGhQlKIwWAvGjCSXFqZL48hA45EiSz8MiyUcI8vrOdMCHXs60TIvVfERAi1dIRvXx9YJOgCxCwzduGefkgRvmGN1K26jDK6y7ZodIAv37qeXc2X-Zs892_uYxXorz8FFbjnEQzKAUdYWy7Bw0hELR4W8eqJLq24">
+<div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors"></div>
+<div class="absolute bottom-8 left-8 text-white">
+<h3 class="font-headline-md text-headline-sm mb-2">Hidden Beaches</h3>
+<p class="text-body-md opacity-90 max-w-[250px]">Accessibles uniquement par mer, découvrez nos criques secrètes.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="bg-primary-container text-on-primary-container rounded-[3rem] p-12 md:p-20 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-white/10 organic-blob -translate-y-1/2 translate-x-1/2"></div>
+<div class="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-[32px]">verified</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-4">Expériences sélectionnées</h3>
+<p class="opacity-80">Chaque sortie est vérifiée par notre équipe pour garantir qualité et sécurité.</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-[32px]">handshake</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-4">Partenaires locaux</h3>
+<p class="opacity-80">Nous travaillons directement avec les meilleurs skippers et guides de Béjaïa.</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-[32px]">flash_on</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-4">Réservation simple</h3>
+<p class="opacity-80">Réservez votre aventure en quelques clics, avec confirmation immédiate.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="w-full bg-surface-container-highest dark:bg-surface-variant rounded-t-[32px] mt-16 px-margin-desktop py-16 max-w-container-max mx-auto"><div class="flex flex-col md:flex-row justify-between items-start gap-12 mb-16"><div class="flex flex-col gap-6"><div class="h-10 w-auto flex items-center">https://lh3.googleusercontent.com/aida/AP1WRLvyp4Hm0dt9nwYoVkh2hHqAYCaBlu_uo-Vef_Njlauo_y38EVX-mcpWMvUSf9Ybcg6aacg_8_SKtVnF4BLt2j4cfziYjJbK12iz_O-ztK9E8Gc1AMVEiOUOC4s2Nl836fR_sfU3wG-T-p71lLGi7a9UY7LWYTqFy6WU_3n0nCNM-GQPh7bcpiR3VNiIuTz-Hoahh9aHicMVC5O09TZvFWxSD4a_smz8jtnENYZoe7-qv7NeRYU-eJBgsx0</div><p class="text-body-md text-on-surface-variant max-w-xs">Explorez les trésors de la côte algérienne.</p></div><div class="grid grid-cols-2 md:grid-cols-3 gap-x-16 gap-y-4"><a class="text-on-surface-variant hover:text-primary transition-all text-label-md" href="activities_catalog.html">Experiences</a><a class="text-on-surface-variant hover:text-primary transition-all text-label-md" href="boat_owners_partners_management.html">Become Partner</a><a class="text-on-surface-variant hover:text-primary transition-all text-label-md" href="#">Contact</a><a class="text-on-surface-variant hover:text-primary transition-all text-label-md" href="#">Instagram</a><a class="text-on-surface-variant hover:text-primary transition-all text-label-md" href="#">WhatsApp</a></div></div><div class="pt-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4"><div class="text-label-sm text-on-surface-variant">© 2024 Safar DZ.</div><div class="flex gap-8"><a class="text-label-sm text-on-surface-variant hover:text-primary underline" href="#">Mentions légales</a><a class="text-label-sm text-on-surface-variant hover:text-primary underline" href="#">Confidentialité</a></div></div></footer>
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface-container-low/90 backdrop-blur-lg md:hidden border-t border-outline-variant/30 flex justify-around items-center px-4 pb-6 pt-3 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-5 py-1.5 transition-transform active:scale-90 duration-200" href="activities_catalog.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="text-label-sm font-label-sm">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant transition-transform active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="text-label-sm font-label-sm">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant transition-transform active:scale-90 duration-200" href="bookings_management.html">
+<span class="material-symbols-outlined">sailing</span>
+<span class="text-label-sm font-label-sm">Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant transition-transform active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-label-sm font-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Smooth horizontal scroll for categories
+        const scrollContainer = document.querySelector('.snap-x');
+        if (scrollContainer) {
+            scrollContainer.addEventListener('wheel', (evt) => {
+                evt.preventDefault();
+                scrollContainer.scrollLeft += evt.deltaY;
+            });
+        }
+    </script>
+
+
+
+
+</body></html>

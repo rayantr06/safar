@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Safar Partner - Destination Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#f0eee1",
+                    "inverse-on-surface": "#f3f1e4",
+                    "outline-variant": "#c4c6d5",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "on-surface": "#1b1c14",
+                    "on-secondary-fixed-variant": "#364571",
+                    "surface-container-high": "#eae9dc",
+                    "outline": "#747684",
+                    "secondary-container": "#bbcbff",
+                    "surface-variant": "#e5e3d6",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#513a00",
+                    "on-surface-variant": "#434653",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#465581",
+                    "error": "#ba1a1a",
+                    "on-background": "#1b1c14",
+                    "on-secondary": "#ffffff",
+                    "surface": "#fcfaed",
+                    "surface-container-low": "#f6f4e7",
+                    "inverse-primary": "#b4c5ff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "primary-fixed": "#dbe1ff",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-tertiary-fixed": "#261900",
+                    "on-primary-fixed": "#00174b",
+                    "tertiary-fixed-dim": "#fbbc1c",
+                    "inverse-surface": "#303129",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#b6c5f9",
+                    "surface-dim": "#dcdace",
+                    "surface-tint": "#2c57c0",
+                    "background": "#fcfaed",
+                    "primary": "#003693",
+                    "on-primary-fixed-variant": "#003ea7",
+                    "tertiary-fixed": "#ffdea1",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#1e4db6",
+                    "surface-bright": "#fcfaed",
+                    "on-secondary-fixed": "#061943",
+                    "secondary": "#4e5d8a",
+                    "on-tertiary-container": "#febf21",
+                    "surface-container-highest": "#e5e3d6",
+                    "tertiary-container": "#6e5000",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-container": "#b8c8ff",
+                    "on-error": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "container-max": "1280px",
+                    "margin-desktop": "40px",
+                    "gutter": "24px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Space Mono"],
+                    "display-lg": ["Space Mono"],
+                    "headline-sm": ["Space Mono"],
+                    "display-lg-mobile": ["Space Mono"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .active-pill {
+            view-transition-name: active-pill;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-[60] bg-surface dark:bg-surface-dim flex justify-between items-center px-margin-mobile py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/10">
+<img alt="Partner Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a friendly Algerian man in his late 30s with short dark hair and a neat beard. The lighting is soft and natural, coming from the side to create depth. The background is a blurred Mediterranean coastal view with deep blue water and white architecture. The overall aesthetic is clean, professional, and warm." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoVh6JUD_s1g3OI11HDqKMPiA-h0XktJ-IzedFwhR-ObBO9P30I40t5G1dMBHu_YYBVJWOeaQ6L6pFlad_vNpDOuuIHkrKN-tmZgz3qlGMgYA_MgNg_ZAnoeKcsNDLdOeO_KgDsz2wK01Mb22ZCjYW5CJljF5sUJDgh1Zkzzvm1onvDwvd6vyrpQUBQApxOJJYxFpjwdxWmnJejZ3KY0P66gogzId_8ex_EVwiFMvj6gO5jGIGM4nNYv4cMiIwTnSQEPwdgfqp-2w"/>
+</div>
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed tracking-tight">Safar Partner</h1>
+</div>
+<button class="text-primary dark:text-primary-fixed hover:opacity-80 transition-opacity active:scale-95 duration-150" onclick="window.location.href='notifications_mobile.html'">
+<span class="material-symbols-outlined text-[28px]" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="px-margin-mobile pt-6">
+<!-- Dashboard Header -->
+<section class="mb-8">
+<div class="flex justify-between items-end mb-2">
+<div>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">Fleet Overview</span>
+<h2 class="font-display-lg-mobile text-display-lg-mobile mt-1">Destinations</h2>
+</div>
+<div class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full font-label-sm text-label-sm">
+                    8 Total
+                </div>
+</div>
+<p class="text-on-surface-variant font-body-md max-w-[280px]">Curate and manage your sea experience locations in Béjaïa.</p>
+</section>
+<!-- Stats Overview (Asymmetric) -->
+<section class="grid grid-cols-2 gap-3 mb-8">
+<div class="bg-primary-container text-on-primary-container p-4 rounded-3xl flex flex-col justify-between aspect-square">
+<span class="material-symbols-outlined text-3xl" data-icon="anchor">anchor</span>
+<div>
+<div class="font-headline-sm text-headline-sm">24</div>
+<div class="font-label-sm text-label-sm opacity-80">Active Routes</div>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<div class="bg-surface-container-high p-4 rounded-2xl flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary" data-icon="visibility">visibility</span>
+<div>
+<div class="font-label-md text-label-md">1.2k</div>
+<div class="text-[10px] uppercase font-bold opacity-50">Views Today</div>
+</div>
+</div>
+<div class="bg-secondary-container text-on-secondary-container p-4 rounded-2xl flex-grow flex items-center gap-3">
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<div>
+<div class="font-label-md text-label-md">4.9</div>
+<div class="text-[10px] uppercase font-bold opacity-50">Fleet Rating</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Destination List -->
+<div class="space-y-6">
+<!-- Item 1 -->
+<article class="relative group">
+<div class="w-full aspect-[16/9] rounded-3xl overflow-hidden shadow-lg relative">
+<img alt="Les Aiguades" class="w-full h-full object-cover" data-alt="A breathtaking wide shot of Les Aiguades in Béjaïa, Algeria, featuring jagged limestone cliffs rising from turquoise Mediterranean waters. The sun is high, creating crystal clear reflections and deep blue shadows in the sea caves. The sky is a cloudless, vibrant azure. The photographic style is crisp and saturated, emphasizing the rugged natural beauty of the North African coastline." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiCXCKwx83svv0gHwFkU1OIMyNtIDuK2iRtdU9skMRKvveTdMruJiAYZ5e9jBmG9fjvk_U1oO_y73KEbQ7YOLBEaol-e1PtCfefuEZT9Ni-1j75EuCspRYqqc1qz2Pv33KlzFrlRi3FaZ4ZVxXAggnRWUwp_1oZMpt3ItLrXp6LgDU3H-vV5OJAOQEVnPXSPgc_KiG6m3RDVAIPQ_xNNvUNSef8aQ-DMi_ugUE-2TaSTdZgqotTRkflM-A6L4p5kptiNN8I9oXzqE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4">
+<span class="bg-white/90 backdrop-blur text-primary font-label-sm text-label-sm px-3 py-1 rounded-full flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                            Live
+                        </span>
+</div>
+<div class="absolute bottom-4 left-4 right-4 text-white">
+<h3 class="font-headline-sm text-headline-sm">Les Aiguades</h3>
+<div class="flex items-center gap-4 mt-1 opacity-90">
+<span class="flex items-center gap-1 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm" data-icon="kayaking">kayaking</span> 12 Experiences
+                            </span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span> Daily
+                            </span>
+</div>
+</div>
+</div>
+<div class="flex gap-2 mt-3">
+<button class="flex-1 bg-surface-container-highest text-on-surface font-label-md text-label-md py-3 rounded-2xl flex items-center justify-center gap-2 active:scale-95 transition-transform" onclick="window.location.href='../../desktop/boat_seats_experience_details.html'">
+<span class="material-symbols-outlined" data-icon="edit">edit</span> Edit Details
+                    </button>
+<button class="w-14 bg-surface-container-highest text-on-surface py-3 rounded-2xl flex items-center justify-center active:scale-95 transition-transform" onclick="toggleVisibility(this)">
+<span class="material-symbols-outlined" data-icon="visibility_off">visibility_off</span>
+</button>
+</div>
+</article>
+<!-- Item 2 -->
+<article class="relative group">
+<div class="w-full aspect-[16/9] rounded-3xl overflow-hidden shadow-lg relative">
+<img alt="Cap Carbon" class="w-full h-full object-cover grayscale-[0.5] opacity-80" data-alt="A dramatic low-angle shot of the Cap Carbon lighthouse perched atop a massive, vertical sea cliff in Béjaïa. The sea below is a deep, moody indigo with white foam crashing against the rocks. The lighting suggests early morning golden hour, with long shadows and warm highlights on the stone. The style is cinematic and atmospheric, capturing the epic scale of the Algerian coast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiw0kSEIAHkUxsj7f5PC6shWbzA2HoW_F338NsdF3L7J2cRA29UGBrujBZ61p4TmYlZpEk4G77QUDbQcm2sJiM_N9V9qTrSmFtxxabT340aV9Ce1bECCMN6TWZgoVpcbS2VEmk3gYNgCpmaZrCVqnHObABj9EUYLVkcB-gMWP1GZ21yiWngnOhucj6qkVaETxziY4FRtg2z7Dc0UoSqkdXFfj_c-odiZ6FDYNclEhS3ytUE0a243JA9Fl9e8xh485CpcLhvkuB_Qk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4">
+<span class="bg-on-surface-variant/90 backdrop-blur text-white font-label-sm text-label-sm px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="draft">draft</span>
+                            Hidden
+                        </span>
+</div>
+<div class="absolute bottom-4 left-4 right-4 text-white">
+<h3 class="font-headline-sm text-headline-sm">Cap Carbon</h3>
+<div class="flex items-center gap-4 mt-1 opacity-90">
+<span class="flex items-center gap-1 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm" data-icon="directions_boat">directions_boat</span> 5 Experiences
+                            </span>
+</div>
+</div>
+</div>
+<div class="flex gap-2 mt-3">
+<button class="flex-1 bg-surface-container-highest text-on-surface font-label-md text-label-md py-3 rounded-2xl flex items-center justify-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="publish">publish</span> Publish Now
+                    </button>
+<button class="w-14 bg-error-container text-on-error-container py-3 rounded-2xl flex items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</article>
+<!-- Item 3 (Bento-style small) -->
+<article class="bg-surface-container-low rounded-3xl p-4 flex gap-4 items-center">
+<div class="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0">
+<img alt="Yacht Club" class="w-full h-full object-cover" data-alt="A luxurious close-up of a high-end white motor yacht docked at a modern marina in Béjaïa. The teak wood deck glows in the afternoon sun, and the chrome railings sparkle. The water in the harbor is calm and reflects the white hull of the boat. The style is premium and high-key, conveying a sense of exclusive coastal luxury and startup-tech travel aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGu_PC5PdfA0ozIpxuJ4urIrYqKP-E0txR79NEei83k3X2ZXDov3YiLy6epmJNQljuKHskwaPOVCJ3IkcGiVwWOjl6sy0u4D1SLTwBm5VsxhoLh6SXaoZSf-S2DFqi7EveFMMTMbSDNedawPBc99fEhTkoDr4bxDvByTe3Iday60DqdozFG_wTeGjblLRKCrf_Wt38sLrgZ0keAWwpe308_XzYMB53uaUjkZHhxOWceEk8ndvXX66nJ4ywNHXlIwiT4ajWeRTMLBQ"/>
+</div>
+<div class="flex-grow">
+<div class="font-label-sm text-label-sm text-primary mb-0.5">MARINA</div>
+<h3 class="font-label-md text-label-md text-on-surface">Port de Béjaïa</h3>
+<p class="text-[12px] text-on-surface-variant line-clamp-1">Departure point for 80% of tours</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-[10px] bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full font-bold uppercase">Main Hub</span>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-xl" data-icon="chevron_right">chevron_right</span>
+</button>
+</article>
+</div>
+<!-- FAB for New Destination -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary text-on-primary rounded-2xl shadow-xl flex items-center justify-center z-[70] active:scale-90 transition-transform duration-200" onclick="window.location.href='destinations_admin_mobile.html'">
+<span class="material-symbols-outlined text-3xl" data-icon="add_location">add_location</span>
+</button>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container-lowest dark:bg-surface-container-lowest shadow-[0_-4px_12px_rgba(0,54,147,0.05)] shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="admin_dashboard_mobile.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="admin_bookings_mobile.html">
+<span class="material-symbols-outlined" data-icon="event_available">event_available</span>
+<span class="font-label-sm text-label-sm">Bookings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="admin_bookings_mobile.html">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-sm text-label-sm">Schedule</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="fleet_management_mobile.html">
+<span class="material-symbols-outlined" data-icon="directions_boat">directions_boat</span>
+<span class="font-label-sm text-label-sm">Fleet</span>
+</a>
+</nav>
+<script>
+        function toggleVisibility(btn) {
+            const icon = btn.querySelector('.material-symbols-outlined');
+            if (icon.textContent === 'visibility_off') {
+                icon.textContent = 'visibility';
+                btn.classList.add('bg-primary/10', 'text-primary');
+            } else {
+                icon.textContent = 'visibility_off';
+                btn.classList.remove('bg-primary/10', 'text-primary');
+            }
+        }
+
+        // Micro-interaction for page entry
+        document.addEventListener('DOMContentLoaded', () => {
+            const articles = document.querySelectorAll('article');
+            articles.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body></html>

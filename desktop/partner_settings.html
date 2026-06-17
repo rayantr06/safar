@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Safar DZ Partner Portal - Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#364571",
+                        "on-background": "#1b1c14",
+                        "outline": "#747684",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#261900",
+                        "inverse-surface": "#303129",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#eae9dc",
+                        "secondary-container": "#bbcbff",
+                        "tertiary": "#513a00",
+                        "surface-bright": "#fcfaed",
+                        "tertiary-fixed": "#ffdea1",
+                        "surface-dim": "#dcdace",
+                        "on-tertiary-container": "#febf21",
+                        "surface-container": "#f0eee1",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "surface-container-highest": "#e5e3d6",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#434653",
+                        "surface-tint": "#2c57c0",
+                        "on-secondary-container": "#465581",
+                        "surface": "#fcfaed",
+                        "primary-container": "#1e4db6",
+                        "on-primary": "#ffffff",
+                        "background": "#fcfaed",
+                        "tertiary-fixed-dim": "#fbbc1c",
+                        "primary-fixed": "#dbe1ff",
+                        "tertiary-container": "#6e5000",
+                        "on-error": "#ffffff",
+                        "on-surface": "#1b1c14",
+                        "primary": "#003693",
+                        "on-error-container": "#93000a",
+                        "secondary": "#4e5d8a",
+                        "on-primary-container": "#b8c8ff",
+                        "inverse-on-surface": "#f3f1e4",
+                        "on-secondary-fixed": "#061943",
+                        "secondary-fixed-dim": "#b6c5f9",
+                        "outline-variant": "#c4c6d5",
+                        "secondary-fixed": "#dbe1ff",
+                        "inverse-primary": "#b4c5ff",
+                        "surface-container-low": "#f6f4e7",
+                        "on-primary-fixed-variant": "#003ea7",
+                        "on-primary-fixed": "#00174b",
+                        "surface-variant": "#e5e3d6",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg-mobile": ["Space Mono"],
+                        "headline-sm": ["Space Mono"],
+                        "headline-md": ["Space Mono"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Space Mono"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcfaed; /* Warm Ivory Base */
+        }
+        .canvas-shadow {
+            box-shadow: 0 4px 12px rgba(0, 54, 147, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- Top Navigation -->
+<nav class="bg-surface shadow-sm w-full h-16 flex justify-between items-center px-margin-desktop border-b border-outline-variant fixed top-0 z-50">
+<div class="font-headline-sm text-headline-sm font-bold text-primary">Safar DZ Partner</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-high p-2 rounded-full transition-colors">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-high p-2 rounded-full transition-colors">help</span>
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-high p-2 rounded-full transition-colors">translate</span>
+</div>
+<div class="h-10 w-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border-2 border-primary">
+<img alt="Partner profile picture" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRsL82i3BUX5tGUsWmJapsuZsIH2pjhWG8--_hvFijU7rySGcaFy1e82OoqRQeEzw9Docz1kl2rGhRxKLPQdUeugkbFhkPkDaZgOrXEaRsnKFqeEnYnM0BuLOxkxjWxHZTn9oxkHYuLifytKH9If1P8wNRLKmMuajEcqicn4JFkoTAF1g233vFJw_0ff9vOWp60meDItxmAD2ctkpFFVe2mxTe8qxBb1Eu-oBUcQe0AdhUsuBN3h5F6WbQyTTv2MaSGHys5yyv6sU"/>
+</div>
+</div>
+</nav>
+<!-- Sidebar -->
+<aside class="bg-surface-container-low h-screen w-64 fixed left-0 top-0 pt-20 border-r border-outline-variant hidden md:flex flex-col p-4 space-y-2">
+<div class="px-4 mb-8">
+<div class="font-headline-sm text-headline-sm font-bold text-primary">Partner Portal</div>
+<div class="font-label-md text-label-md text-on-surface-variant opacity-70">Béjaïa, DZ</div>
+</div>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="earnings_finance.html">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Earnings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="customers_directory.html">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Customers</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="boat_management.html">
+<span class="material-symbols-outlined">directions_boat</span>
+<span class="font-label-md text-label-md">Boat Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="availability_control.html">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-label-md text-label-md">Availability</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="notifications_center.html">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-md text-label-md">Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="business_reports.html">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer bg-primary-container text-on-primary-container font-bold rounded-lg transition-all duration-200" href="partner_settings.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant">
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</div>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-error hover:bg-error-container/10 rounded-lg transition-all duration-200" href="discovery_page.html">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-64 pt-24 px-6 md:px-margin-desktop pb-16 min-h-screen">
+<div class="max-w-container-max mx-auto">
+<header class="mb-10">
+<h1 class="font-headline-md text-headline-md text-on-background mb-2">Settings</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage your account profile, payment methods, and system preferences.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Profile Section -->
+<section class="lg:col-span-8 space-y-8">
+<div class="bg-surface-container-lowest p-8 rounded-xl canvas-shadow border border-outline-variant/30">
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-headline-sm text-headline-sm text-primary flex items-center gap-3">
+<span class="material-symbols-outlined">person</span>
+                                Profile Information
+                            </h2>
+<button class="px-6 py-2 bg-primary text-on-primary font-label-md text-label-md rounded-full hover:shadow-lg transition-all">Save Changes</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Partner Full Name</label>
+<input class="w-full bg-white border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary focus:outline-none transition-all font-body-md text-body-md" type="text" value="Ahmed Mansouri"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Phone Number</label>
+<input class="w-full bg-white border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary focus:outline-none transition-all font-body-md text-body-md" type="tel" value="+213 550 12 34 56"/>
+</div>
+<div class="md:col-span-2 space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Main Boat Name</label>
+<div class="relative">
+<input class="w-full bg-white border border-outline-variant rounded-lg pl-12 pr-4 py-3 focus:ring-2 focus:ring-primary focus:outline-none transition-all font-body-md text-body-md" type="text" value="The Mediterranean Pearl"/>
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant opacity-60">directions_boat</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Payment Setup -->
+<div class="bg-surface-container-lowest p-8 rounded-xl canvas-shadow border border-outline-variant/30">
+<h2 class="font-headline-sm text-headline-sm text-primary flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined">payments</span>
+                            Payment Setup
+                        </h2>
+<div class="flex flex-col space-y-4">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Preferred Payout Method</label>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<a class="border-2 border-primary bg-primary/5 rounded-xl p-4 cursor-pointer flex items-center gap-4 transition-all" href="partner_settings.html">
+<div class="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</a>
+<div class="flex-1">
+<div class="font-label-md text-label-md text-on-surface">Bank Transfer (RIB)</div>
+<div class="text-xs text-on-surface-variant">Direct to Algerian account</div>
+</div>
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+<a class="border-2 border-outline-variant bg-white rounded-xl p-4 cursor-pointer flex items-center gap-4 hover:border-primary/50 transition-all opacity-70" href="earnings_finance.html">
+<div class="h-10 w-10 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">payments</span>
+</a>
+<div class="flex-1">
+<div class="font-label-md text-label-md text-on-surface">Cash Collection</div>
+<div class="text-xs text-on-surface-variant">Office pickup in Béjaïa</div>
+</div>
+</div>
+</div>
+<div class="mt-6 space-y-2 pt-4 border-t border-outline-variant/30">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">RIB Account Number</label>
+<input class="w-full bg-white border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary focus:outline-none transition-all font-body-md text-body-md font-mono" placeholder="007 99999 000000000000 00" type="text"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Sidebar Settings -->
+<section class="lg:col-span-4 space-y-8">
+<!-- Language Selection -->
+<div class="bg-surface-container-lowest p-8 rounded-xl canvas-shadow border border-outline-variant/30">
+<h2 class="font-label-md text-label-md text-on-surface uppercase tracking-wider mb-6">Language Selection</h2>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-high border border-outline-variant/50 cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="text-xl">🇫🇷</span>
+<span class="font-body-md text-body-md">Français</span>
+</div>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">radio_button_checked</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg border border-outline-variant/50 hover:bg-surface-container-low cursor-pointer transition-colors">
+<div class="flex items-center gap-3">
+<span class="text-xl">🇩🇿</span>
+<span class="font-body-md text-body-md">العربية</span>
+</div>
+<span class="material-symbols-outlined text-outline">radio_button_unchecked</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg border border-outline-variant/50 hover:bg-surface-container-low cursor-pointer transition-colors">
+<div class="flex items-center gap-3">
+<span class="text-xl">🇬🇧</span>
+<span class="font-body-md text-body-md">English</span>
+</div>
+<span class="material-symbols-outlined text-outline">radio_button_unchecked</span>
+</div>
+</div>
+</div>
+<!-- Security / System -->
+<div class="bg-surface-container-lowest p-8 rounded-xl canvas-shadow border border-outline-variant/30 text-center">
+<div class="mb-6 relative h-24 w-24 mx-auto">
+<img alt="Partner Profile Large" class="h-full w-full rounded-full border-4 border-surface-container-high object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABCkIKMlbydh9JbYhQs5NU3-w7CuNFXK9_vpl4_3r_B6Ddg5hsl79cf7G2f0eC_VKC0kcMNpibArLa4c3QYLR6dFGpCuhUzLFXNJstSe6Zh0t13486ve5SLUUp_Rj2v9P_SAuEzogNDSQ22Htw9XXmooWkLtr5mRAw8-813VeeueDfghVVbDzp4kSK4mO0nMNV8VXuiiz-Ky1ExsG2qXs38ZFJ_gBKTkv5uo4nzR8rB4tEip0FIHqlQbsstAPMs58eFHZ2lzYb-6s"/>
+<button class="absolute bottom-0 right-0 bg-primary text-on-primary p-2 rounded-full shadow-lg hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<p class="font-label-md text-label-md text-on-surface mb-1">Ahmed Mansouri</p>
+<p class="text-xs text-on-surface-variant mb-6">Partner since March 2024</p>
+<div class="flex flex-col gap-3">
+<button class="w-full flex items-center justify-center gap-2 py-3 rounded-lg border border-outline text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-sm">lock</span>
+                                Change Password
+                            </button>
+<button class="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-error/10 text-error font-label-md text-label-md hover:bg-error/20 transition-colors" onclick="window.location.href='discovery_page.html'">
+<span class="material-symbols-outlined text-sm">logout</span>
+                                Logout Account
+                            </button>
+</div>
+</div>
+<!-- Helper Card -->
+<div class="bg-tertiary-container text-on-tertiary-container p-6 rounded-xl relative overflow-hidden">
+<div class="relative z-10">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-3xl mb-4">info</span>
+<h3 class="font-headline-sm text-headline-sm mb-2 text-white">Need help?</h3>
+<p class="font-label-sm text-label-sm opacity-80 mb-4 text-white">Our partner support team is available 24/7 for any technical issues or payout questions.</p>
+<a class="text-white font-bold underline flex items-center gap-1 text-sm" href="#">
+                                Contact Support
+                                <span class="material-symbols-outlined text-xs">arrow_forward</span>
+</a>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined text-[120px]">support_agent</span>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="md:ml-64 bg-surface-container-lowest py-6 border-t border-outline-variant flex justify-between items-center px-margin-desktop w-full mt-auto">
+<div class="font-label-sm text-label-sm text-on-surface-variant">
+            © 2024 Safar DZ Tourism. All rights reserved.
+        </div>
+<div class="flex gap-6">
+<span class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary cursor-pointer transition-colors">Privacy Policy</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary cursor-pointer transition-colors">Terms of Service</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary cursor-pointer transition-colors">Partner Agreement</span>
+</div>
+</footer>
+<script>
+        // Micro-interaction for input focus
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.querySelector('label')?.classList.add('text-primary');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.querySelector('label')?.classList.remove('text-primary');
+            });
+        });
+
+        // Simple Language Toggle Simulation
+        const langItems = document.querySelectorAll('.language-option');
+        langItems.forEach(item => {
+            item.addEventListener('click', () => {
+                langItems.forEach(el => {
+                    el.classList.remove('bg-surface-container-high', 'border-primary/50');
+                    el.querySelector('.material-symbols-outlined').innerText = 'radio_button_unchecked';
+                    el.querySelector('.material-symbols-outlined').classList.remove('text-primary');
+                });
+                item.classList.add('bg-surface-container-high', 'border-primary/50');
+                item.querySelector('.material-symbols-outlined').innerText = 'radio_button_checked';
+                item.querySelector('.material-symbols-outlined').classList.add('text-primary');
+            });
+        });
+    </script>
+</body></html>

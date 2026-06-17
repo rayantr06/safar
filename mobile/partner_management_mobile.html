@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Safar Partner - Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#f0eee1",
+                    "inverse-on-surface": "#f3f1e4",
+                    "outline-variant": "#c4c6d5",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "on-surface": "#1b1c14",
+                    "on-secondary-fixed-variant": "#364571",
+                    "surface-container-high": "#eae9dc",
+                    "outline": "#747684",
+                    "secondary-container": "#bbcbff",
+                    "surface-variant": "#e5e3d6",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#513a00",
+                    "on-surface-variant": "#434653",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#465581",
+                    "error": "#ba1a1a",
+                    "on-background": "#1b1c14",
+                    "on-secondary": "#ffffff",
+                    "surface": "#fcfaed",
+                    "surface-container-low": "#f6f4e7",
+                    "inverse-primary": "#b4c5ff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "primary-fixed": "#dbe1ff",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-tertiary-fixed": "#261900",
+                    "on-primary-fixed": "#00174b",
+                    "tertiary-fixed-dim": "#fbbc1c",
+                    "inverse-surface": "#303129",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#b6c5f9",
+                    "surface-dim": "#dcdace",
+                    "surface-tint": "#2c57c0",
+                    "background": "#fcfaed",
+                    "primary": "#003693",
+                    "on-primary-fixed-variant": "#003ea7",
+                    "tertiary-fixed": "#ffdea1",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#1e4db6",
+                    "surface-bright": "#fcfaed",
+                    "on-secondary-fixed": "#061943",
+                    "secondary": "#4e5d8a",
+                    "on-tertiary-container": "#febf21",
+                    "surface-container-highest": "#e5e3d6",
+                    "tertiary-container": "#6e5000",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-container": "#b8c8ff",
+                    "on-error": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "container-max": "1280px",
+                    "margin-desktop": "40px",
+                    "gutter": "24px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Space Mono"],
+                    "display-lg": ["Space Mono"],
+                    "headline-sm": ["Space Mono"],
+                    "display-lg-mobile": ["Space Mono"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen pb-24">
+<!-- Top AppBar -->
+<header class="w-full top-0 sticky bg-surface dark:bg-surface-dim flex justify-between items-center px-margin-mobile py-4 w-full z-40">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Partner profile photo" class="w-full h-full object-cover" data-alt="A professional headshot of a friendly Mediterranean man in his 40s, wearing a crisp linen shirt against a soft-focus coastal background. The lighting is warm and natural, reflecting the golden hour by the sea in Béjaïa. The overall aesthetic is clean, trustworthy, and modern, aligning with a high-end travel platform's partner profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7qu4efT0Rcn2j_Ac7Me8GA6bEHFIrwJ_v1LhQ6JMNemWZWJ9dSfZv8jdY1hfvewH7ou0Af4LTj-H-SM-2-JXTLeKi9hWUWx-Vq-SBgtJJ-FlGGLxkqYidkCBO8d_VAcTLZwSOWT5FtquM1zALQ9A_bCkFXRGjkGrLTkFO-M4eQ9nkVSEckKPYJJw1haivjcOEJkKBWihakZS95w8odIvd7mwc7lVLYmEGci2zLSCXMsocrFyHV3l_7O405fVNTNENnxmYKzQ8xh4"/>
+</div>
+<h1 class="font-headline-sm text-headline-sm-mobile md:text-headline-sm text-primary dark:text-primary-fixed tracking-tight">Safar Partner</h1>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-150" onclick="window.location.href='notifications_mobile.html'">notifications</button>
+</header>
+<main class="px-margin-mobile mt-6">
+<!-- Overview Stats -->
+<section class="grid grid-cols-2 gap-4 mb-8">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-surface-variant">
+<p class="font-label-sm text-on-surface-variant mb-1">Total Fleet</p>
+<div class="flex items-end justify-between">
+<span class="font-headline-sm text-primary">12</span>
+<span class="text-[10px] text-tertiary-fixed-dim bg-tertiary-container px-2 py-0.5 rounded-full">+2 new</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-surface-variant">
+<p class="font-label-sm text-on-surface-variant mb-1">Active Now</p>
+<div class="flex items-end justify-between">
+<span class="font-headline-sm text-primary">8</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 bg-tertiary-fixed-dim rounded-full animate-pulse"></span>
+<span class="text-[10px] text-on-surface-variant">In Sea</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Search and Filter -->
+<section class="mb-6 space-y-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-outline-variant font-label-md" placeholder="Search partners or boat names..." type="text"/>
+</div>
+<div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+<button class="bg-primary text-white px-4 py-1.5 rounded-full font-label-md whitespace-nowrap" onclick="window.location.href='partner_management_mobile.html'">All Partners</button>
+<button class="bg-surface-container-high text-on-surface-variant px-4 py-1.5 rounded-full font-label-md whitespace-nowrap">Active Only</button>
+<button class="bg-surface-container-high text-on-surface-variant px-4 py-1.5 rounded-full font-label-md whitespace-nowrap">Maintenance</button>
+<button class="bg-surface-container-high text-on-surface-variant px-4 py-1.5 rounded-full font-label-md whitespace-nowrap">High Earners</button>
+</div>
+</section>
+<!-- Partner Directory List -->
+<section class="space-y-4">
+<h2 class="font-headline-sm text-headline-sm-mobile text-on-surface mb-4">Partner Directory</h2>
+<!-- Partner Item 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-variant hover:border-primary transition-colors">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-3">
+<div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">directions_boat</span>
+</div>
+<div>
+<h3 class="font-label-md text-on-surface">Captain Malik Z.</h3>
+<p class="text-[12px] text-on-surface-variant">Béjaïa Port • 3 Boats</p>
+</div>
+</div>
+<span class="px-2 py-1 bg-tertiary-container text-on-tertiary-container rounded text-[10px] font-bold uppercase tracking-wider">Active</span>
+</div>
+<div class="grid grid-cols-2 gap-4 py-3 border-y border-surface-variant">
+<div>
+<p class="text-[10px] uppercase text-outline font-bold tracking-tighter">Trips (MTD)</p>
+<p class="font-headline-sm text-on-surface text-[18px]">42</p>
+</div>
+<div>
+<p class="text-[10px] uppercase text-outline font-bold tracking-tighter">Revenue (MTD)</p>
+<p class="font-headline-sm text-primary text-[18px]">84,500 DZD</p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-4">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-white bg-slate-200 overflow-hidden">
+<img alt="Boat 1" class="w-full h-full object-cover" data-alt="A high-end white motorboat cruising through the turquoise waters of the Mediterranean Sea near the cliffs of Béjaïa. The scene is bright and airy with high-key lighting, emphasizing a luxury travel vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcbYmbfRCbHYKdPkG1qU_t_hXw9Rf1K0285jc9VXhohNzkRmGdPn7tZ32FbV9sknk1PuBggKJaL44B4zrEngplFqiG-sctZardxXy5HKqa-Rgo98lsGJgzW0F5sD76HCxIXEgm9xhTnaKRpJmAEoJMGpInYOcQwfx4wTnPgLUp2kOuHzCyCfgG23k4yX69ikAH8seLgQj-P72rynJi_uqgHHzYrttRsj3M3SUZ069f55NImX2iGD91KF5Er22qvdNzDhf8Ta6JvHk"/>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-slate-300 overflow-hidden">
+<img alt="Boat 2" class="w-full h-full object-cover" data-alt="A modern luxury yacht moored in a calm cove with crystal clear blue water. The sun reflects off the sleek hull, creating bright highlights. The style is crisp and premium, suitable for an upscale tourism marketplace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtXBsyhx__RZysXPgJOAT44e5j_ZjKWCACbwIZ74-HdfAyBSJquIkH9ymYpvGYirixJWfePmSBEo7_mt8GlzDCyDwtKKsSFY0aXpnr5xfg253uut9x9jx5Akje0smMyydSXebT6Tw_XRHSNo0O68i2MpguMrbRRm94h3x2HjhnzWlwRdawKqjltb0VMaEXwb5HDUY11ybx_qfjUZX3b8OnCj3Okd9gmNMFn7tra5EAx-hzUSQbn87A32LXpIuiOlNNL8UJrSEXoBs"/>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-primary text-white flex items-center justify-center text-[10px]">+1</div>
+</div>
+<a class="flex items-center gap-2 bg-[#25D366]/10 text-[#075E54] px-4 py-2 rounded-full font-label-md active:scale-95 transition-transform" href="https://wa.me/2130000000">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+<span>WhatsApp</span>
+</a>
+</div>
+</div>
+<!-- Partner Item 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-variant opacity-80">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-3">
+<div class="w-12 h-12 rounded-lg bg-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-outline">directions_boat</span>
+</div>
+<div>
+<h3 class="font-label-md text-on-surface">Ahmed Coastal Tours</h3>
+<p class="text-[12px] text-on-surface-variant">Tichy Beach • 1 Boat</p>
+</div>
+</div>
+<span class="px-2 py-1 bg-surface-variant text-on-surface-variant rounded text-[10px] font-bold uppercase tracking-wider">Maintenance</span>
+</div>
+<div class="grid grid-cols-2 gap-4 py-3 border-y border-surface-variant">
+<div>
+<p class="text-[10px] uppercase text-outline font-bold tracking-tighter">Trips (MTD)</p>
+<p class="font-headline-sm text-on-surface text-[18px]">15</p>
+</div>
+<div>
+<p class="text-[10px] uppercase text-outline font-bold tracking-tighter">Revenue (MTD)</p>
+<p class="font-headline-sm text-primary text-[18px]">28,200 DZD</p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-4">
+<span class="text-[12px] text-error flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-[14px]">build</span>
+                        Refit until Oct 12
+                    </span>
+<a class="flex items-center gap-2 bg-surface-variant text-on-surface-variant px-4 py-2 rounded-full font-label-md opacity-50" href="#">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+<span>WhatsApp</span>
+</a>
+</div>
+</div>
+<!-- Partner Item 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-variant hover:border-primary transition-colors">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-3">
+<div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">directions_boat</span>
+</div>
+<div>
+<h3 class="font-label-md text-on-surface">Yasmine Seawave</h3>
+<p class="text-[12px] text-on-surface-variant">Béjaïa Port • 5 Boats</p>
+</div>
+</div>
+<span class="px-2 py-1 bg-tertiary-container text-on-tertiary-container rounded text-[10px] font-bold uppercase tracking-wider">Active</span>
+</div>
+<div class="grid grid-cols-2 gap-4 py-3 border-y border-surface-variant">
+<div>
+<p class="text-[10px] uppercase text-outline font-bold tracking-tighter">Trips (MTD)</p>
+<p class="font-headline-sm text-on-surface text-[18px]">68</p>
+</div>
+<div>
+<p class="text-[10px] uppercase text-outline font-bold tracking-tighter">Revenue (MTD)</p>
+<p class="font-headline-sm text-primary text-[18px]">142,000 DZD</p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-4">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-white bg-slate-200"></div>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-slate-300"></div>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-slate-400"></div>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-primary text-white flex items-center justify-center text-[10px]">+2</div>
+</div>
+<a class="flex items-center gap-2 bg-[#25D366]/10 text-[#075E54] px-4 py-2 rounded-full font-label-md active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+<span>WhatsApp</span>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container-lowest dark:bg-surface-container-lowest shadow-[0_-4px_12px_rgba(0,54,147,0.05)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary transition-colors active:scale-90 duration-200" href="admin_dashboard_mobile.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary transition-colors active:scale-90 duration-200" href="admin_bookings_mobile.html">
+<span class="material-symbols-outlined">event_available</span>
+<span class="font-label-sm text-label-sm">Bookings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary transition-colors active:scale-90 duration-200" href="availability_admin_mobile.html">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-label-sm text-label-sm">Schedule</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-3 py-1 hover:text-primary transition-colors active:scale-90 duration-200" href="fleet_management_mobile.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">directions_boat</span>
+<span class="font-label-sm text-label-sm">Fleet</span>
+</a>
+</nav>
+<!-- Floating Action Button (FAB) - For adding a new partner/boat -->
+<button class="fixed right-6 bottom-24 w-14 h-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center hover:bg-primary-container active:scale-95 transition-all z-40">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</button>
+<script>
+        // Simple micro-interaction for list items
+        document.querySelectorAll('.bg-surface-container-lowest').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('touchend', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

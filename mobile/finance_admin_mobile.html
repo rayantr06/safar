@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Safar Partner Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#f0eee1",
+                    "inverse-on-surface": "#f3f1e4",
+                    "outline-variant": "#c4c6d5",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "on-surface": "#1b1c14",
+                    "on-secondary-fixed-variant": "#364571",
+                    "surface-container-high": "#eae9dc",
+                    "outline": "#747684",
+                    "secondary-container": "#bbcbff",
+                    "surface-variant": "#e5e3d6",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#513a00",
+                    "on-surface-variant": "#434653",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#465581",
+                    "error": "#ba1a1a",
+                    "on-background": "#1b1c14",
+                    "on-secondary": "#ffffff",
+                    "surface": "#fcfaed",
+                    "surface-container-low": "#f6f4e7",
+                    "inverse-primary": "#b4c5ff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "primary-fixed": "#dbe1ff",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-tertiary-fixed": "#261900",
+                    "on-primary-fixed": "#00174b",
+                    "tertiary-fixed-dim": "#fbbc1c",
+                    "inverse-surface": "#303129",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#b6c5f9",
+                    "surface-dim": "#dcdace",
+                    "surface-tint": "#2c57c0",
+                    "background": "#fcfaed",
+                    "primary": "#003693",
+                    "on-primary-fixed-variant": "#003ea7",
+                    "tertiary-fixed": "#ffdea1",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#1e4db6",
+                    "surface-bright": "#fcfaed",
+                    "on-secondary-fixed": "#061943",
+                    "secondary": "#4e5d8a",
+                    "on-tertiary-container": "#febf21",
+                    "surface-container-highest": "#e5e3d6",
+                    "tertiary-container": "#6e5000",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-container": "#b8c8ff",
+                    "on-error": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "container-max": "1280px",
+                    "margin-desktop": "40px",
+                    "gutter": "24px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Space Mono"],
+                    "display-lg": ["Space Mono"],
+                    "headline-sm": ["Space Mono"],
+                    "display-lg-mobile": ["Space Mono"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+            background-color: #fcfaed;
+        }
+        .bento-card {
+            background: #ffffff;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .bento-card:active {
+            transform: scale(0.98);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface">
+<!-- Top Navigation -->
+<header class="w-full top-0 sticky z-40 bg-surface dark:bg-surface-dim flex justify-between items-center px-margin-mobile py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/10">
+<img alt="Partner Profile" class="w-full h-full object-cover" data-alt="A professional portrait of a smiling Algerian tour guide against the backdrop of the Mediterranean Sea in Béjaïa. The lighting is warm and golden during the late afternoon, reflecting a welcoming and trustworthy brand persona. The aesthetic is clean and modern, highlighting Mediterranean hospitality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqCKc88mxFBsZ_mDVlMDPyeYx2gDy-oSJHDXbwCaD-Ag85coAwX5jNC7-VLoccjJysxS3dzyM0X2cT6Z6bHIqXheCf0nfR2IQPaTn15smOxcgWNwSvdiTmhpNG6UhiAjyhvKEro17hcSQrKeUR2WEWIZocO4IFayflOq3_42Q5PqPivbwAuRxY2ZmL25xL02y18cRfysdoM1B3Xu2cZLA6QItlNiSvhNNSw0lkCTwFe8Cr8spciXE87cVl05uhOWot2AQ_j2LpG2o"/>
+</div>
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed tracking-tight">Safar Partner</h1>
+</div>
+<button class="text-primary dark:text-primary-fixed hover:opacity-80 transition-opacity active:scale-95 duration-150" onclick="window.location.href='notifications_mobile.html'">
+<span class="material-symbols-outlined text-[28px]" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="px-margin-mobile pb-32 pt-4">
+<!-- KPI Section: Bento Grid -->
+<section class="grid grid-cols-2 gap-3 mb-8">
+<div class="bento-card col-span-2 p-5 rounded-3xl shadow-[0_4px_12px_rgba(0,54,147,0.05)] border border-surface-variant flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="text-on-surface-variant font-label-md text-label-md">Total Revenue</span>
+<span class="bg-primary-container/10 text-primary-container px-2 py-0.5 rounded-full text-[10px] font-bold">MONTHLY</span>
+</div>
+<div class="font-headline-md text-headline-md text-primary">124,500 <span class="text-body-md">DZD</span></div>
+</div>
+<div class="mt-4 flex items-center gap-2 text-green-600">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+<span class="font-label-sm text-label-sm">+12.4% vs last month</span>
+</div>
+</div>
+<div class="bento-card p-5 rounded-3xl shadow-[0_4px_12px_rgba(0,54,147,0.05)] border border-surface-variant">
+<span class="text-on-surface-variant font-label-sm text-label-sm">Commissions</span>
+<div class="font-headline-sm text-headline-sm text-on-surface mt-1">18,675 <span class="text-[12px]">DZD</span></div>
+<div class="h-1.5 w-full bg-surface-container rounded-full mt-3 overflow-hidden">
+<div class="h-full bg-tertiary-fixed-dim w-[15%]"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-2">15% platform fee</p>
+</div>
+<div class="bento-card p-5 rounded-3xl shadow-[0_4px_12px_rgba(0,54,147,0.05)] border border-surface-variant">
+<span class="text-on-surface-variant font-label-sm text-label-sm">Pending Payout</span>
+<div class="font-headline-sm text-headline-sm text-on-surface mt-1">42,300 <span class="text-[12px]">DZD</span></div>
+<div class="flex items-center gap-1 mt-3 text-tertiary">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+<span class="text-[10px] font-bold">EST. 3 DAYS</span>
+</div>
+</div>
+</section>
+<!-- Recent Transactions -->
+<section class="mb-8">
+<div class="flex justify-between items-center mb-4">
+<h2 class="font-headline-sm text-headline-sm-mobile text-on-surface">Recent Transactions</h2>
+<button class="text-primary font-label-md text-label-md">See All</button>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-4 bg-white rounded-2xl border border-surface-variant">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="directions_boat">directions_boat</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Private Yacht Tour</div>
+<div class="text-label-sm text-on-surface-variant">Oct 24, 14:20</div>
+</div>
+</div>
+<div class="text-right">
+<div class="font-label-md text-label-md text-primary">+15,000 DZD</div>
+<div class="text-[10px] text-green-600 font-bold">COMPLETED</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-white rounded-2xl border border-surface-variant">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-tertiary-container/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="scuba_diving">scuba_diving</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Cave Diving Exp.</div>
+<div class="text-label-sm text-on-surface-variant">Oct 23, 09:15</div>
+</div>
+</div>
+<div class="text-right">
+<div class="font-label-md text-label-md text-primary">+8,500 DZD</div>
+<div class="text-[10px] text-on-surface-variant font-bold">PENDING</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Partner Payout Management -->
+<section class="mb-8">
+<div class="bg-primary text-on-primary p-6 rounded-[32px] shadow-xl relative overflow-hidden">
+<!-- Decorative element -->
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-primary-container rounded-full opacity-20"></div>
+<h2 class="font-headline-sm text-headline-sm-mobile mb-4 relative z-10">Payout Management</h2>
+<div class="space-y-4 relative z-10">
+<div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl flex items-center justify-between">
+<div>
+<div class="text-white/70 text-label-sm">Next Scheduled Payout</div>
+<div class="font-headline-sm text-headline-sm-mobile">Oct 30, 2023</div>
+</div>
+<span class="material-symbols-outlined text-tertiary-fixed text-3xl" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex-1 bg-tertiary-fixed text-on-tertiary-fixed p-3 rounded-xl text-center">
+<div class="text-[10px] uppercase tracking-wider font-bold opacity-70">Current Balance</div>
+<div class="font-label-md text-label-md">56,200 DZD</div>
+</div>
+<button class="flex-[1.2] bg-white text-primary font-bold py-3 px-4 rounded-xl active:scale-95 transition-transform">
+                            SETTLE NOW
+                        </button>
+</div>
+</div>
+</div>
+<!-- Payout History / Status Badges -->
+<div class="mt-6 space-y-3">
+<div class="flex items-center justify-between p-3 border-b border-surface-variant">
+<div class="flex flex-col">
+<span class="text-on-surface font-label-md">Payout #8291</span>
+<span class="text-on-surface-variant text-[11px]">Oct 15, 2023</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<div class="font-label-md text-on-surface">45,000 DZD</div>
+</div>
+<span class="bg-green-100 text-green-700 px-2 py-1 rounded-lg text-[10px] font-bold">PAID</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 border-b border-surface-variant">
+<div class="flex flex-col">
+<span class="text-on-surface font-label-md">Payout #8211</span>
+<span class="text-on-surface-variant text-[11px]">Oct 01, 2023</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<div class="font-label-md text-on-surface">32,150 DZD</div>
+</div>
+<span class="bg-green-100 text-green-700 px-2 py-1 rounded-lg text-[10px] font-bold">PAID</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 border-b border-surface-variant">
+<div class="flex flex-col">
+<span class="text-on-surface font-label-md">Payout #8102</span>
+<span class="text-on-surface-variant text-[11px]">Sep 15, 2023</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<div class="font-label-md text-on-surface">18,400 DZD</div>
+</div>
+<span class="bg-error-container text-error px-2 py-1 rounded-lg text-[10px] font-bold">FAILED</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container-lowest dark:bg-surface-container-lowest shadow-[0_-4px_12px_rgba(0,54,147,0.05)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-3 py-1 active:scale-90 duration-200" href="admin_dashboard_mobile.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="admin_bookings_mobile.html">
+<span class="material-symbols-outlined" data-icon="event_available">event_available</span>
+<span class="font-label-sm text-label-sm">Bookings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="admin_bookings_mobile.html">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-sm text-label-sm">Schedule</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="fleet_management_mobile.html">
+<span class="material-symbols-outlined" data-icon="directions_boat">directions_boat</span>
+<span class="font-label-sm text-label-sm">Fleet</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for the "Settle Now" button
+        document.querySelector('button.bg-white').addEventListener('click', function() {
+            const originalText = this.innerText;
+            this.innerText = 'PROCESSING...';
+            this.disabled = true;
+            this.classList.add('opacity-70');
+            
+            setTimeout(() => {
+                this.innerText = 'SUCCESS!';
+                this.classList.replace('text-primary', 'text-green-600');
+                setTimeout(() => {
+                    this.innerText = originalText;
+                    this.disabled = false;
+                    this.classList.remove('opacity-70');
+                    this.classList.replace('text-green-600', 'text-primary');
+                }, 2000);
+            }, 1500);
+        });
+    </script>
+</body></html>

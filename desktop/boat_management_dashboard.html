@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Boats Management | Safar DZ Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface": "#fcfaed",
+                      "secondary": "#4e5d8a",
+                      "on-secondary-fixed": "#061943",
+                      "inverse-primary": "#b4c5ff",
+                      "primary": "#003693",
+                      "secondary-container": "#bbcbff",
+                      "on-secondary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "surface-container-high": "#eae9dc",
+                      "on-surface": "#1b1c14",
+                      "on-tertiary-fixed": "#261900",
+                      "surface-container-low": "#f6f4e7",
+                      "on-primary": "#ffffff",
+                      "surface-bright": "#fcfaed",
+                      "secondary-fixed": "#dbe1ff",
+                      "tertiary-fixed": "#ffdea1",
+                      "surface-container": "#f0eee1",
+                      "on-tertiary-fixed-variant": "#5c4300",
+                      "background": "#fcfaed",
+                      "surface-variant": "#e5e3d6",
+                      "primary-fixed": "#dbe1ff",
+                      "outline-variant": "#c4c6d5",
+                      "on-primary-fixed-variant": "#003ea7",
+                      "error": "#ba1a1a",
+                      "on-error-container": "#93000a",
+                      "primary-container": "#1e4db6",
+                      "on-secondary-container": "#465581",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "on-surface-variant": "#434653",
+                      "surface-dim": "#dcdace",
+                      "tertiary-container": "#6e5000",
+                      "tertiary": "#513a00",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "inverse-surface": "#303129",
+                      "outline": "#747684",
+                      "secondary-fixed-dim": "#b6c5f9",
+                      "inverse-on-surface": "#f3f1e4",
+                      "tertiary-fixed-dim": "#fbbc1c",
+                      "surface-container-highest": "#e5e3d6",
+                      "on-primary-fixed": "#00174b",
+                      "on-tertiary-container": "#febf21",
+                      "on-error": "#ffffff",
+                      "on-secondary-fixed-variant": "#364571",
+                      "on-primary-container": "#b8c8ff",
+                      "on-background": "#1b1c14",
+                      "surface-tint": "#2c57c0"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "40px",
+                      "margin-mobile": "16px",
+                      "base": "8px",
+                      "gutter": "24px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "label-md": ["Inter"],
+                      "display-lg-mobile": ["Space Mono"],
+                      "headline-sm": ["Space Mono"],
+                      "headline-md": ["Space Mono"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "display-lg": ["Space Mono"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex overflow-hidden">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-secondary dark:bg-on-secondary-fixed flex flex-col py-6 gap-2 shadow-xl z-50">
+<div class="px-6 mb-8">
+<h1 class="font-headline-sm text-headline-sm text-on-secondary">Safar DZ</h1>
+<p class="font-label-sm text-label-sm text-secondary-fixed opacity-70">Admin Console</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed hover:text-on-secondary mx-2 hover:bg-on-secondary-fixed-variant transition-all font-label-md text-label-md active:translate-x-1 duration-150" href="admin_command_center_final.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed hover:text-on-secondary mx-2 hover:bg-on-secondary-fixed-variant transition-all font-label-md text-label-md active:translate-x-1 duration-150" href="bookings_management_dashboard.html">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+                Bookings
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed hover:text-on-secondary mx-2 hover:bg-on-secondary-fixed-variant transition-all font-label-md text-label-md active:translate-x-1 duration-150" href="boat_owners_partners_management.html">
+<span class="material-symbols-outlined" data-icon="handshake">handshake</span>
+                Partners
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed hover:text-on-secondary mx-2 hover:bg-on-secondary-fixed-variant transition-all font-label-md text-label-md active:translate-x-1 duration-150" href="activities_catalog.html">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+                Experiences
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed hover:text-on-secondary mx-2 hover:bg-on-secondary-fixed-variant transition-all font-label-md text-label-md active:translate-x-1 duration-150" href="finance_commissions_dashboard.html">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+                Finance
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg mx-2 transition-all font-label-md text-label-md active:translate-x-1 duration-150" href="boat_management_dashboard.html">
+<span class="material-symbols-outlined" data-icon="directions_boat">directions_boat</span>
+                Boats Management
+            </a>
+</nav>
+<div class="mt-auto border-t border-on-secondary-fixed-variant pt-4 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed hover:text-on-secondary mx-2 hover:bg-on-secondary-fixed-variant transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                Support
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed hover:text-on-secondary mx-2 hover:bg-on-secondary-fixed-variant transition-all font-label-md text-label-md" href="discovery_page.html">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Sign Out
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 flex-1 flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar Shell -->
+<header class="flex justify-between items-center px-margin-desktop w-full h-16 bg-surface dark:bg-surface-dim shadow-sm z-40">
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="absolute inset-y-0 left-3 flex items-center text-outline">
+<span class="material-symbols-outlined text-[20px]" data-icon="search">search</span>
+</span>
+<input class="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-label-sm w-64 focus:ring-2 focus:ring-primary" placeholder="Global search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-200" onclick="window.location.href='notifications_center.html'">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-200" onclick="window.location.href='partner_settings.html'">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden lg:block">
+<p class="text-label-md font-bold text-on-surface">Admin User</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Super Admin</p>
+</div>
+<img alt="Admin Profile Avatar" class="w-10 h-10 rounded-full border-2 border-primary-container object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCh0Bww_RkvD_f8nESUoaCrDb1AKqRFjoYYT_Nw-toiPGRiVJpUzzr6LZJH_oDLzC6j2H_PISVcRBensDgyANQWO8KJwNUsNUvFMFbOR3-oxjRt_YJnM3wy8AED-cEyKoOJxuIzqv3AMLpTwjnl6oTCXNmj6CKm09kLBBaJZGoF8mWlLwPI7g68uXxHIZMDFE9HBriFETJuwc4xnG-ZQtQOGj7JLPUDkf6vR36v6vKuEO124NMZzuR2ECxNlSq1gn9nKrGRs-hQAp8"/>
+</div>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-margin-desktop space-y-gutter pb-24">
+<!-- Page Header -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Boats Management</h2>
+<p class="text-body-md text-on-surface-variant">Manage every boat available for Safar DZ experiences.</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-3 rounded-xl flex items-center gap-2 hover:shadow-lg transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="font-label-md">Add Boat</span>
+</button>
+</div>
+<!-- Overview Cards Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 group hover:border-primary transition-colors">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary-container/10 rounded-lg text-primary">
+<span class="material-symbols-outlined" data-icon="directions_boat">directions_boat</span>
+</div>
+<span class="text-label-sm text-on-surface-variant font-medium">Total Fleet</span>
+</div>
+<div class="font-headline-md text-headline-md font-bold font-display-lg text-on-surface">52</div>
+<div class="mt-2 text-label-sm text-on-surface-variant">+4 since last month</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 group hover:border-primary transition-colors">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-tertiary-container/10 rounded-lg text-tertiary">
+<span class="material-symbols-outlined" data-icon="sailing">sailing</span>
+</div>
+<span class="text-label-sm text-on-surface-variant font-medium">Active Today</span>
+</div>
+<div class="font-headline-md text-headline-md font-bold font-display-lg text-on-surface">38</div>
+<div class="mt-2 text-label-sm text-on-surface-variant">73% occupancy rate</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 group hover:border-primary transition-colors">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-error-container/10 rounded-lg text-error">
+<span class="material-symbols-outlined" data-icon="build">build</span>
+</div>
+<span class="text-label-sm text-on-surface-variant font-medium">Under Maintenance</span>
+</div>
+<div class="font-headline-md text-headline-md font-bold font-display-lg text-on-surface">03</div>
+<div class="mt-2 text-label-sm text-error">2 critical, 1 scheduled</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 group hover:border-primary transition-colors">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-secondary-container/10 rounded-lg text-secondary">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+</div>
+<span class="text-label-sm text-on-surface-variant font-medium">Total Capacity</span>
+</div>
+<div class="font-headline-md text-headline-md font-bold font-display-lg text-on-surface">420</div>
+<div class="mt-2 text-label-sm text-on-surface-variant">Max concurrent pax</div>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="bg-surface-container p-4 rounded-2xl flex flex-wrap gap-4 items-center border border-outline-variant/50">
+<div class="relative flex-1 min-w-[240px]">
+<span class="absolute inset-y-0 left-3 flex items-center text-outline">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-xl pl-10 pr-4 py-2.5 text-body-md focus:ring-2 focus:ring-primary focus:border-transparent outline-none" placeholder="Search by boat name or owner..." type="text"/>
+</div>
+<div class="flex gap-2">
+<select class="bg-surface-container-lowest border border-outline-variant rounded-xl px-4 py-2.5 text-label-md font-semibold outline-none focus:ring-2 focus:ring-primary">
+<option>Boat Type</option>
+<option>Small Boat</option>
+<option>Private Yacht</option>
+<option>Shared Ferry</option>
+</select>
+<select class="bg-surface-container-lowest border border-outline-variant rounded-xl px-4 py-2.5 text-label-md font-semibold outline-none focus:ring-2 focus:ring-primary">
+<option>Capacity</option>
+<option>1-5 People</option>
+<option>6-12 People</option>
+<option>13+ People</option>
+</select>
+<select class="bg-surface-container-lowest border border-outline-variant rounded-xl px-4 py-2.5 text-label-md font-semibold outline-none focus:ring-2 focus:ring-primary">
+<option>Status</option>
+<option>Active</option>
+<option>Offline</option>
+<option>Maintenance</option>
+</select>
+</div>
+<button class="bg-surface-container-high text-on-surface p-2.5 rounded-xl hover:bg-outline-variant transition-colors">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+</button>
+</div>
+<!-- Boat Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Boat Card 1 -->
+<a class="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm border-2 border-primary ring-4 ring-primary/5 cursor-pointer transition-all hover:shadow-xl" onclick="toggleDetails()" href="reviews_reputation_management.html">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A professional, high-end photograph of a sleek small white boat named Sea Explorer cruising through the crystal clear turquoise waters of the Bejaia coast in Algeria. The lighting is bright and warm, reflecting the Mediterranean sun, and the boat's white hull contrasts beautifully against the deep blue and emerald green sea. The atmosphere is energetic yet serene, embodying a premium startup tourism aesthetic with soft shadows and sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoeXEebHtjsKft0ZuMHlmSNePKBWWraZDWSGpplyyfzTJBPbcGMUcGO5hhL5qWKonDikxiG98o0nU8XwUBaBeih20_YkNGaQQT0HJwvHHkJRo_7z4Etx7YpYyvnLnno6pyZgPaFhZQ0GNiud01tAeE1jPmQ2mciRgYAAriD2LbsiglbcSzaINQm3qbaIEqASSfBZ1fzoZEeGhusIt3LukaZnzwttPJHSHC2yvR04H_vJIMUlcyCkKu5sYT1MmUqb7HgBznwW8ZYdA"/>
+<div class="absolute top-4 right-4 bg-tertiary text-on-tertiary px-3 py-1 rounded-full text-label-sm flex items-center gap-1 shadow-md">
+<span class="material-symbols-outlined text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+                            4.8
+                        </a>
+<div class="absolute bottom-4 left-4">
+<span class="bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest shadow-sm">Active</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Sea Explorer</h3>
+<div class="text-right">
+<span class="font-display-lg text-label-md text-primary font-bold">20,000 DA</span>
+<p class="text-[10px] text-on-surface-variant uppercase">Starting price</p>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="person">person</span>
+<span class="text-label-md">Owner: Amine</span>
+</div>
+<div class="flex items-center gap-4 border-t border-outline-variant/30 pt-3">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="group">group</span>
+<span class="text-label-sm">8 People</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span>
+<span class="text-label-sm">Béjaïa</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="category">category</span>
+<span class="text-label-sm">Small</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Boat Card 2 -->
+<a class="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm border border-outline-variant/30 cursor-pointer transition-all hover:shadow-xl" href="experiences_catalog_management.html">
+<div class="relative h-48 overflow-hidden grayscale-[0.5]">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A luxurious private blue yacht named Blue Wave anchored in the calm waters of Tichy, Bejaia. The photograph captures the boat at golden hour, with warm, soft orange light hitting the sleek blue and white surfaces. The Mediterranean coastal scenery in the background is slightly blurred to focus on the yacht's details. The overall mood is high-end, premium, and tranquil, with a professional color palette emphasizing soft periwinkle and deep navy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0fqyIDxU8ikS3iANkUbi1KFEt-KpUkV_fJK9x0XY92ecc5uqBBOpPh3nclBEg8yQKlgoOnQ73iRZ0O8i5jGSFp4zfBj645s8X0L0Z96PI7kcl2OzMgkf5rZjYo2OF5gwaxFrTKbBFWQOJUAg8I8V7EvXDDvPDPVbFov-C1WbEvy6nBSMhBF5afgwxjRY7fg25uo6vPt55M1eZaIgcd6SxghaizRmwvSYgs0fJqrY3Nb4Fkc2NUtCVJwKWt-1E5Zi12eqsjZvZAU8"/>
+<div class="absolute bottom-4 left-4">
+<span class="bg-outline text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest shadow-sm">Offline</span>
+</a>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Blue Wave</h3>
+<div class="text-right">
+<span class="font-display-lg text-label-md text-primary font-bold">45,000 DA</span>
+<p class="text-[10px] text-on-surface-variant uppercase">Starting price</p>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="person">person</span>
+<span class="text-label-md">Owner: Salim</span>
+</div>
+<div class="flex items-center gap-4 border-t border-outline-variant/30 pt-3">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="group">group</span>
+<span class="text-label-sm">12 People</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span>
+<span class="text-label-sm">Tichy</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="category">category</span>
+<span class="text-label-sm">Private</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Boat Card 3 -->
+<a class="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm border border-outline-variant/30 cursor-pointer transition-all hover:shadow-xl" href="experiences_catalog_management.html">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A larger shared wooden ferry-style boat named Gouraya Express docked at the Bejaia port. The photo is taken from a low angle, showing the sturdy construction and traditional Algerian marine craftsmanship. The morning light is cool and crisp, casting soft shadows across the deck. The background shows the bustling activity of the port with a clear blue sky. The visual style is documentary yet vibrant, showing professional tourism infrastructure." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnEOYJfCA8Fgu-Zpk9SpNa-5onexgq8TEeSIf9eAYMsFR8lwEi2gynpzZLbEFWohGI2Wux8mZkjtdND4J_lRchrlhqp2K9SInYism1hfEdEqwdMqWS8KHalUUFTXPO4kYPeD8aa5c4FXUgPbA0eKpm99wrP5Ou_rVkZ20s8uVVOWljsujmrJVCIOZi7TSUtWKT-7HRY6uEsQSYlAitJEJXcVu8lFU9GqqLN_tRPCZ4sTLSUxcRRW-jpk6AWrtam01CYJNAM1hIBCE"/>
+<div class="absolute bottom-4 left-4">
+<span class="bg-tertiary text-on-tertiary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest shadow-sm">Maintenance</span>
+</a>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Gouraya Express</h3>
+<div class="text-right">
+<span class="font-display-lg text-label-md text-primary font-bold">12,000 DA</span>
+<p class="text-[10px] text-on-surface-variant uppercase">Starting price</p>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="person">person</span>
+<span class="text-label-md">Owner: Yacine</span>
+</div>
+<div class="flex items-center gap-4 border-t border-outline-variant/30 pt-3">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="group">group</span>
+<span class="text-label-sm">15 People</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span>
+<span class="text-label-sm">Béjaïa</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="category">category</span>
+<span class="text-label-sm">Shared</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Shell -->
+<footer class="mt-12 flex justify-between items-center py-6 border-t border-outline-variant">
+<p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Safar DZ. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Legal Notice</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Support Center</a>
+</div>
+</footer>
+</div>
+</main>
+<!-- Side Detail Panel (Overlay style) -->
+<div class="fixed inset-y-0 right-0 w-[450px] bg-white shadow-2xl z-[60] transform translate-x-full transition-transform duration-500 flex flex-col" id="boatDetailPanel">
+<div class="flex-1 overflow-y-auto custom-scrollbar">
+<!-- Header -->
+<div class="relative h-64">
+<img class="w-full h-full object-cover" data-alt="Close-up detailed shot of the Sea Explorer boat's helm and seating area, showcasing premium leather upholstery and modern navigation equipment. The lighting is warm morning sun, casting long elegant shadows across the deck. The background shows the sparkling Mediterranean sea of Bejaia. Professional, clean, and inviting commercial travel photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa5GD8-sHeLcNsWZL8C4TfhZELreyET5_z_9zWyU9DnXdrGTri2V9Xv_gFiCV3oitwnJiSxxIvEFLzvm41x5rwKL2pHaqLN0VyuFOSfP-anLyGNBQU66sphS8OaA2Xr0KxoDeni1zO10THP9ue_ZLEXkehKZZ6HpNWu0M5AdvRkxoD892HjYLT6RGOZLJxEEnWoNTCY-Tp7_j4K2IyWZzknRY22gD5yEDcjOHgcBFn-cBDaZ_Ze-NiYuddAYtKF3iCxBPhF02JGMY"/>
+<button class="absolute top-4 left-4 bg-white/20 backdrop-blur-md text-white p-2 rounded-full hover:bg-white/40 transition-all" onclick="toggleDetails()">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<div class="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black/80 to-transparent text-white">
+<h3 class="font-headline-sm text-headline-sm">Sea Explorer</h3>
+<p class="text-label-md flex items-center gap-1 opacity-90">
+<span class="material-symbols-outlined text-[18px]" data-icon="person">person</span>
+                        Owner: Amine Benkherouf
+                    </p>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex border-b border-outline-variant">
+<button class="flex-1 py-4 flex items-center justify-center gap-2 font-label-md text-primary hover:bg-surface transition-colors border-r border-outline-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span> Edit
+                </button>
+<button class="flex-1 py-4 flex items-center justify-center gap-2 font-label-md text-on-surface-variant hover:bg-surface transition-colors border-r border-outline-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="block">block</span> Disable
+                </button>
+<button class="flex-1 py-4 flex items-center justify-center gap-2 font-label-md text-on-surface-variant hover:bg-surface transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="chat">chat</span> Contact
+                </button>
+</div>
+<div class="p-8 space-y-8">
+<!-- Info Grid -->
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-1">
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">Capacity</p>
+<p class="font-headline-sm text-on-surface font-display-lg">08 <span class="text-label-sm font-body-md text-on-surface-variant">pax</span></p>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">Type</p>
+<p class="text-body-lg text-on-surface font-semibold">Small Boat</p>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">Engine</p>
+<p class="text-body-lg text-on-surface font-semibold">Yamaha 150HP</p>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">Port</p>
+<p class="text-body-lg text-on-surface font-semibold">Béjaïa Marina</p>
+</div>
+</div>
+<!-- Pricing -->
+<div class="space-y-4">
+<h4 class="text-label-md font-bold text-on-surface">Standard Pricing</h4>
+<div class="space-y-2">
+<div class="flex justify-between items-center p-3 bg-surface-container rounded-xl">
+<span class="text-body-md">2 Hours Exploration</span>
+<span class="font-display-lg text-primary font-bold">20,000 DA</span>
+</div>
+<div class="flex justify-between items-center p-3 bg-surface-container rounded-xl">
+<span class="text-body-md">4 Hours Half-Day</span>
+<span class="font-display-lg text-primary font-bold">35,000 DA</span>
+</div>
+</div>
+</div>
+<!-- Experiences -->
+<div class="space-y-4">
+<h4 class="text-label-md font-bold text-on-surface">Connected Experiences</h4>
+<div class="flex flex-wrap gap-2">
+<span class="bg-primary-container/10 text-primary px-3 py-1 rounded-full text-label-sm">Cap Carbon Discovery</span>
+<span class="bg-primary-container/10 text-primary px-3 py-1 rounded-full text-label-sm">Gouraya Sunset</span>
+<span class="bg-primary-container/10 text-primary px-3 py-1 rounded-full text-label-sm">Coastal Picnic</span>
+</div>
+</div>
+<!-- Performance -->
+<div class="bg-on-secondary-fixed text-white p-6 rounded-3xl space-y-4">
+<h4 class="text-label-md font-bold opacity-70">Lifetime Performance</h4>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<p class="text-[10px] uppercase opacity-50 font-bold">Total Trips</p>
+<p class="font-display-lg text-headline-sm">120</p>
+</div>
+<div>
+<p class="text-[10px] uppercase opacity-50 font-bold">Rating</p>
+<p class="font-display-lg text-headline-sm flex items-center gap-1">4.8 <span class="material-symbols-outlined text-tertiary-fixed text-[18px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span></p>
+</div>
+<div class="col-span-2 pt-2 border-t border-white/10">
+<p class="text-[10px] uppercase opacity-50 font-bold">Revenue Generated</p>
+<p class="font-display-lg text-headline-md text-tertiary-fixed">2.4M <span class="text-label-sm font-body-md opacity-70">DA</span></p>
+</div>
+</div>
+</div>
+<!-- Availability Calendar -->
+<div class="space-y-4 pb-8">
+<div class="flex justify-between items-center">
+<h4 class="text-label-md font-bold text-on-surface">Availability</h4>
+<span class="text-label-sm text-on-surface-variant">November 2024</span>
+</div>
+<div class="grid grid-cols-7 gap-1 text-center">
+<!-- Tiny Calendar Logic -->
+<div class="text-[10px] font-bold text-on-surface-variant uppercase p-1">Mo</div>
+<div class="text-[10px] font-bold text-on-surface-variant uppercase p-1">Tu</div>
+<div class="text-[10px] font-bold text-on-surface-variant uppercase p-1">We</div>
+<div class="text-[10px] font-bold text-on-surface-variant uppercase p-1">Th</div>
+<div class="text-[10px] font-bold text-on-surface-variant uppercase p-1">Fr</div>
+<div class="text-[10px] font-bold text-on-surface-variant uppercase p-1">Sa</div>
+<div class="text-[10px] font-bold text-on-surface-variant uppercase p-1">Su</div>
+<!-- Sample Dates -->
+<div class="p-2 text-label-sm text-on-surface-variant opacity-30">28</div>
+<div class="p-2 text-label-sm text-on-surface-variant opacity-30">29</div>
+<div class="p-2 text-label-sm text-on-surface-variant opacity-30">30</div>
+<div class="p-2 text-label-sm text-on-surface-variant opacity-30">31</div>
+<div class="p-2 text-label-sm bg-primary text-white rounded-lg font-bold">1</div>
+<div class="p-2 text-label-sm bg-primary text-white rounded-lg font-bold">2</div>
+<div class="p-2 text-label-sm bg-primary text-white rounded-lg font-bold">3</div>
+<!-- ... more dates ... -->
+<div class="p-2 text-label-sm hover:bg-surface-container rounded-lg cursor-pointer">4</div>
+<div class="p-2 text-label-sm hover:bg-surface-container rounded-lg cursor-pointer">5</div>
+<div class="p-2 text-label-sm bg-error/10 text-error rounded-lg font-bold">6</div>
+<div class="p-2 text-label-sm bg-error/10 text-error rounded-lg font-bold">7</div>
+<div class="p-2 text-label-sm hover:bg-surface-container rounded-lg cursor-pointer">8</div>
+<div class="p-2 text-label-sm hover:bg-surface-container rounded-lg cursor-pointer">9</div>
+<div class="p-2 text-label-sm hover:bg-surface-container rounded-lg cursor-pointer">10</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Background Overlay for Detail Panel -->
+<div class="fixed inset-0 bg-black/40 z-[55] hidden opacity-0 transition-opacity duration-500" id="panelOverlay" onclick="toggleDetails()"></div>
+<script>
+        function toggleDetails() {
+            const panel = document.getElementById('boatDetailPanel');
+            const overlay = document.getElementById('panelOverlay');
+            
+            if (panel.classList.contains('translate-x-full')) {
+                panel.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.add('opacity-100'), 10);
+            } else {
+                panel.classList.add('translate-x-full');
+                overlay.classList.remove('opacity-100');
+                setTimeout(() => overlay.classList.add('hidden'), 500);
+            }
+        }
+    </script>
+</body></html>

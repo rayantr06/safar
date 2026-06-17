@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Earnings &amp; Finance | Safar DZ Partner</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#364571",
+                        "on-background": "#1b1c14",
+                        "outline": "#747684",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#261900",
+                        "inverse-surface": "#303129",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#eae9dc",
+                        "secondary-container": "#bbcbff",
+                        "tertiary": "#513a00",
+                        "surface-bright": "#fcfaed",
+                        "tertiary-fixed": "#ffdea1",
+                        "surface-dim": "#dcdace",
+                        "on-tertiary-container": "#febf21",
+                        "surface-container": "#f0eee1",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "surface-container-highest": "#e5e3d6",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#434653",
+                        "surface-tint": "#2c57c0",
+                        "on-secondary-container": "#465581",
+                        "surface": "#fcfaed",
+                        "primary-container": "#1e4db6",
+                        "on-primary": "#ffffff",
+                        "background": "#fcfaed",
+                        "tertiary-fixed-dim": "#fbbc1c",
+                        "primary-fixed": "#dbe1ff",
+                        "tertiary-container": "#6e5000",
+                        "on-error": "#ffffff",
+                        "on-surface": "#1b1c14",
+                        "primary": "#003693",
+                        "on-error-container": "#93000a",
+                        "secondary": "#4e5d8a",
+                        "on-primary-container": "#b8c8ff",
+                        "inverse-on-surface": "#f3f1e4",
+                        "on-secondary-fixed": "#061943",
+                        "secondary-fixed-dim": "#b6c5f9",
+                        "outline-variant": "#c4c6d5",
+                        "secondary-fixed": "#dbe1ff",
+                        "inverse-primary": "#b4c5ff",
+                        "surface-container-low": "#f6f4e7",
+                        "on-primary-fixed-variant": "#003ea7",
+                        "on-primary-fixed": "#00174b",
+                        "surface-variant": "#e5e3d6",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg-mobile": ["Space Mono"],
+                        "headline-sm": ["Space Mono"],
+                        "headline-md": ["Space Mono"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Space Mono"],
+                        "body-md": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -10px rgba(0, 54, 147, 0.15);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-outline-variant flex-col p-4 space-y-2 z-50">
+<div class="px-4 py-6 mb-4">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Safar DZ</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Partner Portal</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-70">Béjaïa, DZ</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="bg-primary-container text-on-primary-container font-bold rounded-lg flex items-center gap-3 px-4 py-3 transition-all duration-200" href="earnings_finance.html">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Earnings</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg flex items-center gap-3 px-4 py-3 transition-all duration-200" href="customers_directory.html">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Customers</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg flex items-center gap-3 px-4 py-3 transition-all duration-200" href="boat_management.html">
+<span class="material-symbols-outlined">directions_boat</span>
+<span class="font-label-md text-label-md">Boat Management</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg flex items-center gap-3 px-4 py-3 transition-all duration-200" href="availability_control.html">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-label-md text-label-md">Availability</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg flex items-center gap-3 px-4 py-3 transition-all duration-200" href="notifications_center.html">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-md text-label-md">Notifications</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg flex items-center gap-3 px-4 py-3 transition-all duration-200" href="business_reports.html">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg flex items-center gap-3 px-4 py-3 transition-all duration-200" href="partner_settings.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 space-y-1">
+<button class="w-full bg-primary text-on-primary font-bold py-3 rounded-xl flex items-center justify-center gap-2 mb-4 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined">add</span>
+<span class="font-label-md text-label-md">Add New Boat</span>
+</button>
+<a class="text-on-surface-variant hover:text-on-surface flex items-center gap-3 px-4 py-3 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface flex items-center gap-3 px-4 py-3 rounded-lg transition-all" href="discovery_page.html">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full h-16 flex justify-between items-center px-6 md:px-margin-desktop bg-surface shadow-sm border-b border-outline-variant sticky top-0 z-40">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary">Earnings &amp; Finance</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center bg-surface-container-high px-4 py-2 rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-label-md font-label-md w-48" placeholder="Search transactions..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-high p-2 rounded-full transition-colors">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-high p-2 rounded-full transition-colors">help</span>
+<div class="h-8 w-8 rounded-full bg-secondary-container overflow-hidden border border-outline-variant">
+<img alt="Partner profile picture" data-alt="Close-up portrait of a professional tour operator in Béjaïa smiling at the camera, wearing a clean white linen shirt against a backdrop of a blurred coastal marina. The lighting is warm golden hour sunlight, creating a high-end, trustworthy, and welcoming partner profile visual for a Mediterranean travel portal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDro9IQcyEFSLdZzA3mrX_inR7lm9C4E5SCxXLs8WTIj6r5ylK7s-d5vCDzZOxljWBU12ltN5_75QPogG9iO2vidWmwiBEHC1ElxuIayhbqSPIiUZfSE4eREG7ditl19zk0D1qaXU7FRucN1B5ClyX2tyU88kvSOC2UWH_gefXwJoAr1l7g_tWHhTUY-ny7AUeQG-i9RkxLPOVJMmEWNaXmH-MpLpxAMxmEjK2hVJS0ural_zAV_42_UQ3QcQRvTtfLtfBUL3FIvFA"/>
+</div>
+</div>
+</div>
+</header>
+<section class="p-6 md:p-margin-desktop space-y-12 max-w-container-max mx-auto w-full">
+<!-- Earnings Overview: Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bento-card p-6 bg-surface-container-lowest rounded-2xl border border-outline-variant flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label-md text-label-md">Today</span>
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-lg">event</span>
+</div>
+<div>
+<p class="font-headline-md text-headline-md text-primary tracking-tight">12,450 DA</p>
+<p class="text-on-tertiary-container font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> +8% from yesterday
+                        </p>
+</div>
+</div>
+<div class="bento-card p-6 bg-surface-container-lowest rounded-2xl border border-outline-variant flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label-md text-label-md">This Week</span>
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-lg">date_range</span>
+</div>
+<div>
+<p class="font-headline-md text-headline-md text-primary tracking-tight">84,200 DA</p>
+<p class="text-on-tertiary-container font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> +12.5% from last week
+                        </p>
+</div>
+</div>
+<div class="bento-card p-6 bg-surface-container-lowest rounded-2xl border border-outline-variant flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label-md text-label-md">This Month</span>
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-lg">calendar_today</span>
+</div>
+<div>
+<p class="font-headline-md text-headline-md text-primary tracking-tight">342,000 DA</p>
+<p class="text-on-surface-variant font-label-sm text-label-sm">42 total bookings</p>
+</div>
+</div>
+<div class="bento-card p-6 bg-primary text-on-primary rounded-2xl border border-primary flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="font-label-md text-label-md opacity-80">Total Earnings</span>
+<span class="material-symbols-outlined bg-white/20 p-2 rounded-lg" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+<div>
+<p class="font-headline-md text-headline-md text-white tracking-tight">1,850,000 DA</p>
+<p class="font-label-sm text-label-sm opacity-80">Since March 2024</p>
+</div>
+</div>
+</div>
+<!-- Commission & Net Breakdown Panel -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 glass-panel p-8 rounded-3xl border border-primary/20 shadow-xl overflow-hidden relative">
+<div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Commission Breakdown</h3>
+<p class="text-on-surface-variant font-body-md text-body-md">Transparency on your revenue share</p>
+</div>
+<div class="bg-surface-container-highest px-4 py-2 rounded-xl flex items-center gap-2 border border-outline-variant">
+<span class="material-symbols-outlined text-primary">calendar_month</span>
+<span class="font-label-md text-label-md">June 2024</span>
+</div>
+</div>
+<div class="space-y-6">
+<!-- Revenue Bar Visual -->
+<div class="w-full space-y-2">
+<div class="flex justify-between text-label-md font-label-md px-1">
+<span>Gross Revenue</span>
+<span class="font-bold">420,000 DA</span>
+</div>
+<div class="h-6 w-full bg-surface-container-high rounded-full overflow-hidden flex">
+<div class="h-full bg-primary flex items-center justify-center text-[10px] font-bold text-white transition-all duration-1000" style="width: 85%">85% NET</div>
+<div class="h-full bg-tertiary-fixed-dim flex items-center justify-center text-[10px] font-bold text-tertiary transition-all duration-1000" style="width: 15%">15% FEE</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+<div class="p-4 rounded-2xl bg-surface-container-low border border-outline-variant">
+<p class="text-on-surface-variant font-label-sm text-label-sm mb-1 uppercase tracking-wider">Total Sales</p>
+<p class="font-headline-sm text-headline-sm text-on-surface">420,000 DA</p>
+</div>
+<div class="p-4 rounded-2xl bg-surface-container-low border border-outline-variant">
+<p class="text-on-surface-variant font-label-sm text-label-sm mb-1 uppercase tracking-wider">Safar Fee (15%)</p>
+<p class="font-headline-sm text-headline-sm text-tertiary">- 63,000 DA</p>
+</div>
+<div class="p-4 rounded-2xl bg-primary-container text-on-primary-container border border-primary">
+<p class="opacity-80 font-label-sm text-label-sm mb-1 uppercase tracking-wider">Your Net Payout</p>
+<p class="font-headline-sm text-headline-sm font-bold">357,000 DA</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Atmospheric Ad/Stat Card -->
+<div class="rounded-3xl overflow-hidden relative min-h-[300px] flex items-end p-8 border border-outline-variant group">
+<img alt="Boat in water" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Dramatic high-angle shot of a luxurious white motorboat cutting through the deep turquoise waters of the Mediterranean Sea near Béjaïa. The wake of the boat creates sparkling white foam under a bright, clear sky. The overall aesthetic is high-energy, aspirational, and clean, perfectly matching a modern tourism brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYI0CTjVdqZHV7ExRhBSfrm8BAIVZUYQzN4FPd5mTqGRlBmm4xGHHh7IJ2LEEw0lnLsCI9rvItZW1LuwQGmNb9Ot8NUX6H-2HjdUh5zEl8oOZyKH4z3-1c_35c3IUDgqBrwHztFkNjz3DK6OA5xa_57TcGxkPBIuRfqC5bBDOZY2nIEYDpW4YUMvP0y7IK1SpBAt8VC4BCIn2wrDf-wE2J9jbU0WYMeSaMknExpliJa-2Bh35soypBiINOkDQADFGL6xZmNhXyzTc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent"></div>
+<div class="relative z-10 text-white space-y-2">
+<div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-label-sm font-label-sm">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">insights</span>
+                            Peak Season Alert
+                        </div>
+<h4 class="font-headline-sm text-headline-sm">Earnings projected to grow 40% next month.</h4>
+<p class="font-body-md text-body-md opacity-80">Booking demand for Béjaïa coastal tours is at an all-time high.</p>
+</div>
+</div>
+</div>
+<!-- Transaction History -->
+<div class="space-y-6">
+<div class="flex justify-between items-end">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Payout Activity</h3>
+<p class="text-on-surface-variant font-body-md text-body-md">Real-time status of your financial transactions</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-surface-container-high rounded-lg text-label-md font-label-md hover:bg-surface-container-highest transition-colors border border-outline-variant">Download Statement</button>
+<button class="px-4 py-2 bg-surface-container-high rounded-lg text-label-md font-label-md hover:bg-surface-container-highest transition-colors border border-outline-variant">Filter</button>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-3xl border border-outline-variant overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low border-b border-outline-variant">
+<tr>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant">Date</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant">Transaction ID</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant">Boat / Service</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant">Gross Amount</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant">Status</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant text-right">Net Payout</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface transition-colors">
+<td class="px-8 py-5 font-body-md text-body-md">Jun 14, 2024</td>
+<td class="px-8 py-5 font-label-md text-label-md text-on-surface-variant">#SF-90423</td>
+<td class="px-8 py-5 font-label-md text-label-md">Azul Sea Voyager</td>
+<td class="px-8 py-5 font-body-md text-body-md">45,000 DA</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-tertiary-fixed text-tertiary font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span> Pending Payout
+                                        </span>
+</td>
+<td class="px-8 py-5 text-right font-headline-sm text-headline-sm text-primary">38,250 DA</td>
+</tr>
+<tr class="hover:bg-surface transition-colors">
+<td class="px-8 py-5 font-body-md text-body-md">Jun 12, 2024</td>
+<td class="px-8 py-5 font-label-md text-label-md text-on-surface-variant">#SF-90412</td>
+<td class="px-8 py-5 font-label-md text-label-md">Grotte Merveilleuse Tour</td>
+<td class="px-8 py-5 font-body-md text-body-md">22,000 DA</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Paid
+                                        </span>
+</td>
+<td class="px-8 py-5 text-right font-headline-sm text-headline-sm text-primary">18,700 DA</td>
+</tr>
+<tr class="hover:bg-surface transition-colors">
+<td class="px-8 py-5 font-body-md text-body-md">Jun 10, 2024</td>
+<td class="px-8 py-5 font-label-md text-label-md text-on-surface-variant">#SF-90401</td>
+<td class="px-8 py-5 font-label-md text-label-md">Private Fishing Excursion</td>
+<td class="px-8 py-5 font-body-md text-body-md">65,000 DA</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Paid
+                                        </span>
+</td>
+<td class="px-8 py-5 text-right font-headline-sm text-headline-sm text-primary">55,250 DA</td>
+</tr>
+<tr class="hover:bg-surface transition-colors">
+<td class="px-8 py-5 font-body-md text-body-md">Jun 08, 2024</td>
+<td class="px-8 py-5 font-label-md text-label-md text-on-surface-variant">#SF-90388</td>
+<td class="px-8 py-5 font-label-md text-label-md">Azul Sea Voyager</td>
+<td class="px-8 py-5 font-body-md text-body-md">45,000 DA</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Paid
+                                        </span>
+</td>
+<td class="px-8 py-5 text-right font-headline-sm text-headline-sm text-primary">38,250 DA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full py-6 mt-auto bg-surface-container-lowest border-t border-outline-variant px-6 md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex items-center gap-6">
+<span class="text-label-md font-bold text-on-surface">Safar DZ Tourism</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 All rights reserved.</p>
+</div>
+<div class="flex gap-6">
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" href="#">Partner Agreement</a>
+</div>
+</footer>
+</main>
+<!-- Mobile Bottom NavBar (Visible only on small screens) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface shadow-[0_-1px_0_0_rgba(0,0,0,0.1)] flex justify-around items-center px-4 z-50">
+<a class="flex flex-col items-center text-primary" href="earnings_finance.html">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-[10px] font-bold">Earnings</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="boat_management.html">
+<span class="material-symbols-outlined">directions_boat</span>
+<span class="text-[10px]">Boats</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="schedule_calendar.html">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="text-[10px]">Calendar</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="business_reports.html">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px]">Reports</span>
+</a>
+</nav>
+<script>
+        // Simple interactive micro-interaction for the breakdown bars
+        window.addEventListener('DOMContentLoaded', () => {
+            const bars = document.querySelectorAll('.h-full.transition-all');
+            bars.forEach(bar => {
+                const targetWidth = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = targetWidth;
+                }, 300);
+            });
+        });
+    </script>
+</body></html>

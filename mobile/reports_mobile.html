@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Safar Partner - Business Reports</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#434653",
+                    "primary-fixed": "#dbe1ff",
+                    "on-tertiary-container": "#febf21",
+                    "tertiary": "#513a00",
+                    "secondary-fixed-dim": "#b6c5f9",
+                    "primary": "#003693",
+                    "on-primary-fixed-variant": "#003ea7",
+                    "surface-variant": "#e5e3d6",
+                    "outline-variant": "#c4c6d5",
+                    "on-background": "#1b1c14",
+                    "inverse-on-surface": "#f3f1e4",
+                    "on-primary-container": "#b8c8ff",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "surface-dim": "#dcdace",
+                    "surface-container": "#f0eee1",
+                    "surface-bright": "#fcfaed",
+                    "on-surface": "#1b1c14",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "secondary-container": "#bbcbff",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface-container-low": "#f6f4e7",
+                    "surface-tint": "#2c57c0",
+                    "tertiary-fixed": "#ffdea1",
+                    "tertiary-container": "#6e5000",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#364571",
+                    "tertiary-fixed-dim": "#fbbc1c",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#b4c5ff",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#e5e3d6",
+                    "surface": "#fcfaed",
+                    "on-error": "#ffffff",
+                    "primary-container": "#1e4db6",
+                    "outline": "#747684",
+                    "on-tertiary-fixed": "#261900",
+                    "on-primary-fixed": "#00174b",
+                    "surface-container-high": "#eae9dc",
+                    "on-secondary-container": "#465581",
+                    "secondary": "#4e5d8a",
+                    "error-container": "#ffdad6",
+                    "inverse-surface": "#303129",
+                    "background": "#fcfaed",
+                    "on-secondary-fixed": "#061943"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "40px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-sm": ["Space Mono"],
+                    "headline-md": ["Space Mono"],
+                    "display-lg-mobile": ["Space Mono"],
+                    "display-lg": ["Space Mono"],
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface dark:bg-surface-dim flex justify-between items-center px-margin-mobile py-4 transition-opacity">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+<img alt="Partner profile photo" class="w-full h-full object-cover" data-alt="A professional headshot of a friendly Algerian boat charter business owner, set against a blurred coastal background of Béjaïa. The lighting is warm and natural, reflecting the high-key modern UI aesthetic with soft tones. The subject is wearing smart casual Mediterranean attire, projecting trust and hospitality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBXwHGcYpmw1kIPVd0spBIovlyB2KxHylWIbYlS7BT9pdpWr4yHebrpO_JFSrglzU0QRZzifOfXR3fpN2EzQg4LFMilt3-C2oQjeIEK95v9vrgaByLOUEWtpuFnh_patntnRU_UKbpzk-IvY_frcscvStBhBGXToXXC01BuvijtiMFEDeRFQUhGCUddtiVwkkP99LUjWQLuc00xgtbCEbOQvXLfT4Nqg5z7cGqLZNOSLwu8wOT2ao_ZuIAq1ie0cOlOysunBQ2K4U"/>
+</div>
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed tracking-tight">Safar Partner</h1>
+</div>
+<button class="text-on-surface-variant dark:text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-150" onclick="window.location.href='notifications_mobile.html'">
+<span class="material-symbols-outlined" style="font-size: 28px;">notifications</span>
+</button>
+</header>
+<main class="px-margin-mobile pt-4 space-y-8">
+<!-- Date Selector/Quick Filter -->
+<section class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm-mobile text-primary">Performance</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Last 7 Days (Aug 14 - Aug 21)</p>
+</div>
+<button class="bg-white px-4 py-2 rounded-xl shadow-sm border border-outline-variant flex items-center gap-2 active:scale-95 transition-all">
+<span class="font-label-md text-label-md text-primary">Week</span>
+<span class="material-symbols-outlined text-primary" style="font-size: 18px;">expand_more</span>
+</button>
+</section>
+<!-- KPI Bento Grid -->
+<section class="grid grid-cols-2 gap-4">
+<!-- Total Trips -->
+<div class="bg-white p-4 rounded-xl shadow-[0_4px_12px_rgba(0,54,147,0.05)] flex flex-col justify-between h-32 border border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-size: 20px;">directions_boat</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Total Trips</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm-mobile text-primary">42</div>
+<div class="font-label-sm text-label-sm text-on-tertiary-container flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span>
+                        +12%
+                    </div>
+</div>
+</div>
+<!-- Occupancy -->
+<div class="bg-white p-4 rounded-xl shadow-[0_4px_12px_rgba(0,54,147,0.05)] flex flex-col justify-between h-32 border border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-size: 20px;">groups</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Occupancy</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm-mobile text-primary">88%</div>
+<div class="font-label-sm text-label-sm text-on-tertiary-container flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span>
+                        +5%
+                    </div>
+</div>
+</div>
+<!-- Peak Hours - Spans 2 columns -->
+<div class="col-span-2 bg-primary-container p-4 rounded-xl shadow-lg flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-white/20 p-2 rounded-lg">
+<span class="material-symbols-outlined text-white" style="font-size: 24px;">schedule</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-primary-container/80 block">Peak Hours</span>
+<span class="font-label-md text-label-md text-white">10:00 AM - 02:00 PM</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-sm text-headline-sm-mobile text-white">High</span>
+</div>
+</div>
+</section>
+<!-- Trend Chart: Earnings (Simplified) -->
+<section class="space-y-4">
+<div class="flex items-center justify-between px-1">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Earnings Trend</h3>
+<span class="font-label-md text-label-md text-primary">DZD 284,000 Total</span>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-[0_4px_12px_rgba(0,54,147,0.05)] border border-outline-variant/30 overflow-hidden">
+<!-- Simple SVG Area Chart -->
+<div class="h-32 w-full relative">
+<svg class="w-full h-full preserve-3d" preserveaspectratio="none" viewbox="0 0 400 100">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#003693" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#003693" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,80 Q50,60 100,70 T200,30 T300,50 T400,20 L400,100 L0,100 Z" fill="url(#chartGradient)"></path>
+<path d="M0,80 Q50,60 100,70 T200,30 T300,50 T400,20" fill="none" stroke="#003693" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+</div>
+<div class="flex justify-between mt-4">
+<span class="font-label-sm text-label-sm text-outline">Mon</span>
+<span class="font-label-sm text-label-sm text-outline">Wed</span>
+<span class="font-label-sm text-label-sm text-outline">Fri</span>
+<span class="font-label-sm text-label-sm text-outline">Sun</span>
+</div>
+</div>
+</section>
+<!-- Top Performing Boats -->
+<section class="space-y-4">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider px-1">Top Performing Fleet</h3>
+<div class="space-y-3">
+<!-- Boat 1 -->
+<div class="bg-white p-3 rounded-xl shadow-sm border border-outline-variant/20 flex items-center gap-4">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container">
+<img alt="Luxury Yacht" class="w-full h-full object-cover" data-alt="A sleek white luxury motorboat cruising through the crystal clear turquoise waters of the Mediterranean Sea near Béjaïa. The image has a bright, airy feel with high contrast, vibrant blue water, and soft golden sunlight, aligning with the brand's tech-forward tourism aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4xG5Uf_OGBIei8RwwrBiXtF9wXWwGKD-ccp7x6oYDlsj21ICklceOB3qCslCgSx4Jd_ravCCAQLe5wkYVOe-VWP31xaEq82flAzAzKyGh_vnt0g4G0elQiL9NbQUX9JI1RwUf-PQTMEo9J_ziRmVrMjXlt8wnA_c2CQunguSz1v7yntt3DNRNgiRnN_bW_XnwoOJYwNWXiJXdsuzGT9ikjZG2VhgT-akvWx_t3U3Mo8Y59vCZlEznWiPmDbumIiUDWBhJep_-FYc"/>
+</div>
+<div class="flex-grow">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-primary">El Djenna Yacht</span>
+<span class="font-label-sm text-label-sm text-on-tertiary-container">94% Utility</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">18 trips • DZD 142k</p>
+<div class="mt-2 h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full w-[94%]"></div>
+</div>
+</div>
+</div>
+<!-- Boat 2 -->
+<div class="bg-white p-3 rounded-xl shadow-sm border border-outline-variant/20 flex items-center gap-4">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container">
+<img alt="Speedboat" class="w-full h-full object-cover" data-alt="A modern, high-speed powerboat designed for tourism, anchored in a picturesque rocky cove of the Algerian coast. The lighting is crisp and bright, highlighting the clean lines of the vessel against the deep blue sea. The atmosphere is adventurous and premium, consistent with the modern Mediterranean hospitality theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1S-MCxX-1W30fsASBPOPUDURz05XCVgYUF6rQ3_aqFvt6irf8a_n_dk0_NOtKASxhfrX68vCPiY0vI3RPfTsHRsqviI3RYKHxn78lv4ZhV_rWt8rmEvEiuH26K4lTldD6oNMaJXTrGVNzZMFPcwjblQo1PSsykhIjGtMWKX9KXqiMvlbXW_qNNLbo2jD1SCV5COvqcM5qGBZeroC7XgrvGY1jFzbOLHXwAK7eZgpmZGNgo3K66SAzjJdsilCEXnM6GCDeTI0RiBA"/>
+</div>
+<div class="flex-grow">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-primary">Blue Rapid S-4</span>
+<span class="font-label-sm text-label-sm text-on-tertiary-container">72% Utility</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">12 trips • DZD 88k</p>
+<div class="mt-2 h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full w-[72%]"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Insight Card -->
+<section class="bg-tertiary-fixed p-6 rounded-2xl relative overflow-hidden">
+<div class="relative z-10 space-y-2">
+<div class="flex items-center gap-2 text-on-tertiary-fixed">
+<span class="material-symbols-outlined" style="font-size: 20px;">lightbulb</span>
+<h3 class="font-label-md text-label-md font-bold">Smart Suggestion</h3>
+</div>
+<p class="font-body-md text-body-md text-on-tertiary-fixed/90 leading-snug">
+                    Bookings for Friday sunset cruises are up 25%. Consider adding one extra slot for the "El Djenna Yacht".
+                </p>
+<button class="mt-2 bg-on-tertiary-fixed text-white px-4 py-2 rounded-lg font-label-md text-label-md active:scale-95 transition-transform" onclick="window.location.href='schedule_calendar_mobile.html'">
+                    Adjust Schedule
+                </button>
+</div>
+<!-- Decorative circle -->
+<div class="absolute -right-8 -bottom-8 w-32 h-32 bg-on-tertiary-fixed opacity-5 rounded-full"></div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container-lowest dark:bg-surface-container-lowest shadow-lg rounded-t-xl">
+<!-- Dashboard -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" onclick="window.location.href='partner_dashboard_mobile.html'">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</button>
+<!-- Bookings -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" onclick="window.location.href='bookings_management_mobile.html'">
+<span class="material-symbols-outlined" data-icon="event_available">event_available</span>
+<span class="font-label-sm text-label-sm">Bookings</span>
+</button>
+<!-- Reports (Active determined by context: Dashboard/Reports) -->
+<button class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-3 py-1 active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+<span class="font-label-sm text-label-sm">Reports</span>
+</button>
+<!-- Fleet -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" onclick="window.location.href='boat_management_mobile.html'">
+<span class="material-symbols-outlined" data-icon="directions_boat">directions_boat</span>
+<span class="font-label-sm text-label-sm">Fleet</span>
+</button>
+</nav>
+<!-- Interactive script for simple effects -->
+<script>
+        // Simple touch feedback and micro-interactions
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('touchstart', function() {
+                this.classList.add('opacity-70');
+            });
+            btn.addEventListener('touchend', function() {
+                this.classList.remove('opacity-70');
+            });
+        });
+    </script>
+</body></html>

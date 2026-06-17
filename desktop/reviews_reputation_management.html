@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Safar DZ Admin - Reviews &amp; Reputation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#003693",
+                    "error": "#ba1a1a",
+                    "on-secondary-container": "#465581",
+                    "surface-container-low": "#f6f4e7",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-tertiary-fixed": "#261900",
+                    "background": "#fcfaed",
+                    "surface-dim": "#dcdace",
+                    "tertiary-container": "#6e5000",
+                    "on-error-container": "#93000a",
+                    "on-primary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-tertiary-container": "#febf21",
+                    "secondary-fixed-dim": "#b6c5f9",
+                    "on-surface": "#1b1c14",
+                    "surface-tint": "#2c57c0",
+                    "on-secondary-fixed-variant": "#364571",
+                    "on-secondary-fixed": "#061943",
+                    "surface": "#fcfaed",
+                    "inverse-primary": "#b4c5ff",
+                    "surface-container-high": "#eae9dc",
+                    "outline-variant": "#c4c6d5",
+                    "inverse-surface": "#303129",
+                    "tertiary": "#513a00",
+                    "tertiary-fixed-dim": "#fbbc1c",
+                    "surface-container-highest": "#e5e3d6",
+                    "on-secondary": "#ffffff",
+                    "inverse-on-surface": "#f3f1e4",
+                    "surface-variant": "#e5e3d6",
+                    "on-primary-fixed": "#00174b",
+                    "secondary": "#4e5d8a",
+                    "tertiary-fixed": "#ffdea1",
+                    "surface-container": "#f0eee1",
+                    "on-primary-container": "#b8c8ff",
+                    "on-surface-variant": "#434653",
+                    "secondary-container": "#bbcbff",
+                    "primary-container": "#1e4db6",
+                    "on-background": "#1b1c14",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "error-container": "#ffdad6",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "primary-fixed": "#dbe1ff",
+                    "on-tertiary": "#ffffff",
+                    "surface-bright": "#fcfaed",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#747684",
+                    "on-primary-fixed-variant": "#003ea7"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "base": "8px",
+                    "container-max": "1280px",
+                    "gutter": "24px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Space Mono"],
+                    "label-md": ["Inter"],
+                    "headline-sm": ["Space Mono"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "display-lg-mobile": ["Space Mono"],
+                    "display-lg": ["Space Mono"]
+            },
+            "fontSize": {
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dcdace;
+            border-radius: 10px;
+        }
+        .bento-card {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .bento-card:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- Sidebar Navigation -->
+<aside class="flex flex-col h-screen fixed left-0 top-0 py-6 bg-surface-container-low dark:bg-surface-container shadow-sm docked left-0 h-full w-72 z-50">
+<div class="px-8 mb-10">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-on-primary-container">Safar DZ</h1>
+<p class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant opacity-60">Admin Dashboard</p>
+</div>
+<nav class="flex-1 overflow-y-auto space-y-1">
+<!-- Navigation Items Mapping from JSON -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 mx-2 transition-colors" href="admin_command_center_final.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 mx-2 transition-colors" href="bookings_management_dashboard.html">
+<span class="material-symbols-outlined" data-icon="event_available">event_available</span>
+<span class="font-label-md text-label-md">Bookings</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 mx-2 transition-colors" href="boat_owners_partners_management.html">
+<span class="material-symbols-outlined" data-icon="handshake">handshake</span>
+<span class="font-label-md text-label-md">Partners</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 mx-2 transition-colors" href="experiences_catalog_management.html">
+<span class="material-symbols-outlined" data-icon="sailing">sailing</span>
+<span class="font-label-md text-label-md">Experiences</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 mx-2 transition-colors" href="finance_commissions_dashboard.html">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-md text-label-md">Finance</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 mx-2 transition-colors" href="boat_management_dashboard.html">
+<span class="material-symbols-outlined" data-icon="directions_boat">directions_boat</span>
+<span class="font-label-md text-label-md">Boats Management</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 mx-2 transition-colors" href="customers_crm_dashboard.html">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-md text-label-md">Customers</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 mx-2 transition-colors" href="bookings_management_dashboard.html">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-md text-label-md">Availability</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 mx-2 transition-colors" href="destinations_management_dashboard.html">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label-md text-label-md">Destinations</span>
+</a>
+<!-- ACTIVE TAB -->
+<a class="flex items-center gap-3 bg-primary-container text-on-primary-container rounded-lg px-4 py-3 mx-2 transition-colors" href="reviews_reputation_management.html">
+<span class="material-symbols-outlined filled-icon" data-icon="stars">stars</span>
+<span class="font-label-md text-label-md">Reviews &amp; Reputation</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-4 py-3 mx-2 transition-colors" href="partner_settings.html">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="px-6 py-4 mt-auto border-t border-outline-variant/30 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary/20">
+<img alt="Admin User Profile" class="w-full h-full object-cover" data-alt="A close-up professional headshot of a friendly Mediterranean man with a warm smile, wearing a casual linen shirt. The background is a soft-focus coastal scene with sunlight filtering through, maintaining the warm ivory and royal blue color palette of the Safar DZ brand for a cohesive and high-end professional look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTZEi4X9awxtdZYQIVGhrsFZcvlRDXEy6kLEdakn0i5fnNnCwBCXEehuECLbP_20T3GR4zSgsKdy1zZznH3-wK9XuSJ7rAtGQiI1UYyGwWnOP4Q5mYJ0s6_vAOgUCquK1kx_DN2dYCN-YKoNkMZ5BfOBjcTAj3f1cDSsPQvjW6onYhZz9DNcLKLwhY6Sbkd1JlNVpug7fH6dXR8REgA04Oqqz1oluPh1Q5cd3nArThP-_t4fbs5d4xNhncHRpWeXF7Owz_aos4Vhg"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Amine DZ</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant opacity-70">Senior Admin</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pl-72 w-full min-h-screen">
+<!-- Top App Bar -->
+<header class="flex justify-between items-center w-full h-16 pl-8 pr-10 sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30">
+<div class="flex items-center gap-6">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container border-none rounded-full w-80 focus:ring-2 focus:ring-primary/30 transition-all font-body-md" placeholder="Search reviews, customers..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors relative" onclick="window.location.href='notifications_center.html'">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-6 w-[1px] bg-outline-variant/30 mx-2"></div>
+<button class="font-label-md text-label-md text-primary hover:underline px-2">Support</button>
+<button class="font-label-md text-label-md bg-primary text-on-primary px-4 py-2 rounded-full hover:shadow-lg transition-all" onclick="window.location.href='discovery_page.html'">Logout</button>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-10 max-w-[1400px] mx-auto">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Reviews &amp; Reputation</h2>
+<p class="text-on-surface-variant font-body-md mt-1 opacity-80">Manage customer experiences and highlight the best moments.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 font-label-md text-label-md border border-primary text-primary px-6 py-3 rounded-xl hover:bg-primary/5 transition-all" onclick="window.location.href='reviews_reputation_management.html'">
+<span class="material-symbols-outlined text-[18px]" data-icon="file_download">file_download</span>
+                        Export Reviews
+                    </button>
+<button class="flex items-center gap-2 font-label-md text-label-md bg-primary text-on-primary px-6 py-3 rounded-xl hover:shadow-xl transition-all" onclick="window.location.href='reviews_reputation_management.html'">
+<span class="material-symbols-outlined text-[18px]" data-icon="star">star</span>
+                        Feature Reviews
+                    </button>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+<div class="bg-surface-container-highest p-6 rounded-3xl bento-card shadow-sm border border-outline-variant/20 flex flex-col items-center text-center">
+<span class="font-label-sm text-label-sm text-tertiary font-bold mb-2 tracking-widest uppercase">Average Rating</span>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface">4.8</span>
+<span class="material-symbols-outlined text-tertiary filled-icon text-[32px]" data-icon="star" data-weight="fill">star</span>
+</div>
+<div class="mt-2 text-on-surface-variant font-body-md opacity-70">Top 5% in Béjaïa</div>
+</div>
+<div class="bg-white p-6 rounded-3xl bento-card shadow-sm border border-outline-variant/10 flex flex-col items-center text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold mb-2 tracking-widest uppercase">Total Reviews</span>
+<span class="font-headline-md text-headline-md text-on-surface">1,240</span>
+<div class="mt-2 text-on-surface-variant font-body-md opacity-70">+12% from last month</div>
+</div>
+<div class="bg-white p-6 rounded-3xl bento-card shadow-sm border border-outline-variant/10 flex flex-col items-center text-center">
+<span class="font-label-sm text-label-sm text-primary font-bold mb-2 tracking-widest uppercase">Featured</span>
+<span class="font-headline-md text-headline-md text-on-surface">85</span>
+<div class="mt-2 text-on-surface-variant font-body-md opacity-70">Published on website</div>
+</div>
+<div class="bg-error-container/20 p-6 rounded-3xl bento-card shadow-sm border border-error/10 flex flex-col items-center text-center">
+<span class="font-label-sm text-label-sm text-error font-bold mb-2 tracking-widest uppercase">Reported</span>
+<span class="font-headline-md text-headline-md text-error">6</span>
+<div class="mt-2 text-error font-body-md opacity-70">Action required</div>
+</div>
+</div>
+<!-- Bento Content Layout -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Main Feed: 8 Columns -->
+<div class="col-span-12 lg:col-span-8 space-y-8">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Reviews Feed</h3>
+<div class="flex gap-4">
+<select class="bg-surface-container border-none rounded-lg font-label-md text-label-md px-4 py-2 focus:ring-primary">
+<option>Most Recent</option>
+<option>Highest Rating</option>
+<option>Flagged</option>
+</select>
+</div>
+</div>
+<!-- Review Card 1 -->
+<div class="bg-white p-6 rounded-3xl shadow-sm border border-outline-variant/10 group transition-all hover:shadow-md">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<img alt="Customer Profile" class="w-14 h-14 rounded-full object-cover border-2 border-primary/10" data-alt="A portrait of a cheerful female traveler with sun-kissed skin and curly hair, looking into the camera with a beautiful Mediterranean coastline in the background. She is wearing a light yellow summer dress, perfectly complementing the Safar DZ warm ivory and golden yellow brand colors. High-key lighting emphasizes a joyful, vacation mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDm3_egDP7eDFdjoc1mlulwjNKc6jRJRm055vn53T87qRfSLYLZltzsPtjDZqL1J0ch7jLH0BT7OAKieykCGPHyNbbCPfqT9WkAuEo6TiSQT8LclsJCOr0Y4vvRZh4-QW88q-y5uNZpyTk9k39uOsc1rlxibPZXoK54i71gXmjs01ko7KFmV2pjjrCcrAWHhGeXwDvuMIL-G6eWakEHrqX61g2HphFsTslwW1cYjcLhYY2yynRR5Io7wSjdPwmUgSKbWq0H9xMblxE"/>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Sarah Benali</h4>
+<div class="flex text-tertiary mt-1">
+<span class="material-symbols-outlined filled-icon text-[18px]" data-icon="star">star</span>
+<span class="material-symbols-outlined filled-icon text-[18px]" data-icon="star">star</span>
+<span class="material-symbols-outlined filled-icon text-[18px]" data-icon="star">star</span>
+<span class="material-symbols-outlined filled-icon text-[18px]" data-icon="star">star</span>
+<span class="material-symbols-outlined filled-icon text-[18px]" data-icon="star">star</span>
+</div>
+<p class="font-label-sm text-label-sm text-primary-container font-semibold mt-1">Sunset Cruise - Cap Carbon</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">OCT 12, 2023</span>
+</div>
+<p class="text-on-surface font-body-md mb-6 italic leading-relaxed">"An absolute dream! The captain was so professional and knew exactly where the best views of the sunset were. Watching the golden hour over Cap Carbon from the boat is something I'll never forget. Highly recommend Safar DZ for anyone visiting Béjaïa!"</p>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<img alt="Sunset View" class="rounded-2xl h-48 w-full object-cover" data-alt="A cinematic wide-angle shot of a luxury sailboat gliding through calm Mediterranean waters at sunset. The sky is a dramatic gradient of fiery orange, deep gold, and royal blue. Silhouetted against the sun is the iconic cliffside of Cap Carbon, Béjaïa. The lighting is warm and evocative, capturing the premium sea experience aesthetic of Safar DZ." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVfK8pxByHsWNoozbNwwjoz81tlS-AjGLTy2TIwtFtYHpcgHqjtHPIiAG03on6rcA0Fgb2SkwfnkT0RnWTzX7R10FJ2oUBYGaGYp9Enjlh8oaI_aCX79Ez9pzHw7q5iUCv-DDL1ZkxByWp2gufhunqEFeXiQzUIJFg8EAkJKOHr3IUvXWId8vDTNxWRRsXQa_fsDCFp_4qhNM-VZNv9zMDAVGU_KIirzArKzIfiNyT9nU0cSJa3J-7B_8AMMzJevRqsvuine7r1mM"/>
+<img alt="Boat Interior" class="rounded-2xl h-48 w-full object-cover" data-alt="Close-up detail of a modern, clean yacht deck in the late afternoon. Polished wood floors reflect the golden sunlight, while premium white leather seating and a basket of local Algerian fruits invite relaxation. In the background, the turquoise sea and distant cliffs of Béjaïa create a sense of luxury and exclusive Mediterranean hospitality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlHrln4ENns1TF5x_9L9g5Wmy2FfDHY2t7fWNG3odeZkJkzBZhGOZmlSVWABL9W26tCLZETLhQNbWxCa-Q6mz339HEWJCV3Do7lRnGLXVM5Zof5t6woICw9RjZWS_sVq73ImQzay5ZfDi6CuDl_5SQMl6dhau5EzPwShpZolQ83R7S0XrEWFSmGRwVJuk8R2SY0-EUVtQ14qziULQp6S3PjrjRgAplXYPhMUIA0V8bnMNkSNe2d_rCQUWZH9aR-idBpHNEahX-X7M"/>
+</div>
+<div class="flex items-center gap-2 border-t border-outline-variant/30 pt-6">
+<button class="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-primary font-label-md hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="verified">verified</span>
+                                Feature
+                            </button>
+<button class="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-on-surface-variant font-label-md hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility_off">visibility_off</span>
+                                Hide
+                            </button>
+<button class="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-on-surface-variant font-label-md hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="verified_user">verified_user</span>
+                                Mark Trusted
+                            </button>
+<button class="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-error font-label-md hover:bg-error/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+                                Remove
+                            </button>
+</div>
+</div>
+<!-- Review Card 2 -->
+<div class="bg-white p-6 rounded-3xl shadow-sm border border-outline-variant/10 group transition-all hover:shadow-md">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="w-14 h-14 rounded-full bg-secondary-fixed text-primary flex items-center justify-center font-headline-sm">KM</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Karim Mansour</h4>
+<div class="flex text-tertiary mt-1">
+<span class="material-symbols-outlined filled-icon text-[18px]" data-icon="star">star</span>
+<span class="material-symbols-outlined filled-icon text-[18px]" data-icon="star">star</span>
+<span class="material-symbols-outlined filled-icon text-[18px]" data-icon="star">star</span>
+<span class="material-symbols-outlined filled-icon text-[18px]" data-icon="star">star</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="star">star</span>
+</div>
+<p class="font-label-sm text-label-sm text-primary-container font-semibold mt-1">Private Boat Seat - Cap Carbon</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">OCT 10, 2023</span>
+</div>
+<p class="text-on-surface font-body-md mb-6 italic leading-relaxed">"Great value for money. Booking was simple through the platform. The boat was clean and the view of the cliffs is unmatched. Only deduction is for a 10 min delay at the harbor, but otherwise perfect."</p>
+<div class="flex items-center gap-2 border-t border-outline-variant/30 pt-6">
+<button class="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-primary font-label-md hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="verified">verified</span>
+                                Feature
+                            </button>
+<button class="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-error font-label-md hover:bg-error/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+                                Remove
+                            </button>
+</div>
+</div>
+</div>
+<!-- Side Panels: 4 Columns -->
+<div class="col-span-12 lg:col-span-4 space-y-8">
+<!-- Experience Breakdown -->
+<section class="bg-white p-8 rounded-3xl shadow-sm border border-outline-variant/10">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-6">Experience Ratings</h3>
+<div class="space-y-6">
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface">Cap Carbon Expedition</span>
+<span class="font-mono text-tertiary font-bold">4.9 ★</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 98%"></div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface">Sunset Cruises</span>
+<span class="font-mono text-tertiary font-bold">4.7 ★</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface">Boat Seats</span>
+<span class="font-mono text-tertiary font-bold">4.5 ★</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 88%"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Photo Gallery -->
+<section class="bg-white p-8 rounded-3xl shadow-sm border border-outline-variant/10">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Photo Reviews</h3>
+<button class="text-primary font-label-sm text-label-sm">View All</button>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<img alt="Gallery Photo 1" class="aspect-square rounded-lg object-cover hover:scale-105 transition-transform cursor-pointer" data-alt="A sun-drenched close-up of crystal clear turquoise water splashing against a boat's hull, reflecting the warm golden Mediterranean sun. The lighting is high-key and bright, capturing a sense of pure summer bliss and marine luxury in the Safar DZ brand style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMlMwiEEPUqavytfEr6xEb9XlBCksKY_mtNe1HupFkUNYlXtOEGm4_bqfcHSoXgscQfQt-nYdfeKO2n5qy9TuwUBKXYS5LuDeqshgJ2nrmAY9PyDjzfzGBO3ogH_ZDPMuYlpvq0MVY9MKHLAyfgjZzRjC5eX3xE9rm28B86bCI4BlkvnbGcDVujwfaDT222_M1UXJj4OuvW9FvQ1vQmLk2DPnjnSpQ6WhRO_5m1LIYB51SCFdynRxTf9YVx2S2pJyYRHXU8bvpIvA"/>
+<img alt="Gallery Photo 2" class="aspect-square rounded-lg object-cover hover:scale-105 transition-transform cursor-pointer" data-alt="A beautiful wide shot of a rocky cove in Béjaïa, Algeria, with clear blue waters and a small boat anchored in the distance. The scene is illuminated by soft, natural morning light, creating a serene and inviting atmosphere that highlights the natural beauty of the Mediterranean coast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDy-nwkH8kk5ji3xgXzJFP-rbkbS2UyHTtcjDVvpTNOf1_91CkNMyRRRmBzNyYLh9SZ7iU2eIbt0eH9Osx3b-6b6e-23c-N7nTD1XDnlaTmuu6KBPTg0V1vX10cK0kZDgHChDjPJqwhMPQJxdnmsC1l9BrFOh9oQQIajZHZACMIxRMXP2FuyJlwfIanTljvGlQXBGYHpghQkWhnzCV7X-tZOsW5r7PMxK7Tnw6PADaquZBcMyDNxC5zSfM7h-T-kI9YLaJuH2n0oZQ"/>
+<img alt="Gallery Photo 3" class="aspect-square rounded-lg object-cover hover:scale-105 transition-transform cursor-pointer" data-alt="A lifestyle shot of a table on a boat deck, featuring fresh Mediterranean seafood and sparkling drinks under a vibrant blue sky. The image is bright and colorful, emphasizing the high-end experience and hospitality offered by Safar DZ." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw9D5nAsr96frcL3Uh_87DasHAZrn3RUbZu5Obqw3DrzNNPsjrt65z_AyhMBjaZJrncsUaInLuA5UdX6RjgRg7EKrDUKoTTWuHQtPKTKSQJ8Jqhv5iwnYTri7Tzdj5slhi3A32qu1tPqG_-Wg8Z7Y3qm3yAMDZpz4PoB9qaVRG0QV81Qf2yhfZj5reJoFXMEvrs1TIpKyrVKl5vd61ihCmns2dQ7CCZeUKZ3gQXYLoHfOGFGtg29TmcbAIgVTVeUGhsaG3tY_LGjs"/>
+<img alt="Gallery Photo 4" class="aspect-square rounded-lg object-cover hover:scale-105 transition-transform cursor-pointer" data-alt="A striking view from a boat looking towards the ancient lighthouse of Cap Carbon. The warm stone of the structure contrasts beautifully with the deep royal blue of the sea and the light ivory sky. The mood is historic and majestic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGmDXAfXiGCRM_l9bNUbZQlBF4f-zU-gqiI6ZqNjbzog2cx29YqPw9Aj3Q49rpUex7oY7pwYZAhIg5K-U3FtTPvw9JetWTBq0mXXLY9UZeQyySBpMIWIg0gYhHeZ1HVLOtnDaqvU_ZS7ybi5lJO6O3XQpRUGA_crxceNLcUFtnrAQ37vIb4VooPqcSAYwcgmHPO-XKvOQjxLnhchRBjKT9M1yjrw3keOMgPTfyxFgjQZGYssEC0v401ELvSNhngwnAH8BBRsyqC4s"/>
+<img alt="Gallery Photo 5" class="aspect-square rounded-lg object-cover hover:scale-105 transition-transform cursor-pointer" data-alt="A joyful group of friends laughing on a sailboat, with the wind in their hair and the bright Algerian sun lighting their faces. The composition is dynamic and full of energy, conveying a sense of adventure and shared moments." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9N9QJPrmwiRdOBiQmTMvtV0OgaNpKKQrhUtdh7GWVN1Kbj3fLGxFqPseWHzpiABEfvrgoxZM5N2x7Cb8vEgPWY2RHuYVMIF0_eQsbgv2I0573rvM53cnYJvFQghDPnqFI5Ssrh-a85jr1NFxmwht8BdvTrt5vMwkaaRrMlSaIxjKj-rewAsFlT56o3IpB1FLCh8d320R0v5GWlymYTQJkvY0AwdAleAzChK4p1Wd-hvaosMfxeVSQN-NFzDDLBBIKaS_KhPx814g"/>
+<img alt="Gallery Photo 6" class="aspect-square rounded-lg object-cover hover:scale-105 transition-transform cursor-pointer" data-alt="An artistic shot of a compass and a nautical map resting on a wooden table on a yacht. The lighting is soft and focused, creating a sense of exploration and planning a journey across the beautiful Mediterranean sea." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFGaiwlzH5W8T7TUUKHASzpgxT255iwszFCwIGKXNyUCuo-uDy4kGs0bPtYm5Z6MOzqsumSwIkFUAMz2p5MXQPOd5Ue_GtlNC1hMiGmQQWg-bR8clWFvK7rF-0RcTfRmjpcoHBM-NpQ8-dgXuEKFJ6GHil_8xRVu-dSLNNDk8h8immAvyzvKwct3RLcVuJlZLMA9PPDsUCbiiVsU_za6IRSJM4jG2KBCyMNDY95RV0ViFXErMPrqq8KnvsJZ2e9rL8iQPdtD4PcTk"/>
+</div>
+</section>
+<!-- Review Moderation -->
+<section class="bg-surface-container-high p-8 rounded-3xl shadow-sm border border-outline-variant/30">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-error" data-icon="report">report</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Moderation</h3>
+</div>
+<div class="space-y-4">
+<!-- Flagged Review 1 -->
+<div class="bg-white p-4 rounded-2xl border border-error/10">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-sm text-label-sm text-on-surface font-bold">User: Anonymous123</span>
+<span class="text-[10px] bg-error/10 text-error px-2 py-0.5 rounded uppercase font-bold">Inappropriate</span>
+</div>
+<p class="text-on-surface-variant font-label-sm text-label-sm line-clamp-2 mb-4">"The boat was not what we expected, the staff was rude and the..."</p>
+<div class="flex gap-2">
+<button class="flex-1 text-[11px] font-bold uppercase tracking-tight py-2 bg-surface-container text-on-surface rounded-lg hover:bg-surface-dim transition-colors">Reject</button>
+<button class="flex-1 text-[11px] font-bold uppercase tracking-tight py-2 bg-primary text-on-primary rounded-lg hover:shadow-md transition-all">Approve</button>
+<button class="w-10 flex items-center justify-center bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-[18px]" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<p class="text-center font-label-sm text-label-sm text-on-surface-variant opacity-60 pt-2 italic">5 more flagged items pending review</p>
+</div>
+</section>
+</div>
+</div>
+</div>
+<!-- FAB for Quick Actions -->
+<button class="fixed bottom-10 right-10 w-16 h-16 bg-tertiary-container text-on-tertiary-container rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95 group z-50">
+<span class="material-symbols-outlined text-[32px] filled-icon" data-icon="add_comment">add_comment</span>
+<span class="absolute right-20 bg-primary text-on-primary px-4 py-2 rounded-xl text-label-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg">New Management Action</span>
+</button>
+</main>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('.bento-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.borderColor = 'rgba(0, 54, 147, 0.2)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.borderColor = '';
+            });
+        });
+    </script>
+</body></html>

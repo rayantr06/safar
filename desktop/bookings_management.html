@@ -1,0 +1,417 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Bookings Management | Safar DZ</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Space+Mono:wght@100..900&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fcfaed",
+                        "surface-tint": "#2c57c0",
+                        "on-secondary-container": "#465581",
+                        "surface-container-highest": "#e5e3d6",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#434653",
+                        "tertiary-fixed-dim": "#fbbc1c",
+                        "primary-fixed": "#dbe1ff",
+                        "primary-container": "#1e4db6",
+                        "on-primary": "#ffffff",
+                        "background": "#fcfaed",
+                        "tertiary-container": "#6e5000",
+                        "on-error": "#ffffff",
+                        "secondary": "#4e5d8a",
+                        "on-primary-container": "#b8c8ff",
+                        "primary": "#003693",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#1b1c14",
+                        "on-secondary-fixed": "#061943",
+                        "inverse-on-surface": "#f3f1e4",
+                        "secondary-fixed": "#dbe1ff",
+                        "outline-variant": "#c4c6d5",
+                        "secondary-fixed-dim": "#b6c5f9",
+                        "surface-container-low": "#f6f4e7",
+                        "inverse-primary": "#b4c5ff",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e5e3d6",
+                        "on-primary-fixed-variant": "#003ea7",
+                        "on-primary-fixed": "#00174b",
+                        "outline": "#747684",
+                        "on-background": "#1b1c14",
+                        "on-secondary-fixed-variant": "#364571",
+                        "on-tertiary-fixed": "#261900",
+                        "inverse-surface": "#303129",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "error": "#ba1a1a",
+                        "tertiary": "#513a00",
+                        "surface-bright": "#fcfaed",
+                        "secondary-container": "#bbcbff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#eae9dc",
+                        "tertiary-fixed": "#ffdea1",
+                        "surface-dim": "#dcdace",
+                        "surface-container": "#f0eee1",
+                        "on-tertiary-container": "#febf21",
+                        "primary-fixed-dim": "#b4c5ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Space Mono"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-sm": ["Space Mono"],
+                        "headline-md": ["Space Mono"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Space Mono"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .drawer-transition { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+<!-- SideNavBar (Desktop Only) -->
+<nav class="h-screen w-64 fixed left-0 top-0 hidden md:flex flex-col bg-surface-container-low border-r border-outline-variant p-4 gap-2 z-50">
+<div class="mb-8 px-2">
+<h1 class="font-headline-sm text-headline-sm text-primary">Safar DZ</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Fleet Manager</p>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all duration-200 hover:translate-x-1" href="partner_overview_dashboard.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-secondary-container text-on-secondary-container rounded-lg font-bold transition-all duration-200" href="bookings_management.html">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md">Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all duration-200 hover:translate-x-1" href="boat_management.html">
+<span class="material-symbols-outlined">directions_boat</span>
+<span class="font-label-md">My Fleet</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all duration-200 hover:translate-x-1" href="earnings_finance.html">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md">Earnings</span>
+</a>
+<div class="mt-auto pt-4 border-t border-outline-variant flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-sm">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary transition-colors" href="partner_settings.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm">Settings</span>
+</a>
+</div>
+</nav>
+<!-- TopNavBar (Mobile Only) -->
+<header class="md:hidden w-full sticky top-0 z-40 bg-surface-container-low shadow-sm flex justify-between items-center h-16 px-4">
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary">Safar DZ</h1>
+<div class="flex gap-2">
+<button class="p-2 cursor-pointer active:scale-95 text-on-surface-variant" onclick="window.location.href='notifications_center.html'">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 cursor-pointer active:scale-95 text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="md:ml-64 p-4 md:p-10 max-w-container-max">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Bookings</h2>
+<p class="font-body-md text-on-surface-variant">Manage your sea expeditions and passenger list.</p>
+</div>
+<!-- Segmented Control -->
+<div class="inline-flex bg-surface-container p-1 rounded-xl no-scrollbar overflow-x-auto">
+<button class="px-6 py-2 text-label-md font-bold text-primary bg-surface rounded-lg shadow-sm whitespace-nowrap">Today</button>
+<button class="px-6 py-2 text-label-md text-on-surface-variant hover:bg-surface-variant/50 rounded-lg transition-colors whitespace-nowrap">Pending</button>
+<button class="px-6 py-2 text-label-md text-on-surface-variant hover:bg-surface-variant/50 rounded-lg transition-colors whitespace-nowrap">Confirmed</button>
+<button class="px-6 py-2 text-label-md text-on-surface-variant hover:bg-surface-variant/50 rounded-lg transition-colors whitespace-nowrap">Completed</button>
+<button class="px-6 py-2 text-label-md text-on-surface-variant hover:bg-surface-variant/50 rounded-lg transition-colors whitespace-nowrap">Cancelled</button>
+</div>
+</div>
+<!-- Booking Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Pending Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow cursor-pointer group" onclick="toggleDrawer(true)">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-label-md text-on-surface text-lg">Amine Bensaid</h3>
+<div class="flex items-center gap-1 text-primary mt-1">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span class="font-display-lg text-[14px] tracking-widest">+213 550 12 34 56</span>
+</div>
+</div>
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant text-[12px] font-bold rounded-full uppercase tracking-wider">Pending</span>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary-container">sailing</span>
+<span class="font-label-md">Cap Carbon Expedition</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary-container">calendar_month</span>
+<span class="font-display-lg text-[14px]">Aug 24, 2024 • 09:30 AM</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary-container">group</span>
+<span class="font-label-md">6 Passengers</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="w-full py-3 bg-primary text-white rounded-lg font-bold hover:bg-primary-container transition-colors active:scale-95">Accept</button>
+<button class="w-full py-3 border border-error text-error rounded-lg font-bold hover:bg-error-container/20 transition-colors active:scale-95" onclick="event.stopPropagation(); confirmReject()">Reject</button>
+</div>
+</div>
+<!-- Confirmed Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow cursor-pointer group" onclick="toggleDrawer(true)">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-label-md text-on-surface text-lg">Sarah Louali</h3>
+<div class="flex items-center gap-1 text-primary mt-1">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span class="font-display-lg text-[14px] tracking-widest">+213 661 88 99 00</span>
+</div>
+</div>
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-[12px] font-bold rounded-full uppercase tracking-wider">Confirmed</span>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary-container">sailing</span>
+<span class="font-label-md">Sunset Cruise Béjaïa</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary-container">calendar_month</span>
+<span class="font-display-lg text-[14px]">Aug 24, 2024 • 06:00 PM</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary-container">group</span>
+<span class="font-label-md">2 Passengers</span>
+</div>
+</div>
+<button class="w-full py-3 bg-on-secondary-fixed-variant text-white rounded-lg font-bold hover:bg-primary transition-colors active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">check_circle</span>
+                    Mark Completed
+                </button>
+</div>
+<!-- Another Confirmed Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow cursor-pointer group" onclick="toggleDrawer(true)">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-label-md text-on-surface text-lg">Karim Ziani</h3>
+<div class="flex items-center gap-1 text-primary mt-1">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span class="font-display-lg text-[14px] tracking-widest">+213 770 44 55 66</span>
+</div>
+</div>
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-[12px] font-bold rounded-full uppercase tracking-wider">Confirmed</span>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary-container">sailing</span>
+<span class="font-label-md">Hidden Grottoes Discovery</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary-container">calendar_month</span>
+<span class="font-display-lg text-[14px]">Aug 25, 2024 • 10:00 AM</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary-container">group</span>
+<span class="font-label-md">4 Passengers</span>
+</div>
+</div>
+<button class="w-full py-3 bg-on-secondary-fixed-variant text-white rounded-lg font-bold hover:bg-primary transition-colors active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">check_circle</span>
+                    Mark Completed
+                </button>
+</div>
+</div>
+</main>
+<!-- Side Drawer -->
+<div class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] opacity-0 pointer-events-none transition-opacity duration-300" id="overlay" onclick="toggleDrawer(false)"></div>
+<aside class="fixed top-0 right-0 h-screen w-full md:w-[480px] bg-surface-container-lowest z-[70] translate-x-full drawer-transition shadow-2xl overflow-y-auto flex flex-col" id="detailDrawer">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<h2 class="font-headline-sm text-on-surface">Booking Details</h2>
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors" onclick="toggleDrawer(false)">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-6 space-y-8 flex-1">
+<!-- Customer Section -->
+<section>
+<h3 class="font-label-md text-primary uppercase tracking-widest mb-4">Passenger Information</h3>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-16 h-16 rounded-full bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">person</span>
+</div>
+<div>
+<p class="font-headline-sm text-xl">Amine Bensaid</p>
+<p class="text-on-surface-variant">Alger, Algeria</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 bg-surface-container rounded-lg">
+<p class="text-[12px] text-on-surface-variant uppercase font-bold mb-1">Phone</p>
+<p class="font-display-lg text-[14px]">+213 550 12 34 56</p>
+</div>
+<div class="p-3 bg-surface-container rounded-lg">
+<p class="text-[12px] text-on-surface-variant uppercase font-bold mb-1">Email</p>
+<p class="font-body-md text-sm truncate">amine.b@email.dz</p>
+</div>
+</div>
+</section>
+<!-- Trip Section -->
+<section>
+<h3 class="font-label-md text-primary uppercase tracking-widest mb-4">Trip Specifics</h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/50">
+<span class="text-on-surface-variant">Experience</span>
+<span class="font-bold">Cap Carbon Expedition</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/50">
+<span class="text-on-surface-variant">Departure Time</span>
+<span class="font-display-lg text-[14px]">09:30 AM (Sharp)</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/50">
+<span class="text-on-surface-variant">Meeting Point</span>
+<span class="font-body-md">Port de Béjaïa, Quai 4</span>
+</div>
+<div class="flex justify-between items-center py-2">
+<span class="text-on-surface-variant">Life Jackets Required</span>
+<span class="font-display-lg text-[14px]">6 (Adults)</span>
+</div>
+</div>
+</section>
+<!-- Pricing Breakdown -->
+<section class="bg-primary/5 p-5 rounded-xl border border-primary/10">
+<h3 class="font-label-md text-primary uppercase tracking-widest mb-4">Financial Breakdown</h3>
+<div class="space-y-2 text-sm">
+<div class="flex justify-between">
+<span>Base Price (6 Passengers)</span>
+<span class="font-display-lg text-[13px]">12,000 DZD</span>
+</div>
+<div class="flex justify-between">
+<span>Equipment Rental</span>
+<span class="font-display-lg text-[13px]">3,000 DZD</span>
+</div>
+<div class="flex justify-between text-on-surface-variant border-t border-outline-variant pt-2 mt-2 italic">
+<span>Safar DZ Commission (15%)</span>
+<span class="font-display-lg text-[13px]">-2,250 DZD</span>
+</div>
+<div class="flex justify-between text-lg font-bold pt-4 text-primary">
+<span>Net Earnings</span>
+<span class="font-display-lg">12,750 DZD</span>
+</div>
+</div>
+</section>
+</div>
+<div class="p-6 border-t border-outline-variant bg-surface-container-low grid grid-cols-2 gap-4">
+<button class="py-3 bg-primary text-white rounded-lg font-bold">Approve</button>
+<button class="py-3 border border-outline text-on-surface-variant rounded-lg font-bold">Contact Guest</button>
+</div>
+</aside>
+<!-- Reject Confirmation Popover (Simple implementation) -->
+<div class="fixed inset-0 flex items-center justify-center z-[100] hidden bg-black/60 px-4" id="rejectModal">
+<div class="bg-surface-container-lowest p-8 rounded-2xl max-w-sm w-full shadow-2xl">
+<div class="w-16 h-16 bg-error-container text-error rounded-full flex items-center justify-center mx-auto mb-4">
+<span class="material-symbols-outlined text-3xl">warning</span>
+</div>
+<h3 class="font-headline-sm text-center mb-2">Reject Booking?</h3>
+<p class="text-on-surface-variant text-center mb-8">This action cannot be undone. The guest will be notified immediately.</p>
+<div class="flex flex-col gap-3">
+<button class="w-full py-4 bg-error text-white rounded-xl font-bold active:scale-95" onclick="closeReject()">Yes, Reject Booking</button>
+<button class="w-full py-4 bg-surface-container text-on-surface-variant rounded-xl font-bold" onclick="closeReject()">Cancel</button>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="md:ml-64 w-full py-8 bg-surface-container-lowest border-t border-outline-variant mt-20">
+<div class="flex flex-col md:flex-row justify-between items-center px-6 max-w-container-max mx-auto gap-4">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-on-surface">Safar DZ</span>
+<span class="text-[12px] bg-secondary-container px-2 rounded">Fleet Portal</span>
+</div>
+<p class="font-label-sm text-on-surface-variant text-center">© 2024 Safar DZ. Algerian Tourism Marketplace. Developed for Mediterranean Hub.</p>
+<div class="flex gap-4">
+<a class="text-label-sm text-on-surface-variant hover:text-primary underline" href="#">Terms</a>
+<a class="text-label-sm text-on-surface-variant hover:text-primary underline" href="#">Safety</a>
+<a class="text-label-sm text-on-surface-variant hover:text-primary underline" href="#">Help Center</a>
+</div>
+</div>
+</footer>
+<script>
+        function toggleDrawer(isOpen) {
+            const drawer = document.getElementById('detailDrawer');
+            const overlay = document.getElementById('overlay');
+            if (isOpen) {
+                drawer.classList.remove('translate-x-full');
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+                document.body.style.overflow = 'hidden';
+            } else {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function confirmReject() {
+            document.getElementById('rejectModal').classList.remove('hidden');
+        }
+
+        function closeReject() {
+            document.getElementById('rejectModal').classList.add('hidden');
+        }
+
+        // Micro-interaction: Active tab styling
+        const tabs = document.querySelectorAll('.no-scrollbar button');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => {
+                    t.classList.remove('bg-surface', 'shadow-sm', 'text-primary', 'font-bold');
+                    t.classList.add('text-on-surface-variant');
+                });
+                tab.classList.add('bg-surface', 'shadow-sm', 'text-primary', 'font-bold');
+                tab.classList.remove('text-on-surface-variant');
+            });
+        });
+    </script>
+</body></html>

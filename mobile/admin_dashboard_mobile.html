@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Safar Partner - Admin Control Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scroll hide */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#f0eee1",
+                        "inverse-on-surface": "#f3f1e4",
+                        "outline-variant": "#c4c6d5",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "on-surface": "#1b1c14",
+                        "on-secondary-fixed-variant": "#364571",
+                        "surface-container-high": "#eae9dc",
+                        "outline": "#747684",
+                        "secondary-container": "#bbcbff",
+                        "surface-variant": "#e5e3d6",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#513a00",
+                        "on-surface-variant": "#434653",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#465581",
+                        "error": "#ba1a1a",
+                        "on-background": "#1b1c14",
+                        "on-secondary": "#ffffff",
+                        "surface": "#fcfaed",
+                        "surface-container-low": "#f6f4e7",
+                        "inverse-primary": "#b4c5ff",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "primary-fixed": "#dbe1ff",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-tertiary-fixed": "#261900",
+                        "on-primary-fixed": "#00174b",
+                        "tertiary-fixed-dim": "#fbbc1c",
+                        "inverse-surface": "#303129",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#b6c5f9",
+                        "surface-dim": "#dcdace",
+                        "surface-tint": "#2c57c0",
+                        "background": "#fcfaed",
+                        "primary": "#003693",
+                        "on-primary-fixed-variant": "#003ea7",
+                        "tertiary-fixed": "#ffdea1",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#1e4db6",
+                        "surface-bright": "#fcfaed",
+                        "on-secondary-fixed": "#061943",
+                        "secondary": "#4e5d8a",
+                        "on-tertiary-container": "#febf21",
+                        "surface-container-highest": "#e5e3d6",
+                        "tertiary-container": "#6e5000",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#b8c8ff",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Space Mono"],
+                        "display-lg": ["Space Mono"],
+                        "headline-sm": ["Space Mono"],
+                        "display-lg-mobile": ["Space Mono"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-surface flex justify-between items-center px-margin-mobile py-4 transition-opacity">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden border-2 border-primary/10">
+<img alt="Partner profile photo" class="w-full h-full object-cover" data-alt="A professional close-up portrait of a Mediterranean man in his 40s, wearing a crisp navy linen shirt. He has a warm, confident expression. The background is a soft-focus seaside marina with masts of sailboats catching the golden hour light. The overall aesthetic is clean, high-end, and professional, aligned with a premium tourism brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCamA9riuPnQ2_gWHFGcWp8BD7j8C5F5uWqamplbyzPpODfqxjaTev-oKspxAar4t60Wwlp8fzvUHkCk-nTyGGHbp2R7BCT8GDouIx5MYdPGVgYblSPQxz3OcQPDXU-tC75vsGUzyu98sHXrJMF-WlOmjkFdZegvgrcfbThAgVdaSF0fwFTxBQxefLCLD3mJdL9pj0gnBXaacC6Pt0-lGdSL9u_Y9Lt-4AtXg5PVmwqCIRT-UPGkAeiNYzSDwK5THlNB3_2OPitRKM"/>
+</div>
+<h1 class="font-headline-md text-headline-sm text-primary tracking-tight">Safar Partner</h1>
+</div>
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-150 relative" onclick="window.location.href='notifications_mobile.html'">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+</header>
+<main class="px-margin-mobile pb-32 pt-4">
+<!-- Welcome Header -->
+<section class="mb-8">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Thursday, Oct 24</p>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Operations Overview</h2>
+</section>
+<!-- KPI Bento Grid -->
+<section class="grid grid-cols-2 gap-4 mb-10">
+<!-- Today's Bookings -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-outline-variant/20 flex flex-col justify-between aspect-square">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-primary-fixed-dim/20 rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="event_available">event_available</span>
+</div>
+<span class="text-on-surface-variant text-[10px] font-bold">+12%</span>
+</div>
+<div>
+<p class="text-headline-md font-headline-md leading-none mb-1">14</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Today's Bookings</p>
+</div>
+</div>
+<!-- Revenue -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-outline-variant/20 flex flex-col justify-between aspect-square">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-tertiary-fixed/30 rounded-lg">
+<span class="material-symbols-outlined text-tertiary" data-icon="payments">payments</span>
+</div>
+<span class="text-on-surface-variant text-[10px] font-bold">+5%</span>
+</div>
+<div>
+<p class="text-headline-md font-headline-md leading-none mb-1">42k</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Revenue (DZD)</p>
+</div>
+</div>
+<!-- Commissions -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-outline-variant/20 flex flex-col justify-between aspect-square">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-secondary-container/40 rounded-lg">
+<span class="material-symbols-outlined text-secondary" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+</div>
+<div>
+<p class="text-headline-md font-headline-md leading-none mb-1">8.4k</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Commissions</p>
+</div>
+</div>
+<!-- Active Boats -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-outline-variant/20 flex flex-col justify-between aspect-square">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-surface-variant rounded-lg">
+<span class="material-symbols-outlined text-on-surface" data-icon="directions_boat">directions_boat</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+<span class="text-[10px] font-bold">Live</span>
+</div>
+</div>
+<div>
+<p class="text-headline-md font-headline-md leading-none mb-1">08</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Active Boats</p>
+</div>
+</div>
+</section>
+<!-- Sea Operations Monitor -->
+<section class="mb-10">
+<div class="flex justify-between items-end mb-4">
+<h3 class="font-headline-sm text-headline-sm">Sea Operations</h3>
+<a class="text-primary font-label-md text-label-md" href="#">View Map</a>
+</div>
+<div class="space-y-3">
+<!-- Boat Status Card 1 -->
+<div class="bg-white p-4 rounded-xl shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center relative">
+<span class="material-symbols-outlined text-primary" data-icon="anchor">anchor</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="font-label-md text-on-surface">The Pearl of Béjaïa</p>
+<span class="text-[10px] bg-primary-container text-on-primary-container px-2 py-0.5 rounded-full font-bold">ON TRIP</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full mt-2 overflow-hidden">
+<div class="bg-primary h-full w-[65%]" style="transition: width 2s ease-out"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-1 italic">Returning in 45 mins • Cap Carbon</p>
+</div>
+</div>
+<!-- Boat Status Card 2 -->
+<div class="bg-white p-4 rounded-xl shadow-sm flex items-center gap-4 opacity-80">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-outline" data-icon="sailing">sailing</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="font-label-md text-on-surface">Blue Horizon</p>
+<span class="text-[10px] bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded-full font-bold">IDLE</span>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-1">Available at Port de Béjaïa</p>
+</div>
+</div>
+<!-- Boat Status Card 3 -->
+<div class="bg-white p-4 rounded-xl shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="directions_boat">directions_boat</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="font-label-md text-on-surface">Mediterranean Sun</p>
+<span class="text-[10px] bg-tertiary-container text-on-tertiary-container px-2 py-0.5 rounded-full font-bold">PREPARING</span>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<div class="flex -space-x-2">
+<div class="w-5 h-5 rounded-full border-2 border-white bg-primary"></div>
+<div class="w-5 h-5 rounded-full border-2 border-white bg-secondary"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant">4 Guests Boarding</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Activity Feed -->
+<section class="mb-10">
+<h3 class="font-headline-sm text-headline-sm mb-4">Recent Activity</h3>
+<div class="relative pl-6 space-y-6 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-[2px] before:bg-outline-variant/30">
+<!-- Activity Item 1 -->
+<div class="relative">
+<div class="absolute -left-[22px] top-1 w-4 h-4 bg-primary rounded-full border-4 border-surface shadow-sm"></div>
+<div>
+<p class="font-label-md text-on-surface leading-tight">New Booking Confirmed</p>
+<p class="text-body-md text-on-surface-variant text-sm mt-1">"Les Grottes Féeriques" Sunset Tour • 4 persons • 18,000 DZD</p>
+<p class="text-[10px] text-outline mt-1 uppercase tracking-wider">12 mins ago</p>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="relative">
+<div class="absolute -left-[22px] top-1 w-4 h-4 bg-tertiary rounded-full border-4 border-surface shadow-sm"></div>
+<div>
+<p class="font-label-md text-on-surface leading-tight">Payment Received</p>
+<p class="text-body-md text-on-surface-variant text-sm mt-1">Booking #SF-9283 - Amount: 12,500 DZD</p>
+<p class="text-[10px] text-outline mt-1 uppercase tracking-wider">45 mins ago</p>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="relative">
+<div class="absolute -left-[22px] top-1 w-4 h-4 bg-error rounded-full border-4 border-surface shadow-sm"></div>
+<div>
+<p class="font-label-md text-on-surface leading-tight">Cancellation Request</p>
+<p class="text-body-md text-on-surface-variant text-sm mt-1">Customer Amine K. requested refund for tomorrow.</p>
+<p class="text-[10px] text-outline mt-1 uppercase tracking-wider">2 hours ago</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container-lowest shadow-[0_-4px_12px_rgba(0,54,147,0.05)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-3 py-1 active:scale-90 duration-200" href="admin_dashboard_mobile.html">
+<span class="material-symbols-outlined fill-icon" data-icon="dashboard">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 hover:text-primary transition-colors active:scale-90 duration-200" href="admin_bookings_mobile.html">
+<span class="material-symbols-outlined" data-icon="event_available">event_available</span>
+<span class="font-label-sm text-label-sm">Bookings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 hover:text-primary transition-colors active:scale-90 duration-200" href="admin_bookings_mobile.html">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-sm text-label-sm">Schedule</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 hover:text-primary transition-colors active:scale-90 duration-200" href="fleet_management_mobile.html">
+<span class="material-symbols-outlined" data-icon="directions_boat">directions_boat</span>
+<span class="font-label-sm text-label-sm">Fleet</span>
+</a>
+</nav>
+<!-- Floating Action Button Contextual (Only for home/dashboard) -->
+<button class="fixed right-6 bottom-24 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center active:scale-95 duration-150 z-30">
+<span class="material-symbols-outlined" data-icon="add" style="font-size: 32px;">add</span>
+</button>
+<script>
+        // Micro-interaction for progress bar
+        window.addEventListener('load', () => {
+            const bars = document.querySelectorAll('.bg-primary.h-full');
+            bars.forEach(bar => {
+                const targetWidth = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = targetWidth;
+                }, 300);
+            });
+        });
+
+        // Toggle active state for nav simulation
+        const navItems = document.querySelectorAll('nav a');
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                navItems.forEach(i => {
+                    i.classList.remove('bg-primary-container', 'text-on-primary-container');
+                    i.classList.add('text-on-surface-variant');
+                    const icon = i.querySelector('.material-symbols-outlined');
+                    if(icon) icon.style.fontVariationSettings = "'FILL' 0";
+                });
+                item.classList.remove('text-on-surface-variant');
+                item.classList.add('bg-primary-container', 'text-on-primary-container');
+                const activeIcon = item.querySelector('.material-symbols-outlined');
+                if(activeIcon) activeIcon.style.fontVariationSettings = "'FILL' 1";
+            });
+        });
+    </script>
+</body></html>

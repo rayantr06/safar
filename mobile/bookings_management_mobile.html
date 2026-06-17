@@ -1,0 +1,314 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<title>Bookings Management - Safar DZ</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Space+Mono:wght@100..900&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#fbbc1c",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-surface-variant": "#434653",
+                        "outline": "#747684",
+                        "surface-variant": "#e5e3d6",
+                        "inverse-primary": "#b4c5ff",
+                        "on-tertiary-container": "#febf21",
+                        "on-primary-fixed-variant": "#003ea7",
+                        "surface-tint": "#2c57c0",
+                        "secondary-fixed-dim": "#b6c5f9",
+                        "inverse-on-surface": "#f3f1e4",
+                        "on-secondary-fixed-variant": "#364571",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#bbcbff",
+                        "primary": "#003693",
+                        "primary-container": "#1e4db6",
+                        "on-secondary-fixed": "#061943",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed": "#261900",
+                        "surface-container-high": "#eae9dc",
+                        "on-secondary-container": "#465581",
+                        "on-background": "#1b1c14",
+                        "surface-bright": "#fcfaed",
+                        "surface-container": "#f0eee1",
+                        "on-primary-container": "#b8c8ff",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#fcfaed",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "background": "#fcfaed",
+                        "tertiary-fixed": "#ffdea1",
+                        "primary-fixed": "#dbe1ff",
+                        "outline-variant": "#c4c6d5",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#303129",
+                        "surface-container-highest": "#e5e3d6",
+                        "tertiary": "#513a00",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1b1c14",
+                        "secondary": "#4e5d8a",
+                        "tertiary-container": "#6e5000",
+                        "surface-dim": "#dcdace",
+                        "surface-container-low": "#f6f4e7",
+                        "on-primary-fixed": "#00174b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "8px",
+                        "lg": "12px",
+                        "xl": "16px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Space Mono"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Space Mono"],
+                        "body-md": ["Inter"],
+                        "display-lg-mobile": ["Space Mono"],
+                        "label-sm": ["Inter"],
+                        "headline-sm": ["Space Mono"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .bottom-sheet {
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+        .bottom-sheet.open {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top App Bar -->
+<header class="bg-surface dark:bg-surface-dim shadow-[0_4px_12px_rgba(0,54,147,0.05)] w-full sticky top-0 z-50">
+<div class="flex items-center justify-between px-margin-mobile h-16 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Partner profile photo" class="w-full h-full object-cover" data-alt="A professional portrait of a cheerful Algerian boat owner wearing a nautical blue polo shirt. The lighting is warm and natural, suggesting a Mediterranean harbor at sunset. The background is softly blurred, showing the masts of sailing boats and the shimmering turquoise water of Béjaïa bay, creating a sense of trust and local expertise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN3n6S2woXgG_9uwRWvwoiKi3gzc0D8lSfywPlh51TdBlFGCa8h6Nh2XZAPHJJsQouECX3KGE61fKSa5V9gT48V3wWhWqkYSeApUMBVMaQwWpRi8gkB5H7NjCVDJiRhtxUyO261bsmfKLaaX_MlJ6EFEQBJvFnfDRxt-P7sdrXeGPnczjO1INaAppwk7seAdRWUAT_RbiP2mynQsXUybminWs9ms15UqnulvLd8OCKKr85MX55tU_1dk_B84JgUJWP0CesX6hdAUI">
+</div>
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary dark:text-inverse-primary">Bookings</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-primary-container/10 transition-colors active:scale-95" onclick="window.location.href='notifications_mobile.html'">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+<!-- Filter Bar -->
+<nav class="flex gap-2 overflow-x-auto px-margin-mobile pb-4 pt-1 hide-scrollbar">
+<button class="px-4 py-2 rounded-full font-label-md text-label-md bg-primary text-on-primary whitespace-nowrap active:scale-95 transition-all">Today</button>
+<button class="px-4 py-2 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant whitespace-nowrap active:scale-95 transition-all">Pending</button>
+<button class="px-4 py-2 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant whitespace-nowrap active:scale-95 transition-all">Confirmed</button>
+<button class="px-4 py-2 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant whitespace-nowrap active:scale-95 transition-all">Completed</button>
+<button class="px-4 py-2 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant whitespace-nowrap active:scale-95 transition-all">Cancelled</button>
+</nav>
+</header>
+<main class="px-margin-mobile py-6 mb-24 space-y-6">
+<!-- Pending Booking Card -->
+<article class="bg-surface-container-lowest rounded-xl p-4 shadow-[0_4px_12px_rgba(0,54,147,0.05)] border border-outline-variant/30 flex flex-col gap-4 active:scale-[0.98] transition-transform cursor-pointer" onclick="openDetail('Amine Bensaid', 'Cap Carbon Expedition', 'Pending')">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h2 class="font-label-md text-label-md text-on-surface">Amine Bensaid</h2>
+<p class="font-headline-sm text-primary text-headline-sm-mobile">Cap Carbon Expedition</p>
+</div>
+<span class="px-3 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm uppercase tracking-wider">Pending</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="font-headline-sm text-label-sm-mobile font-normal">Aug 24, 2024</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span class="font-headline-sm text-label-sm-mobile font-normal">09:30 AM</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+<span class="font-body-md">6 Passengers</span>
+</div>
+<div class="flex gap-3 pt-2">
+<button class="flex-1 bg-primary-container text-white py-3 rounded-lg font-label-md active:scale-95 transition-transform" onclick="event.stopPropagation();">Accept</button>
+<button class="flex-1 border border-outline-variant text-on-surface-variant py-3 rounded-lg font-label-md active:scale-95 transition-transform" onclick="event.stopPropagation();">Reject</button>
+</div>
+</article>
+<!-- Confirmed Booking Card -->
+<article class="bg-surface-container-lowest rounded-xl p-4 shadow-[0_4px_12px_rgba(0,54,147,0.05)] border border-outline-variant/30 flex flex-col gap-4 active:scale-[0.98] transition-transform cursor-pointer" onclick="openDetail('Sarah Lounis', 'Ziouama Sunset Sail', 'Confirmed')">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h2 class="font-label-md text-label-md text-on-surface">Sarah Lounis</h2>
+<p class="font-headline-sm text-primary text-headline-sm-mobile">Ziouama Sunset Sail</p>
+</div>
+<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-wider">Confirmed</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="font-headline-sm text-label-sm-mobile font-normal">Aug 24, 2024</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span class="font-headline-sm text-label-sm-mobile font-normal">05:00 PM</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+<span class="font-body-md">4 Passengers</span>
+</div>
+<div class="pt-2">
+<button class="w-full bg-surface-container-high text-on-surface border border-outline-variant/30 py-3 rounded-lg font-label-md active:scale-95 transition-transform flex items-center justify-center gap-2" onclick="event.stopPropagation();">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+                    Mark Completed
+                </button>
+</div>
+</article>
+<!-- Confirmed Booking Card 2 -->
+<article class="bg-surface-container-lowest rounded-xl p-4 shadow-[0_4px_12px_rgba(0,54,147,0.05)] border border-outline-variant/30 flex flex-col gap-4 active:scale-[0.98] transition-transform cursor-pointer" onclick="openDetail('Karim Hadj', 'Aiguades Fishing Trip', 'Confirmed')">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h2 class="font-label-md text-label-md text-on-surface">Karim Hadj</h2>
+<p class="font-headline-sm text-primary text-headline-sm-mobile">Aiguades Fishing Trip</p>
+</div>
+<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-wider">Confirmed</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="font-headline-sm text-label-sm-mobile font-normal">Aug 25, 2024</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span class="font-headline-sm text-label-sm-mobile font-normal">07:00 AM</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+<span class="font-body-md">2 Passengers</span>
+</div>
+<div class="pt-2">
+<button class="w-full bg-surface-container-high text-on-surface border border-outline-variant/30 py-3 rounded-lg font-label-md active:scale-95 transition-transform flex items-center justify-center gap-2" onclick="event.stopPropagation();">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+                    Mark Completed
+                </button>
+</div>
+</article>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface dark:bg-surface-container-high border-t border-outline-variant/30 shadow-[0_-4px_12px_rgba(0,54,147,0.08)]">
+<div class="flex justify-around items-center w-full px-2 py-3 pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:text-primary transition-all duration-200 active:scale-90" href="partner_dashboard_mobile.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary-container text-on-secondary-container dark:text-on-secondary-container rounded-full px-4 py-1 active:scale-90 transition-all duration-200" href="bookings_management_mobile.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-label-sm text-label-sm">Bookings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:text-primary transition-all duration-200 active:scale-90" href="boat_management_mobile.html">
+<span class="material-symbols-outlined">directions_boat</span>
+<span class="font-label-sm text-label-sm">My Fleet</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:text-primary transition-all duration-200 active:scale-90" href="earnings_mobile.html">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-sm text-label-sm">Earnings</span>
+</a>
+</div>
+</nav>
+<!-- Bottom Sheet Details -->
+<div class="fixed inset-0 bg-black/40 z-[60] opacity-0 pointer-events-none transition-opacity duration-300" id="backdrop" onclick="closeDetail()"></div>
+<div class="bottom-sheet fixed bottom-0 left-0 right-0 bg-surface rounded-t-[32px] z-[70] shadow-[0_-8px_32px_rgba(0,0,0,0.15)] pb-10" id="detailSheet">
+<div class="w-12 h-1.5 bg-outline-variant/50 rounded-full mx-auto my-4"></div>
+<div class="px-margin-mobile py-4 space-y-6">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<p class="font-label-md text-label-md text-on-surface-variant" id="detailCustomer"></p>
+<h3 class="font-headline-sm text-primary" id="detailExpName"></h3>
+</div>
+<span class="px-3 py-1 rounded-full font-label-sm text-label-sm uppercase tracking-wider" id="detailStatus"></span>
+</div>
+<div class="space-y-4 pt-4">
+<h4 class="font-headline-sm text-label-sm-mobile text-on-surface border-b border-outline-variant pb-2">Financial Breakdown</h4>
+<div class="space-y-3 font-headline-sm text-label-sm-mobile">
+<div class="flex justify-between text-on-surface-variant">
+<span>Base Price (6 pax)</span>
+<span class="font-bold">18,000 DZD</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Equipment Rental</span>
+<span class="font-bold">3,500 DZD</span>
+</div>
+<div class="flex justify-between text-error">
+<span>Platform Commission (15%)</span>
+<span class="font-bold">-3,225 DZD</span>
+</div>
+<div class="flex justify-between text-on-surface pt-4 border-t border-outline-variant text-lg">
+<span class="font-label-md">Net Earnings</span>
+<span class="font-bold text-primary">18,275 DZD</span>
+</div>
+</div>
+</div>
+<div class="pt-6">
+<button class="w-full bg-primary py-4 rounded-xl text-on-primary font-label-md active:scale-95 transition-transform" onclick="closeDetail()">Close Details</button>
+</div>
+</div>
+</div>
+<script>
+        function openDetail(customer, exp, status) {
+            document.getElementById('detailCustomer').innerText = customer;
+            document.getElementById('detailExpName').innerText = exp;
+            
+            const statusBadge = document.getElementById('detailStatus');
+            statusBadge.innerText = status;
+            
+            if (status === 'Pending') {
+                statusBadge.className = 'px-3 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm uppercase tracking-wider';
+            } else {
+                statusBadge.className = 'px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-wider';
+            }
+
+            document.getElementById('backdrop').classList.remove('pointer-events-none');
+            document.getElementById('backdrop').classList.add('opacity-100');
+            document.getElementById('detailSheet').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDetail() {
+            document.getElementById('backdrop').classList.add('pointer-events-none');
+            document.getElementById('backdrop').classList.remove('opacity-100');
+            document.getElementById('detailSheet').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    </script>
+</body></html>

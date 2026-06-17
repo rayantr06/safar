@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notifications Center | Safar DZ Partner Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .notification-item:hover .action-button {
+            opacity: 1;
+        }
+        body {
+            background-color: #fcfaed; /* Warm Ivory Base */
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#364571",
+                    "on-background": "#1b1c14",
+                    "outline": "#747684",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#261900",
+                    "inverse-surface": "#303129",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#eae9dc",
+                    "secondary-container": "#bbcbff",
+                    "tertiary": "#513a00",
+                    "surface-bright": "#fcfaed",
+                    "tertiary-fixed": "#ffdea1",
+                    "surface-dim": "#dcdace",
+                    "on-tertiary-container": "#febf21",
+                    "surface-container": "#f0eee1",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "surface-container-highest": "#e5e3d6",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#434653",
+                    "surface-tint": "#2c57c0",
+                    "on-secondary-container": "#465581",
+                    "surface": "#fcfaed",
+                    "primary-container": "#1e4db6",
+                    "on-primary": "#ffffff",
+                    "background": "#fcfaed",
+                    "tertiary-fixed-dim": "#fbbc1c",
+                    "primary-fixed": "#dbe1ff",
+                    "tertiary-container": "#6e5000",
+                    "on-error": "#ffffff",
+                    "on-surface": "#1b1c14",
+                    "primary": "#003693",
+                    "on-error-container": "#93000a",
+                    "secondary": "#4e5d8a",
+                    "on-primary-container": "#b8c8ff",
+                    "inverse-on-surface": "#f3f1e4",
+                    "on-secondary-fixed": "#061943",
+                    "secondary-fixed-dim": "#b6c5f9",
+                    "outline-variant": "#c4c6d5",
+                    "secondary-fixed": "#dbe1ff",
+                    "inverse-primary": "#b4c5ff",
+                    "surface-container-low": "#f6f4e7",
+                    "on-primary-fixed-variant": "#003ea7",
+                    "on-primary-fixed": "#00174b",
+                    "surface-variant": "#e5e3d6",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "base": "8px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "display-lg-mobile": ["Space Mono"],
+                    "headline-sm": ["Space Mono"],
+                    "headline-md": ["Space Mono"],
+                    "label-md": ["Inter"],
+                    "display-lg": ["Space Mono"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-outline-variant flex flex-col p-4 space-y-2 z-50">
+<div class="flex flex-col gap-1 mb-8 px-2">
+<div class="font-headline-sm text-headline-sm font-bold text-primary">Safar DZ Partner</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-green-500"></div>
+<span class="font-label-md text-label-md text-on-surface-variant">Partner Portal</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant opacity-70">Béjaïa, DZ</span>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="earnings_finance.html">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-md text-label-md">Earnings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="customers_directory.html">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">Customers</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="boat_management.html">
+<span class="material-symbols-outlined" data-icon="directions_boat">directions_boat</span>
+<span class="font-label-md text-label-md">Boat Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="bookings_management.html">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-md text-label-md">Availability</span>
+</a>
+<!-- Active Tab -->
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer bg-primary-container text-on-primary-container font-bold rounded-lg transition-all duration-200" href="notifications_center.html">
+<span class="material-symbols-outlined" data-icon="notifications" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="font-label-md text-label-md">Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="business_reports.html">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="partner_settings.html">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-outline-variant">
+<button class="w-full bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:opacity-90 transition-opacity mb-4">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                Add New Boat
+            </button>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-sm text-label-sm">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-error transition-colors" href="discovery_page.html">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-sm text-label-sm">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen flex flex-col">
+<!-- Top App Bar -->
+<header class="w-full h-16 bg-surface shadow-sm flex justify-between items-center px-margin-desktop border-b border-outline-variant sticky top-0 z-40">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Notifications Center</h1>
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full cursor-pointer transition-colors" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
+</div>
+<span class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full cursor-pointer transition-colors" data-icon="translate">translate</span>
+<div class="h-8 w-px bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer group">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface">Captain Malik</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-70">Gold Partner</p>
+</div>
+<img alt="Partner profile" class="w-10 h-10 rounded-full border-2 border-primary-fixed shadow-sm object-cover" data-alt="A close-up professional portrait of a confident Algerian man in his late 40s with a warm smile, wearing a casual navy blue maritime jacket. The background is a soft-focus Mediterranean coastline at sunset, with golden and blue tones that match the Safar DZ brand. The lighting is high-end and natural, emphasizing trust and hospitality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiUhzgOGR5Fo3kCtfq7DPPdZwkrZLQcsUGqsrmrbQ_oiABoV1Y4abbcnow8cXfk1yG9UbIzM2ATIC52NWfYXARAy70NJ41AHiEOO5Lcmjw6mEo9q_Z2ocDoJAosLfcbK-28wqWLq31dRDfWp_h3gTCk-T1OgnNXALiyniBWjw8dv3n1ViPxqFiU3uKjEZMhXaOEhvxtZ5frttm3YvjRGE7-mUbUUxd3C0KmVUs4qCx2hpnml4yCx4J8lERSKKiCwzhb5gey_nFijc"/>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-10 max-w-5xl mx-auto w-full flex-1">
+<!-- Filters & Controls -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-background mb-1">Recent Activity</h2>
+<p class="font-body-md text-on-surface-variant">Stay updated with your latest bookings and inquiries.</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 rounded-full border border-outline-variant font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="filter_list">filter_list</span>
+                        Filter
+                    </button>
+<button class="px-4 py-2 rounded-full bg-surface-container-high font-label-md text-label-md text-primary hover:bg-primary-fixed-dim transition-colors">
+                        Mark all as read
+                    </button>
+</div>
+</div>
+<!-- Notifications Feed -->
+<div class="space-y-4">
+<!-- NEW BOOKING REQUEST (BLUE) -->
+<a class="notification-item bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/30 shadow-sm flex gap-4 transition-all hover:translate-x-1 hover:shadow-md cursor-pointer border-l-4 border-l-primary" href="schedule_calendar.html">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary" data-icon="calendar_add_on">calendar_add_on</span>
+</a>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-label-md text-label-md text-on-surface">New Booking Request: Yacht "L'Étoile de Béjaïa"</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Just now</span>
+</div>
+<p class="font-body-md text-on-surface-variant mb-3">Sarah B. has requested a 4-hour sunset tour for 6 people on August 15th.</p>
+<div class="flex gap-3">
+<button class="px-5 py-1.5 bg-primary text-on-primary rounded-lg font-label-sm text-label-sm hover:opacity-90 transition-opacity" onclick="window.location.href='booking_confirmation.html'">Confirm Booking</button>
+<button class="px-5 py-1.5 border border-outline-variant text-on-surface-variant rounded-lg font-label-sm text-label-sm hover:bg-surface-container-high transition-colors">Decline</button>
+</div>
+</div>
+<div class="w-2 h-2 bg-primary rounded-full mt-2"></div>
+</div>
+<!-- CONFIRMATION (GREEN) -->
+<a class="notification-item bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/30 shadow-sm flex gap-4 transition-all hover:translate-x-1 hover:shadow-md cursor-pointer border-l-4 border-l-green-500" href="partner_settings.html">
+<div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-green-600" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</a>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-label-md text-label-md text-on-surface">Payment Confirmed</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">2 hours ago</span>
+</div>
+<p class="font-body-md text-on-surface-variant">Payment for Booking #SF-9042 (Amine K.) has been successfully processed. Total: 24,000 DZD.</p>
+</div>
+<div class="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+</div>
+<!-- REMINDER (YELLOW) -->
+<div class="notification-item bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/30 shadow-sm flex gap-4 transition-all hover:translate-x-1 hover:shadow-md cursor-pointer border-l-4 border-l-tertiary-container">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-tertiary" data-icon="event_upcoming">event_upcoming</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-label-md text-label-md text-on-surface">Upcoming Trip Reminder</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4 hours ago</span>
+</div>
+<p class="font-body-md text-on-surface-variant mb-2">The "Hidden Caves Discovery" trip starts tomorrow at 09:00 AM. Ensure the boat is prepped and the crew is ready.</p>
+<div class="flex items-center gap-2 text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="list_alt">list_alt</span>
+                            View Pre-trip Checklist
+                        </div>
+</div>
+</div>
+<!-- CANCELLATION (RED) -->
+<div class="notification-item bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/30 shadow-sm flex gap-4 transition-all hover:translate-x-1 hover:shadow-md cursor-pointer border-l-4 border-l-error">
+<div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-error" data-icon="cancel">cancel</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-label-md text-label-md text-on-surface">Booking Cancelled</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Yesterday</span>
+</div>
+<p class="font-body-md text-on-surface-variant">Booking #SF-8831 for today at 2:00 PM has been cancelled by the customer. Cancellation fee applied.</p>
+<div class="mt-2 inline-flex items-center px-2 py-1 bg-error-container/30 text-error text-[12px] font-bold rounded">
+                            Action Required: Refund Status
+                        </div>
+</div>
+</div>
+<!-- INFO (BLUE) -->
+<div class="notification-item bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/30 shadow-sm flex gap-4 transition-all hover:translate-x-1 hover:shadow-md cursor-pointer border-l-4 border-l-primary/40 opacity-70">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="info">info</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-label-md text-label-md text-on-surface">Profile Update</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Yesterday</span>
+</div>
+<p class="font-body-md text-on-surface-variant">Your business insurance certificate was verified successfully. Your listings are now "Premium Verified".</p>
+</div>
+</div>
+</div>
+<!-- Load More -->
+<div class="mt-12 flex justify-center">
+<button class="group flex items-center gap-2 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" onclick="window.location.href='notifications_center.html'">
+                    View older notifications
+                    <span class="material-symbols-outlined group-hover:translate-y-1 transition-transform" data-icon="keyboard_arrow_down">keyboard_arrow_down</span>
+</button>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full py-10 bg-surface-container-lowest border-t border-outline-variant mt-auto">
+<div class="px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex flex-col gap-2">
+<div class="text-label-md font-bold text-on-surface">Safar DZ Tourism</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Safar DZ Tourism. All rights reserved.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Partner Agreement</a>
+</div>
+</div>
+</footer>
+</main>
+<!-- Visual Polish: Soft Glow background decoration -->
+<div class="fixed top-0 right-0 -z-10 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="fixed bottom-0 left-64 -z-10 w-[300px] h-[300px] bg-tertiary/5 rounded-full blur-[80px] pointer-events-none"></div>
+<script>
+        // Simple notification dismissal micro-interaction
+        document.querySelectorAll('.notification-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'BUTTON') {
+                    // Visual feedback for marking as read
+                    const dot = item.querySelector('.bg-primary.rounded-full, .bg-green-500.rounded-full');
+                    if (dot) {
+                        dot.classList.add('scale-0', 'opacity-0');
+                        item.classList.add('opacity-70');
+                    }
+                }
+            });
+        });
+    </script>
+</body></html>

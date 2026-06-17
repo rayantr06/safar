@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Safar DZ Admin - Availability Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#6e5000",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f3f1e4",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c4c6d5",
+                        "on-error-container": "#93000a",
+                        "on-background": "#1b1c14",
+                        "tertiary-fixed": "#ffdea1",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "inverse-surface": "#303129",
+                        "on-tertiary-container": "#febf21",
+                        "outline": "#747684",
+                        "primary-container": "#1e4db6",
+                        "surface-bright": "#fcfaed",
+                        "surface-container-high": "#eae9dc",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#465581",
+                        "on-primary-container": "#b8c8ff",
+                        "primary-fixed": "#dbe1ff",
+                        "inverse-primary": "#b4c5ff",
+                        "surface-container-low": "#f6f4e7",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#513a00",
+                        "on-primary-fixed": "#00174b",
+                        "on-tertiary-fixed": "#261900",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#2c57c0",
+                        "surface-container-highest": "#e5e3d6",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-surface": "#1b1c14",
+                        "secondary-fixed": "#dbe1ff",
+                        "secondary-fixed-dim": "#b6c5f9",
+                        "secondary-container": "#bbcbff",
+                        "background": "#fcfaed",
+                        "surface-variant": "#e5e3d6",
+                        "secondary": "#4e5d8a",
+                        "primary": "#003693",
+                        "surface": "#fcfaed",
+                        "on-surface-variant": "#434653",
+                        "surface-dim": "#dcdace",
+                        "surface-container": "#f0eee1",
+                        "on-secondary-fixed-variant": "#364571",
+                        "tertiary-fixed-dim": "#fbbc1c",
+                        "on-secondary-fixed": "#061943",
+                        "on-primary-fixed-variant": "#003ea7",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "8px",
+                        "lg": "12px",
+                        "xl": "16px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Space Mono"],
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Space Mono"],
+                        "headline-md": ["Space Mono"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .paper-texture {
+            background-color: #fcfaed;
+            background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="paper-texture text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container border-r border-outline-variant flex flex-col py-base px-4 z-50">
+<div class="flex items-center gap-3 mb-8 px-2">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">sailing</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-primary leading-tight">Safar DZ</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-70">Admin Console</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-md text-label-md rounded-lg" href="admin_command_center_final.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span> Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-md text-label-md rounded-lg" href="bookings_management_dashboard.html">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span> Bookings
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-md text-label-md rounded-lg" href="boat_owners_partners_management.html">
+<span class="material-symbols-outlined" data-icon="handshake">handshake</span> Partners
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-md text-label-md rounded-lg" href="activities_catalog.html">
+<span class="material-symbols-outlined" data-icon="explore">explore</span> Experiences
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-md text-label-md rounded-lg" href="boat_management_dashboard.html">
+<span class="material-symbols-outlined" data-icon="sailing">sailing</span> Boats Management
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-md text-label-md rounded-lg" href="customers_crm_dashboard.html">
+<span class="material-symbols-outlined" data-icon="group">group</span> Customers
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary-container text-on-primary-container font-bold rounded-lg transition-all active:scale-98" href="bookings_management_dashboard.html">
+<span class="material-symbols-outlined" data-icon="event_available">event_available</span> Availability
+            </a>
+</nav>
+<div class="mt-auto space-y-4 pt-4 border-t border-outline-variant">
+<button class="w-full bg-primary text-on-primary py-3 px-4 rounded-xl font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm hover:brightness-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span> New Experience
+            </button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span> Support
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-md text-label-md rounded-lg" href="discovery_page.html">
+<span class="material-symbols-outlined" data-icon="logout">logout</span> Logout
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen flex flex-col">
+<!-- TopNavBar Shell -->
+<header class="flex justify-between items-center px-margin-desktop h-16 w-full z-40 bg-surface-container-low shadow-sm sticky top-0">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-high border-none rounded-full text-label-md focus:ring-2 focus:ring-primary" placeholder="Search experiences, boats..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors relative" onclick="window.location.href='notifications_center.html'">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors" onclick="window.location.href='partner_settings.html'">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer group">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface leading-none">Admin User</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider font-bold">Béjaïa Hub</p>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Admin profile photo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeUQizNxay_bKyQPB6IO9OW-XntOBvvUgNDPD3hTrz1Y61PPR4pHC9qaVMa6p1TBKD2maAqHH_a4Ex58qHDl-vBJuuLqYkFUQJuShLXRPe-JBRDIiNqTeFMzd8XB_TymWYpVAJ1rIi08EmcDivpJPuZ0icYQzG1yW0jznh0ev9S599RW2Gys_ocl1HClRoXqWOn44__x-_xz-HU9NywiV7N64m4uK6UJygQOWRXpPl4wKvqUroYvvnQHKAK_kpHdQ3mHMyuTouwKI"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<div class="p-margin-desktop space-y-8 flex-1">
+<!-- Page Header -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Availability Management</h2>
+<p class="text-on-surface-variant font-body-md">Control when experiences and boats are available for the Béjaïa coast.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 border border-primary text-primary rounded-xl font-label-md text-label-md hover:bg-primary-container/10 transition-colors" onclick="window.location.href='availability_management_control_center.html'">Manage Schedule</button>
+<button class="px-6 py-2.5 bg-primary text-on-primary rounded-xl font-label-md text-label-md shadow-lg shadow-primary/20 flex items-center gap-2 hover:brightness-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="block">block</span> Block Time
+                    </button>
+</div>
+</div>
+<!-- Summary Cards Row -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="bg-white p-6 rounded-xl shadow-sm border border-outline-variant/30 flex items-center gap-4 group hover:border-primary transition-colors cursor-default">
+<div class="w-12 h-12 bg-primary-container/20 text-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="sailing">sailing</span>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant">Available Boats Today</p>
+<p class="font-headline-sm text-headline-sm text-on-surface leading-none">38</p>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-outline-variant/30 flex items-center gap-4 group hover:border-primary transition-colors cursor-default">
+<div class="w-12 h-12 bg-tertiary-fixed-dim/20 text-tertiary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant">Today's Experiences</p>
+<p class="font-headline-sm text-headline-sm text-on-surface leading-none">42</p>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-outline-variant/30 flex items-center gap-4 group hover:border-error transition-colors cursor-default">
+<div class="w-12 h-12 bg-error-container/40 text-error rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="event_busy">event_busy</span>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant">Fully Booked Slots</p>
+<p class="font-headline-sm text-headline-sm text-on-surface leading-none">15</p>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-outline-variant/30 flex items-center gap-4 group hover:border-on-surface transition-colors cursor-default">
+<div class="w-12 h-12 bg-surface-container-highest text-on-surface-variant rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="history_toggle_off">history_toggle_off</span>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant">Blocked Periods</p>
+<p class="font-headline-sm text-headline-sm text-on-surface leading-none">6</p>
+</div>
+</div>
+</div>
+<!-- Matrix & Controls Section -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Main Grid and Calendar -->
+<div class="col-span-12 lg:col-span-9 space-y-gutter">
+<!-- Filters -->
+<div class="bg-white p-4 rounded-xl shadow-sm border border-outline-variant/30 flex flex-wrap items-center gap-4">
+<div class="flex-1 min-w-[240px] relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="w-full pl-9 pr-4 py-2 bg-surface-container-low border-none rounded-lg text-label-md" placeholder="Filter boat, experience, owner..." type="text"/>
+</div>
+<select class="bg-surface-container-low border-none rounded-lg text-label-md py-2 px-4 focus:ring-primary">
+<option>Experience Type</option>
+<option>Yacht Tour</option>
+<option>Fishing</option>
+<option>Sunset Sail</option>
+</select>
+<select class="bg-surface-container-low border-none rounded-lg text-label-md py-2 px-4 focus:ring-primary">
+<option>Location</option>
+<option>Port de Béjaïa</option>
+<option>Tichi Coast</option>
+</select>
+<select class="bg-surface-container-low border-none rounded-lg text-label-md py-2 px-4 focus:ring-primary">
+<option>Status</option>
+<option>Available</option>
+<option>Limited</option>
+<option>Full</option>
+</select>
+<div class="h-8 w-px bg-outline-variant mx-1"></div>
+<div class="flex rounded-lg overflow-hidden border border-outline-variant">
+<button class="bg-primary text-on-primary p-2 flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">grid_view</span></button>
+<button class="bg-surface-container-low text-on-surface-variant p-2 flex items-center justify-center border-l border-outline-variant hover:bg-surface-container-high transition-colors" onclick="window.location.href='availability_management_control_center.html'"><span class="material-symbols-outlined text-[18px]">calendar_today</span></button>
+</div>
+</div>
+<!-- Availability Matrix -->
+<div class="bg-white rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden">
+<div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest">
+<h3 class="font-headline-sm text-[18px] text-primary">Availability Matrix</h3>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-green-500"></span><span class="text-[11px] font-bold uppercase tracking-tight opacity-70">Available</span></div>
+<div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-tertiary-fixed-dim"></span><span class="text-[11px] font-bold uppercase tracking-tight opacity-70">Limited</span></div>
+<div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-error"></span><span class="text-[11px] font-bold uppercase tracking-tight opacity-70">Full</span></div>
+<div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-black"></span><span class="text-[11px] font-bold uppercase tracking-tight opacity-70">Disabled</span></div>
+</div>
+</div>
+<div class="overflow-x-auto hide-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="p-4 font-label-md text-label-md border-r border-outline-variant min-w-[240px]">Experience / Boat</th>
+<th class="p-4 text-center font-headline-sm text-[14px]">MON<br/><span class="text-[10px] font-bold">MAY 20</span></th>
+<th class="p-4 text-center font-headline-sm text-[14px]">TUE<br/><span class="text-[10px] font-bold">MAY 21</span></th>
+<th class="p-4 text-center font-headline-sm text-[14px] bg-primary-container/5">WED<br/><span class="text-[10px] font-bold">MAY 22</span></th>
+<th class="p-4 text-center font-headline-sm text-[14px]">THU<br/><span class="text-[10px] font-bold">MAY 23</span></th>
+<th class="p-4 text-center font-headline-sm text-[14px]">FRI<br/><span class="text-[10px] font-bold">MAY 24</span></th>
+<th class="p-4 text-center font-headline-sm text-[14px]">SAT<br/><span class="text-[10px] font-bold">MAY 25</span></th>
+<th class="p-4 text-center font-headline-sm text-[14px]">SUN<br/><span class="text-[10px] font-bold">MAY 26</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-t border-outline-variant/30 hover:bg-surface-container-low transition-colors">
+<td class="p-4 border-r border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+<img alt="Boat Thumbnail" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmz0zyOpi0Ta3b5TnpmwYc2k6Pu8oAVY3Nd992sq4i55kX78D_v4wgha4PNVcvxGbeR8zFuYuSxYSw_wAJhRcoTknUjHcraQgt5OIjAv2MYgvLn4XFCLUu9rqPe18Ttqh_FqBME6ExPMcl9QwIDFiEkPZFSYmUuF4iJtucaVUn8usDZ0aarPhIQk-5b0maCaczP1dzx2uzHzIHXVAhE8_s_95d2TokyVdOnL84qSYml6j2tFtgOUHjenHoWJ9F-zxytxPbR4iNmzA"/>
+</div>
+<div>
+<p class="font-label-md text-label-md leading-tight">Cap Carbon Discovery</p>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Yacht • Amine Boat</p>
+</div>
+</div>
+</td>
+<td class="p-4 border-r border-outline-variant/30"><div class="h-10 w-full rounded-lg bg-green-500/20 border-2 border-green-500 cursor-pointer flex items-center justify-center font-headline-sm text-green-700 text-sm">8</div></td>
+<td class="p-4 border-r border-outline-variant/30"><div class="h-10 w-full rounded-lg bg-green-500/20 border-2 border-green-500 cursor-pointer flex items-center justify-center font-headline-sm text-green-700 text-sm">8</div></td>
+<td class="p-4 border-r border-outline-variant/30 bg-primary-container/5"><div class="h-10 w-full rounded-lg bg-tertiary-fixed-dim/20 border-2 border-tertiary-fixed-dim cursor-pointer flex items-center justify-center font-headline-sm text-tertiary-container text-sm">2</div></td>
+<td class="p-4 border-r border-outline-variant/30"><div class="h-10 w-full rounded-lg bg-error/20 border-2 border-error cursor-pointer flex items-center justify-center font-headline-sm text-error text-sm">0</div></td>
+<td class="p-4 border-r border-outline-variant/30"><div class="h-10 w-full rounded-lg bg-green-500/20 border-2 border-green-500 cursor-pointer flex items-center justify-center font-headline-sm text-green-700 text-sm">8</div></td>
+<td class="p-4 border-r border-outline-variant/30"><div class="h-10 w-full rounded-lg bg-green-500/20 border-2 border-green-500 cursor-pointer flex items-center justify-center font-headline-sm text-green-700 text-sm">8</div></td>
+<td class="p-4 border-r border-outline-variant/30"><div class="h-10 w-full rounded-lg bg-green-500/20 border-2 border-green-500 cursor-pointer flex items-center justify-center font-headline-sm text-green-700 text-sm">8</div></td>
+</tr>
+<tr class="border-t border-outline-variant/30 hover:bg-surface-container-low transition-colors">
+<td class="p-4 border-r border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+<img alt="Boat Thumbnail" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCduRZ9KZiVJEw4S_EKvHBi3iCMCyvaVycTsd3enDiDniN1zGL-ESieNr839YQWEYZzknDZNbHLo29u2YAz6HsKgah9flxCXn5zd6CmHN7UUui5nI30B4DrvBGtod9j4PuJxWhmDEEL6hp2i80p72ndmtUHQCkFYVsVMsBaT-F8s9q9fOLnn0RLmHTTZTx3iHYc4Ju3n9ZL-welwjgivN03g8C3-BQObkxZBP6rHZ3Y7crrE5n2uRr3eHOEF3FR1FZCfXGlIWLhgzI"/>
+</div>
+<div>
+<p class="font-label-md text-label-md leading-tight">Sunset over Gouraya</p>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Catamaran • Blue Sea</p>
+</div>
+</div>
+</td>
+<td class="p-4 border-r border-outline-variant/30"><div class="h-10 w-full rounded-lg bg-black cursor-pointer flex items-center justify-center"><span class="material-symbols-outlined text-white text-sm">lock</span></div></td>
+<td class="p-4 border-r border-outline-variant/30"><div class="h-10 w-full rounded-lg bg-green-500/20 border-2 border-green-500 cursor-pointer flex items-center justify-center font-headline-sm text-green-700 text-sm">12</div></td>
+<td class="p-4 border-r border-outline-variant/30 bg-primary-container/5"><div class="h-10 w-full rounded-lg bg-green-500/20 border-2 border-green-500 cursor-pointer flex items-center justify-center font-headline-sm text-green-700 text-sm">12</div></td>
+<td class="p-4 border-r border-outline-variant/30"><div class="h-10 w-full rounded-lg bg-green-500/20 border-2 border-green-500 cursor-pointer flex items-center justify-center font-headline-sm text-green-700 text-sm">12</div></td>
+<td class="p-4 border-r border-outline-variant/30"><div class="h-10 w-full rounded-lg bg-error/20 border-2 border-error cursor-pointer flex items-center justify-center font-headline-sm text-error text-sm">0</div></td>
+<td class="p-4 border-r border-outline-variant/30"><div class="h-10 w-full rounded-lg bg-tertiary-fixed-dim/20 border-2 border-tertiary-fixed-dim cursor-pointer flex items-center justify-center font-headline-sm text-tertiary-container text-sm">4</div></td>
+<td class="p-4 border-r border-outline-variant/30"><div class="h-10 w-full rounded-lg bg-green-500/20 border-2 border-green-500 cursor-pointer flex items-center justify-center font-headline-sm text-green-700 text-sm">12</div></td>
+</tr>
+<!-- More rows as needed -->
+</tbody>
+</table>
+</div>
+</div>
+<!-- Weekly Calendar View -->
+<div class="bg-white rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest">
+<div class="flex items-center gap-4">
+<h3 class="font-headline-sm text-[18px] text-primary">Global Weekly Calendar</h3>
+<div class="flex gap-1 border border-outline-variant rounded-lg p-1">
+<button class="p-1 hover:bg-surface-container-high rounded transition-colors"><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
+<span class="px-2 font-label-md">20 May - 26 May</span>
+<button class="p-1 hover:bg-surface-container-high rounded transition-colors"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
+</div>
+</div>
+<button class="flex items-center gap-2 text-primary font-label-md hover:underline transition-all">
+<span class="material-symbols-outlined text-[18px]">print</span> Export Report
+                            </button>
+</div>
+<div class="grid grid-cols-7 border-b border-outline-variant divide-x divide-outline-variant">
+<!-- Column Headers for days -->
+<div class="p-3 text-center bg-surface-container-low font-bold text-[11px] uppercase tracking-wider text-on-surface-variant">Mon</div>
+<div class="p-3 text-center bg-surface-container-low font-bold text-[11px] uppercase tracking-wider text-on-surface-variant">Tue</div>
+<div class="p-3 text-center bg-primary-container text-on-primary font-bold text-[11px] uppercase tracking-wider">Wed (Today)</div>
+<div class="p-3 text-center bg-surface-container-low font-bold text-[11px] uppercase tracking-wider text-on-surface-variant">Thu</div>
+<div class="p-3 text-center bg-surface-container-low font-bold text-[11px] uppercase tracking-wider text-on-surface-variant">Fri</div>
+<div class="p-3 text-center bg-surface-container-low font-bold text-[11px] uppercase tracking-wider text-on-surface-variant">Sat</div>
+<div class="p-3 text-center bg-surface-container-low font-bold text-[11px] uppercase tracking-wider text-on-surface-variant">Sun</div>
+</div>
+<div class="divide-y divide-outline-variant">
+<!-- Morning Slot Row -->
+<div class="grid grid-cols-12 divide-x divide-outline-variant min-h-[140px]">
+<div class="col-span-1 flex flex-col items-center justify-center bg-surface-container-low p-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">wb_sunny</span>
+<span class="text-[10px] font-bold uppercase tracking-tight text-on-surface-variant">Morning</span>
+<span class="text-[10px] opacity-60">08:00 - 12:00</span>
+</div>
+<div class="col-span-11 grid grid-cols-7 divide-x divide-outline-variant">
+<!-- Slots -->
+<div class="p-2 space-y-2">
+<div class="p-2 bg-primary-container/10 border-l-4 border-primary rounded-r-lg">
+<p class="font-label-sm text-[11px] font-bold text-primary truncate">Cap Carbon</p>
+<p class="text-[9px] opacity-70">09:00 • 6/8 Booked</p>
+</div>
+</div>
+<div class="p-2 space-y-2">
+<div class="p-2 bg-tertiary-fixed-dim/20 border-l-4 border-tertiary rounded-r-lg">
+<p class="font-label-sm text-[11px] font-bold text-tertiary-container truncate">Fish Trip</p>
+<p class="text-[9px] opacity-70">10:00 • 4/4 Booked</p>
+</div>
+</div>
+<!-- Wed Today slots -->
+<div class="p-2 space-y-2 bg-primary-container/5">
+<div class="p-2 bg-white border border-outline-variant rounded-lg shadow-sm">
+<div class="flex justify-between items-start mb-1">
+<p class="font-label-md text-[12px] font-bold text-primary leading-tight">Yacht Sail</p>
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+</div>
+<p class="text-[10px] text-on-surface-variant">08:30 • 2/12</p>
+<div class="mt-2 flex items-center gap-1.5 pt-1 border-t border-outline-variant/20">
+<span class="material-symbols-outlined text-[12px]">sailing</span>
+<span class="text-[9px] font-bold uppercase">Blue Sea</span>
+</div>
+</div>
+</div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+</div>
+</div>
+<!-- Afternoon Slot Row -->
+<div class="grid grid-cols-12 divide-x divide-outline-variant min-h-[140px]">
+<div class="col-span-1 flex flex-col items-center justify-center bg-surface-container-low p-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">sunny</span>
+<span class="text-[10px] font-bold uppercase tracking-tight text-on-surface-variant">Afternoon</span>
+<span class="text-[10px] opacity-60">13:00 - 17:00</span>
+</div>
+<div class="col-span-11 grid grid-cols-7 divide-x divide-outline-variant">
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2 space-y-2 bg-primary-container/5">
+<div class="p-2 bg-primary text-on-primary border border-primary rounded-lg shadow-md scale-105 relative z-10">
+<p class="font-label-md text-[12px] font-bold leading-tight">Cap Carbon Disc.</p>
+<p class="text-[10px] opacity-90">15:00 • 6/8 Booked</p>
+<div class="mt-2 flex items-center gap-1.5 pt-1 border-t border-white/20">
+<span class="material-symbols-outlined text-[12px]">sailing</span>
+<span class="text-[9px] font-bold uppercase">Amine Boat</span>
+</div>
+</div>
+</div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Panels -->
+<div class="col-span-12 lg:col-span-3 space-y-gutter">
+<!-- Quick Operations Panel -->
+<div class="bg-primary text-on-primary p-6 rounded-xl shadow-lg border border-primary-container/30">
+<h4 class="font-headline-sm text-[16px] mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">bolt</span> Quick Control
+                        </h4>
+<div class="space-y-4">
+<button class="w-full py-2.5 px-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-label-md flex items-center justify-between transition-all group" onclick="window.location.href='partner_settings.html'">
+                                Open all boats
+                                <span class="material-symbols-outlined text-[20px] group-active:rotate-12">power_settings_new</span>
+</button>
+<button class="w-full py-2.5 px-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-label-md flex items-center justify-between transition-all group">
+                                Pause all boats
+                                <span class="material-symbols-outlined text-[20px] group-active:rotate-12">pause</span>
+</button>
+<div class="h-px bg-white/10 my-2"></div>
+<div class="flex items-center justify-between">
+<span class="text-label-sm opacity-80">Close Today</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-tertiary-container"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-label-sm opacity-80">Enable Tomorrow</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-tertiary-container"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Conflict Detection Panel -->
+<div class="bg-white rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden">
+<div class="p-4 bg-error-container/20 border-b border-error/20 flex items-center gap-2 text-error">
+<span class="material-symbols-outlined">warning</span>
+<h4 class="font-label-md text-label-md font-bold uppercase tracking-wider">Conflict Detection</h4>
+</div>
+<div class="p-4 space-y-4">
+<!-- Conflict Item -->
+<div class="p-3 bg-surface-container-low rounded-lg border-l-4 border-error space-y-2">
+<p class="text-label-sm font-bold text-on-surface">Double Allocation</p>
+<p class="text-[12px] text-on-surface-variant leading-tight">Two bookings assigned to <span class="font-bold text-primary">Amine Boat</span> on Wed May 22, 15:00.</p>
+<div class="flex gap-2 pt-1">
+<button class="text-error font-bold text-[10px] uppercase hover:underline">Resolve</button>
+<button class="text-on-surface-variant font-bold text-[10px] uppercase hover:underline" onclick="window.location.href='boat_seats_experience_details.html'">Details</button>
+</div>
+</div>
+<div class="p-3 bg-surface-container-low rounded-lg border-l-4 border-error space-y-2">
+<p class="text-label-sm font-bold text-on-surface">Vessel Shortage</p>
+<p class="text-[12px] text-on-surface-variant leading-tight"><span class="font-bold text-primary">Sunset Tour</span> has no available boat for Thu May 23.</p>
+<div class="flex gap-2 pt-1">
+<button class="text-error font-bold text-[10px] uppercase hover:underline">Assign</button>
+<button class="text-on-surface-variant font-bold text-[10px] uppercase hover:underline">Ignore</button>
+</div>
+</div>
+<button class="w-full text-center py-2 text-[12px] font-bold text-on-surface-variant hover:text-primary transition-colors">View All Conflicts (2)</button>
+</div>
+</div>
+<!-- Vessel Status Sidebar -->
+<div class="bg-white rounded-xl shadow-sm border border-outline-variant/30 p-4">
+<h4 class="font-label-md text-label-md font-bold text-on-surface mb-3 uppercase tracking-wider">Vessel Real-time Status</h4>
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+<span class="text-[12px]">Amine Boat</span>
+</div>
+<span class="text-[10px] font-bold text-green-700 bg-green-500/10 px-2 py-0.5 rounded-full">At Sea</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+<span class="text-[12px]">Blue Sea Catamaran</span>
+</div>
+<span class="text-[10px] font-bold text-green-700 bg-green-500/10 px-2 py-0.5 rounded-full">At Sea</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></div>
+<span class="text-[12px]">The Pearl</span>
+</div>
+<span class="text-[10px] font-bold text-tertiary-container bg-tertiary-fixed-dim/10 px-2 py-0.5 rounded-full">Docked</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Action Button (Optional but adds interactivity) -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</button>
+</main>
+<script>
+        // Micro-interactions for availability matrix cells
+        document.querySelectorAll('.matrix-cell').forEach(cell => {
+            cell.addEventListener('click', () => {
+                // Potential logic for opening cell details
+                console.log('Matrix cell clicked');
+            });
+        });
+
+        // Quick toggle simulation
+        const toggles = document.querySelectorAll('input[type="checkbox"]');
+        toggles.forEach(toggle => {
+            toggle.addEventListener('change', (e) => {
+                const label = e.target.closest('div').querySelector('span').innerText;
+                console.log(`${label} changed to: ${e.target.checked}`);
+            });
+        });
+    </script>
+</body></html>

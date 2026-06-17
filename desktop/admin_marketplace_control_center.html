@@ -1,0 +1,511 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Safar DZ | Admin Operational Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#261900",
+                        "surface-container-low": "#f6f4e7",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#fcfaed",
+                        "secondary-fixed": "#dbe1ff",
+                        "tertiary-fixed": "#ffdea1",
+                        "surface-container": "#f0eee1",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "background": "#fcfaed",
+                        "surface-variant": "#e5e3d6",
+                        "primary-fixed": "#dbe1ff",
+                        "outline-variant": "#c4c6d5",
+                        "on-primary-fixed-variant": "#003ea7",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#1e4db6",
+                        "surface": "#fcfaed",
+                        "secondary": "#4e5d8a",
+                        "on-secondary-fixed": "#061943",
+                        "inverse-primary": "#b4c5ff",
+                        "primary": "#003693",
+                        "secondary-container": "#bbcbff",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#eae9dc",
+                        "on-surface": "#1b1c14",
+                        "outline": "#747684",
+                        "secondary-fixed-dim": "#b6c5f9",
+                        "inverse-on-surface": "#f3f1e4",
+                        "tertiary-fixed-dim": "#fbbc1c",
+                        "surface-container-highest": "#e5e3d6",
+                        "on-primary-fixed": "#00174b",
+                        "on-tertiary-container": "#febf21",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#364571",
+                        "on-primary-container": "#b8c8ff",
+                        "on-background": "#1b1c14",
+                        "surface-tint": "#2c57c0",
+                        "on-secondary-container": "#465581",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-surface-variant": "#434653",
+                        "surface-dim": "#dcdace",
+                        "tertiary-container": "#6e5000",
+                        "tertiary": "#513a00",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#303129"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "gutter": "24px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "display-lg-mobile": ["Space Mono"],
+                        "headline-sm": ["Space Mono"],
+                        "headline-md": ["Space Mono"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg": ["Space Mono"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { background-color: #fcfaed; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e3d6; border-radius: 10px; }
+    </style>
+</head>
+<body class="font-body-md text-on-surface overflow-x-hidden">
+<!-- SIDE NAVIGATION SHELL -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container dark:bg-inverse-surface border-r border-outline-variant/30 z-20 flex flex-col py-6">
+<div class="px-6 mb-10">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-inverse-primary">Safar DZ</h1>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mt-1 opacity-70">Operational Control</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-primary dark:text-primary-fixed-dim font-bold border-r-4 border-primary bg-surface-container-high" href="admin_command_center_final.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant transition-colors duration-200" href="bookings_management_dashboard.html">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md">Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant transition-colors duration-200" href="boat_owners_partners_management.html">
+<span class="material-symbols-outlined">handshake</span>
+<span class="font-label-md text-label-md">Partners</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant transition-colors duration-200" href="experiences_catalog_management.html">
+<span class="material-symbols-outlined">sailing</span>
+<span class="font-label-md text-label-md">Experiences</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant transition-colors duration-200" href="finance_commissions_dashboard.html">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Finance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant transition-colors duration-200" href="partner_settings.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary text-white py-3 rounded-xl font-label-md flex items-center justify-center gap-2 shadow-md hover:bg-primary-container transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+                Add New Experience
+            </button>
+<div class="mt-6 flex items-center gap-3 p-3 bg-surface-container-highest rounded-2xl">
+<img alt="Admin Profile Picture" class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm" data-alt="A professional male administrator profile portrait, set against a clean Mediterranean architectural background with warm afternoon lighting and soft shadows. The overall aesthetic is high-end, modern, and trustworthy, aligning with the Safar DZ luxury tourism brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBg54QI5SV4rjljRYMZlxefn_S2Q6JGzieA0fDdGtwIuxN_VkBV5-TbR7B3A1yKRPf-EVB1TSdSdWW2mw5oYc49G79TnZWl-LMGBQ_K6bu_BpSCRog_NrZp8qlmRheIpI14SW9f_1S3i1VFjhEpbTJzLqZyWAQHAQ-FHxbTewAjErqDERzpRNzbydxywbr2SXVTAqaAZqxS6cik5PiSPTUWIy-HUkLfIMpaqGwuhSvjOK49ypiIth5jHtnTBY92VCgVCzYUix53tjA">
+<div class="overflow-hidden">
+<p class="font-label-md text-on-surface truncate">Admin Profile</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Operational Control</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TOP HEADER -->
+<header class="h-16 fixed top-0 right-0 left-64 z-10 bg-surface dark:bg-surface-dim flex justify-between items-center px-margin-desktop shadow-sm border-b border-outline-variant/10">
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-primary">Good morning, Safar Team 🌊</h2>
+<p class="text-label-sm text-on-surface-variant">Here is what is happening today.</p>
+</div>
+<div class="flex items-center gap-6">
+<!-- Search -->
+<div class="relative hidden lg:block w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full bg-surface-container border-none rounded-full py-2 pl-10 pr-4 text-label-md focus:ring-2 focus:ring-primary/20" placeholder="Search operations..." type="text">
+</div>
+<!-- Date Selector -->
+<button class="flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-lg font-label-md text-on-surface-variant hover:bg-surface-container-highest transition-all" style="transform: scale(1);" onclick="window.location.href='availability_management_control_center.html'">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+<span class="">Today, Oct 12</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<!-- Actions -->
+<div class="flex items-center gap-3">
+<button class="relative hover:bg-surface-container-highest rounded-full p-2 transition-transform active:scale-95" onclick="window.location.href='notifications_center.html'">
+<span class="material-symbols-outlined text-primary">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<button class="hover:bg-surface-container-highest rounded-full p-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant/30 mx-1"></div>
+<button class="font-label-md text-error px-3 py-1.5 hover:bg-error/5 rounded-lg" style="transform: scale(1);" onclick="window.location.href='discovery_page.html'">Log Out</button>
+</div>
+</div>
+</header>
+<!-- MAIN CONTENT CANVAS -->
+<main class="ml-64 pt-20 p-margin-desktop">
+<!-- PERFORMANCE OVERVIEW (KPIs) -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-12">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-all border border-outline-variant/10"><div class="flex justify-between items-start mb-4"><div class="p-2 bg-primary/10 rounded-xl"><span class="material-symbols-outlined text-primary">confirmation_number</span></div><span class="text-label-sm text-green-600 bg-green-50 px-2 py-1 rounded-full font-bold">+12%</span></div><p class="text-on-surface-variant font-label-sm mb-1">Today's Bookings</p><h3 class="font-headline-md text-headline-md font-bold">24 <span class="text-label-md font-normal text-on-surface-variant">bookings</span></h3><p class="text-[10px] text-on-surface-variant mt-2">+12% compared to yesterday</p></div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-all border border-outline-variant/10"><div class="flex justify-between items-start mb-4"><div class="p-2 bg-tertiary-fixed rounded-xl"><span class="material-symbols-outlined text-on-tertiary-fixed-variant">payments</span></div><span class="text-label-sm text-on-surface-variant font-bold">DA</span></div><p class="text-on-surface-variant font-label-sm mb-1">Today's Revenue</p><h3 class="font-headline-md text-headline-md font-bold">320,000 <span class="text-label-md font-normal text-on-surface-variant">DA</span></h3><p class="text-[10px] text-on-surface-variant mt-2">Customer payments received</p></div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-all border border-outline-variant/10"><div class="flex justify-between items-start mb-4"><div class="p-2 bg-secondary-container rounded-xl"><span class="material-symbols-outlined text-primary">percent</span></div></div><p class="text-on-surface-variant font-label-sm mb-1">Safar Commission (15%)</p><h3 class="font-headline-md text-headline-md font-bold">48,000 <span class="text-label-md font-normal text-on-surface-variant">DA</span></h3><p class="text-[10px] text-on-surface-variant mt-2">Your platform earnings</p></div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-all border border-outline-variant/10"><div class="flex justify-between items-start mb-4"><div class="p-2 bg-green-100 rounded-xl"><span class="material-symbols-outlined text-green-700">sailing</span></div><div class="flex items-center gap-1"><span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span><span class="text-[10px] font-bold text-green-700 uppercase">Live</span></div></div><p class="text-on-surface-variant font-label-sm mb-1">Active Boats Online</p><h3 class="font-headline-md text-headline-md font-bold">18 <span class="text-label-md font-normal text-on-surface-variant">vessels</span></h3><p class="text-[10px] text-on-surface-variant mt-2">Available partners</p></div>
+</section>
+<!-- MAIN GRID: OPERATIONS & ACTIVITY -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- LEFT COLUMN: LIVE OPERATIONS -->
+<div class="col-span-12 lg:col-span-8 space-y-gutter">
+<div class="bg-surface-container-lowest p-6 rounded-[24px] shadow-sm border border-outline-variant/10">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Today's Sea Operations</h2>
+<button class="text-primary font-label-md flex items-center gap-1 hover:underline">
+                            View All Monitor
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Op Card 1 -->
+<div class="group relative bg-surface-container p-4 rounded-2xl flex gap-4 transition-all hover:bg-surface-container-high">
+<img alt="Experience Image" class="w-20 h-20 rounded-xl object-cover" data-alt="A beautiful luxury boat cruising the crystal clear turquoise waters of Béjaïa coastline under a bright Mediterranean sun. The scene is shot from a drone perspective, showing the wake of the boat and the rocky cliffs of the Algerian coast in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLU0Knqz7E8z278mRDJul8akdTLb9oqicjuHG7_oI192dEuZiDLECeLuzLwoWqeljsuNFh17dcDK0ttEFqpBv_Ddp13JVwe2WGlasIuBQVULMROaBarqMSPdUeKP7UFKJ6lkB-m9qZJ61-kMTdxS91KjJKiHXfwERKgklfIPpsLlqMUHMDm1APdJ8WddMjpyZyz53Saj1KC1bRtFghIrSbTgUAMF9ty51Dw0n6_cYasrvBOnFm9f8UxG0Xk2y2xmNPbn3Infn4uZ4">
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-label-md text-on-surface truncate">Cave Explorer Tour</h4>
+<span class="text-[10px] font-bold uppercase px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed rounded">Running</span>
+</div>
+<p class="text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">person</span> Amine Boat
+                                </p>
+<div class="mt-2 flex items-center justify-between">
+<span class="text-label-sm font-headline-sm font-bold">06 Guests</span>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full bg-primary-container border-2 border-white flex items-center justify-center text-[8px] text-white font-bold">ID</div>
+<div class="w-6 h-6 rounded-full bg-secondary-container border-2 border-white flex items-center justify-center text-[8px] text-on-secondary-container font-bold">+5</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Op Card 2 -->
+<div class="group relative bg-surface-container p-4 rounded-2xl flex gap-4 transition-all hover:bg-surface-container-high">
+<img alt="Experience Image" class="w-20 h-20 rounded-xl object-cover" data-alt="A high-end private yacht excursion in the gulf of Bejaia at sunset. The lighting is warm and golden, reflecting off the calm Mediterranean sea. The boat is docked near a picturesque rocky cove with silhouettes of trees." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3I34K6Uh1P-fYm0ZxJISWjOosQUNwsJnRqCMsE0dKXWyPgk-9KzLI3dKTpmBnwJVWIWHjAp_CgTlJUHLILMkCvdmiD0A3JN1jnAI7c7tl-Vhu7W5SVLWZxI43w4y1MJMkzIekJLFxZuYOtUGhsLMTshmtgRPppjSIjPSPmlEvjODEi5zvlishLTRbMfhHMxtcjTIdtFG1rWq_gKcZkbVaftuRnH8q0_j5nXqhitg-n2T5zO7kWJ7mtBU754CQSyS04SisNWU9STQ">
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-label-md text-on-surface truncate">Sunset Serenity</h4>
+<span class="text-[10px] font-bold uppercase px-2 py-0.5 bg-blue-100 text-primary rounded">Preparing</span>
+</div>
+<p class="text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">person</span> Salim Nautique
+                                </p>
+<div class="mt-2 flex items-center justify-between">
+<span class="text-label-sm font-headline-sm font-bold">04 Guests</span>
+<span class="text-label-sm text-on-surface-variant italic">ETD: 17:30</span>
+</div>
+</div>
+</div>
+<!-- Op Card 3 -->
+<div class="group relative bg-surface-container p-4 rounded-2xl flex gap-4 transition-all hover:bg-surface-container-high">
+<img alt="Experience Image" class="w-20 h-20 rounded-xl object-cover" data-alt="Deep sea fishing experience in Algeria, showing fishing gear on a clean, professional boat deck. The background shows the vast blue ocean with slight waves under a clear sky." src="https://lh3.googleusercontent.com/aida-public/AB6AXuARB2u6rArJ1UrZ9CZrLOPH_pwSgB1fSLoQ_U4fSMH5yJ0yKIZH8kF_03OtaYXkE-EKSjJ622-QMSM0diLMZkLkbjGrkYjKpjO2BoPhQ4teY1lln23xzqt4kmKfeLmcwfRHr5nYPK47Sv9I-JIT3I0SZei7xQtX9GHXsvnX1cxkB-nwXzQkbxGPnJ3trQv_T1tlrPoIpxBaTyfXzq9s6Ddh_8ZtEPKA80OeNDCvT9Up4qYzqn38dzA6WKIdSYhPSAHs3Wvgk3cs_Gw">
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-label-md text-on-surface truncate">Deep Sea Fishing</h4>
+<span class="text-[10px] font-bold uppercase px-2 py-0.5 bg-surface-variant text-on-surface-variant rounded">Completed</span>
+</div>
+<p class="text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">person</span> Captain Malik
+                                </p>
+<div class="mt-2 flex items-center justify-between">
+<span class="text-label-sm font-headline-sm font-bold">03 Guests</span>
+<span class="text-label-sm text-green-600 flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Docked
+                                    </span>
+</div>
+</div>
+</div>
+<!-- Op Card 4 -->
+<div class="group relative bg-surface-container p-4 rounded-2xl flex gap-4 transition-all hover:bg-surface-container-high">
+<div class="w-20 h-20 rounded-xl bg-primary/5 flex items-center justify-center border-2 border-dashed border-outline-variant">
+<span class="material-symbols-outlined text-primary/30 text-[32px]">more_horiz</span>
+</div>
+<div class="flex-1 flex flex-col justify-center">
+<p class="text-label-md text-on-surface-variant">6 more operations planned for the afternoon sessions.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- REVENUE CHART MOCK -->
+<div class="bg-surface-container-lowest p-6 rounded-[24px] shadow-sm border border-outline-variant/10">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Revenue Overview</h2>
+<p class="text-label-sm text-on-surface-variant">Bookings and Revenue (Last 7 Days)</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-label-sm">Revenue</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-tertiary-fixed-dim"></span>
+<span class="text-label-sm">Bookings</span>
+</div>
+</div>
+</div>
+<div class="h-64 w-full flex items-end justify-between px-4 pb-4">
+<!-- Visualizing a simple bar/line chart using flex and divs -->
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full flex items-end justify-center gap-1 group">
+<div class="w-3 bg-tertiary-fixed-dim rounded-t-sm h-[40%] group-hover:opacity-80 transition-all"></div>
+<div class="w-6 bg-primary rounded-t-sm h-[60%] group-hover:opacity-80 transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">MON</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full flex items-end justify-center gap-1 group">
+<div class="w-3 bg-tertiary-fixed-dim rounded-t-sm h-[30%] group-hover:opacity-80 transition-all"></div>
+<div class="w-6 bg-primary rounded-t-sm h-[45%] group-hover:opacity-80 transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">TUE</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full flex items-end justify-center gap-1 group">
+<div class="w-3 bg-tertiary-fixed-dim rounded-t-sm h-[55%] group-hover:opacity-80 transition-all"></div>
+<div class="w-6 bg-primary rounded-t-sm h-[75%] group-hover:opacity-80 transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">WED</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full flex items-end justify-center gap-1 group">
+<div class="w-3 bg-tertiary-fixed-dim rounded-t-sm h-[45%] group-hover:opacity-80 transition-all"></div>
+<div class="w-6 bg-primary rounded-t-sm h-[90%] group-hover:opacity-80 transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">THU</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full flex items-end justify-center gap-1 group">
+<div class="w-3 bg-tertiary-fixed-dim rounded-t-sm h-[65%] group-hover:opacity-80 transition-all"></div>
+<div class="w-6 bg-primary rounded-t-sm h-[95%] group-hover:opacity-80 transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">FRI</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full flex items-end justify-center gap-1 group">
+<div class="w-3 bg-tertiary-fixed-dim rounded-t-sm h-[85%] group-hover:opacity-80 transition-all"></div>
+<div class="w-6 bg-primary rounded-t-sm h-[100%] group-hover:opacity-80 transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">SAT</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full flex items-end justify-center gap-1 group">
+<div class="w-3 bg-tertiary-fixed-dim rounded-t-sm h-[50%] group-hover:opacity-80 transition-all"></div>
+<div class="w-6 bg-primary rounded-t-sm h-[70%] group-hover:opacity-80 transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">SUN</span>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: ACTIVITY & PARTNERS -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<!-- RECENT ACTIVITY FEED -->
+<div class="bg-surface-container-lowest p-6 rounded-[24px] shadow-sm border border-outline-variant/10">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-6">Recent Activity</h2>
+<div class="space-y-6 relative before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-[1px] before:bg-outline-variant/30">
+<!-- Activity 1 -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-green-100 flex items-center justify-center border-4 border-surface-container-lowest z-10">
+<span class="material-symbols-outlined text-green-700 text-[18px]">add_task</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">New booking: <span class="font-bold">Cave Explorer</span></p>
+<p class="text-label-sm text-on-surface-variant">Customer: Ryad B. • 20 min ago</p>
+</div>
+</div>
+<!-- Activity 2 -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center border-4 border-surface-container-lowest z-10">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Payment Confirmed</p>
+<p class="text-label-sm text-on-surface-variant">Transaction #8892 • 45 min ago</p>
+</div>
+</div>
+<!-- Activity 3 -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-error-container flex items-center justify-center border-4 border-surface-container-lowest z-10">
+<span class="material-symbols-outlined text-error text-[18px]">cancel</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface text-error">Cancellation Request</p>
+<p class="text-label-sm text-on-surface-variant">Yanis G. • 1.5 hours ago</p>
+</div>
+</div>
+<!-- Activity 4 -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center border-4 border-surface-container-lowest z-10">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant text-[18px]">person_add</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">New Partner Registered</p>
+<p class="text-label-sm text-on-surface-variant">"Aiguades Tours" • 3 hours ago</p>
+</div>
+</div>
+</div>
+</div>
+<!-- PARTNER PERFORMANCE -->
+<div class="bg-surface-container-lowest p-6 rounded-[24px] shadow-sm border border-outline-variant/10">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-6">Partner Performance</h2>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 bg-surface-container rounded-xl">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-white font-bold">AB</div>
+<div>
+<p class="font-label-md text-on-surface">Amine Boat</p>
+<div class="flex items-center gap-1 text-tertiary-fixed-dim">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm font-bold text-on-surface-variant">4.9</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<p class="text-label-sm font-headline-sm font-bold">520k DA</p>
+<p class="text-[10px] text-on-surface-variant uppercase">42 Trips</p>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 bg-surface-container rounded-xl">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold">SN</div>
+<div>
+<p class="font-label-md text-on-surface">Salim Nautique</p>
+<div class="flex items-center gap-1 text-tertiary-fixed-dim">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm font-bold text-on-surface-variant">4.8</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<p class="text-label-sm font-headline-sm font-bold">485k DA</p>
+<p class="text-[10px] text-on-surface-variant uppercase">38 Trips</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-2 border border-outline-variant rounded-xl text-label-md font-bold hover:bg-surface-variant transition-all" style="transform: scale(1);" onclick="window.location.href='boat_owners_partners_management.html'">View All Partners</button>
+</div>
+<!-- BEJAIA MAP OVERVIEW -->
+<div class="bg-surface-container-lowest p-6 rounded-[24px] shadow-sm border border-outline-variant/10 relative overflow-hidden group">
+<div class="absolute inset-0 bg-slate-200">
+<!-- Placeholder for Map Visualization -->
+<div class="absolute inset-0 opacity-40 bg-[radial-gradient(circle,rgba(255,255,255,0.8)_0%,rgba(200,200,220,0.4)_100%)]"></div>
+<div class="absolute top-1/2 left-1/3 w-3 h-3 bg-primary rounded-full animate-ping"></div>
+<div class="absolute top-1/2 left-1/3 w-3 h-3 bg-primary rounded-full"></div>
+<div class="absolute top-1/4 right-1/4 w-3 h-3 bg-tertiary-fixed-dim rounded-full shadow-lg"></div>
+<img alt="Map Overview" class="w-full h-full object-cover opacity-60" data-alt="A stylized satellite view of a Mediterranean coastal city like Bejaia, Algeria. The water is deep royal blue, the land is golden and rocky. Digital overlay elements like data points and navigation lines are subtly glowing in white and neon blue." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7QQDHJGAXrp3GrA4xbiwiDnm54nVa0PDXlaQbWyCPcq3uPKZMArGCp7KT2OvmN569j1-fou7yYBHhZR9VL-omf-eOxpgE2jQvvRAeCVXLPyP0-I6La6Q2FfBkWLc0CpTisqchL2eufbvtvzeEee91ACOBdJqnPj2YucA0YMnmDNZycYkjiQr8j7uyTbClaFSoGK62fWg7lDRaTcOfrYkj9c8lVEQ3cCe5YXKEbbnShZBZSD7223RC8D2caBJkLklkjhyEZAETHYg">
+</div>
+<div class="relative z-10 pointer-events-none">
+<div class="bg-surface/90 backdrop-blur-sm p-3 rounded-xl inline-block shadow-sm">
+<h2 class="font-headline-sm text-[16px] text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">location_on</span>
+                                Béjaïa Coast Live
+                            </h2>
+</div>
+<div class="mt-20">
+<button class="bg-primary text-white px-4 py-2 rounded-lg font-label-md shadow-lg pointer-events-auto hover:bg-primary-container transition-all">
+                                Open Operations Map
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- QUICK ACTIONS BAR -->
+<section class="mt-12 mb-20">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-6">Operational Quick Actions</h2>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+<button class="group flex flex-col items-center justify-center gap-3 p-8 bg-surface-container-highest rounded-[24px] hover:bg-primary hover:text-white transition-all duration-300 active:scale-95">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform">add_box</span>
+<span class="font-label-md">Add Experience</span>
+</button>
+<button class="group flex flex-col items-center justify-center gap-3 p-8 bg-surface-container-highest rounded-[24px] hover:bg-primary hover:text-white transition-all duration-300 active:scale-95">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform">person_add</span>
+<span class="font-label-md">Add Boat Owner</span>
+</button>
+<button class="group flex flex-col items-center justify-center gap-3 p-8 bg-surface-container-highest rounded-[24px] hover:bg-primary hover:text-white transition-all duration-300 active:scale-95" onclick="window.location.href='bookings_management_dashboard.html'">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform">list_alt</span>
+<span class="font-label-md">View Bookings</span>
+</button>
+<button class="group flex flex-col items-center justify-center gap-3 p-8 bg-surface-container-highest rounded-[24px] hover:bg-primary hover:text-white transition-all duration-300 active:scale-95" onclick="window.location.href='availability_management_control_center.html'">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform">event_busy</span>
+<span class="font-label-md">Manage Availability</span>
+</button>
+</div>
+</section>
+</main>
+<!-- FAB for Quick Support (Contextual for Home) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-tertiary-fixed text-on-tertiary-fixed rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform active:scale-90 z-30 group" style="transform: scale(1);">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">support_agent</span>
+<span class="absolute right-full mr-3 bg-on-tertiary-fixed text-white px-3 py-1.5 rounded-lg text-label-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">Quick Help</span>
+</button>
+<script>
+        // Simple micro-interaction for active states or dashboard refreshes
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', function() {
+                this.style.transform = 'scale(0.96)';
+            });
+            button.addEventListener('mouseup', function() {
+                this.style.transform = 'scale(1)';
+            });
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+
+
+</body></html>

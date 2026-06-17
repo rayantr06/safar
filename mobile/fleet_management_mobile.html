@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Safar Partner - Fleet Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#f0eee1",
+                    "inverse-on-surface": "#f3f1e4",
+                    "outline-variant": "#c4c6d5",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "on-surface": "#1b1c14",
+                    "on-secondary-fixed-variant": "#364571",
+                    "surface-container-high": "#eae9dc",
+                    "outline": "#747684",
+                    "secondary-container": "#bbcbff",
+                    "surface-variant": "#e5e3d6",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#513a00",
+                    "on-surface-variant": "#434653",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#465581",
+                    "error": "#ba1a1a",
+                    "on-background": "#1b1c14",
+                    "on-secondary": "#ffffff",
+                    "surface": "#fcfaed",
+                    "surface-container-low": "#f6f4e7",
+                    "inverse-primary": "#b4c5ff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "primary-fixed": "#dbe1ff",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-tertiary-fixed": "#261900",
+                    "on-primary-fixed": "#00174b",
+                    "tertiary-fixed-dim": "#fbbc1c",
+                    "inverse-surface": "#303129",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#b6c5f9",
+                    "surface-dim": "#dcdace",
+                    "surface-tint": "#2c57c0",
+                    "background": "#fcfaed",
+                    "primary": "#003693",
+                    "on-primary-fixed-variant": "#003ea7",
+                    "tertiary-fixed": "#ffdea1",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#1e4db6",
+                    "surface-bright": "#fcfaed",
+                    "on-secondary-fixed": "#061943",
+                    "secondary": "#4e5d8a",
+                    "on-tertiary-container": "#febf21",
+                    "surface-container-highest": "#e5e3d6",
+                    "tertiary-container": "#6e5000",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-container": "#b8c8ff",
+                    "on-error": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "container-max": "1280px",
+                    "margin-desktop": "40px",
+                    "gutter": "24px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Space Mono"],
+                    "display-lg": ["Space Mono"],
+                    "headline-sm": ["Space Mono"],
+                    "display-lg-mobile": ["Space Mono"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md">
+<!-- Top App Bar -->
+<header class="w-full top-0 sticky z-50 bg-surface dark:bg-surface-dim flex justify-between items-center px-margin-mobile py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary">
+<img alt="Partner profile photo" class="w-full h-full object-cover" data-alt="A professional portrait of a middle-aged Mediterranean boat captain with a warm, welcoming smile. He is wearing a clean navy blue polo shirt, standing against a blurred background of a sunny marina in Béjaïa. The lighting is bright and natural, emphasizing a high-trust, startup aesthetic with soft shadows and clear detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjFYwKsTxr3F_X5Nx5L_IhIpaQ1AMpMyRZH5_sshEStIK67bcsVsK5jG-am4m-2nTXGu4rgKN2_zfg4jGvrbN9KLlJux7LT3CapujegZlXX7LqQ0_X0SWQEeG4KhqQCITtxjhpc9XYhndDMtaH1iz-4dMW0b9hO6_BGwkoDQwx8Tb9fszLPTzjC0YkYOPk6L1wi0gEcobLW7sgnwcumJEtr2U4QlH1z59ZUH1VqRmhHljqMJe1dhU5Y4q1tfoRIlUZMogi0vixWFo"/>
+</div>
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed tracking-tight">Safar Partner</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-primary dark:text-primary-fixed hover:opacity-80 transition-opacity active:scale-95 duration-150" onclick="window.location.href='notifications_mobile.html'">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="px-margin-mobile pt-4 pb-32">
+<!-- Header Actions Section -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider mb-1">Fleet Overview</p>
+<h2 class="font-headline-sm text-headline-sm-mobile md:text-headline-sm text-on-surface">Manage Boats</h2>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-xl flex items-center gap-2 font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+                Add Boat
+            </button>
+</div>
+<!-- Bento-style Stats (Atmospheric Micro-interaction) -->
+<div class="grid grid-cols-2 gap-4 mb-8">
+<div class="bg-primary-container text-on-primary-container p-4 rounded-2xl flex flex-col justify-between h-28 shadow-sm">
+<span class="material-symbols-outlined" data-icon="directions_boat">directions_boat</span>
+<div>
+<p class="text-[24px] font-bold">12</p>
+<p class="text-label-sm font-label-sm">Total Vessels</p>
+</div>
+</div>
+<div class="bg-surface-container-high p-4 rounded-2xl flex flex-col justify-between h-28 border border-outline-variant/30 shadow-sm">
+<span class="material-symbols-outlined text-primary" data-icon="anchor">anchor</span>
+<div>
+<p class="text-[24px] font-bold text-on-surface">09</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Active Now</p>
+</div>
+</div>
+</div>
+<!-- Fleet List -->
+<div class="space-y-6">
+<!-- Boat Card 1: Active -->
+<div class="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-[0_4px_12px_rgba(0,54,147,0.05)] border border-outline-variant/20 transition-all active:scale-[0.98]">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A luxury modern white motorboat cruising through the crystal clear turquoise waters of the Mediterranean coast in Béjaïa, Algeria. The boat is sleek and high-tech, reflecting the bright midday sun. The background features rugged coastal cliffs and a deep blue sky, creating an atmosphere of premium sea adventure and discovery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOnt8JNa3wdIZbz2wHCbeEnrvOHgbzzvKOJLDmrViePbyFVUZ969_vA5BTt6JHctZPlG0-MucUH25CTbDTIIFaGEf5kyYD7ChvGMjieijDq4uCZw_bfemrA8eNdEb7cPqQPxPAUy_yPc06POuQNXEsIdcAngK1-8IigENX9RVHVNPAc7XbJd_LhsrDucT2stc6rUILP67WT8BG1-3zzBugHtx9P4XkiVRDmJfhba4CSIj_iejQhL3zRlcEwuBka0SkFMcUVjexY70"/>
+<div class="absolute top-4 left-4">
+<span class="bg-green-100 text-green-800 text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 uppercase tracking-widest backdrop-blur-md">
+<span class="w-1.5 h-1.5 bg-green-600 rounded-full animate-pulse"></span>
+                            Active
+                        </span>
+</div>
+<div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg">
+<p class="text-primary font-headline-sm text-[16px]">8,500 DA<span class="text-[10px] font-normal text-on-surface-variant">/hr</span></p>
+</div>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-headline-sm text-[18px] text-on-surface">L'Étoile de Béjaïa</h3>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Owner: Ahmed Mansouri</p>
+</div>
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<div class="flex items-center gap-4 py-3 border-t border-outline-variant/20">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="groups">groups</span>
+<span class="text-label-sm font-label-sm">Up to 12</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="speed">speed</span>
+<span class="text-label-sm font-label-sm">25 knots</span>
+</div>
+<div class="ml-auto">
+<span class="material-symbols-outlined text-primary" data-icon="arrow_forward_ios" style="font-size: 14px;">arrow_forward_ios</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Boat Card 2: Maintenance -->
+<div class="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-[0_4px_12px_rgba(0,54,147,0.05)] border border-outline-variant/20 opacity-90">
+<div class="relative h-48 grayscale-[0.3]">
+<img class="w-full h-full object-cover" data-alt="A classic wooden sailing boat docked at a quiet marina for maintenance. The scene is shot during the golden hour, with warm light reflecting off the polished wood and the calm harbor water. The mood is serene and hardworking, suggesting careful upkeep and traditional craftsmanship in a modern Algerian port context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5itItF-mUibfQjMMrBrDBjwAEN06qQwFdkwG-hg58Fa65E4ICE7kLESY85xSFZTzuXgLvCiboUWyVjkWUsIbJyPRI8b7_-j0oSDkjFP_oXWkFvjg_q7QoZfKS2no8BGDmCM_59ekjaarjKQAF7m52N4FrL-VZv72pyyuRSHKXU69ycSB0OVBRjZGaQ5imdAgPNwOq5XFq1zYJf-8opujIip1CvkusYqf8qLNtgFHdj7nFOP6qU0oW3mzf8_NZSwa9nzFvpKMV3Sg"/>
+<div class="absolute top-4 left-4">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 uppercase tracking-widest backdrop-blur-md">
+<span class="w-1.5 h-1.5 bg-tertiary rounded-full"></span>
+                            Maintenance
+                        </span>
+</div>
+<div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg">
+<p class="text-primary font-headline-sm text-[16px]">5,200 DA<span class="text-[10px] font-normal text-on-surface-variant">/hr</span></p>
+</div>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-headline-sm text-[18px] text-on-surface">Le Trident</h3>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Owner: Safar Fleet Co.</p>
+</div>
+<button class="text-outline">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<div class="flex items-center gap-4 py-3 border-t border-outline-variant/20">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="groups">groups</span>
+<span class="text-label-sm font-label-sm">Up to 8</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="build">build</span>
+<span class="text-label-sm font-label-sm">Until Nov 15</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Boat Card 3: Offline -->
+<div class="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-[0_4px_12px_rgba(0,54,147,0.05)] border border-outline-variant/20">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A small, modern blue and white catamaran resting on a trailer near the beach. The sky is slightly overcast, creating a calm, muted lighting effect. The style is crisp and commercial, showcasing the boat's design clearly. The overall aesthetic is clean and organized, indicating a professional rental fleet on a break." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGYrxBAUDXJqOgnDhWxGaJpD2qRkKQB-x5C021-hO_w_FOQyfdZlhyrt1Ona_LtpC6qYFMHGWxkTz3zmcAh1VBUZz_CXQEo_MixEiKePHLrQrFVljeqwEvZdOkcDiZ3_zi73Eyv3I9dOf9PNuhdXsVai8uXoZ6Wev10pKxQsO_Fe4SDGaTTF92rUvN3kEs7jjZSDrdJdhDwTUOQj7yIBTEBDdBJcRsukqNg6L87uZFJi8_pREDr0xCD1UCyKUKtxbXeawoqwO7wzk"/>
+<div class="absolute top-4 left-4">
+<span class="bg-gray-200 text-gray-700 text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 uppercase tracking-widest backdrop-blur-md">
+<span class="w-1.5 h-1.5 bg-gray-500 rounded-full"></span>
+                            Offline
+                        </span>
+</div>
+<div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg">
+<p class="text-primary font-headline-sm text-[16px]">12,000 DA<span class="text-[10px] font-normal text-on-surface-variant">/hr</span></p>
+</div>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-headline-sm text-[18px] text-on-surface">Blue Horizon</h3>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Owner: Marina Ventures</p>
+</div>
+<button class="text-outline">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<div class="flex items-center gap-4 py-3 border-t border-outline-variant/20">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="groups">groups</span>
+<span class="text-label-sm font-label-sm">Up to 20</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="event_busy">event_busy</span>
+<span class="text-label-sm font-label-sm">Off-season</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Nav Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container-lowest dark:bg-surface-container-lowest shadow-lg rounded-t-xl shadow-[0_-4px_12px_rgba(0,54,147,0.05)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="partner_dashboard_mobile.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="bookings_management_mobile.html">
+<span class="material-symbols-outlined" data-icon="event_available">event_available</span>
+<span class="font-label-sm text-label-sm">Bookings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="bookings_management_mobile.html">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-sm text-label-sm">Schedule</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="boat_management_mobile.html">
+<span class="material-symbols-outlined" data-icon="directions_boat">directions_boat</span>
+<span class="font-label-sm text-label-sm">Fleet</span>
+</a>
+</nav>
+<!-- Micro-interaction Script -->
+<script>
+        document.querySelectorAll('.active\\:scale-95').forEach(button => {
+            button.addEventListener('touchstart', () => {
+                button.style.transform = 'scale(0.95)';
+            });
+            button.addEventListener('touchend', () => {
+                button.style.transform = 'scale(1)';
+            });
+        });
+
+        // Subtle parallax on scroll for cards
+        window.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.group');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    const speed = 0.05;
+                    const yPos = -(rect.top * speed);
+                    const img = card.querySelector('img');
+                    if(img) img.style.transform = `translateY(${yPos}px)`;
+                }
+            });
+        });
+    </script>
+</body></html>

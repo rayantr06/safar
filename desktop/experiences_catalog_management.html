@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Experiences Catalog | Safar DZ Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c4c6d5;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#c4c6d5",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e5e3d6",
+                        "on-tertiary-container": "#febf21",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#4e5d8a",
+                        "surface-container-low": "#f6f4e7",
+                        "tertiary-fixed-dim": "#fbbc1c",
+                        "on-primary": "#ffffff",
+                        "outline": "#747684",
+                        "on-background": "#1b1c14",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffdea1",
+                        "inverse-primary": "#b4c5ff",
+                        "surface-container-highest": "#e5e3d6",
+                        "on-secondary-fixed-variant": "#364571",
+                        "secondary-fixed-dim": "#b6c5f9",
+                        "background": "#fcfaed",
+                        "tertiary": "#513a00",
+                        "on-surface": "#1b1c14",
+                        "surface-bright": "#fcfaed",
+                        "on-surface-variant": "#434653",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#b8c8ff",
+                        "surface-tint": "#2c57c0",
+                        "surface-container": "#f0eee1",
+                        "on-primary-fixed": "#00174b",
+                        "on-tertiary-fixed": "#261900",
+                        "on-primary-fixed-variant": "#003ea7",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "primary-fixed": "#dbe1ff",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "inverse-on-surface": "#f3f1e4",
+                        "inverse-surface": "#303129",
+                        "surface-container-high": "#eae9dc",
+                        "primary": "#003693",
+                        "primary-container": "#1e4db6",
+                        "tertiary-container": "#6e5000",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-secondary-container": "#465581",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#dcdace",
+                        "secondary-container": "#bbcbff",
+                        "on-secondary-fixed": "#061943",
+                        "surface": "#fcfaed"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "headline-sm": ["Space Mono"],
+                        "display-lg-mobile": ["Space Mono"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Space Mono"],
+                        "display-lg": ["Space Mono"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md custom-scrollbar">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container flex flex-col py-6 z-20 shadow-sm">
+<div class="px-6 mb-10">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Safar DZ Admin</h1>
+<p class="text-on-surface-variant font-label-sm opacity-70">Operational Control</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-variant transition-colors duration-200" href="admin_command_center_final.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-variant transition-colors duration-200" href="bookings_management_dashboard.html">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md">Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-variant transition-colors duration-200" href="boat_owners_partners_management.html">
+<span class="material-symbols-outlined">handshake</span>
+<span class="font-label-md text-label-md">Partners</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-primary font-bold border-r-4 border-primary bg-surface-variant/30" href="experiences_catalog_management.html">
+<span class="material-symbols-outlined">sailing</span>
+<span class="font-label-md text-label-md">Experiences</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-variant transition-colors duration-200" href="finance_commissions_dashboard.html">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Finance</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-variant transition-colors duration-200" href="partner_settings.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary text-white py-3 rounded-xl font-label-md flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined">add</span>
+                Add New Experience
+            </button>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="h-16 fixed top-0 right-0 left-64 z-10 bg-surface shadow-sm flex justify-between items-center px-margin-desktop">
+<div class="flex items-center bg-surface-container-low px-4 py-2 rounded-full w-96">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full" placeholder="Search experiences..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<button class="hover:bg-surface-container-highest rounded-full p-2 text-on-surface-variant transition-colors" onclick="window.location.href='notifications_center.html'">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="hover:bg-surface-container-highest rounded-full p-2 text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-3">
+<img alt="Admin Profile" class="h-10 w-10 rounded-full object-cover border-2 border-primary-fixed" data-alt="Close-up studio portrait of a professional male administrator in his 40s with a friendly expression. He has short groomed hair and is wearing a crisp white linen shirt. The background is a soft, blurred Mediterranean office setting with warm light-mode tones and royal blue accents, reflecting a high-end tourism brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAh5ol2PLlz5PZg0unsWV_XuFzLyQIUrBJctTDrqJE3E_2kFzpOZIblULBMShFhuzvhhRwTRUMSBzc0vnqLSq2NqX0F6fj3feMVjCl0IRrAo37hibpdrYdS1x-w9A2mTj-wdkyEB8oUakfAyThPAFCAoAoqUS4ff65vrDAknwaGjRyGkmsKvsWKPbMFMDaAVUCnziHdwwD5nqX-7hQhxlsc0q1jNieOd7dIbBqI-aX7mxky4TnOLq-4AZhhWO3ZXqT0vvb1IbOEVMA"/>
+<div class="text-right">
+<p class="font-label-md text-on-surface">Amin Safar</p>
+<p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Admin</p>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pl-64 pt-16 min-h-screen">
+<div class="p-margin-desktop space-y-8">
+<!-- Page Header -->
+<section class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Experiences Catalog</h2>
+<p class="text-on-surface-variant font-body-md mt-1">Create and manage the adventures available on Safar DZ.</p>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2.5 rounded-xl border border-secondary text-secondary font-label-md flex items-center gap-2 hover:bg-secondary/5 transition-all">
+<span class="material-symbols-outlined">ios_share</span>
+                        Import/Export
+                    </button>
+<button class="px-6 py-2.5 rounded-xl bg-primary text-white font-label-md flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+<span class="material-symbols-outlined">add</span>
+                        + Add Experience
+                    </button>
+</div>
+</section>
+<!-- Overview Grid -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="bg-surface-container-low p-6 rounded-2xl border border-white flex flex-col gap-2">
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider">Active Experiences</p>
+<p class="font-headline-md text-headline-md text-primary">24</p>
+<div class="mt-2 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-primary h-full w-4/5"></div>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-2xl border border-white flex flex-col gap-2">
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider">Private Boat Trips</p>
+<p class="font-headline-md text-headline-md text-secondary">15</p>
+<div class="mt-2 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-2/3"></div>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-2xl border border-white flex flex-col gap-2">
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider">Boat Seats</p>
+<p class="font-headline-md text-headline-md text-secondary">9</p>
+<div class="mt-2 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-1/3"></div>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-2xl border border-white flex flex-col gap-2">
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider">Hidden/Disabled</p>
+<p class="font-headline-md text-headline-md text-error">5</p>
+<div class="mt-2 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-error h-full w-1/5"></div>
+</div>
+</div>
+</section>
+<!-- Filters Bar -->
+<section class="flex flex-wrap items-center gap-4 bg-white p-4 rounded-2xl shadow-sm">
+<div class="flex-1 min-w-[240px] relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 rounded-xl border-outline-variant focus:border-primary focus:ring-primary bg-surface-bright text-on-surface font-body-md" placeholder="Filter by name or location..." type="text"/>
+</div>
+<select class="rounded-xl border-outline-variant bg-surface-bright px-4 py-2.5 font-label-md text-on-surface focus:ring-primary">
+<option>Category: All</option>
+<option>Private boats</option>
+<option>Boat seats</option>
+</select>
+<select class="rounded-xl border-outline-variant bg-surface-bright px-4 py-2.5 font-label-md text-on-surface focus:ring-primary">
+<option>Status: All</option>
+<option>Active</option>
+<option>Paused</option>
+</select>
+<select class="rounded-xl border-outline-variant bg-surface-bright px-4 py-2.5 font-label-md text-on-surface focus:ring-primary">
+<option>Location: All</option>
+<option>Cap Carbon</option>
+<option>Gouraya</option>
+<option>Boulimat</option>
+</select>
+<button class="p-2.5 text-on-surface-variant hover:bg-surface-container-highest rounded-xl transition-colors">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</section>
+<!-- Experience Grid -->
+<section class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 pb-12">
+<!-- Card 1 -->
+<div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group border border-outline-variant/30">
+<div class="relative h-60 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Cinematic wide shot of a modern luxury boat navigating the turquoise waters near the majestic cliffs of Cap Carbon, Bejaia. The golden hour lighting creates a warm Mediterranean atmosphere. The scene features crystal clear waves, rocky coastal formations, and a sense of exclusive adventure, styled with a high-end photography aesthetic typical of a premium travel portal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeciGyiCPX5RmkgGirsuRjoPrql1fjNEC_r5XOiCnWjo3RBjt-t1oNHW4hAzdnkYOdhxHd7A-0FBq5VKZBaKAfxc8nBQnPGBl1bxgJw9oW9QAATl1DrX3R13H5ouo3Fq0gbyI7X1JFSWO7n9VQtMnyGfaDXokBxgzMEL8o_WOtHY6gIhNaVJ3RJig3u_LlCUy9LXlH_2cNpd-Z8vLqyk-zr6tFFdIlAFY8uaMNC7FMHr_aG0yMjt9ZF-yn5h0LJ631Mo0OtVTp3qw"/>
+<div class="absolute top-4 left-4">
+<span class="bg-primary/90 text-white px-3 py-1 rounded-full font-label-sm backdrop-blur-md">Active</span>
+</div>
+<div class="absolute top-4 right-4 flex gap-2">
+<button class="bg-white/90 p-2 rounded-full shadow-sm hover:bg-white transition-colors" onclick="openDetailModal()">
+<span class="material-symbols-outlined text-primary text-sm">edit</span>
+</button>
+</div>
+</div>
+<div class="p-6 space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-tertiary font-label-sm uppercase tracking-widest mb-1">Private Boat</p>
+<h3 class="font-headline-sm text-on-surface">Cap Carbon Discovery</h3>
+</div>
+<p class="font-headline-sm text-primary">20,000 <span class="text-xs">DA</span></p>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant font-body-md">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Cap Carbon</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>2h</span>
+</div>
+</div>
+<div class="pt-4 flex gap-2">
+<button class="flex-1 py-2 px-4 rounded-xl border border-outline-variant text-on-surface-variant hover:bg-surface-variant transition-colors flex items-center justify-center gap-2 font-label-md">
+<span class="material-symbols-outlined text-sm">content_copy</span> Duplicate
+                            </button>
+<button class="flex-1 py-2 px-4 rounded-xl border border-error/20 text-error hover:bg-error/5 transition-colors flex items-center justify-center gap-2 font-label-md">
+<span class="material-symbols-outlined text-sm">pause_circle</span> Disable
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group border border-outline-variant/30">
+<div class="relative h-60 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Beautiful aerial view of a group of swimmers in vibrant blue water during a sunset boat trip in Bejaia. The sunlight is soft and golden, reflecting on the sea surface. The scene is peaceful and inviting, emphasizing the communal experience and the natural beauty of the Algerian coast. Modern, high-contrast travel photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbM9AubO5McqTUX7K97XE0NFk5zYEHm5D6MKCIWIG4lWn552I85daoaZj1mE24_KTgz0kqHTynj9vIb3JPvVrv_5EswrBlTMrS1dnnFAcXiX7_5GJOvunH3vX_iMFKMmymB2ZQSP12qsmZm2Y_iTVAZiGrBblVd1Ng34wvOsSDhu0ItjDDQm8ystf1dnHzmkgtepZfBato5aNug97iRema7-8pW9vjWll63Im4kpaZxbymmgNSm3z8ilVAXUJLkOV2ILr5az5tls8"/>
+<div class="absolute top-4 left-4">
+<span class="bg-primary/90 text-white px-3 py-1 rounded-full font-label-sm backdrop-blur-md">Active</span>
+</div>
+</div>
+<div class="p-6 space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-tertiary font-label-sm uppercase tracking-widest mb-1">Boat Seats</p>
+<h3 class="font-headline-sm text-on-surface">Gouraya Peak Cruise</h3>
+</div>
+<p class="font-headline-sm text-primary">3,500 <span class="text-xs">DA/p</span></p>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant font-body-md">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Gouraya</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>3h</span>
+</div>
+</div>
+<div class="pt-4 flex gap-2">
+<button class="flex-1 py-2 px-4 rounded-xl border border-outline-variant text-on-surface-variant hover:bg-surface-variant transition-colors flex items-center justify-center gap-2 font-label-md">
+<span class="material-symbols-outlined text-sm">content_copy</span> Duplicate
+                            </button>
+<button class="flex-1 py-2 px-4 rounded-xl border border-error/20 text-error hover:bg-error/5 transition-colors flex items-center justify-center gap-2 font-label-md">
+<span class="material-symbols-outlined text-sm">pause_circle</span> Disable
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group border border-outline-variant/30 opacity-80 grayscale-[0.5]">
+<div class="relative h-60 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Moody and atmospheric view of a secluded cove in Boulimat, Bejaia, during an overcast afternoon. The rocky shore is met by gentle waves of deep indigo water. The style is sophisticated and calm, with muted natural tones and a focus on the raw textures of the Algerian Mediterranean coastline. Professional landscape photography aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9t_zc5eAWwjdAy2990CxsM7hXWAAzNsLFTe1yxl-jscREUaFJ4qcec9onqD08HDUWL-s1P-RPY_QOtpYAttxHnsMeLxE-8prZUf3sUG-FxzOSgHYdhVnn37UHVlC-VUPyqbsjBuiJsQiRIbIVGhCSBxJYVyktjbDPOhmj9a1_gCaWMKLGx7N3qLSB1N5eGi-L9b2axWlYEj-2WGRvlheOzaI4JHszaXb-KXBQkrfaCaBo2liKmSpkehhWP0x8LxoKzdfpLbH9CWg"/>
+<div class="absolute top-4 left-4">
+<span class="bg-outline text-white px-3 py-1 rounded-full font-label-sm backdrop-blur-md">Paused</span>
+</div>
+</div>
+<div class="p-6 space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-tertiary font-label-sm uppercase tracking-widest mb-1">Private Boat</p>
+<h3 class="font-headline-sm text-on-surface">Boulimat Secret Cove</h3>
+</div>
+<p class="font-headline-sm text-primary">18,000 <span class="text-xs">DA</span></p>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant font-body-md">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Boulimat</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>1.5h</span>
+</div>
+</div>
+<div class="pt-4 flex gap-2">
+<button class="flex-1 py-2 px-4 rounded-xl border border-outline-variant text-on-surface-variant hover:bg-surface-variant transition-colors flex items-center justify-center gap-2 font-label-md">
+<span class="material-symbols-outlined text-sm">content_copy</span> Duplicate
+                            </button>
+<button class="flex-1 py-2 px-4 rounded-xl bg-primary/10 text-primary hover:bg-primary/20 transition-colors flex items-center justify-center gap-2 font-label-md">
+<span class="material-symbols-outlined text-sm">play_circle</span> Activate
+                            </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Modal Backdrop -->
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 md:p-8" id="editModal">
+<!-- Edit Form / Modal Content -->
+<div class="bg-white w-full max-w-5xl max-h-[921px] rounded-[32px] shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300">
+<!-- Modal Header -->
+<div class="px-8 py-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<div>
+<h2 class="font-headline-md text-headline-sm text-primary">Edit Experience: Cap Carbon Discovery</h2>
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider">Experience ID: #EXP-2401</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-5 py-2 rounded-xl border border-primary text-primary font-label-md hover:bg-primary/5 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">visibility</span> Preview as Customer
+                    </button>
+<button class="p-2 hover:bg-surface-container-highest rounded-full transition-colors" onclick="closeDetailModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+<!-- Modal Body (Scrollable) -->
+<div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column: Form Sections -->
+<div class="lg:col-span-2 space-y-10">
+<!-- Basic Info -->
+<div class="space-y-4">
+<h3 class="font-headline-sm text-on-surface flex items-center gap-2">
+<span class="w-8 h-8 rounded-lg bg-primary-container text-primary flex items-center justify-center text-lg">1</span>
+                                Basic Information
+                            </h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="col-span-2 space-y-1">
+<label class="text-on-surface-variant font-label-md">Experience Title</label>
+<input class="w-full rounded-xl border-outline-variant focus:ring-primary focus:border-primary" type="text" value="Cap Carbon Discovery"/>
+</div>
+<div class="space-y-1">
+<label class="text-on-surface-variant font-label-md">Category</label>
+<select class="w-full rounded-xl border-outline-variant focus:ring-primary">
+<option selected="">Private Boat</option>
+<option>Boat Seats</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="text-on-surface-variant font-label-md">Main Location</label>
+<select class="w-full rounded-xl border-outline-variant focus:ring-primary">
+<option selected="">Cap Carbon</option>
+<option>Gouraya</option>
+<option>Boulimat</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Pricing & Capacity -->
+<div class="space-y-4">
+<h3 class="font-headline-sm text-on-surface flex items-center gap-2">
+<span class="w-8 h-8 rounded-lg bg-primary-container text-primary flex items-center justify-center text-lg">2</span>
+                                Pricing &amp; Logistics
+                            </h3>
+<div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="space-y-1">
+<label class="text-on-surface-variant font-label-md">Pricing Type</label>
+<select class="w-full rounded-xl border-outline-variant focus:ring-primary">
+<option selected="">Trip Price</option>
+<option>Per Person</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="text-on-surface-variant font-label-md">Base Price (DA)</label>
+<input class="w-full rounded-xl border-outline-variant font-headline-sm text-primary" type="number" value="20000"/>
+</div>
+<div class="space-y-1">
+<label class="text-on-surface-variant font-label-md">Duration</label>
+<input class="w-full rounded-xl border-outline-variant" type="text" value="2h"/>
+</div>
+<div class="space-y-1">
+<label class="text-on-surface-variant font-label-md">Max Capacity</label>
+<input class="w-full rounded-xl border-outline-variant" type="number" value="8"/>
+</div>
+<div class="col-span-2 space-y-1">
+<label class="text-on-surface-variant font-label-md">Meeting Point</label>
+<input class="w-full rounded-xl border-outline-variant" type="text" value="Bejaia Port - Gate 4"/>
+</div>
+</div>
+</div>
+<!-- Media Upload -->
+<div class="space-y-4">
+<h3 class="font-headline-sm text-on-surface flex items-center gap-2">
+<span class="w-8 h-8 rounded-lg bg-primary-container text-primary flex items-center justify-center text-lg">3</span>
+                                Media &amp; Gallery
+                            </h3>
+<div class="grid grid-cols-4 gap-4">
+<div class="col-span-4 relative rounded-2xl overflow-hidden aspect-video border-2 border-dashed border-outline-variant group">
+<img class="w-full h-full object-cover" data-alt="Wide high-resolution image of a stylish yacht sailing through the deep blue Mediterranean waters near the majestic cliffs of Bejaia. The water is crystalline, with white foam trails left by the boat. The sky is a clear azure, creating a bright and energetic atmosphere typical of luxury coastal tourism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVzO739hox62wVTXwxxjWRIMEtoT3nx65Z7g3Bo47q1RhBQgZWbdybXPdZo0-Cmn2eP49cpKxkoM_qCQMd5mRvFCSQuoVFU7vKtDOeNN-YPO5MhdVHetkmvKXHzwZ-mzFzNoJaLymJS-N3lX8uxYa3Js7NPzCcAw5UDz3E53UcKkaqr6ACxo2tNqHlEMwPGIfOh65cJjJrN1OT2is60GDef-fNJIW30Bn9DYeRUUqZS77Ad1K4KFrmSmF9UtW0EXpPfcEf0WwebY0"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+<button class="bg-white text-on-surface px-4 py-2 rounded-xl font-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">sync</span> Change Cover
+                                        </button>
+</div>
+</div>
+<div class="aspect-square bg-surface-container rounded-xl border-2 border-dashed border-outline-variant flex flex-col items-center justify-center gap-2 text-on-surface-variant hover:bg-surface-variant transition-colors cursor-pointer">
+<span class="material-symbols-outlined">add_photo_alternate</span>
+<span class="text-[10px] font-bold uppercase">Add Photo</span>
+</div>
+</div>
+</div>
+<!-- Highlights -->
+<div class="space-y-4">
+<h3 class="font-headline-sm text-on-surface">Highlights &amp; Tags</h3>
+<div class="flex flex-wrap gap-2">
+<span class="px-4 py-1.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-md flex items-center gap-2">
+                                    Swimming stop <button class="material-symbols-outlined text-sm">close</button>
+</span>
+<span class="px-4 py-1.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-md flex items-center gap-2">
+                                    Sunset trip <button class="material-symbols-outlined text-sm">close</button>
+</span>
+<span class="px-4 py-1.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-md flex items-center gap-2">
+                                    Life jackets incl. <button class="material-symbols-outlined text-sm">close</button>
+</span>
+<button class="px-4 py-1.5 rounded-full border border-dashed border-outline-variant text-on-surface-variant font-label-md hover:border-primary hover:text-primary transition-colors">
+                                    + Add Tag
+                                </button>
+</div>
+</div>
+</div>
+<!-- Right Column: Performance & Actions -->
+<div class="space-y-6">
+<div class="bg-surface-container-low p-6 rounded-3xl border border-white space-y-6">
+<h4 class="font-headline-sm text-on-surface">Performance</h4>
+<div class="grid grid-cols-1 gap-4">
+<div class="bg-white p-4 rounded-2xl flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+<div>
+<p class="text-on-surface-variant text-[10px] uppercase font-bold tracking-widest">Bookings</p>
+<p class="font-headline-sm text-on-surface">142</p>
+</div>
+</div>
+<div class="bg-white p-4 rounded-2xl flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-tertiary-container/20 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<div>
+<p class="text-on-surface-variant text-[10px] uppercase font-bold tracking-widest">Revenue</p>
+<p class="font-headline-sm text-on-surface">2.8M DA</p>
+</div>
+</div>
+<div class="bg-white p-4 rounded-2xl flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div>
+<p class="text-on-surface-variant text-[10px] uppercase font-bold tracking-widest">Rating</p>
+<p class="font-headline-sm text-on-surface">4.9/5</p>
+</div>
+</div>
+</div>
+<!-- Mini Graph Placeholder -->
+<div class="pt-4 border-t border-outline-variant/30">
+<p class="text-on-surface-variant font-label-sm mb-4">Booking Velocity (30d)</p>
+<div class="h-24 w-full flex items-end gap-1 px-2">
+<div class="flex-1 bg-primary/20 rounded-t-sm h-1/2"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm h-2/3"></div>
+<div class="flex-1 bg-primary/40 rounded-t-sm h-3/4"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm h-1/3"></div>
+<div class="flex-1 bg-primary/60 rounded-t-sm h-full"></div>
+<div class="flex-1 bg-primary/80 rounded-t-sm h-4/5"></div>
+<div class="flex-1 bg-primary/40 rounded-t-sm h-1/2"></div>
+</div>
+</div>
+</div>
+<div class="p-6 bg-primary text-white rounded-3xl space-y-4">
+<h4 class="font-headline-sm">Publishing</h4>
+<p class="text-sm opacity-90">Last updated 2 days ago by Admin Amin.</p>
+<button class="w-full bg-white text-primary py-3 rounded-xl font-label-md hover:shadow-lg transition-all active:scale-95">
+                                Save Changes
+                            </button>
+<button class="w-full border border-white/30 text-white py-3 rounded-xl font-label-md hover:bg-white/10 transition-all">
+                                Duplicate as Draft
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+        function openDetailModal() {
+            const modal = document.getElementById('editModal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDetailModal() {
+            const modal = document.getElementById('editModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeDetailModal();
+        });
+
+        // Micro-interactions for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+        });
+    </script>
+</body></html>

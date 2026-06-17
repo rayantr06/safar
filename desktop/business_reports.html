@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reports - Safar DZ Partner Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#364571",
+                    "on-background": "#1b1c14",
+                    "outline": "#747684",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#261900",
+                    "inverse-surface": "#303129",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#eae9dc",
+                    "secondary-container": "#bbcbff",
+                    "tertiary": "#513a00",
+                    "surface-bright": "#fcfaed",
+                    "tertiary-fixed": "#ffdea1",
+                    "surface-dim": "#dcdace",
+                    "on-tertiary-container": "#febf21",
+                    "surface-container": "#f0eee1",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "surface-container-highest": "#e5e3d6",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#434653",
+                    "surface-tint": "#2c57c0",
+                    "on-secondary-container": "#465581",
+                    "surface": "#fcfaed",
+                    "primary-container": "#1e4db6",
+                    "on-primary": "#ffffff",
+                    "background": "#fcfaed",
+                    "tertiary-fixed-dim": "#fbbc1c",
+                    "primary-fixed": "#dbe1ff",
+                    "tertiary-container": "#6e5000",
+                    "on-error": "#ffffff",
+                    "on-surface": "#1b1c14",
+                    "primary": "#003693",
+                    "on-error-container": "#93000a",
+                    "secondary": "#4e5d8a",
+                    "on-primary-container": "#b8c8ff",
+                    "inverse-on-surface": "#f3f1e4",
+                    "on-secondary-fixed": "#061943",
+                    "secondary-fixed-dim": "#b6c5f9",
+                    "outline-variant": "#c4c6d5",
+                    "secondary-fixed": "#dbe1ff",
+                    "inverse-primary": "#b4c5ff",
+                    "surface-container-low": "#f6f4e7",
+                    "on-primary-fixed-variant": "#003ea7",
+                    "on-primary-fixed": "#00174b",
+                    "surface-variant": "#e5e3d6",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "base": "8px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "display-lg-mobile": ["Space Mono"],
+                    "headline-sm": ["Space Mono"],
+                    "headline-md": ["Space Mono"],
+                    "label-md": ["Inter"],
+                    "display-lg": ["Space Mono"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #fcfaed;
+            color: #1b1c14;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 54, 147, 0.05);
+        }
+        .sparkline-container {
+            height: 40px;
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+        }
+        .sparkline-bar {
+            background-color: #003693;
+            width: 100%;
+            border-radius: 2px 2px 0 0;
+            transition: height 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- SideNavBar (Shared Component) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-outline-variant flex flex-col p-4 space-y-2 z-50">
+<div class="mb-8 px-4 py-2">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Safar DZ</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Partner Portal</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="earnings_finance.html">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Earnings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="customers_directory.html">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Customers</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="boat_management.html">
+<span class="material-symbols-outlined">directions_boat</span>
+<span class="font-label-md text-label-md">Boat Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="availability_control.html">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-label-md text-label-md">Availability</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="notifications_center.html">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-md text-label-md">Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer bg-primary-container text-on-primary-container font-bold rounded-lg transition-all duration-200" href="business_reports.html">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="partner_settings.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-outline-variant space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all duration-200 text-error" href="discovery_page.html">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<header class="w-full h-16 flex justify-between items-center px-margin-desktop bg-surface shadow-sm border-b border-outline-variant sticky top-0 z-40">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary">Performance Reports</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer active:opacity-80">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer active:opacity-80">help</span>
+<span class="material-symbols-outlined text-primary cursor-pointer active:opacity-80">translate</span>
+</div>
+<div class="flex items-center gap-3 pl-6 border-l border-outline-variant">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface">Captain Amine</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Premier Partner</p>
+</div>
+<img alt="Partner profile picture" class="w-10 h-10 rounded-full object-cover border-2 border-primary-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIrIyHCUeUuUE0W3v_W1PJP1oTtZMA1T2WzDJgwZ06yEfebq-suRN6kadv_NaGWSUjP9431UM3ctlYyGfSN8lysGnnX7X1Ub8KX0hikDtIaLMA4C7B-xViXWCtjKRm4gW3UwAItpbr2Kb5Pt77UXXyBkEUDnSf7xucL-3bYoNK0u2hbu-rEl4zeFggnCV7Or-fj6_d_NfqXCLZaSdHmGctnVdzlJ1ioAL8-MRyHdC8XVKPZTLFksg6T2NYNWwI9FeH1UE2fcJXDOY"/>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-margin-desktop space-y-8 max-w-container-max mx-auto w-full">
+<!-- Filters & Header Section -->
+<div class="flex justify-between items-end">
+<div class="space-y-1">
+<p class="font-body-md text-body-md text-on-surface-variant">Welcome back. Here is your business summary for the last 30 days.</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 rounded-lg bg-surface-container-high text-on-surface-variant font-label-md text-label-md flex items-center gap-2 hover:bg-surface-container-highest transition-colors" onclick="window.location.href='schedule_calendar.html'">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                        Last 30 Days
+                        <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center gap-2 shadow-sm hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                        Export PDF
+                    </button>
+</div>
+</div>
+<!-- Performance Cards Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<!-- Total Trips -->
+<div class="glass-card p-6 rounded-xl space-y-4">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-primary-container/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">directions_boat</span>
+</div>
+<span class="text-green-600 font-label-sm text-label-sm flex items-center">+12%</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Total Trips</p>
+<h3 class="font-headline-md text-headline-md text-on-surface">142</h3>
+</div>
+<div class="sparkline-container">
+<div class="sparkline-bar h-[40%]" title="Mon"></div>
+<div class="sparkline-bar h-[60%]" title="Tue"></div>
+<div class="sparkline-bar h-[45%]" title="Wed"></div>
+<div class="sparkline-bar h-[80%]" title="Thu"></div>
+<div class="sparkline-bar h-[90%]" title="Fri"></div>
+<div class="sparkline-bar h-[100%]" title="Sat"></div>
+<div class="sparkline-bar h-[70%]" title="Sun"></div>
+</div>
+</div>
+<!-- Occupancy Rate -->
+<div class="glass-card p-6 rounded-xl space-y-4">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-secondary-container/20 rounded-lg">
+<span class="material-symbols-outlined text-secondary">groups</span>
+</div>
+<span class="text-green-600 font-label-sm text-label-sm flex items-center">+5%</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Occupancy Rate</p>
+<h3 class="font-headline-md text-headline-md text-on-surface">88%</h3>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[88%]"></div>
+</div>
+<p class="text-[11px] text-on-surface-variant italic">Peak: Weekends (94%)</p>
+</div>
+<!-- Best Day of Week -->
+<div class="glass-card p-6 rounded-xl space-y-4 border-l-4 border-tertiary">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-tertiary-fixed/30 rounded-lg">
+<span class="material-symbols-outlined text-tertiary">star</span>
+</div>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Best Day</p>
+<h3 class="font-headline-md text-headline-md text-on-surface">Saturday</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Average 12 bookings per Saturday this month.</p>
+</div>
+<!-- Peak Hours -->
+<div class="glass-card p-6 rounded-xl space-y-4">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-on-secondary-fixed-variant/10 rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-fixed-variant">schedule</span>
+</div>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Peak Hours</p>
+<h3 class="font-headline-md text-headline-md text-on-surface">10 AM - 2 PM</h3>
+</div>
+<div class="flex items-center gap-1">
+<div class="h-4 w-2 bg-surface-container-highest"></div>
+<div class="h-6 w-2 bg-surface-container-highest"></div>
+<div class="h-8 w-2 bg-primary"></div>
+<div class="h-10 w-2 bg-primary"></div>
+<div class="h-10 w-2 bg-primary"></div>
+<div class="h-8 w-2 bg-primary"></div>
+<div class="h-6 w-2 bg-surface-container-highest"></div>
+<div class="h-4 w-2 bg-surface-container-highest"></div>
+</div>
+</div>
+</div>
+<!-- Trends & Main Visuals -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Weekly Bookings Trend -->
+<div class="glass-card p-8 rounded-xl space-y-6">
+<div class="flex justify-between items-center">
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Weekly Bookings</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Comparison across last 4 weeks</p>
+</div>
+<div class="text-right">
+<p class="font-headline-sm text-headline-sm text-primary">345</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Total this month</p>
+</div>
+</div>
+<div class="flex items-end justify-between h-48 px-4">
+<div class="flex flex-col items-center gap-3 w-16">
+<div class="w-full bg-primary-container/20 rounded-t-lg h-24 hover:bg-primary-container/40 transition-colors"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Week 1</span>
+</div>
+<div class="flex flex-col items-center gap-3 w-16">
+<div class="w-full bg-primary-container/20 rounded-t-lg h-32 hover:bg-primary-container/40 transition-colors"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Week 2</span>
+</div>
+<div class="flex flex-col items-center gap-3 w-16">
+<div class="w-full bg-primary rounded-t-lg h-40 hover:opacity-90 transition-colors shadow-md"></div>
+<span class="font-label-md text-label-md text-primary">Week 3</span>
+</div>
+<div class="flex flex-col items-center gap-3 w-16">
+<div class="w-full bg-primary-container/20 rounded-t-lg h-28 hover:bg-primary-container/40 transition-colors"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Week 4</span>
+</div>
+</div>
+</div>
+<!-- Earnings Insights -->
+<div class="glass-card p-8 rounded-xl space-y-6">
+<div class="flex justify-between items-center">
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Earnings Trend</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Projected vs Actual revenue</p>
+</div>
+<div class="text-right">
+<p class="font-headline-sm text-headline-sm text-tertiary">420k DZD</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Net Earnings</p>
+</div>
+</div>
+<div class="relative h-48 w-full flex items-center justify-center">
+<!-- Simple visual representation of growth -->
+<svg class="w-full h-full" viewbox="0 0 400 150">
+<path d="M0,130 Q50,110 100,120 T200,80 T300,90 T400,30" fill="none" stroke="#003693" stroke-linecap="round" stroke-width="3"></path>
+<path d="M0,130 Q50,110 100,120 T200,80 T300,90 T400,30 V150 H0 Z" fill="url(#gradient)" opacity="0.1"></path>
+<defs>
+<lineargradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#003693;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#003693;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+<circle cx="400" cy="30" fill="#003693" r="4"></circle>
+</svg>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 bg-surface-container rounded-lg">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Average Per Trip</p>
+<p class="font-label-md text-label-md text-on-surface">2,950 DZD</p>
+</div>
+<div class="p-3 bg-surface-container rounded-lg">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Growth Rate</p>
+<p class="font-label-md text-label-md text-on-surface text-green-600">+18.2%</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Experience Performance Table (Simplified) -->
+<div class="glass-card rounded-xl overflow-hidden">
+<div class="px-8 py-6 border-b border-outline-variant flex justify-between items-center">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Top Performing Boats</h4>
+<button class="text-primary font-label-md text-label-md hover:underline">View All Boats</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant">Boat Name</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant">Total Trips</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant">Revenue (DZD)</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant">Avg Rating</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-8 py-5 flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest overflow-hidden">
+<img alt="Boat image" class="w-full h-full object-cover" data-alt="A luxurious modern white speedboat cruising through the turquoise Mediterranean waters of Bejaia, Algeria. The boat is sleek with leather seating and chrome accents, reflecting the bright afternoon sun. The coast of Bejaia with its dramatic cliffs is visible in the background under a clear blue sky. The overall style is high-end, clean, and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBN6FmfRzyMUnMp5JXHP6MG9FZSMM7QvBA34SGthfWnoxM6cLcYhi77RDaXH1KaliSb-GZa_TFvhDDvRawvPNb2SEYRxXsLRDsGvX9sqGeyYXwZY7iHzSVZrEvYxpETrgg0nvdRj3DETnx-iqZTc2NBcJONVnfx0MEp5-OnsaE7nZuy-tpNTNB1KUmfsIrGJ_ul1YqkHwDISw78EHNVwRXf-mAY2qP_nuRR-uNbgW44q3PLWHoiYjXYaY67BNnKIAZTQe30je3NeME"/>
+</div>
+<span class="font-label-md text-label-md text-on-surface">L'Étoile de Béjaïa</span>
+</td>
+<td class="px-8 py-5 font-body-md text-body-md">58</td>
+<td class="px-8 py-5 font-body-md text-body-md">185,000</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md">4.9</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-2 py-1 rounded bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-widest">Active</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-8 py-5 flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest overflow-hidden">
+<img alt="Boat image" class="w-full h-full object-cover" data-alt="A spacious wooden traditional-style fishing boat converted for tourist excursions, anchored near the caves of Bejaia. The water is crystalline and calm, showing pebbles on the seabed. Warm sunlight bathes the scene, highlighting the textures of the old wood and the vibrant turquoise sea. The atmosphere is inviting and captures the authentic Algerian coastal experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl7TP1o7YKh7DVD6j6A9-2NIugDg1X4wQLCm5oQ6qc37t5a3g3U_I4Su5awXFF3sFRFGPkK2GGZE5mPxC4xq1OWOnxHibUAqcAcenRKdiddOlqK1QO1ZhIo9yCq2tZir7kf26OFVl1ZnOepziITn9gxv-Sa3lOK32O7DMC2C17p7ZIZHcdlP-VfAmZm8WIzJrpJzPJMWwDJ0tvUMUv07hW6nXzAsXdwJZ7OKNIY-5PqqvGS-fKpNY6ilEfJbyfH8gEbx6p1HJBy7E"/>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Yasmine Sea Explorer</span>
+</td>
+<td class="px-8 py-5 font-body-md text-body-md">44</td>
+<td class="px-8 py-5 font-body-md text-body-md">132,000</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md">4.7</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-2 py-1 rounded bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-widest">Active</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-10 flex justify-between items-center border-t border-outline-variant mt-auto">
+<div class="space-y-1">
+<p class="text-label-md font-bold text-on-surface">Safar DZ Tourism</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Safar DZ Tourism. All rights reserved.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Partner Agreement</a>
+</div>
+</footer>
+</div>
+</main>
+<!-- Floating Action Button (Only on Home/Dashboard, but keeping for reference if needed) -->
+<!-- The instructions say suppress on details/transactional, this is a report page so it's focused analysis -->
+<script>
+        // Simple Micro-interactions
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+                card.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Simulating some "Sparkline" movement for visual interest
+        const bars = document.querySelectorAll('.sparkline-bar');
+        bars.forEach((bar, index) => {
+            setTimeout(() => {
+                const originalHeight = bar.style.height;
+                // Just a tiny wiggle for life
+            }, index * 100);
+        });
+    </script>
+</body></html>

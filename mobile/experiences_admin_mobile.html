@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Safar Partner - Experience Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .active-tab-indicator {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .experience-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .experience-card:active {
+            transform: scale(0.98);
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#f0eee1",
+                        "inverse-on-surface": "#f3f1e4",
+                        "outline-variant": "#c4c6d5",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "on-surface": "#1b1c14",
+                        "on-secondary-fixed-variant": "#364571",
+                        "surface-container-high": "#eae9dc",
+                        "outline": "#747684",
+                        "secondary-container": "#bbcbff",
+                        "surface-variant": "#e5e3d6",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#513a00",
+                        "on-surface-variant": "#434653",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#465581",
+                        "error": "#ba1a1a",
+                        "on-background": "#1b1c14",
+                        "on-secondary": "#ffffff",
+                        "surface": "#fcfaed",
+                        "surface-container-low": "#f6f4e7",
+                        "inverse-primary": "#b4c5ff",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "primary-fixed": "#dbe1ff",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-tertiary-fixed": "#261900",
+                        "on-primary-fixed": "#00174b",
+                        "tertiary-fixed-dim": "#fbbc1c",
+                        "inverse-surface": "#303129",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#b6c5f9",
+                        "surface-dim": "#dcdace",
+                        "surface-tint": "#2c57c0",
+                        "background": "#fcfaed",
+                        "primary": "#003693",
+                        "on-primary-fixed-variant": "#003ea7",
+                        "tertiary-fixed": "#ffdea1",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#1e4db6",
+                        "surface-bright": "#fcfaed",
+                        "on-secondary-fixed": "#061943",
+                        "secondary": "#4e5d8a",
+                        "on-tertiary-container": "#febf21",
+                        "surface-container-highest": "#e5e3d6",
+                        "tertiary-container": "#6e5000",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#b8c8ff",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Space Mono"],
+                        "display-lg": ["Space Mono"],
+                        "headline-sm": ["Space Mono"],
+                        "display-lg-mobile": ["Space Mono"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-24">
+<!-- Top AppBar -->
+<header class="w-full top-0 sticky bg-surface dark:bg-surface-dim z-50 flex justify-between items-center px-margin-mobile py-4 w-full flat no shadows">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high border-2 border-primary-fixed">
+<img alt="Partner profile photo" class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged Mediterranean boat captain with a warm, welcoming smile. He is wearing a clean white polo shirt against a blurred background of a sunny marina with turquoise Mediterranean waters. The lighting is bright and natural, reflecting the high-end Safar DZ brand aesthetic of maritime expertise and hospitality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQ78L1Zh8j-EqCBVeWTDoP6rkGqDF8N6SfK2ha4-fe2fKfkn-zLSScaHXFbPgEWBJlEd6Ee_gmDb1RQrCuUwIvwQLoYi5c38d9l1kAzzgapFLBrDUxhKCF-22c8twi4K50UOghlzoxCbmdcI9M4Q7YOnVUIEKSZdAliKEWu2uQOure8ufVJoUl2PSx1sHXiivPvxXTd5FM5dNVAq9SUnHFL9Sltsv3z5nZCtLyylSMaaSfbAGUREboUWGcGX_8m72x-tc3lfSmpgU"/>
+</div>
+<h1 class="font-headline-sm text-headline-sm-mobile md:text-headline-sm font-headline-md text-primary dark:text-primary-fixed tracking-tight">Safar Partner</h1>
+</div>
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-150" onclick="window.location.href='notifications_mobile.html'">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="px-margin-mobile pt-6">
+<div class="flex justify-between items-end mb-6">
+<div>
+<h2 class="font-headline-md text-headline-sm-mobile text-on-surface">Experience Catalog</h2>
+<p class="font-body-md text-on-surface-variant">Manage your 4 active sea tours</p>
+</div>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-2 mb-8 overflow-x-auto no-scrollbar pb-2">
+<button class="bg-primary text-on-primary px-4 py-1.5 rounded-full font-label-md whitespace-nowrap" onclick="window.location.href='experiences_admin_mobile.html'">All Experiences</button>
+<button class="bg-surface-container text-on-surface-variant px-4 py-1.5 rounded-full font-label-md whitespace-nowrap">Active</button>
+<button class="bg-surface-container text-on-surface-variant px-4 py-1.5 rounded-full font-label-md whitespace-nowrap">Paused</button>
+</div>
+<!-- Experience List -->
+<div class="flex flex-col gap-6">
+<!-- Experience Card: Cap Carbon -->
+<div class="experience-card bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_12px_rgba(0,54,147,0.05)] border border-surface-variant">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A breathtaking view of Cap Carbon lighthouse perched on top of dramatic jagged cliffs in Béjaïa, Algeria. The crystal clear turquoise waters of the Mediterranean Sea crash gently against the rocks below. The sun is setting, casting a warm golden glow over the scene, creating a premium and adventurous travel mood consistent with the Safar DZ brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdQgfDy9wrFXNCOiwyvGCls76LwNNTHFy4NRrcrxUzBSnnu8BR-0B4r_sE6s8uSrp2YXUi_JSlAsbL_0IVdds4KPpmoC3x1hyjofXakMkf1RWZIIkFOdHTpdKEAmIcm5Uv0GKuxi-ztRD_H72TBodnuojYI20oV2Kmwa9XteTai7VKB6qM-AL1gxBVmhpJBFyXRr6_rc6WvWfhbkIzOILX9umqWFCh59VFUvzufbD1eaW1KW9wQdvTL7KBn6ezE0AmgUQxD3iI2OU"/>
+<div class="absolute top-3 left-3 bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-label-sm font-label-md flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                        Featured
+                    </div>
+<div class="absolute top-3 right-3">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-on-surface">Cap Carbon Sunset Tour</h3>
+<span class="font-headline-sm text-primary">8,500 DA</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant mb-4">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-body-md" data-icon="schedule">schedule</span>
+<span class="font-label-sm">3 Hours</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-body-md" data-icon="group">group</span>
+<span class="font-label-sm">Max 6</span>
+</div>
+</div>
+<div class="flex gap-2 pt-4 border-t border-surface-variant">
+<button class="flex-1 bg-primary-container text-on-primary-container py-2.5 rounded-lg font-label-md flex items-center justify-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+                            Edit
+                        </button>
+<button class="bg-surface-container-high text-on-surface-variant p-2.5 rounded-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="content_copy">content_copy</span>
+</button>
+<button class="bg-surface-container-high text-error p-2.5 rounded-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Experience Card: Boat Seats -->
+<div class="experience-card bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_12px_rgba(0,54,147,0.05)] border border-surface-variant opacity-80">
+<div class="relative h-48 grayscale-[0.3]">
+<img class="w-full h-full object-cover" data-alt="A top-down view of a modern white speedboat slicing through deep blue Mediterranean waters near the coast of Béjaïa. The wake of the boat creates white foam patterns on the surface. The scene is bright and airy, representing a fast-paced and exciting sea experience with a focus on high-quality maritime equipment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC84uBghKPiqOu3DHlJyA2o9RJTHeq1DrdMrC469ICXAJs7YCmTtxWydst0dxn4Eefaej8_ueGuknv0lgTDMBOYb60prZiSTwAcqIKreHvhljQVS1yP3HcQcpnazmsScZK7xRgjteiZGrH1WcyGzXDaNeB-zWgXj7gvFTeRD6nUnFWSfGbSCQ4nW4MZZKzUFKpPmFBcpcijv6nF2FltILIvYgbodYpZKKTcm1gVnsC_Tq5sUUrIkrbqNXcxYQaMGwBkQG6auPbFWE"/>
+<div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+<div class="bg-surface/90 text-on-surface px-4 py-2 rounded-lg font-label-md">Currently Paused</div>
+</div>
+<div class="absolute top-3 right-3">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-on-surface">Luxury Boat Rental</h3>
+<span class="font-headline-sm text-primary">12,000 DA</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant mb-4">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-body-md" data-icon="schedule">schedule</span>
+<span class="font-label-sm">Half Day</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-body-md" data-icon="group">group</span>
+<span class="font-label-sm">Max 8</span>
+</div>
+</div>
+<div class="flex gap-2 pt-4 border-t border-surface-variant">
+<button class="flex-1 bg-primary-container text-on-primary-container py-2.5 rounded-lg font-label-md flex items-center justify-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+                            Edit
+                        </button>
+<button class="bg-surface-container-high text-on-surface-variant p-2.5 rounded-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="content_copy">content_copy</span>
+</button>
+<button class="bg-surface-container-high text-error p-2.5 rounded-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Experience Card: Snorkeling -->
+<div class="experience-card bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_12px_rgba(0,54,147,0.05)] border border-surface-variant">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="An underwater photograph capturing sunlight filtering through clear blue Mediterranean water, illuminating a vibrant sea bed with colorful fish and seagrass. The water is pristine and inviting, highlighting the natural beauty of the Béjaïa coast. The mood is tranquil and serene, inviting discovery and exploration in a professional tourism context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrnaHr_Q7FZglA3_gxzvwsJbbUpN3T0Y0HnsFvl02g-JrhyobFUn7fEbShtXHJdzScXSZBIsx4Ya-BetHiX8RaRqDuntHdG3g5goHOb8Mr7DmmqRlnP4jHyvbHDEujQAjbPGAUAc1b7Xzpq2GbQ2po_pZgtfMEthGHTNZLIEpx3GSO64N_4VobQmLX2vaZ1wEB2CKjQjRgYyRDR8S4ZDCamkGv860H2FoEESDAxxqHZ6NpPrSK1q74SbXxf874nMaGtqmfTb7IpRM"/>
+<div class="absolute top-3 right-3">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-on-surface">Les Aiguades Snorkeling</h3>
+<span class="font-headline-sm text-primary">4,500 DA</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant mb-4">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-body-md" data-icon="schedule">schedule</span>
+<span class="font-label-sm">2 Hours</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-body-md" data-icon="group">group</span>
+<span class="font-label-sm">Max 10</span>
+</div>
+</div>
+<div class="flex gap-2 pt-4 border-t border-surface-variant">
+<button class="flex-1 bg-primary-container text-on-primary-container py-2.5 rounded-lg font-label-md flex items-center justify-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+                            Edit
+                        </button>
+<button class="bg-surface-container-high text-on-surface-variant p-2.5 rounded-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="content_copy">content_copy</span>
+</button>
+<button class="bg-surface-container-high text-error p-2.5 rounded-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center active:scale-90 duration-200 z-50">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container-lowest dark:bg-surface-container-lowest shadow-lg rounded-t-xl shadow-[0_-4px_12px_rgba(0,54,147,0.05)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="admin_dashboard_mobile.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="admin_bookings_mobile.html">
+<span class="material-symbols-outlined" data-icon="event_available">event_available</span>
+<span class="font-label-sm text-label-sm">Bookings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="admin_bookings_mobile.html">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-sm text-label-sm">Schedule</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="fleet_management_mobile.html">
+<span class="material-symbols-outlined" data-icon="directions_boat">directions_boat</span>
+<span class="font-label-sm text-label-sm">Fleet</span>
+</a>
+</nav>
+<script>
+        // Simple toggle simulation
+        document.querySelectorAll('input[type="checkbox"]').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const card = this.closest('.experience-card');
+                if (this.checked) {
+                    card.classList.remove('opacity-80');
+                    const overlay = card.querySelector('.bg-black/20');
+                    if (overlay) overlay.remove();
+                } else {
+                    card.classList.add('opacity-80');
+                    // In a real app we'd add the overlay back or update text
+                }
+            });
+        });
+
+        // Add ripple-like effect on buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                let ripple = document.createElement('span');
+                ripple.style.position = 'absolute';
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                ripple.style.width = '1px';
+                ripple.style.height = '1px';
+                ripple.style.background = 'rgba(255,255,255,0.3)';
+                ripple.style.borderRadius = '50%';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.pointerEvents = 'none';
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+    </script>
+<style>
+        @keyframes ripple {
+            to {
+                transform: scale(300);
+                opacity: 0;
+            }
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body></html>
