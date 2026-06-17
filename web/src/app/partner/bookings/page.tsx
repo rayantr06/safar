@@ -7,6 +7,8 @@ import { formatPriceDA, formatPhone } from "@/lib/utils/format";
 import { createClient } from "@/lib/supabase/server";
 import { BookingActions } from "@/components/partner/booking-actions";
 
+export const dynamic = "force-dynamic";
+
 export default async function PartnerBookingsPage() {
   const supabase = await createClient();
   
