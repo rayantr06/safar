@@ -38,7 +38,7 @@ export default function BookingPage({ params }: { params: Promise<{ slug: string
     
     const result = await createBooking({
       experience_id: experience.id,
-      time_slot_id: null,
+      time_slot_id: "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9b",
       client_name: clientName || "Client Sans Nom",
       client_phone: clientPhone || "000000000",
       client_notes: clientNotes,

@@ -25,13 +25,24 @@ export async function createBooking(data: BookingRequest) {
     const finance = calculateCommission(data.total_amount, 15);
     const bookingRef = generateBookingRef();
 
-    // 2. Insert into bookings table
+    // 2. Fetch the provider_id for this experience to link the booking to the correct partner
+    const { data: expData, error: expError } = await supabase
+      .from("experiences")
+      .select("boats(provider_id)")
+      .eq("id", data.experience_id)
+      .single();
+
+    if (expError) throw new Error("Experience introuvable");
+    const providerId = expData?.boats?.provider_id;
+
+    // 3. Insert into bookings table
     const { data: booking, error: bookingError } = await supabase
       .from("bookings")
       .insert({
         booking_ref: bookingRef,
         experience_id: data.experience_id,
         time_slot_id: data.time_slot_id,
+        provider_id: providerId,
         client_name: data.client_name,
         client_phone: data.client_phone,
         client_notes: data.client_notes,
