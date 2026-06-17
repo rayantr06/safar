@@ -1,7 +1,7 @@
 import { ExperienceSummary } from "@/components/experiences/experience-card";
 
 // Mock data until DB is fully connected
-const MOCK_EXPERIENCES: ExperienceSummary[] = [
+export const MOCK_EXPERIENCES: ExperienceSummary[] = [
   {
     id: "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
     title: "Balade privée Cap Carbon & Aiguades",

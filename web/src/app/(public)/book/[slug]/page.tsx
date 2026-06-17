@@ -11,23 +11,18 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatPriceDA } from "@/lib/utils/format";
 import { Calendar, Users, FileText, CheckCircle2 } from "lucide-react";
-
-// Normalement ces données viendraient de la DB
-const MOCK_EXPERIENCE = {
-  id: "1",
-  title: "Balade privée Cap Carbon & Aiguades",
-  type: "private" as const,
-  price_total: 2000000,
-  price_per_seat: null,
-  main_image_url: "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
-  max_guests: 6
-};
+import { MOCK_EXPERIENCES } from "@/lib/queries/experiences";
 
 export default function BookingPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = use(params);
   const router = useRouter();
   const { currentStep, nextStep, prevStep, setStep, guestCount, setGuestCount, clientName, clientPhone, clientNotes, setClientInfo, setDate, setTimeSlot } = useBookingStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const experience = MOCK_EXPERIENCES.find(e => e.slug === resolvedParams.slug) || MOCK_EXPERIENCES[0];
+  const totalAmount = experience.type === "shared"
+    ? (experience.price_per_seat || 0) * guestCount
+    : (experience.price_total || 0);
 
   // Auto-set mock data for now
   const handleDateSelect = () => {
@@ -42,16 +37,16 @@ export default function BookingPage({ params }: { params: Promise<{ slug: string
     await new Promise(r => setTimeout(r, 1000));
     
     const result = await createBooking({
-      experience_id: MOCK_EXPERIENCE.id,
-      time_slot_id: "slot-1",
+      experience_id: experience.id,
+      time_slot_id: null,
       client_name: clientName || "Client Sans Nom",
       client_phone: clientPhone || "000000000",
       client_notes: clientNotes,
       guest_count: guestCount,
       booking_date: "2026-07-20",
       booking_time: "09:00",
-      total_amount: MOCK_EXPERIENCE.price_total || 0,
-      booking_type: MOCK_EXPERIENCE.type
+      total_amount: totalAmount,
+      booking_type: experience.type === "shared" ? "shared" : "private"
     });
 
     setIsSubmitting(false);
@@ -112,9 +107,9 @@ export default function BookingPage({ params }: { params: Promise<{ slug: string
                 <div className="flex items-center space-x-4">
                   <Button variant="outline" size="icon" onClick={() => setGuestCount(guestCount - 1)} disabled={guestCount <= 1}>-</Button>
                   <span className="text-2xl font-bold w-12 text-center">{guestCount}</span>
-                  <Button variant="outline" size="icon" onClick={() => setGuestCount(guestCount + 1)} disabled={guestCount >= MOCK_EXPERIENCE.max_guests}>+</Button>
+                  <Button variant="outline" size="icon" onClick={() => setGuestCount(guestCount + 1)} disabled={guestCount >= experience.max_guests}>+</Button>
                 </div>
-                <p className="text-sm text-on-surface-variant">Capacité maximale : {MOCK_EXPERIENCE.max_guests} personnes.</p>
+                <p className="text-sm text-on-surface-variant">Capacité maximale : {experience.max_guests} personnes.</p>
                 <div className="pt-6 flex justify-between">
                   <Button variant="ghost" onClick={prevStep}>Retour</Button>
                   <Button onClick={nextStep}>Continuer</Button>
@@ -155,11 +150,13 @@ export default function BookingPage({ params }: { params: Promise<{ slug: string
         <aside className="w-full md:w-80 flex-shrink-0">
           <Card className="overflow-hidden">
             <div className="relative h-32 w-full">
-              <Image src={MOCK_EXPERIENCE.main_image_url} alt="Boat" fill className="object-cover" />
+              <Image src={experience.main_image_url} alt="Boat" fill className="object-cover" />
             </div>
             <div className="p-5">
-              <Badge variant="secondary" className="mb-2">Bateau Privé</Badge>
-              <h3 className="font-bold font-mono text-lg mb-4">{MOCK_EXPERIENCE.title}</h3>
+              <Badge variant="secondary" className="mb-2">
+                {experience.type === "private" ? "Bateau Privé" : "Sortie Partagée"}
+              </Badge>
+              <h3 className="font-bold font-mono text-lg mb-4">{experience.title}</h3>
               
               <div className="space-y-2 text-sm text-on-surface-variant pb-4 border-b border-surface-variant">
                 <div className="flex justify-between">
@@ -178,7 +175,7 @@ export default function BookingPage({ params }: { params: Promise<{ slug: string
 
               <div className="pt-4 flex justify-between items-end">
                 <span className="font-semibold">Total à payer</span>
-                <span className="text-2xl font-bold font-mono text-primary">{formatPriceDA(MOCK_EXPERIENCE.price_total)}</span>
+                <span className="text-2xl font-bold font-mono text-primary">{formatPriceDA(totalAmount)}</span>
               </div>
               <p className="text-xs text-center text-on-surface-variant mt-2 bg-surface-variant p-2 rounded">
                 À payer sur place le jour J
