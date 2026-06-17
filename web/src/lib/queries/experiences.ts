@@ -3,7 +3,7 @@ import { ExperienceSummary } from "@/components/experiences/experience-card";
 // Mock data until DB is fully connected
 const MOCK_EXPERIENCES: ExperienceSummary[] = [
   {
-    id: "1",
+    id: "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
     title: "Balade privée Cap Carbon & Aiguades",
     slug: "balade-privee-cap-carbon",
     type: "private",
@@ -17,7 +17,7 @@ const MOCK_EXPERIENCES: ExperienceSummary[] = [
     rating: 4.8,
   },
   {
-    id: "2",
+    id: "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
     title: "Sortie Pêche & Baignade - Les Falaises",
     slug: "sortie-peche-falaises",
     type: "private",
@@ -31,7 +31,7 @@ const MOCK_EXPERIENCES: ExperienceSummary[] = [
     rating: 4.9,
   },
   {
-    id: "3",
+    id: "c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f",
     title: "Tour Partagé - Île des Pisans (Boulimate)",
     slug: "tour-partage-ile-pisans",
     type: "shared",
