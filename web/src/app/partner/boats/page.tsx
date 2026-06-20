@@ -1,10 +1,13 @@
-import Image from "next/image";
-import { Plus, Edit2, Anchor, Star, ToggleRight, ToggleLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { createClient } from "@/lib/supabase/server";
+import { FleetList } from "@/components/partner/fleet-list";
+import { getPersistedMockData } from "@/lib/actions/experiences";
+
+export const dynamic = "force-dynamic";
 
 export default async function PartnerBoatsPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
   const MOCK_EXPERIENCES = [
     {
       id: "1",
@@ -30,89 +33,72 @@ export default async function PartnerBoatsPage() {
     }
   ];
 
-  return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold font-mono text-on-surface">Ma Flotte & Expériences</h1>
-          <p className="text-sm text-on-surface-variant mt-1">Gérez vos bateaux et les sorties que vous proposez.</p>
-        </div>
-        <Button className="bg-primary text-white">
-          <Plus className="h-4 w-4 mr-2" /> Ajouter un bateau
-        </Button>
-      </div>
+  let experiences: any[] = [];
+  if (user) {
+    const { data, error } = await supabase
+      .from("experiences")
+      .select("*, boats!inner(*)")
+      .eq("boats.provider_id", user.id);
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-        {MOCK_EXPERIENCES.map((exp) => (
-          <Card key={exp.id} className={`border-none custom-shadow overflow-hidden ${!exp.is_published ? 'opacity-80' : ''}`}>
-            <div className="flex flex-col sm:flex-row h-full">
-              {/* Image */}
-              <div className="relative w-full sm:w-48 h-48 sm:h-auto flex-shrink-0">
-                <Image
-                  src={exp.main_image_url}
-                  alt={exp.title}
-                  fill
-                  className="object-cover"
-                />
-                {!exp.is_published && (
-                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                    <Badge variant="secondary" className="bg-black/60 text-white border-none">Brouillon</Badge>
-                  </div>
-                )}
-              </div>
-              
-              {/* Content */}
-              <CardContent className="flex-1 p-5 flex flex-col justify-between">
-                <div>
-                  <div className="flex justify-between items-start mb-2">
-                    <Badge variant={exp.type === 'private' ? 'secondary' : 'default'} className="mb-2">
-                      {exp.type === 'private' ? 'Bateau Privé' : 'Partagé'}
-                    </Badge>
-                    {exp.is_published ? (
-                      <div className="flex items-center text-xs text-success font-medium">
-                        <ToggleRight className="h-5 w-5 mr-1" /> Publié
-                      </div>
-                    ) : (
-                      <div className="flex items-center text-xs text-on-surface-variant font-medium">
-                        <ToggleLeft className="h-5 w-5 mr-1" /> Non publié
-                      </div>
-                    )}
-                  </div>
-                  
-                  <h3 className="font-bold text-lg leading-tight mb-1">{exp.title}</h3>
-                  <div className="flex items-center text-sm text-on-surface-variant mb-4">
-                    <Anchor className="h-3 w-3 mr-1" /> {exp.boatName}
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-2 text-sm text-on-surface-variant">
-                    <div>⏱ {exp.duration_minutes / 60} heures</div>
-                    <div>👥 {exp.max_guests} pers. max</div>
-                  </div>
-                </div>
-                
-                <div className="mt-6 pt-4 border-t border-surface-variant flex justify-between items-center">
-                  <div className="font-mono font-bold text-primary">
-                    {exp.type === 'private' ? `${(exp.price_total ?? 0) / 100} DA` : `${(exp.price_per_seat ?? 0) / 100} DA / pers`}
-                  </div>
-                  <Button variant="outline" size="sm">
-                    <Edit2 className="h-3 w-3 mr-2" /> Modifier
-                  </Button>
-                </div>
-              </CardContent>
-            </div>
-          </Card>
-        ))}
-      </div>
-      
-      <div className="bg-primary-container/30 border border-primary/20 rounded-xl p-4 flex items-start gap-4">
-        <Star className="h-6 w-6 text-primary flex-shrink-0 mt-0.5" />
-        <div>
-          <h4 className="font-semibold text-on-surface mb-1">Comment publier une nouvelle expérience ?</h4>
-          <p className="text-sm text-on-surface-variant">
-            Pour garantir la qualité de la plateforme, chaque nouvelle expérience doit être approuvée par l'équipe Safar DZ avant d'être visible par les clients. Contactez-nous sur WhatsApp après avoir créé votre fiche.
-          </p>
-        </div>
-      </div>
+    if (!error && data) {
+      experiences = data.map((exp: any) => ({
+        id: exp.id,
+        title: exp.title,
+        boatName: exp.boats?.name || "Bateau",
+        type: exp.type || "private",
+        price_total: exp.price_total,
+        price_per_seat: exp.price_per_seat,
+        duration_minutes: exp.duration_minutes || 120,
+        max_guests: exp.max_guests || 6,
+        is_published: exp.is_published ?? true,
+        main_image_url: exp.main_image_url || "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
+      }));
+    }
+  }
+
+  // Load filesystem mock DB overrides if we are in placeholder mode
+  const mockDb = await getPersistedMockData();
+  
+  // Combine all experience sources
+  let allExperiences = experiences.length > 0 ? experiences : [...MOCK_EXPERIENCES];
+  
+  if (mockDb) {
+    // Merge updates from db.experiences
+    allExperiences = allExperiences.map((exp) => {
+      const updates = mockDb.experiences?.[exp.id];
+      if (updates) {
+        return { ...exp, ...updates };
+      }
+      return exp;
+    });
+
+    // Append createdExperiences
+    if (mockDb.createdExperiences) {
+      allExperiences = [...allExperiences, ...mockDb.createdExperiences];
+    }
+  }
+
+  // Filter experiences to only include those belonging to the logged-in partner
+  if (user) {
+    experiences = allExperiences.filter((exp) => {
+      let expProviderId = exp.provider_id;
+      if (!expProviderId && exp.boat_id && mockDb?.boats?.[exp.boat_id]) {
+        expProviderId = mockDb.boats[exp.boat_id].provider_id;
+      }
+      if (!expProviderId) {
+        // Fallback mapping for static mock experiences
+        if (exp.id === "1") expProviderId = "mock-partner-id";
+        if (exp.id === "2") expProviderId = "p2";
+      }
+      return expProviderId === user.id;
+    });
+  } else {
+    experiences = [];
+  }
+
+  return (
+    <div className="max-w-container-max mx-auto px-4 md:px-10 py-6">
+      <FleetList initialExperiences={experiences} />
     </div>
   );
 }

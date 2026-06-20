@@ -127,6 +127,12 @@ export type Booking = {
   completed_at: string | null;
   cancelled_at: string | null;
   cancellation_reason: string | null;
+  booking_source?: "SAFAR_DZ" | "PARTNER_MANUAL";
+  duration_minutes?: number;
+  start_time?: string;
+  end_time?: string;
+  created_by?: "CUSTOMER" | "PARTNER" | "ADMIN";
+  boat_id?: string;
 };
 
 export type BookingStatusHistory = {

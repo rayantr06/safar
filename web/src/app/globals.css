@@ -100,6 +100,98 @@ body {
   font-family: var(--font-sans);
 }
 
+/* ============================================
+   Typography System (from HTML mockups)
+   These map to the design-system tokens used
+   in the HTML files as Tailwind utilities.
+   ============================================ */
+
+/* Display Large – Hero headlines (Desktop) */
+.text-display-lg {
+  font-size: 48px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.font-display-lg {
+  font-family: var(--font-mono), 'Space Mono', monospace;
+}
+
+/* Display Large Mobile – Hero headlines (Mobile) */
+.text-display-lg-mobile {
+  font-size: 36px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+.font-display-lg-mobile {
+  font-family: var(--font-mono), 'Space Mono', monospace;
+}
+
+/* Headline Medium – Section titles */
+.text-headline-md {
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 600;
+}
+.font-headline-md {
+  font-family: var(--font-mono), 'Space Mono', monospace;
+}
+
+/* Headline Small – Card titles, sub-headers */
+.text-headline-sm {
+  font-size: 24px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+.font-headline-sm {
+  font-family: var(--font-mono), 'Space Mono', monospace;
+}
+
+/* Body Large – Lead text, descriptions */
+.text-body-lg {
+  font-size: 18px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+.font-body-lg {
+  font-family: var(--font-sans), 'Inter', sans-serif;
+}
+
+/* Body Medium – Standard body text */
+.text-body-md {
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+.font-body-md {
+  font-family: var(--font-sans), 'Inter', sans-serif;
+}
+
+/* Label Medium – Buttons, nav labels */
+.text-label-md {
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.font-label-md {
+  font-family: var(--font-sans), 'Inter', sans-serif;
+}
+
+/* Label Small – Captions, metadata */
+.text-label-sm {
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 500;
+}
+.font-label-sm {
+  font-family: var(--font-sans), 'Inter', sans-serif;
+}
+
+/* ============================================
+   Custom Component Classes (from HTML mockups)
+   ============================================ */
+
 /* ---- Glass card effect ---- */
 .glass-card {
   background: rgba(255, 255, 255, 0.7);
@@ -118,11 +210,27 @@ body {
   box-shadow: 0 4px 12px rgba(0, 54, 147, 0.05);
 }
 
+/* ---- Travel stamp (dashed border rotated badge) ---- */
+.travel-stamp {
+  border: 2px dashed currentColor;
+  transform: rotate(-3deg);
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 8px;
+}
+
+/* ---- Organic blob shape ---- */
+.organic-blob {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+
 /* ---- Hide scrollbar ---- */
-.hide-scrollbar::-webkit-scrollbar {
+.hide-scrollbar::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
   display: none;
 }
-.hide-scrollbar {
+.hide-scrollbar,
+.no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -139,12 +247,10 @@ body {
   border-radius: 10px;
 }
 
-/* ---- Organic blob shape ---- */
-.organic-blob {
-  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-}
+/* ============================================
+   Animations
+   ============================================ */
 
-/* ---- Smooth animations ---- */
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }

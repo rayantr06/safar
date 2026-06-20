@@ -1,0 +1,448 @@
+{
+  "destinations": {
+    "d1": {
+      "id": "d1",
+      "name": "Cap Carbon Test Edit",
+      "slug": "cap-carbon",
+      "description": "Abritant le plus haut phare naturel au monde, ce cap emblématique offre des vues panoramiques à couper le souffle et des grottes marines cachées.",
+      "photo_url": "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
+      "experience_count": 12,
+      "is_active": true,
+      "is_featured": true,
+      "location": "Bejaia, Algeria",
+      "bookings_count": 1248,
+      "revenue_dzd": "4.2M",
+      "rating": 4.9
+    }
+  },
+  "experiences": {
+    "1": {
+      "is_published": true,
+      "title": "balade en mer prive",
+      "type": "private",
+      "price_total": 2000000,
+      "price_per_seat": null,
+      "duration_minutes": 120,
+      "max_guests": 6,
+      "status": "approved",
+      "description": "Une balade privée exceptionnelle à la découverte du phare de Cap Carbon et des criques des Aiguades.omar lem9ermed salamu3likoum ",
+      "destination_id": "d2",
+      "provider_id": "",
+      "boat_id": "1",
+      "main_image_url": "https://ibb.co/qL5wqC0L",
+      "images": [
+        "https://ibb.co/qL5wqC0L"
+      ],
+      "availabilitySettings": {
+        "workingHours": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "breakTime": {
+          "start": "13:00",
+          "end": "14:00"
+        },
+        "unavailableDays": [],
+        "maintenanceDates": []
+      },
+      "partnerName": "Capitaine Salim",
+      "partner": "Capitaine Salim",
+      "destinationName": "Île des Pisans",
+      "destination": "Île des Pisans"
+    },
+    "new-1781715516707": {
+      "is_published": false
+    }
+  },
+  "createdExperiences": [
+    {
+      "id": "new-1781715061574",
+      "title": "Nouveau bateauNouveau Bateau Test",
+      "boatName": "Sirène de Béjaïa",
+      "type": "private",
+      "price_total": 1500000,
+      "price_per_seat": 250000,
+      "duration_minutes": 120,
+      "max_guests": 6,
+      "is_published": false,
+      "main_image_url": "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020"
+    },
+    {
+      "id": "new-1781715516707",
+      "title": "Nouveau bateau",
+      "boatName": "jetski",
+      "type": "private",
+      "price_total": 1510300,
+      "price_per_seat": 250000,
+      "duration_minutes": 240,
+      "max_guests": 1,
+      "is_published": true,
+      "main_image_url": "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020"
+    },
+    {
+      "id": "new-1781831034645",
+      "slug": "plongplongee-decouverte-cap-carbon-1781831034645",
+      "is_published": true,
+      "main_image_url": "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
+      "images": [
+        "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
+        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80"
+      ],
+      "partnerName": "Azul Sea Voyager",
+      "partner": "Azul Sea Voyager",
+      "destinationName": "Cap Carbon",
+      "destination": "Cap Carbon",
+      "rating": 5,
+      "title": "PlongPlongee decouverte Cap Carbon",
+      "type": "private",
+      "price_total": 150001200000,
+      "price_per_seat": null,
+      "duration_minutes": 120120,
+      "max_guests": 610,
+      "status": "approved",
+      "description": "Une plongee magnifique a Bejaia.",
+      "destination_id": "d1",
+      "provider_id": "p3",
+      "boat_id": "3",
+      "included_services": "Gilets de sauvetage, Eau minérale, Capitaine certifié",
+      "requirements": "Carte d'identité requise, Venir 15 min avant l'embarquement",
+      "availabilitySettings": {
+        "workingHours": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "breakTime": {
+          "start": "13:00",
+          "end": "14:00"
+        },
+        "unavailableDays": [],
+        "maintenanceDates": []
+      }
+    },
+    {
+      "id": "new-1781858314723",
+      "slug": "msdn-1781858314723",
+      "is_published": true,
+      "main_image_url": "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
+      "images": [
+        "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020"
+      ],
+      "partnerName": "Capitaine Salim",
+      "partner": "Capitaine Salim",
+      "destinationName": "Cap Carbon",
+      "destination": "Cap Carbon",
+      "rating": 5,
+      "title": "MSDN",
+      "type": "private",
+      "price_total": 1500000,
+      "price_per_seat": null,
+      "duration_minutes": 120,
+      "max_guests": 6,
+      "status": "approved",
+      "description": "",
+      "destination_id": "d1",
+      "provider_id": "mock-partner-id",
+      "boat_id": "1",
+      "included_services": "Gilets de sauvetage, Eau minérale, Capitaine certifié",
+      "requirements": "Carte d'identité requise, Venir 15 min avant l'embarquement",
+      "availabilitySettings": {
+        "workingHours": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "breakTime": {
+          "start": "13:00",
+          "end": "14:00"
+        },
+        "unavailableDays": [],
+        "maintenanceDates": []
+      }
+    }
+  ],
+  "bookings": [
+    {
+      "id": "b-manual-1781730689249",
+      "created_at": "2026-06-17T21:11:29.249Z",
+      "booking_ref": "#SF-M2613",
+      "client_name": "Messaoudene",
+      "client_phone": "00",
+      "booking_date": "2026-06-04",
+      "booking_time": "09:00",
+      "duration_minutes": 120,
+      "start_time": "09:00",
+      "end_time": "11:00",
+      "guest_count": 2,
+      "booking_type": "private",
+      "total_amount": 1500000,
+      "commission_amount": 0,
+      "provider_amount": 1500000,
+      "status": "completed",
+      "booking_source": "PARTNER_DIRECT",
+      "created_by": "PARTNER",
+      "boat_id": "2",
+      "provider_id": "p2",
+      "client_notes": "bb",
+      "experience_id": "1",
+      "commission_rate": 0,
+      "partner": "Evasion Marine"
+    },
+    {
+      "id": "b-auto-1781823068843",
+      "created_at": "2026-06-18T22:51:08.843Z",
+      "booking_ref": "SF-4592",
+      "experience_id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+      "time_slot_id": "slot-15:00",
+      "provider_id": "mock-partner-id",
+      "client_name": "3omar",
+      "client_phone": "0783800468",
+      "client_notes": "",
+      "guest_count": 6,
+      "booking_type": "private",
+      "total_amount": 2000000,
+      "commission_amount": 300000,
+      "provider_amount": 1700000,
+      "commission_rate": 15,
+      "status": "confirmed",
+      "booking_date": "2026-08-01",
+      "booking_time": "15:00",
+      "booking_source": "SAFAR_DZ",
+      "created_by": "CUSTOMER",
+      "duration_minutes": 120,
+      "start_time": "15:00",
+      "end_time": "17:00",
+      "boat_id": "6",
+      "partner": "Capitaine Salim"
+    },
+    {
+      "id": "b-auto-1781897549377",
+      "created_at": "2026-06-19T19:32:29.377Z",
+      "booking_ref": "SF-6278",
+      "experience_id": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
+      "time_slot_id": "slot-10:00",
+      "provider_id": "mock-partner-id",
+      "client_name": "cc",
+      "client_phone": "cc",
+      "client_notes": "cc",
+      "guest_count": 8,
+      "booking_type": "private",
+      "total_amount": 2500000,
+      "commission_amount": 375000,
+      "provider_amount": 2125000,
+      "commission_rate": 15,
+      "status": "new",
+      "booking_date": "2026-08-15",
+      "booking_time": "10:00",
+      "booking_source": "SAFAR_DZ",
+      "created_by": "CUSTOMER",
+      "duration_minutes": 120,
+      "start_time": "10:00",
+      "end_time": "12:00",
+      "boat_id": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"
+    },
+    {
+      "id": "b-auto-1781900051237",
+      "created_at": "2026-06-19T20:14:11.237Z",
+      "booking_ref": "SF-6541",
+      "experience_id": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
+      "time_slot_id": "slot-10:00",
+      "provider_id": "mock-partner-id",
+      "client_name": "Amine Test",
+      "client_phone": "0550123456",
+      "client_notes": "Test booking flow",
+      "guest_count": 3,
+      "booking_type": "private",
+      "total_amount": 2500000,
+      "commission_amount": 375000,
+      "provider_amount": 2125000,
+      "commission_rate": 15,
+      "status": "new",
+      "booking_date": "2026-07-15",
+      "booking_time": "10:00",
+      "booking_source": "SAFAR_DZ",
+      "created_by": "CUSTOMER",
+      "duration_minutes": 120,
+      "start_time": "10:00",
+      "end_time": "12:00",
+      "boat_id": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"
+    },
+    {
+      "id": "b-auto-1781904395723",
+      "created_at": "2026-06-19T21:26:35.723Z",
+      "booking_ref": "SF-4331",
+      "experience_id": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
+      "time_slot_id": "slot-14:00",
+      "provider_id": "mock-partner-id",
+      "client_name": "3omar ",
+      "client_phone": "0772404680",
+      "client_notes": "bonjour ",
+      "guest_count": 4,
+      "booking_type": "private",
+      "total_amount": 2500000,
+      "commission_amount": 375000,
+      "provider_amount": 2125000,
+      "commission_rate": 15,
+      "status": "new",
+      "booking_date": "2026-11-14",
+      "booking_time": "14:00",
+      "booking_source": "SAFAR_DZ",
+      "created_by": "CUSTOMER",
+      "duration_minutes": 120,
+      "start_time": "14:00",
+      "end_time": "16:00",
+      "boat_id": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"
+    }
+  ],
+  "partners": {
+    "mock-partner-id": {
+      "id": "mock-partner-id",
+      "name": "Capitaine Salim",
+      "phone": "0550123456",
+      "email": "salim@example.com",
+      "boats": 2,
+      "total_revenue": 1250000,
+      "joined": "Mai 2026",
+      "status": "active",
+      "commission_rate": 15,
+      "commission_effective_date": "2026-06-18",
+      "commission_status": "active",
+      "commission_last_modified": "2026-06-18T20:35:26.624Z"
+    },
+    "p2": {
+      "id": "p2",
+      "name": "Evasion Marine",
+      "phone": "0660987654",
+      "email": "contact@evasion.dz",
+      "boats": 5,
+      "total_revenue": 4500000,
+      "joined": "Avril 2026",
+      "status": "active",
+      "commission_rate": 15,
+      "commission_effective_date": "2026-06-18",
+      "commission_status": "active",
+      "commission_last_modified": "2026-06-18T20:35:26.624Z"
+    },
+    "p4": {
+      "status": "active"
+    },
+    "p3": {
+      "id": "p3",
+      "name": "Azul Sea Voyager",
+      "phone": "0770112233",
+      "email": "azul@safar.dz",
+      "boats": 3,
+      "total_revenue": 3000000,
+      "joined": "Mai 2026",
+      "status": "active",
+      "commission_rate": 15,
+      "commission_effective_date": "2026-06-18",
+      "commission_status": "active",
+      "commission_last_modified": "2026-06-19T00:59:20.848Z"
+    }
+  },
+  "boats": {
+    "1": {
+      "id": "1",
+      "provider_id": "mock-partner-id",
+      "name": "Salim Boat",
+      "type": "private",
+      "capacity": 6
+    },
+    "2": {
+      "id": "2",
+      "provider_id": "p2",
+      "name": "Evasion Boat",
+      "type": "private",
+      "capacity": 8
+    },
+    "3": {
+      "id": "3",
+      "provider_id": "p3",
+      "name": "Azul Cruiser",
+      "type": "private",
+      "capacity": 10
+    },
+    "4": {
+      "id": "4",
+      "provider_id": "p3",
+      "name": "Jet Ski Yamaha",
+      "type": "jetski",
+      "capacity": 2
+    },
+    "5": {
+      "id": "5",
+      "provider_id": "p2",
+      "name": "Kayak Dag",
+      "type": "kayak",
+      "capacity": 2
+    },
+    "6": {
+      "id": "6",
+      "provider_id": "mock-partner-id",
+      "name": "Paddle Board",
+      "type": "paddle",
+      "capacity": 1
+    }
+  },
+  "boat_availability": {
+    "1": {
+      "workingHours": {
+        "start": "08:00",
+        "end": "20:00"
+      },
+      "breakTime": {
+        "start": "13:00",
+        "end": "14:00"
+      },
+      "unavailableDays": [],
+      "maintenanceDates": []
+    },
+    "3": {
+      "workingHours": {
+        "start": "08:00",
+        "end": "20:00"
+      },
+      "breakTime": {
+        "start": "13:00",
+        "end": "14:00"
+      },
+      "unavailableDays": [],
+      "maintenanceDates": []
+    },
+    "4": {
+      "workingHours": {
+        "start": "09:00",
+        "end": "18:00"
+      },
+      "breakTime": {
+        "start": "12:00",
+        "end": "13:00"
+      },
+      "unavailableDays": [],
+      "maintenanceDates": []
+    },
+    "5": {
+      "workingHours": {
+        "start": "08:00",
+        "end": "19:00"
+      },
+      "breakTime": {
+        "start": "13:00",
+        "end": "14:00"
+      },
+      "unavailableDays": [],
+      "maintenanceDates": []
+    },
+    "6": {
+      "workingHours": {
+        "start": "08:00",
+        "end": "20:00"
+      },
+      "breakTime": {
+        "start": "13:00",
+        "end": "14:00"
+      },
+      "unavailableDays": [],
+      "maintenanceDates": []
+    }
+  }
+}

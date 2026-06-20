@@ -1,96 +1,188 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Search, Filter, Phone, Mail, Anchor, ShieldCheck } from "lucide-react";
-import { formatPriceDA, formatPhone } from "@/lib/utils/format";
+import { createClient } from "@/lib/supabase/server";
+import { PartnersListAdmin } from "@/components/admin/partners-list-admin";
+import { getPersistedMockData } from "@/lib/actions/experiences";
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminPartnersPage() {
+  const supabase = await createClient();
+
   const MOCK_PARTNERS = [
-    { id: "p1", name: "Capitaine Salim", phone: "0550123456", email: "salim@example.com", boats: 2, total_revenue: 1250000, joined: "Mai 2026", status: "active" },
-    { id: "p2", name: "Evasion Marine", phone: "0660987654", email: "contact@evasion.dz", boats: 5, total_revenue: 4500000, joined: "Avril 2026", status: "active" },
-    { id: "p3", name: "Nautica DZ", phone: "0771223344", email: "nautica@example.com", boats: 1, total_revenue: 350000, joined: "Juin 2026", status: "pending" },
-    { id: "p4", name: "Amine Boat", phone: "0555667788", email: "amine@example.com", boats: 0, total_revenue: 0, joined: "Aujourd'hui", status: "pending" },
+    { 
+      id: "mock-partner-id", 
+      name: "Capitaine Salim", 
+      phone: "0550123456", 
+      email: "salim@example.com", 
+      boats: 2, 
+      boatsList: [
+        { id: "mb1", name: "Sirène de Béjaïa", type: "private", capacity: 6 },
+        { id: "mb2", name: "Dauphin Bleu", type: "shared", capacity: 12 }
+      ],
+      joined: "Mai 2026", 
+      status: "active",
+      commission_rate: 15.00,
+      commission_effective_date: "2026-06-18",
+      commission_status: "active",
+      commission_last_modified: new Date().toISOString()
+    },
+    { 
+      id: "p2", 
+      name: "Evasion Marine", 
+      phone: "0660987654", 
+      email: "contact@evasion.dz", 
+      boats: 2, 
+      boatsList: [
+        { id: "mb3", name: "Evasion Marine I", type: "private", capacity: 8 },
+        { id: "mb4", name: "Evasion Marine II", type: "private", capacity: 10 }
+      ],
+      joined: "Avril 2026", 
+      status: "active",
+      commission_rate: 15.00,
+      commission_effective_date: "2026-06-18",
+      commission_status: "active",
+      commission_last_modified: new Date().toISOString()
+    },
+    { 
+      id: "p3", 
+      name: "Nautica DZ", 
+      phone: "0771223344", 
+      email: "nautica@example.com", 
+      boats: 1, 
+      boatsList: [
+        { id: "mb5", name: "Nautica Fast", type: "jetski", capacity: 2 }
+      ],
+      joined: "Juin 2026", 
+      status: "pending",
+      commission_rate: 15.00,
+      commission_effective_date: "2026-06-18",
+      commission_status: "active",
+      commission_last_modified: new Date().toISOString()
+    },
+    { 
+      id: "p4", 
+      name: "Amine Boat", 
+      phone: "0555667788", 
+      email: "amine@example.com", 
+      boats: 0, 
+      boatsList: [],
+      joined: "Aujourd'hui", 
+      status: "pending",
+      commission_rate: 15.00,
+      commission_effective_date: "2026-06-18",
+      commission_status: "active",
+      commission_last_modified: new Date().toISOString()
+    },
   ];
 
-  return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold font-mono text-on-surface">Partenaires & Propriétaires</h1>
-          <p className="text-sm text-on-surface-variant mt-1">Gérez le réseau de partenaires de Safar DZ.</p>
-        </div>
-        <Button className="bg-primary text-white">Ajouter manuellement</Button>
-      </div>
+  let partners: any[] = [];
+  let bookings: any[] = [];
+  try {
+    const { data: providersList, error: provError } = await supabase
+      .from("providers")
+      .select(`
+        id,
+        company_name,
+        is_active,
+        commission_rate,
+        commission_effective_date,
+        commission_status,
+        commission_last_modified,
+        profiles (
+          full_name,
+          phone,
+          avatar_url
+        ),
+        boats (
+          id,
+          name,
+          type,
+          capacity
+        )
+      `);
+    
+    if (!provError && providersList) {
+      partners = providersList.map((prov: any) => ({
+        id: prov.id,
+        name: prov.company_name || prov.profiles?.full_name || "Partenaire Safar",
+        phone: prov.profiles?.phone || "0550000000",
+        email: prov.profiles?.avatar_url || "partner@safar.dz",
+        boats: prov.boats?.length || 0,
+        boatsList: prov.boats || [],
+        joined: "Récemment",
+        status: prov.is_active ? "active" : "pending",
+        commission_rate: Number(prov.commission_rate || 15.00),
+        commission_effective_date: prov.commission_effective_date || "2026-06-18",
+        commission_status: prov.commission_status || "active",
+        commission_last_modified: prov.commission_last_modified || new Date().toISOString()
+      }));
+    }
 
-      <Card className="border-none custom-shadow bg-surface">
-        <CardHeader className="border-b border-surface-variant flex flex-col sm:flex-row gap-4 items-center justify-between pb-4">
-          <div className="relative w-full sm:w-[400px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-on-surface-variant" />
-            <Input placeholder="Chercher un partenaire..." className="pl-10" />
-          </div>
-          <div className="flex gap-2 w-full sm:w-auto">
-            <Button variant="outline" className="flex-1 sm:flex-none">
-              <Filter className="h-4 w-4 mr-2" /> Statut
-            </Button>
-          </div>
-        </CardHeader>
-        
-        <CardContent className="p-0 overflow-x-auto">
-          <table className="w-full text-sm text-left">
-            <thead className="bg-surface-container-lowest text-xs text-on-surface-variant uppercase">
-              <tr>
-                <th className="px-6 py-4 font-semibold">Partenaire</th>
-                <th className="px-6 py-4 font-semibold">Contact</th>
-                <th className="px-6 py-4 font-semibold text-center">Bateaux</th>
-                <th className="px-6 py-4 font-semibold text-right">CA Généré</th>
-                <th className="px-6 py-4 font-semibold text-center">Statut</th>
-                <th className="px-6 py-4 font-semibold text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-surface-variant">
-              {MOCK_PARTNERS.map((partner) => (
-                <tr key={partner.id} className="hover:bg-surface-container-lowest transition-colors">
-                  <td className="px-6 py-4">
-                    <div className="font-semibold text-on-surface">{partner.name}</div>
-                    <div className="text-on-surface-variant text-xs mt-1">Inscrit en {partner.joined}</div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center text-on-surface mb-1">
-                      <Phone className="h-3 w-3 mr-2 text-on-surface-variant" /> {formatPhone(partner.phone)}
-                    </div>
-                    <div className="flex items-center text-on-surface-variant text-xs">
-                      <Mail className="h-3 w-3 mr-2" /> {partner.email}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <Badge variant="secondary" className="font-mono">{partner.boats}</Badge>
-                  </td>
-                  <td className="px-6 py-4 text-right font-mono font-bold text-on-surface-variant">
-                    {formatPriceDA(partner.total_revenue * 100)}
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    {partner.status === "active" ? (
-                      <Badge variant="success">Actif</Badge>
-                    ) : (
-                      <Badge variant="warning">En attente</Badge>
-                    )}
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    {partner.status === "pending" ? (
-                      <Button size="sm" className="bg-success hover:bg-success/90 text-white">
-                        <ShieldCheck className="h-4 w-4 mr-1" /> Valider
-                      </Button>
-                    ) : (
-                      <Button variant="outline" size="sm">Gérer</Button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </CardContent>
-      </Card>
+    const { data: bookingsList } = await supabase
+      .from("bookings")
+      .select("provider_id, total_amount, commission_amount, booking_source, status");
+    if (bookingsList) {
+      bookings = bookingsList;
+    }
+  } catch (err) {
+    console.error("Error fetching admin partners:", err);
+  }
+
+  // Load filesystem mock DB overrides if we are in placeholder mode
+  const mockDb = await getPersistedMockData();
+  const dbBookings = mockDb?.bookings || bookings;
+
+  if (mockDb && mockDb.partners) {
+    // Load all partners dynamically from mock DB (including newly created ones)
+    partners = Object.values(mockDb.partners);
+  } else if (partners.length === 0) {
+    partners = MOCK_PARTNERS;
+  }
+
+  // Dynamically resolve fleet count and boats list for each partner from mockDb.boats
+  if (mockDb) {
+    const allBoats = Object.values(mockDb.boats || {}) as any[];
+    partners = partners.map((p) => {
+      const partnerBoats = allBoats.filter((b: any) => b.provider_id === p.id);
+      return {
+        ...p,
+        boats: partnerBoats.length,
+        boatsList: partnerBoats
+      };
+    });
+  }
+
+  // Calculate dynamic stats from bookings for each partner
+  partners = partners.map((p) => {
+    const pBookings = dbBookings.filter(
+      (b: any) => b.provider_id === p.id && b.status !== "cancelled"
+    );
+    const safarBookings = pBookings.filter((b: any) => b.booking_source === "SAFAR_DZ");
+    const directBookings = pBookings.filter(
+      (b: any) => b.booking_source === "PARTNER_DIRECT" || b.booking_source === "PARTNER_MANUAL"
+    );
+
+    const safarRevenue = safarBookings.reduce((sum: number, b: any) => sum + Number(b.total_amount || 0), 0) / 100;
+    const safarCommissions = safarBookings.reduce((sum: number, b: any) => sum + Number(b.commission_amount || 0), 0) / 100;
+    const directRevenue = directBookings.reduce((sum: number, b: any) => sum + Number(b.total_amount || 0), 0) / 100;
+
+    return {
+      ...p,
+      safar_revenue: safarRevenue,
+      safar_commissions: safarCommissions,
+      direct_revenue: directRevenue,
+      total_revenue: safarRevenue + directRevenue // Total gross revenue in DA
+    };
+  });
+
+  return (
+    <div className="max-w-container-max mx-auto px-4 md:px-10 py-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <div>
+          <h1 className="font-display-lg text-display-lg text-primary mb-1">Partenaires</h1>
+          <p className="text-body-lg text-on-surface-variant">Gérez le réseau de propriétaires et capitaines de la plateforme.</p>
+        </div>
+      </div>
+      <PartnersListAdmin initialPartners={partners} />
     </div>
   );
 }

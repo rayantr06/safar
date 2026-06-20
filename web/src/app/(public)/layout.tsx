@@ -1,7 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
+import { HeaderClient } from "@/components/ui/header-client";
 
 export default async function PublicLayout({
   children,
@@ -11,82 +11,75 @@ export default async function PublicLayout({
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
+  let userRole: string | null = null;
+  if (user) {
+    try {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+      userRole = (profile as any)?.role || "provider";
+    } catch {}
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-surface">
-      {/* Navigation Bar */}
-      <header className="sticky top-0 z-50 w-full border-b border-surface-variant bg-surface/80 backdrop-blur-md">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
+      {/* Dynamic unified header (Top Nav, Mobile Side Drawer, and Bottom Nav) */}
+      <HeaderClient user={user} userRole={userRole} />
+
+      {/* ===== Main Content with mobile bottom nav spacing offset ===== */}
+      <main className="flex-1 pb-20 md:pb-0">{children}</main>
+
+      {/* ===== Footer ===== */}
+      <footer className="w-full bg-surface-container-highest rounded-t-[32px] mt-16 px-margin-mobile md:px-margin-desktop py-16 max-w-container-max mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-16">
+          {/* Brand */}
+          <div className="flex flex-col gap-6">
             <span className="text-2xl font-bold font-mono text-primary tracking-tighter">
               Safar<span className="text-tertiary-fixed-dim">DZ</span>
             </span>
-          </Link>
-          
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-            <Link href="/" className="text-on-surface hover:text-primary transition-colors">
-              Découvrir
-            </Link>
-            <Link href="/experiences" className="text-on-surface hover:text-primary transition-colors">
-              Expériences
-            </Link>
-          </nav>
-
-          <div className="flex items-center space-x-4">
-            {user ? (
-              <Button asChild variant="outline">
-                <Link href="/partner">Mon Dashboard</Link>
-              </Button>
-            ) : (
-              <Button asChild variant="ghost">
-                <Link href="/login">Accès Partenaire</Link>
-              </Button>
-            )}
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="flex-1">
-        {children}
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-surface-variant bg-surface-container-low py-12">
-        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold font-mono text-primary">
-              Safar<span className="text-tertiary-fixed-dim">DZ</span>
-            </h3>
-            <p className="text-sm text-on-surface-variant">
-              Votre portail de réservation d'expériences nautiques à Béjaïa.
+            <p className="text-body-md text-on-surface-variant max-w-xs">
+              Explorez les trésors de la côte algérienne.
             </p>
           </div>
-          <div>
-            <h4 className="font-semibold mb-4 text-on-surface">Découvrir</h4>
-            <ul className="space-y-2 text-sm text-on-surface-variant">
-              <li><Link href="/experiences?type=private" className="hover:text-primary">Bateaux Privés</Link></li>
-              <li><Link href="/experiences?type=shared" className="hover:text-primary">Sorties Partagées</Link></li>
-              <li><Link href="/experiences?type=jetski" className="hover:text-primary">Jet Ski (Bientôt)</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4 text-on-surface">Partenaires</h4>
-            <ul className="space-y-2 text-sm text-on-surface-variant">
-              <li><Link href="/login" className="hover:text-primary">Espace Propriétaire</Link></li>
-              <li><Link href="/login" className="hover:text-primary">Devenir Partenaire</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4 text-on-surface">Contact</h4>
-            <ul className="space-y-2 text-sm text-on-surface-variant">
-              <li>Support WhatsApp</li>
-              <li>+213 (0) 500 00 00 00</li>
-              <li>contact@safardz.com</li>
-            </ul>
+          {/* Links */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-x-16 gap-y-4">
+            <Link href="/experiences" className="text-on-surface-variant hover:text-primary transition-all text-label-md">
+              Expériences
+            </Link>
+            <Link href="/partners" className="text-on-surface-variant hover:text-primary transition-all text-label-md">
+              Devenir Partenaire
+            </Link>
+            <Link href="/contact" className="text-on-surface-variant hover:text-primary transition-all text-label-md">
+              Contact
+            </Link>
+            <Link href="https://www.instagram.com/safar_dz/" target="_blank" className="text-on-surface-variant hover:text-primary transition-all text-label-md">
+              Instagram
+            </Link>
+            <Link href="https://www.facebook.com/profile.php?id=61590829494331" target="_blank" className="text-on-surface-variant hover:text-primary transition-all text-label-md">
+              Facebook
+            </Link>
+            <Link href="https://www.tiktok.com/@safar.dz" target="_blank" className="text-on-surface-variant hover:text-primary transition-all text-label-md">
+              TikTok
+            </Link>
+            <Link href="https://wa.me/213556483634" target="_blank" className="text-on-surface-variant hover:text-primary transition-all text-label-md">
+              WhatsApp
+            </Link>
           </div>
         </div>
-        <div className="container mx-auto px-4 mt-12 pt-8 border-t border-surface-variant text-center text-sm text-on-surface-variant">
-          © {new Date().getFullYear()} Safar DZ. Tous droits réservés.
+        <div className="pt-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="text-label-sm text-on-surface-variant">
+            © {new Date().getFullYear()} Safar DZ.
+          </div>
+          <div className="flex gap-8">
+            <Link href="/terms" className="text-label-sm text-on-surface-variant hover:text-primary underline">
+              Mentions légales
+            </Link>
+            <Link href="/privacy" className="text-label-sm text-on-surface-variant hover:text-primary underline">
+              Confidentialité
+            </Link>
+          </div>
         </div>
       </footer>
     </div>

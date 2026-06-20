@@ -46,15 +46,64 @@ export const MOCK_EXPERIENCES: ExperienceSummary[] = [
   },
 ];
 
+import { getPersistedMockData } from "@/lib/actions/experiences";
+
 export async function getFeaturedExperiences(): Promise<ExperienceSummary[]> {
-  // Simuler un appel réseau
-  await new Promise((resolve) => setTimeout(resolve, 800));
-  return MOCK_EXPERIENCES;
+  const exps = await getAllExperiences();
+  return exps.slice(0, 3);
 }
 
-export async function getAllExperiences(): Promise<ExperienceSummary[]> {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  return [...MOCK_EXPERIENCES, ...MOCK_EXPERIENCES]; // Retourner plus d'éléments pour le catalogue
+export async function getAllExperiences(): Promise<any[]> {
+  const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
+  
+  if (isPlaceholder) {
+    try {
+      const db = await getPersistedMockData();
+      
+      let list = MOCK_EXPERIENCES.map((exp) => {
+        const updates = db.experiences?.[exp.id];
+        if (updates) {
+          const isPublished = updates.is_published !== undefined 
+            ? updates.is_published 
+            : (updates.status === "approved" || (exp as any).is_published !== false);
+          return {
+            ...exp,
+            ...updates,
+            is_published: isPublished
+          } as any;
+        }
+        return { ...exp, is_published: true } as any;
+      });
+
+      if (db.createdExperiences) {
+        const createdMapped = db.createdExperiences.map((c: any) => ({
+          id: c.id,
+          title: c.title,
+          slug: c.slug || `exp-${c.id}`,
+          type: c.type,
+          price_total: c.price_total || null,
+          price_per_seat: c.price_per_seat || null,
+          duration_minutes: c.duration_minutes || 120,
+          max_guests: c.max_guests || 6,
+          badge: c.badge || null,
+          destination_name: c.destinationName || c.destination || "Béjaïa",
+          main_image_url: c.main_image_url || "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
+          rating: c.rating || 5.0,
+          is_published: c.is_published !== undefined ? c.is_published : (c.status === "approved" || true),
+          description: c.description || "",
+          images: c.images || [c.main_image_url || "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020"]
+        }));
+        list = [...list, ...createdMapped];
+      }
+
+      return list.filter((exp: any) => exp.is_published !== false);
+    } catch (err) {
+      console.error("Failed to load mock experiences:", err);
+    }
+  }
+
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  return MOCK_EXPERIENCES;
 }
 
 export async function getDestinations() {

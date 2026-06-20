@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Anchor, ShieldCheck, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight, MapPin, Calendar, Users, Search, Ship, ShieldCheck, Handshake, Zap } from "lucide-react";
+import { SearchBar } from "@/components/experiences/search-bar";
 import { ExperienceCard } from "@/components/experiences/experience-card";
 import { getFeaturedExperiences, getDestinations } from "@/lib/queries/experiences";
 
@@ -13,132 +13,78 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col w-full">
-      {/* 1. Hero Section */}
-      <section className="relative h-[85vh] min-h-[600px] w-full flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 w-full h-full">
-          <Image
-            src="https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020"
-            alt="Cap Carbon, Béjaïa"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
-        </div>
+      {/* ===== 1. Hero Section — Split 2-Column ===== */}
+      <section className="relative pt-16 pb-24 md:pb-32 px-margin-mobile md:px-margin-desktop overflow-hidden">
+        <div className="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left: Text + Search Bar */}
+          <div className="relative z-10">
+            <span className="inline-block text-primary font-headline-sm text-headline-sm mb-4 travel-stamp bg-secondary-fixed/30 border-primary/20">
+              Été &apos;25
+            </span>
+            <h1 className="text-display-lg-mobile md:text-display-lg font-display-lg mb-6 text-primary leading-tight">
+              Choisissez votre prochaine aventure
+            </h1>
+            <p className="text-body-lg text-on-surface-variant mb-10 max-w-xl">
+              Des sorties en mer, des découvertes et des moments inoubliables au cœur de la Méditerranée.
+            </p>
 
-        {/* Hero Content */}
-        <div className="relative z-10 container mx-auto px-4 flex flex-col items-start text-white">
-          <span className="inline-block py-1 px-3 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md text-primary-fixed text-sm font-semibold tracking-wide mb-6">
-            L'excellence maritime en Algérie
-          </span>
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight max-w-3xl leading-[1.1] mb-6 font-mono text-shadow-sm">
-            Découvrez la beauté de <span className="text-primary-fixed">Béjaïa</span> par la mer
-          </h1>
-          <p className="text-lg md:text-xl text-surface-variant max-w-2xl mb-10 leading-relaxed text-shadow-sm">
-            Réservez les meilleures expériences nautiques, des bateaux privés luxueux aux sorties familiales partagées.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <Button size="lg" className="h-14 px-8 text-lg font-bold shadow-lg" asChild>
-              <Link href="/experiences">
-                Voir les expériences <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" className="h-14 px-8 text-lg font-bold bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20 hover:text-white" asChild>
-              <Link href="#how-it-works">
-                Comment ça marche ?
-              </Link>
-            </Button>
+            {/* Search Bar */}
+            <SearchBar />
           </div>
-        </div>
-      </section>
 
-      {/* 2. Features / Trust Section */}
-      <section className="py-16 bg-surface-container-lowest border-b border-surface-variant">
-        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="flex items-start space-x-4 p-6 rounded-2xl bg-surface hover:shadow-md transition-shadow">
-            <div className="p-3 bg-primary-container text-on-primary-container rounded-xl">
-              <Anchor className="h-8 w-8" />
+
+          {/* Right: Hero Image */}
+          <div className="relative hidden lg:block">
+            <div className="absolute -top-12 -right-12 w-64 h-64 bg-tertiary-fixed-dim/40 organic-blob animate-pulse blur-3xl" />
+            <div className="absolute -bottom-12 -left-12 w-64 h-64 bg-primary-fixed-dim/40 organic-blob blur-3xl" />
+            <div className="relative rounded-[3rem] overflow-hidden aspect-[4/5] shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-700">
+              <Image
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqvydzkA1Tpk1xqbNllDP0RC9qluxu7V0KmMbGmJGH9XLapI8zmYPaoIaUZAvKJhRVBubLIE_tk8bkgnBPhUZ12vSyF166GtuRUX3Nb6QUPSJU-klAbGIzY5b6P-EZIpeuv3O3JQEcda4vDZaI9SBKx-iw_hX1xJgSzNdKF0WG5dEFLb2UzobGaoNpndA9n5olNnF081Sz-x3GA7w2OLzLhVO63mEiDxCYL4v4HDtyqR4KPhw-mggIy1e_lpOIaRmVaPaXuBhfamM"
+                alt="Bateau sur la Méditerranée près de Béjaïa"
+                fill
+                className="object-cover"
+                priority
+              />
             </div>
-            <div>
-              <h3 className="text-lg font-bold text-on-surface mb-2">Flotte vérifiée</h3>
-              <p className="text-on-surface-variant text-sm">Tous nos bateaux et capitaines sont certifiés et inspectés par notre équipe.</p>
-            </div>
-          </div>
-          <div className="flex items-start space-x-4 p-6 rounded-2xl bg-surface hover:shadow-md transition-shadow">
-            <div className="p-3 bg-primary-container text-on-primary-container rounded-xl">
-              <Clock className="h-8 w-8" />
-            </div>
-            <div>
-              <h3 className="text-lg font-bold text-on-surface mb-2">Réservation instantanée</h3>
-              <p className="text-on-surface-variant text-sm">Bloquez votre créneau en 2 minutes sans créer de compte compliqué.</p>
-            </div>
-          </div>
-          <div className="flex items-start space-x-4 p-6 rounded-2xl bg-surface hover:shadow-md transition-shadow">
-            <div className="p-3 bg-primary-container text-on-primary-container rounded-xl">
-              <ShieldCheck className="h-8 w-8" />
-            </div>
-            <div>
-              <h3 className="text-lg font-bold text-on-surface mb-2">Paiement sur place</h3>
-              <p className="text-on-surface-variant text-sm">Zéro risque. Vous payez directement le jour de votre sortie en mer.</p>
+            <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-2xl shadow-xl postcard-shadow rotate-[-6deg] max-w-[200px]">
+              <p className="font-headline-sm text-primary text-[14px] leading-tight">
+                &quot;La perle de la Méditerranée vous attend.&quot;
+              </p>
+              <div className="mt-2 flex items-center gap-2">
+                <div className="w-6 h-6 rounded-full bg-tertiary-fixed" />
+                <span className="text-label-sm text-on-surface-variant">Algeria Stamps</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. Featured Experiences */}
-      <section className="py-24 bg-surface">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-end mb-12">
-            <div className="max-w-2xl">
-              <h2 className="text-3xl md:text-4xl font-bold font-mono text-on-surface mb-4">Expériences à la une</h2>
-              <p className="text-on-surface-variant text-lg">Nos sorties les plus populaires et les mieux notées par la communauté.</p>
-            </div>
-            <Button variant="ghost" className="hidden md:flex" asChild>
-              <Link href="/experiences">
-                Tout voir <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {experiences.map((exp) => (
-              <ExperienceCard key={exp.id} experience={exp} />
-            ))}
-          </div>
-          
-          <div className="mt-8 text-center md:hidden">
-            <Button variant="outline" className="w-full" asChild>
-              <Link href="/experiences">Voir toutes les expériences</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Destinations */}
-      <section className="py-24 bg-surface-container-low">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold font-mono text-on-surface mb-4">Destinations de Rêve</h2>
-            <p className="text-on-surface-variant text-lg">Explorez les joyaux cachés de la côte bougiote.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {destinations.map((dest) => (
-              <Link key={dest.id} href={`/experiences?destination=${dest.slug}`} className="group relative h-80 rounded-2xl overflow-hidden cursor-pointer">
-                <Image
-                  src={dest.photo_url}
-                  alt={dest.name}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity group-hover:opacity-90" />
-                <div className="absolute bottom-0 left-0 p-6 text-white w-full">
-                  <h3 className="text-2xl font-bold mb-1 font-mono">{dest.name}</h3>
-                  <p className="text-white/80 text-sm mb-4 line-clamp-2">{dest.description}</p>
-                  <span className="inline-block text-xs font-semibold uppercase tracking-wider text-primary">
-                    {dest.experience_count} expériences
-                  </span>
+      {/* ===== 2. Categories Section ===== */}
+      <section className="py-16 bg-surface-container-low">
+        <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+          <h2 className="font-headline-md text-headline-md text-primary mb-12 flex items-center gap-3">
+            <Ship className="h-8 w-8 text-tertiary-container" />
+            Explorez par catégorie
+          </h2>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: "Bateaux privés", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBlWKUCUJLU2-1yhXbPPMHxrp6E3oPGCx1isV7F_e2ecsez99pVZ3_JF-KL8ivG3ieXKN3EjOGJ1tTBmqwu6IHBRg3mTGyM8Ks0ZiQcTdShigt5u7FzBgXOfsciP9oyUxS3gnrRED68Z_Z5eBLLsLUifM9QvF425P-KrLSZyktH_MnhngWqZm4Xxu0ToE_aZiCqRDsSOXtYUL5bbcNjZ4vm8s34yPX3fxOjB1e0erFmYUNYgsO4jfsEmu7lqdsod4HRBFqLkBrJ1YA" },
+              { title: "Balades en bateau", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBiUMNg517iw3rvwS3lsO5HDCk-34xXaq2tBtEyZuAgjfFYsjfQ1KzScMQyIj1T7cHFikUMjX6G-v3-Rfg2VLqItBm1g25i0yLVECQI9KDUuxqVIDFFAgJpbygWGK4ASN9PUeonGSWvIU4HdGE2e-QBSaZQDL4HJN7oeQivq7JH1kPRnyJiPLR9yCyy6oKdOKYImfxOSBo3zTsFZ7QStQnTrr1ISMOpw9qs2g11QKxohZ1LiH3Zxwgg6m-w0qIUrIC0FhtV7ZvP_iI" },
+              { title: "Jet Ski", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuB3VHtna-BNDwEX-2uzlA_IFScLgHlKZwOez5fDnu6W8JH4cfPvjjIwbftDPwgnQkPVcvMvfLGgzNjDJ91ZoWJArAOXLtK-yOFbyPZRCxNWz6SiNk_NNn0RwsGjDqtFWvd9_RZC3fuM_cjyp_A2UF2mW1CKRza87NGLtUC_YXtM1KCMUCt34uQ0WlkFRFra7KAOM3gac3UXNmz7bFNGm4yctLyUQta1Y7yPYKorstM8niJSGT31OQgxLvkGJU_OCE-SfKDvO_dTphs" },
+              { title: "Découvrir Béjaïa", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuD1f7dHINbq0C5DLXE9GbBEde5HjcAD0RWKsyrbKD1oGltwLnCu3VyDq0ZoO8Ktgogrs1sAMYSxgdrOkJ2xyQ3DU3VY9XaHjuUU9MP1aXp3jNr2wHzIEwEL5iRa9URRSvSeptQfl8ErTgXnl6OZNfPYdwTSffPjYbcBpfb1RI83Ccos5TG3D8EejiiYuqnozj22YlytD6_JGQ2FyD__9GRSgSPklDtcsYRMtvJV1Sp3SWpKEzUSD2oVYKzbHWn9WAL5uYICMQqqrKA" },
+            ].map((cat) => (
+              <Link key={cat.title} href="/experiences" className="group cursor-pointer">
+                <div className="aspect-square rounded-3xl overflow-hidden relative mb-4">
+                  <Image
+                    src={cat.img}
+                    alt={cat.title}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />
+                  <div className="absolute bottom-4 left-4 text-on-primary">
+                    <h3 className="font-headline-sm text-label-md">{cat.title}</h3>
+                  </div>
                 </div>
               </Link>
             ))}
@@ -146,20 +92,103 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 5. CTA Partner */}
-      <section className="py-24 bg-primary text-white relative overflow-hidden">
-        {/* Background pattern */}
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, white 1px, transparent 0)", backgroundSize: "32px 32px" }}></div>
-        
-        <div className="container mx-auto px-4 relative z-10 text-center max-w-3xl">
-          <h2 className="text-3xl md:text-5xl font-bold font-mono mb-6 text-primary-fixed">Vous êtes propriétaire de bateau ?</h2>
-          <p className="text-lg md:text-xl text-primary-fixed-dim mb-10">
-            Rejoignez la plateforme leader à Béjaïa. Gérez vos réservations, augmentez votre visibilité et développez votre activité.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="lg" variant="secondary" className="h-14 px-8 text-lg font-bold" asChild>
-              <Link href="/login">Rejoindre les partenaires</Link>
-            </Button>
+      {/* ===== 3. Featured Experiences ===== */}
+      <section className="py-24 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+        <div className="flex justify-between items-end mb-12">
+          <div>
+            <h2 className="font-headline-md text-headline-md text-primary mb-2">
+              Expériences à la une
+            </h2>
+            <p className="text-on-surface-variant">
+              Nos aventures les plus appréciées par la communauté.
+            </p>
+          </div>
+          <Link
+            href="/experiences"
+            className="text-primary font-bold hover:underline flex items-center gap-2 hidden md:flex"
+          >
+            Voir tout <ArrowRight className="h-5 w-5" />
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {experiences.map((exp) => (
+            <ExperienceCard key={exp.id} experience={exp} />
+          ))}
+        </div>
+        <div className="mt-8 text-center md:hidden">
+          <Link
+            href="/experiences"
+            className="inline-flex items-center gap-2 text-primary font-bold hover:underline"
+          >
+            Voir toutes les expériences <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </section>
+
+      {/* ===== 4. Destinations (Horizontal Scroll) ===== */}
+      <section id="destinations" className="py-24 bg-surface-variant/30 overflow-hidden">
+        <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+          <h2 className="font-headline-md text-headline-md text-primary mb-12">
+            Destinations Incontournables
+          </h2>
+          <div className="flex gap-8 overflow-x-auto pb-8 snap-x no-scrollbar">
+            {destinations.map((dest) => (
+              <Link
+                key={dest.id}
+                href={`/experiences?destination=${dest.slug}`}
+                className="min-w-[300px] md:min-w-[400px] snap-center flex-shrink-0"
+              >
+                <div className="relative rounded-[2.5rem] overflow-hidden aspect-[4/3] group">
+                  <Image
+                    src={dest.photo_url}
+                    alt={dest.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors" />
+                  <div className="absolute bottom-8 left-8 text-white">
+                    <h3 className="font-headline-md text-headline-sm mb-2">{dest.name}</h3>
+                    <p className="text-body-md opacity-90 max-w-[250px]">{dest.description}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 5. Trust / Why Us Section ===== */}
+      <section className="py-24 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+        <div className="bg-primary-container text-on-primary-container rounded-[3rem] p-12 md:p-20 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 organic-blob -translate-y-1/2 translate-x-1/2" />
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-6">
+                <ShieldCheck className="h-8 w-8" />
+              </div>
+              <h3 className="font-headline-sm text-headline-sm mb-4">Expériences sélectionnées</h3>
+              <p className="opacity-80">
+                Chaque sortie est vérifiée par notre équipe pour garantir qualité et sécurité.
+              </p>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-6">
+                <Handshake className="h-8 w-8" />
+              </div>
+              <h3 className="font-headline-sm text-headline-sm mb-4">Partenaires locaux</h3>
+              <p className="opacity-80">
+                Nous travaillons directement avec les meilleurs skippers et guides de Béjaïa.
+              </p>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-6">
+                <Zap className="h-8 w-8" />
+              </div>
+              <h3 className="font-headline-sm text-headline-sm mb-4">Réservation simple</h3>
+              <p className="opacity-80">
+                Réservez votre aventure en quelques clics, avec confirmation immédiate.
+              </p>
+            </div>
           </div>
         </div>
       </section>

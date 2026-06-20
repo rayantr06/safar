@@ -23,6 +23,9 @@ CREATE TABLE providers (
   total_trips INTEGER DEFAULT 0,
   total_revenue BIGINT DEFAULT 0,
   commission_rate NUMERIC(4,2) DEFAULT 15.00,
+  commission_effective_date DATE DEFAULT now(),
+  commission_status TEXT DEFAULT 'active' CHECK (commission_status IN ('active', 'inactive')),
+  commission_last_modified TIMESTAMPTZ DEFAULT now(),
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
@@ -31,7 +34,7 @@ CREATE TABLE boats (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   provider_id UUID NOT NULL REFERENCES providers(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
-  type TEXT NOT NULL CHECK (type IN ('private', 'shared', 'jetski')),
+  type TEXT NOT NULL CHECK (type IN ('private', 'shared', 'jetski', 'kayak', 'paddle', 'other')),
   capacity INTEGER NOT NULL,
   description TEXT,
   photo_url TEXT,
@@ -57,7 +60,7 @@ CREATE TABLE experiences (
   title TEXT NOT NULL,
   slug TEXT UNIQUE NOT NULL,
   description TEXT,
-  type TEXT NOT NULL CHECK (type IN ('private', 'shared', 'jetski')),
+  type TEXT NOT NULL CHECK (type IN ('private', 'shared', 'jetski', 'kayak', 'paddle', 'other')),
   price_total BIGINT,
   price_per_seat BIGINT,
   duration_minutes INTEGER NOT NULL DEFAULT 120,
@@ -106,11 +109,18 @@ CREATE TABLE bookings (
   total_amount BIGINT NOT NULL,
   commission_amount BIGINT NOT NULL,
   provider_amount BIGINT NOT NULL,
+  commission_rate NUMERIC(4,2) DEFAULT 15.00,
   status TEXT NOT NULL DEFAULT 'new' CHECK (
     status IN ('new', 'pending', 'confirmed', 'assigned', 'completed', 'cancelled')
   ),
   booking_date DATE NOT NULL,
   booking_time TIME NOT NULL,
+  booking_source TEXT DEFAULT 'SAFAR_DZ' CHECK (booking_source IN ('SAFAR_DZ', 'PARTNER_DIRECT')),
+  duration_minutes INTEGER DEFAULT 120,
+  start_time TIME,
+  end_time TIME,
+  created_by TEXT DEFAULT 'CUSTOMER' CHECK (created_by IN ('CUSTOMER', 'PARTNER', 'ADMIN')),
+  boat_id UUID REFERENCES boats(id),
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now(),
   confirmed_at TIMESTAMPTZ,
@@ -152,6 +162,14 @@ CREATE TABLE site_content (
   updated_at TIMESTAMPTZ DEFAULT now()
 );
 
+-- 12. Boat Availability
+CREATE TABLE boat_availability (
+  boat_id UUID PRIMARY KEY REFERENCES boats(id) ON DELETE CASCADE,
+  settings JSONB NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
 -- ==========================================
 -- ROW LEVEL SECURITY (RLS) POLICIES
 -- ==========================================
@@ -167,6 +185,8 @@ CREATE POLICY "Admin full access" ON experiences FOR ALL USING (EXISTS (SELECT 1
 ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Admin full access bookings" ON bookings FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
 CREATE POLICY "Provider reads assigned" ON bookings FOR SELECT USING (provider_id = auth.uid());
+CREATE POLICY "Provider inserts own bookings" ON bookings FOR INSERT WITH CHECK (provider_id = auth.uid() AND created_by = 'PARTNER');
+CREATE POLICY "Provider updates own bookings" ON bookings FOR UPDATE USING (provider_id = auth.uid()) WITH CHECK (provider_id = auth.uid());
 
 ALTER TABLE time_slots ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public reads slots" ON time_slots FOR SELECT USING (true);
@@ -179,3 +199,8 @@ CREATE POLICY "Admin full boats" ON boats FOR ALL USING (EXISTS (SELECT 1 FROM p
 ALTER TABLE destinations ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public reads destinations" ON destinations FOR SELECT USING (true);
 CREATE POLICY "Admin manages destinations" ON destinations FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+
+ALTER TABLE boat_availability ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public reads boat availability" ON boat_availability FOR SELECT USING (true);
+CREATE POLICY "Provider manages own boat availability" ON boat_availability FOR ALL USING (boat_id IN (SELECT id FROM boats WHERE provider_id = auth.uid()));
+CREATE POLICY "Admin manages boat availability" ON boat_availability FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));

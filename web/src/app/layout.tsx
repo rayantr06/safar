@@ -14,8 +14,51 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Safar DZ | Réservez vos expériences maritimes",
-  description: "Plateforme de réservation d'activités maritimes en Algérie",
+  title: {
+    default: "Safar DZ | Sorties en Mer, Balades & Activités Nautiques à Béjaïa",
+    template: "%s | Safar DZ"
+  },
+  description: "Réservez les meilleures sorties en mer, balades en bateau privé, jet-ski et activités nautiques à Béjaïa, Algérie. Profitez d'une expérience maritime unique et sécurisée.",
+  keywords: ["safar dz", "sortie en mer bejaia", "balade bateau bejaia", "location jet ski bejaia", "activites nautiques algerie", "bateau de plaisance bejaia", "ile des pisans", "cap carbon"],
+  authors: [{ name: "Safar DZ Team" }],
+  creator: "Safar DZ",
+  metadataBase: new URL("https://safardz.com"),
+  alternates: {
+    canonical: "/"
+  },
+  openGraph: {
+    type: "website",
+    locale: "fr_DZ",
+    url: "https://safardz.com",
+    title: "Safar DZ | Sorties en Mer, Balades & Activités Nautiques à Béjaïa",
+    description: "Réservez les meilleures sorties en mer, balades en bateau privé, jet-ski et activités nautiques à Béjaïa, Algérie. Profitez d'une expérience maritime unique et sécurisée.",
+    siteName: "Safar DZ",
+    images: [
+      {
+        url: "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
+        width: 1200,
+        height: 630,
+        alt: "Safar DZ - Expériences Nautiques de Rêve à Béjaïa"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Safar DZ | Sorties en Mer, Balades & Activités Nautiques à Béjaïa",
+    description: "Réservez les meilleures sorties en mer, balades en bateau privé, jet-ski et activités nautiques à Béjaïa, Algérie.",
+    images: ["https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020"]
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1
+    }
+  }
 };
 
 export default function RootLayout({

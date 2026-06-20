@@ -27,14 +27,22 @@ export function generateSlug(title: string): string {
  */
 export function calculateCommission(
   totalCentimes: number,
-  commissionRate: number = 15
+  commissionRate: number = 15,
+  commissionType: "percentage" | "fixed" = "percentage"
 ) {
-  const commissionAmount = Math.round(totalCentimes * (commissionRate / 100));
-  const providerAmount = totalCentimes - commissionAmount;
+  let commissionAmount = 0;
+  if (commissionType === "fixed") {
+    // commissionRate is given in DZD, convert it to centimes for calculation
+    commissionAmount = Math.min(totalCentimes, Math.round(commissionRate * 100));
+  } else {
+    commissionAmount = Math.round(totalCentimes * (commissionRate / 100));
+  }
+  const providerAmount = Math.max(0, totalCentimes - commissionAmount);
   return {
     totalAmount: totalCentimes,
     commissionAmount,
     providerAmount,
     commissionRate,
+    commissionType,
   };
 }

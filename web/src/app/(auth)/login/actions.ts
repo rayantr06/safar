@@ -31,8 +31,10 @@ export async function login(formData: FormData) {
 
     if (profile?.role === "admin") {
       redirect("/admin");
-    } else {
+    } else if (profile?.role === "provider") {
       redirect("/partner");
+    } else if (profile?.role === "client") {
+      redirect("/client");
     }
   }
 

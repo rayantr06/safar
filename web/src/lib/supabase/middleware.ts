@@ -30,6 +30,63 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
+  const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
+  if (isPlaceholder) {
+    const mockAuth = {
+      ...supabase.auth,
+      async getUser() {
+        const role = request.cookies.get("safar_role")?.value;
+        const userId = request.cookies.get("safar_user_id")?.value;
+        if (role === "admin") {
+          return { data: { user: { id: "mock-admin-id", email: "admin@safardz.com", user_metadata: { full_name: "Admin Safar" } } }, error: null };
+        } else if (role === "provider") {
+          return {
+            data: {
+              user: {
+                id: userId || "mock-partner-id",
+                email: "partner@safar.dz",
+                user_metadata: { full_name: "Partenaire Safar" }
+              }
+            },
+            error: null
+          };
+        }
+        return { data: { user: null }, error: null };
+      }
+    };
+
+    const originalFrom = supabase.from.bind(supabase);
+    supabase.from = (table: string) => {
+      if (table === "profiles") {
+        return {
+          select(columns: string) {
+            return {
+              eq(column: string, value: any) {
+                return {
+                  async single() {
+                    const role = request.cookies.get("safar_role")?.value;
+                    return {
+                      data: { role: role === "admin" ? "admin" : "provider" },
+                      error: null
+                    };
+                  }
+                };
+              }
+            };
+          }
+        } as any;
+      }
+      return originalFrom(table);
+    };
+
+    Object.defineProperty(supabase, "auth", {
+      get() {
+        return mockAuth;
+      }
+    });
+  }
+
+
   // IMPORTANT: You *must* return the supabaseResponse object as it is.
   // If you're creating a new response object with NextResponse.next() make sure to:
   // 1. Pass the request in it, like so:
@@ -51,30 +108,65 @@ export async function updateSession(request: NextRequest) {
   // Protect admin and partner routes
   const path = request.nextUrl.pathname;
 
-  if (!user && (path.startsWith("/admin") || path.startsWith("/partner"))) {
+  if (!user && (path.startsWith("/admin") || path.startsWith("/partner") || path.startsWith("/client"))) {
     // redirect to login if accessing protected route without being logged in
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 
-  if (user && path.startsWith("/admin")) {
-    // Check if user is actually an admin
+  if (user) {
+    // Fetch profile role
     const { data: profile } = (await supabase
       .from("profiles")
       .select("role")
       .eq("id", user.id)
       .single()) as any;
+      
+    const role = profile?.role || "client";
 
-    if (profile?.role !== "admin") {
-      const url = request.nextUrl.clone();
-      url.pathname = "/"; // redirect to home if not admin
-      return NextResponse.redirect(url);
+    if (path.startsWith("/admin")) {
+      if (role !== "admin") {
+        const url = request.nextUrl.clone();
+        if (role === "provider") {
+          url.pathname = "/partner";
+        } else if (role === "client") {
+          url.pathname = "/client";
+        } else {
+          url.pathname = "/";
+        }
+        return NextResponse.redirect(url);
+      }
+    }
+
+    if (path.startsWith("/partner")) {
+      if (role !== "provider") {
+        const url = request.nextUrl.clone();
+        if (role === "admin") {
+          url.pathname = "/admin";
+        } else if (role === "client") {
+          url.pathname = "/client";
+        } else {
+          url.pathname = "/";
+        }
+        return NextResponse.redirect(url);
+      }
+    }
+
+    if (path.startsWith("/client")) {
+      if (role !== "client") {
+        const url = request.nextUrl.clone();
+        if (role === "admin") {
+          url.pathname = "/admin";
+        } else if (role === "provider") {
+          url.pathname = "/partner";
+        } else {
+          url.pathname = "/";
+        }
+        return NextResponse.redirect(url);
+      }
     }
   }
-
-  // NOTE: For MVP, we assume any logged in user can access /partner if they are a provider.
-  // A stricter check could be added here similar to the admin check.
 
   return supabaseResponse;
 }

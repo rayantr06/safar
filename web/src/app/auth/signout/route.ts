@@ -15,7 +15,14 @@ export async function POST(request: Request) {
   }
 
   revalidatePath("/", "layout");
-  return NextResponse.redirect(new URL("/login", request.url), {
+  const response = NextResponse.redirect(new URL("/login", request.url), {
     status: 302,
   });
+  response.cookies.set("safar_role", "", { expires: new Date(0) });
+  return response;
 }
+
+export async function GET(request: Request) {
+  return POST(request);
+}
+
