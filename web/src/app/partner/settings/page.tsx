@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { IMAGES } from "@/lib/constants";
 import { User, Phone, MapPin, Shield, Mail, Key, LogOut, HelpCircle, Info, Landmark, Banknote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -179,7 +180,7 @@ export default function PartnerSettingsPage() {
             <div className="relative h-24 w-24 mx-auto">
               <div className="h-full w-full rounded-full border-4 border-surface-container-high overflow-hidden relative">
                 <Image
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRsL82i3BUX5tGUsWmJapsuZsIH2pjhWG8--_hvFijU7rySGcaFy1e82OoqRQeEzw9Docz1kl2rGhRxKLPQdUeugkbFhkPkDaZgOrXEaRsnKFqeEnYnM0BuLOxkxjWxHZTn9oxkHYuLifytKH9If1P8wNRLKmMuajEcqicn4JFkoTAF1g233vFJw_0ff9vOWp60meDItxmAD2ctkpFFVe2mxTe8qxBb1Eu-oBUcQe0AdhUsuBN3h5F6WbQyTTv2MaSGHys5yyv6sU"
+                  src={IMAGES.GUIDE_IMAGE}
                   alt="Partner Avatar"
                   fill
                   className="object-cover"

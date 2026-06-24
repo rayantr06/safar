@@ -28,9 +28,14 @@ export default async function PartnerLayout({
         {/* Logo */}
         <div className="p-6">
           <Link href="/" className="block mb-8">
-            <span className="text-2xl font-bold font-mono text-primary tracking-tighter">
-              Safar<span className="text-tertiary-fixed-dim">DZ</span>
-            </span>
+            <Image
+              src="/logo.png"
+              alt="Safar DZ Logo"
+              width={110}
+              height={44}
+              className="h-9 w-auto object-contain"
+              priority
+            />
           </Link>
           <SidebarNav />
         </div>

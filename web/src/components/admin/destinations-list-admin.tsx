@@ -36,6 +36,10 @@ type Destination = {
   bookings_count: number;
   revenue_dzd: string;
   rating: number;
+  hero_image_url?: string;
+  gallery?: string[];
+  lat?: number;
+  lng?: number;
 };
 
 export function DestinationsListAdmin({ initialDestinations }: { initialDestinations: Destination[] }) {
@@ -47,6 +51,7 @@ export function DestinationsListAdmin({ initialDestinations }: { initialDestinat
   const [selectedDest, setSelectedDest] = useState<Destination | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<Partial<Destination>>({});
+  const [newGalleryUrl, setNewGalleryUrl] = useState("");
 
   // Stats
   const totalDestinations = destinations.length;
@@ -99,6 +104,25 @@ export function DestinationsListAdmin({ initialDestinations }: { initialDestinat
     setSelectedDest(newDest as Destination);
     setEditForm(newDest);
     setIsEditing(true);
+  };
+
+  const addGalleryImage = () => {
+    if (!newGalleryUrl.trim()) return;
+    const currentGallery = editForm.gallery || [];
+    if (currentGallery.includes(newGalleryUrl.trim())) return;
+    setEditForm({
+      ...editForm,
+      gallery: [...currentGallery, newGalleryUrl.trim()]
+    });
+    setNewGalleryUrl("");
+  };
+
+  const removeGalleryImage = (idx: number) => {
+    const currentGallery = editForm.gallery || [];
+    setEditForm({
+      ...editForm,
+      gallery: currentGallery.filter((_, i) => i !== idx)
+    });
   };
 
   const handleSaveEdit = async () => {
@@ -429,7 +453,7 @@ export function DestinationsListAdmin({ initialDestinations }: { initialDestinat
 
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-widest text-outline mb-2">
-                      URL de la Photo
+                      URL de la Photo Principale
                     </label>
                     <input
                       type="text"
@@ -438,6 +462,86 @@ export function DestinationsListAdmin({ initialDestinations }: { initialDestinat
                       className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant/30 rounded-xl focus:ring-2 focus:ring-primary text-body-md"
                       placeholder="https://..."
                     />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-widest text-outline mb-2">
+                      URL de la Photo Hero (Grande Bannière)
+                    </label>
+                    <input
+                      type="text"
+                      value={editForm.hero_image_url || ""}
+                      onChange={(e) => setEditForm({ ...editForm, hero_image_url: e.target.value })}
+                      className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant/30 rounded-xl focus:ring-2 focus:ring-primary text-body-md"
+                      placeholder="https://..."
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-widest text-outline mb-2">
+                        Latitude
+                      </label>
+                      <input
+                        type="number"
+                        step="any"
+                        value={editForm.lat || ""}
+                        onChange={(e) => setEditForm({ ...editForm, lat: e.target.value ? Number(e.target.value) : undefined })}
+                        className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant/30 rounded-xl focus:ring-2 focus:ring-primary text-body-md"
+                        placeholder="Ex: 36.7510"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-widest text-outline mb-2">
+                        Longitude
+                      </label>
+                      <input
+                        type="number"
+                        step="any"
+                        value={editForm.lng || ""}
+                        onChange={(e) => setEditForm({ ...editForm, lng: e.target.value ? Number(e.target.value) : undefined })}
+                        className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant/30 rounded-xl focus:ring-2 focus:ring-primary text-body-md"
+                        placeholder="Ex: 5.0642"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-widest text-outline mb-2">
+                      Galerie d&apos;Images ({editForm.gallery?.length || 0})
+                    </label>
+                    <div className="flex gap-2 mb-3">
+                      <input
+                        type="text"
+                        value={newGalleryUrl}
+                        onChange={(e) => setNewGalleryUrl(e.target.value)}
+                        className="flex-1 px-4 py-2.5 bg-surface-container-low border border-outline-variant/30 rounded-xl focus:ring-2 focus:ring-primary text-body-md"
+                        placeholder="https://..."
+                      />
+                      <button
+                        type="button"
+                        onClick={addGalleryImage}
+                        className="px-4 py-2.5 bg-primary text-on-primary rounded-xl text-xs font-bold hover:bg-primary/95 transition-all"
+                      >
+                        Ajouter
+                      </button>
+                    </div>
+                    {editForm.gallery && editForm.gallery.length > 0 && (
+                      <div className="grid grid-cols-3 gap-2 bg-surface-container/30 p-2.5 rounded-2xl border border-outline-variant/10">
+                        {editForm.gallery.map((url, i) => (
+                          <div key={i} className="relative aspect-[4/3] rounded-lg overflow-hidden group bg-surface-container shadow-xs">
+                            <img src={url} alt="" className="object-cover w-full h-full" />
+                            <button
+                              type="button"
+                              onClick={() => removeGalleryImage(i)}
+                              className="absolute top-1 right-1 bg-black/60 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X className="h-3.5 w-3.5 text-white" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   <div>

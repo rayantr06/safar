@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { IMAGES } from "@/lib/constants";
+
 import { notFound } from "next/navigation";
 import {
   Clock,
@@ -36,15 +38,15 @@ export default async function ExperienceDetailPage({
   }
 
   // Gallery Side Images (Mock fallbacks for high visual fidelity)
-  const fallbackSide1 = "https://lh3.googleusercontent.com/aida-public/AB6AXuDo3udabf8gzKuV_W7CrS36LR-jFq1b0Ay2IBAh7888Xq_vSaHrbHH9F7-dC37-yaVviwgG0I-QpG12WRrTiISEaoc6HaaJD9baHFOl69LwtsuHRtaRYe4p4jKwUeFYdfjBdYBtRKXdFR_sP23H777inQos51o3Hk9J3FkSsVmcINMHG2Sf2v6jmL6_I2XxdZDJzbsgxu3aLFhtNOCObrKE4ha-GuU5WwQtGbvWkXX9uDco-MLXpB8Y8VMKakOku2oD3ALLX8BjESY";
-  const fallbackSide2 = "https://lh3.googleusercontent.com/aida-public/AB6AXuClg-ZvbpfCwI-m_Xx3hWNJmBO1Bt_N4QJmVxXBc_OF8FOAVYaOXUlc2y1IQFxmT9zkTrpdeWpvLLpn7xFzMsO1uFfZdrwJK0cjlxtJaTmrqLhqWKPVd2TCljXZTrLTQ35zLhM7WJiXB7jeEhdmlak5vZm7ybEIdVjurYf8TGbJZGCG65iXsORwS7U_LVbzDEDIOd_OFkjWChccIThKdKxWJuTwHLLHMHTIENay4B32THCrj-YCRxpAAlz1gGJ3jcJgw8Ukn4p5z9U";
+  const fallbackSide1 = IMAGES.FALLBACK_SIDE_1;
+  const fallbackSide2 = IMAGES.FALLBACK_SIDE_2;
 
   const galleryImages = (experience as any).images || [];
   const sideImage1 = galleryImages[1] || fallbackSide1;
   const sideImage2 = galleryImages[2] || fallbackSide2;
 
   // Guide captain photo
-  const guideImage = "https://lh3.googleusercontent.com/aida-public/AB6AXuD9uMuWfFie9tJf1A_Z9wCRocWtuUDjJA8Hu3v7cbDb59leBXde1jts9zHsgyRM-vLLFFiW1moOiKBDq5L9NmszXadoo0lvScSgf9VPDVI3U8TqTP1fiW0sRAVF9lxLFdMmC0HNEjBX9xLf5-m_Wfl-l1NeAE3kD8o--PhjZp2f9QRh2wrJiYPUfjPMLdmSCbBdynkO477oH4ZVh9QI1C-P-42gYUl0l0DSmCDa0JvbGzK0QBf9W25P07XlZeNwyGhPCWiPcsGpXrk";
+  const guideImage = IMAGES.GUIDE_IMAGE;
 
   return (
     <div className="bg-background min-h-screen pb-24 animate-in fade-in duration-500">
@@ -52,7 +54,7 @@ export default async function ExperienceDetailPage({
       <section className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12 h-[300px] md:h-[500px] max-w-container-max mx-auto px-4 md:px-10">
         <div className="md:col-span-3 relative overflow-hidden rounded-2xl border border-outline-variant/10 shadow-sm">
           <Image
-            src={experience.main_image_url || "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020"}
+            src={experience.main_image_url || IMAGES.PLACEHOLDER}
             alt={experience.title}
             fill
             className="object-cover"

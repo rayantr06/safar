@@ -1,5 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { AdminBottomNav } from "@/components/admin/admin-bottom-nav";
@@ -13,7 +14,11 @@ import {
   LogOut,
   Shield,
   Calendar,
+  Globe,
+  Home,
+  Bell,
 } from "lucide-react";
+import { getUnreadCount } from "@/lib/actions/notifications";
 
 export default async function AdminLayout({
   children,
@@ -27,6 +32,8 @@ export default async function AdminLayout({
 
   if (!user) redirect("/login");
 
+  const unreadCount = await getUnreadCount().catch(() => 0);
+
   return (
     <div className="flex min-h-screen bg-background">
       {/* ===== Desktop Sidebar ===== */}
@@ -34,9 +41,14 @@ export default async function AdminLayout({
         <div className="p-6">
           {/* Logo + Admin Badge */}
           <Link href="/admin" className="flex items-center gap-2 mb-8">
-            <span className="text-2xl font-bold font-mono text-primary tracking-tighter">
-              Safar<span className="text-tertiary-fixed-dim">DZ</span>
-            </span>
+            <Image
+              src="/logo.png"
+              alt="Safar DZ Logo"
+              width={110}
+              height={44}
+              className="h-9 w-auto object-contain"
+              priority
+            />
             <span className="bg-error text-on-error text-[9px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full">
               Admin
             </span>
@@ -82,11 +94,25 @@ export default async function AdminLayout({
                 Admin
               </span>
             </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-success-light rounded-full border border-green-200">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-label-sm font-label-sm text-green-700">
-                Système opérationnel
-              </span>
+            <div className="flex items-center gap-4">
+              <Link
+                href="/admin/notifications"
+                className="relative p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-container"
+                title="Notifications"
+              >
+                <Bell className="h-5 w-5" />
+                {unreadCount > 0 && (
+                  <span className="absolute top-1 right-1 min-w-[16px] h-4 bg-error text-white text-[8px] font-bold rounded-full flex items-center justify-center px-1">
+                    {unreadCount}
+                  </span>
+                )}
+              </Link>
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-success-light rounded-full border border-green-200">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                <span className="text-label-sm font-label-sm text-green-700">
+                  Système opérationnel
+                </span>
+              </div>
             </div>
           </div>
         </header>
@@ -110,9 +136,12 @@ function AdminSidebarNav() {
     { href: "/admin/bookings", label: "Réservations", icon: CalendarDays },
     { href: "/admin/partners", label: "Partenaires", icon: Users },
     { href: "/admin/experiences", label: "Expériences", icon: Ship },
+    { href: "/admin/accommodations", label: "Hébergements", icon: Home },
     { href: "/admin/availability", label: "Planning", icon: Calendar },
     { href: "/admin/finance", label: "Finance", icon: DollarSign },
     { href: "/admin/destinations", label: "Destinations", icon: MapPin },
+    { href: "/admin/notifications", label: "Notifications", icon: Bell },
+    { href: "/admin/website", label: "Gestion du site", icon: Globe },
   ];
 
   return (

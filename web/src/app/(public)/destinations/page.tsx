@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { IMAGES } from "@/lib/constants";
 import { getDestinations } from "@/lib/queries/experiences";
 import { MapPin, Compass, ArrowRight } from "lucide-react";
 
@@ -14,7 +15,7 @@ export default async function DestinationsPage() {
       <section className="relative h-[45vh] min-h-[350px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://lh3.googleusercontent.com/p/AF1QipO9oV9R-lO7T3p5E6qR2t9U8W1O-vP3Z2J6c3O1=s1360-w1360-h1020"
+            src={IMAGES.DESTINATION_GOURAYA}
             alt="Béjaïa Côte"
             fill
             className="object-cover brightness-[0.7]"

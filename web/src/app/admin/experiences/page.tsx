@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { ExperiencesListAdmin } from "@/components/admin/experiences-list-admin";
 import { getPersistedMockData } from "@/lib/actions/experiences";
+import { IMAGES } from "@/lib/constants";
 import { getAdminPartners } from "@/lib/actions/admin-bookings";
 
 export const dynamic = "force-dynamic";
@@ -9,9 +10,9 @@ export default async function AdminExperiencesPage() {
   const supabase = await createClient();
   
   const INITIAL_EXPERIENCES = [
-    { id: "1", title: "Balade privée Cap Carbon & Aiguades", partner: "Capitaine Salim", provider_id: "mock-partner-id", boat_id: "1", destination: "Cap Carbon", destination_id: "d1", type: "private", price_total: 2000000, price_per_seat: null, duration_minutes: 120, max_guests: 6, status: "approved", main_image_url: "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020", description: "Une balade privée exceptionnelle à la découverte du phare de Cap Carbon et des criques des Aiguades." },
-    { id: "2", title: "Sortie Pêche - Les Falaises", partner: "Evasion Marine", provider_id: "p2", boat_id: "2", destination: "Les Falaises", destination_id: "d4", type: "private", price_total: 2500000, price_per_seat: null, duration_minutes: 180, max_guests: 8, status: "pending_approval", main_image_url: "https://lh3.googleusercontent.com/p/AF1QipP_n0cM3r_G9pE3D_nF8wWvTf2FhQ4-1B1H4o0R=s1360-w1360-h1020", description: "Pêchez dans les meilleurs spots côtiers et profitez d'une baignade rafraîchissante dans des criques sauvages." },
-    { id: "3", title: "Tour Partagé - Île des Pisans", partner: "Nautica DZ", provider_id: "mock-partner-id", boat_id: "1", destination: "Île des Pisans", destination_id: "d2", type: "shared", price_total: null, price_per_seat: 350000, duration_minutes: 150, max_guests: 10, status: "approved", main_image_url: "https://lh3.googleusercontent.com/p/AF1QipNjQZ5hNfWw9O9n5zXgZ4E9FkO6W4W3oR2Z8x9C=s1360-w1360-h1020", description: "Rejoignez un groupe et explorez la splendide île sauvage des Pisans près de Boulimate." },
+    { id: "1", title: "Balade privée Cap Carbon & Aiguades", partner: "Capitaine Salim", provider_id: "mock-partner-id", boat_id: "1", destination: "Cap Carbon", destination_id: "d1", type: "private", price_total: 2000000, price_per_seat: null, duration_minutes: 120, max_guests: 6, status: "approved", main_image_url: IMAGES.EXPERIENCE_CAP_CARBON, description: "Une balade privée exceptionnelle à la découverte du phare de Cap Carbon et des criques des Aiguades." },
+    { id: "2", title: "Sortie Pêche - Les Falaises", partner: "Evasion Marine", provider_id: "p2", boat_id: "2", destination: "Les Falaises", destination_id: "d4", type: "private", price_total: 2500000, price_per_seat: null, duration_minutes: 180, max_guests: 8, status: "pending_approval", main_image_url: IMAGES.EXPERIENCE_FALAISES, description: "Pêchez dans les meilleurs spots côtiers et profitez d'une baignade rafraîchissante dans des criques sauvages." },
+    { id: "3", title: "Tour Partagé - Île des Pisans", partner: "Nautica DZ", provider_id: "mock-partner-id", boat_id: "1", destination: "Île des Pisans", destination_id: "d2", type: "shared", price_total: null, price_per_seat: 350000, duration_minutes: 150, max_guests: 10, status: "approved", main_image_url: IMAGES.EXPERIENCE_PISANS, description: "Rejoignez un groupe et explorez la splendide île sauvage des Pisans près de Boulimate." },
   ];
 
   let experiences: any[] = [];

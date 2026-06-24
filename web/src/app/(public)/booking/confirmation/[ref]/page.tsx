@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { IMAGES } from "@/lib/constants";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { MessageCircle, CheckCircle, Users, Calendar, ArrowRight, Anchor } from "lucide-react";
 import { formatPriceDA, getWhatsAppLink } from "@/lib/utils/format";
@@ -38,7 +39,7 @@ export default async function BookingConfirmationPage({
 
   // Fallback default details
   const experienceTitle = booking?.experiences?.title || "Balade privée Cap Carbon";
-  const experienceImage = booking?.experiences?.main_image_url || "https://lh3.googleusercontent.com/aida-public/AB6AXuBPqcGTrPI3VwOG_rg7Gah7QbpTRtxPKlLep9GD_oyW4Log0SUlDMyPcILcTQ99q4kU935CPeuFHFiiwvdXC2cyVL8zrRyJdQdvAqKhVbsA2hBTOFvaYkR5o02YHnEU_pcc6Z9xasLkkaseOVzig-5A8mLQzXCH2FLp0uMDGBH9AM9rHVzu16lTFNKQC-Oav_n-6-3qFNtdSoYjAvz3nzsXq2G_HvRk6ZApcVXIgpfxnbeKqSBMY17Xnz5v1at0NB6E6BRI97-FV2k";
+  const experienceImage = booking?.experiences?.main_image_url || IMAGES.EXPERIENCE_CAP_CARBON;
   const guestCount = booking?.guest_count || 5;
   const bookingDate = booking?.booking_date || "2026-08-15";
   const bookingTime = booking?.booking_time || "15:00";

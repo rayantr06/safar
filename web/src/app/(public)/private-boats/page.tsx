@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { IMAGES } from "@/lib/constants";
 import { getAllExperiences } from "@/lib/queries/experiences";
 import { ExperienceCard } from "@/components/experiences/experience-card";
 import { Ship, Anchor, Users, ShieldCheck } from "lucide-react";
@@ -17,7 +18,7 @@ export default async function PrivateBoatsPage() {
       <section className="relative h-[50vh] min-h-[350px] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDU0GaWIf8X-AuDtQ4lgbf71u3OX5tkvLks9mFdp9L0DJ3pMDDeu2VHtSMh4moWclv3t8bBF7um-XGmQMexb67oErDcgcrm6RaCBt60Sqfhsd2W3YA0iNrEX8lqkeH9XsMaTCkB4ee3TiE-ilyQIgRSgh2rr0iGBk6iYCy3Zt8WVaLs2rytO6XZJZqyeeKg7vXn0YAAdFzwEos3L04yItTuEinnIN1PGbTFqO8hKOe-U__jnkKp9fuvB_wKi7HUF612op_nq47uzrk"
+            src={IMAGES.CAT_PRIVATE_BOATS}
             alt="Private Boat Charter"
             fill
             className="object-cover brightness-[0.75]"

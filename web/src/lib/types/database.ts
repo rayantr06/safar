@@ -5,9 +5,9 @@
 
 export type UserRole = "admin" | "provider";
 
-export type BoatType = "private" | "shared" | "jetski";
+export type BoatType = "private" | "shared" | "jetski" | "kayak" | "paddle" | "quads" | "other";
 
-export type ExperienceType = "private" | "shared" | "jetski";
+export type ExperienceType = "private" | "shared" | "jetski" | "kayak" | "paddle" | "quads" | "other";
 
 export type BookingStatus =
   | "new"
@@ -18,6 +18,10 @@ export type BookingStatus =
   | "cancelled";
 
 export type PayoutStatus = "pending" | "processing" | "paid";
+
+export type AccommodationType = "villa" | "appartement" | "maison_hotes" | "hotel" | "studio";
+
+export type BookingType = "whatsapp" | "platform" | "both";
 
 // ============ Database Row Types ============
 
@@ -62,7 +66,13 @@ export type Destination = {
   slug: string;
   description: string | null;
   photo_url: string | null;
+  hero_image_url: string | null;
+  gallery: string[];
+  location: string | null;
   is_active: boolean;
+  is_featured: boolean;
+  lat: number | null;
+  lng: number | null;
 };
 
 export type Experience = {
@@ -73,12 +83,19 @@ export type Experience = {
   slug: string;
   description: string | null;
   type: ExperienceType;
+  category: string | null;
   price_total: number | null;
   price_per_seat: number | null;
   duration_minutes: number;
   max_guests: number;
   is_published: boolean;
   badge: string | null;
+  main_image_url: string | null;
+  rating: number;
+  included_services: string | null;
+  requirements: string | null;
+  departure_location: string | null;
+  route_description: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -117,6 +134,7 @@ export type Booking = {
   total_amount: number;
   commission_amount: number;
   provider_amount: number;
+  commission_rate?: number;
   status: BookingStatus;
   booking_date: string;
   booking_time: string;
@@ -127,7 +145,7 @@ export type Booking = {
   completed_at: string | null;
   cancelled_at: string | null;
   cancellation_reason: string | null;
-  booking_source?: "SAFAR_DZ" | "PARTNER_MANUAL";
+  booking_source?: "SAFAR_DZ" | "PARTNER_DIRECT";
   duration_minutes?: number;
   start_time?: string;
   end_time?: string;
@@ -161,6 +179,61 @@ export type SiteContent = {
   section: string;
   content_fr: string;
   updated_by: string | null;
+  updated_at: string;
+};
+
+export type Accommodation = {
+  id: string;
+  title: string;
+  slug: string;
+  type: AccommodationType;
+  wilaya: string;
+  city: string | null;
+  address: string | null;
+  description: string | null;
+  short_description: string | null;
+  location: string | null;
+  price: number;
+  promo_price: number | null;
+  currency: string;
+  pricing_type: string;
+  image_url: string | null;
+  images: string[];
+  is_active: boolean;
+  contact_phone: string | null;
+  whatsapp_phone: string | null;
+  max_guests: number;
+  rooms_count: number;
+  beds_count: number;
+  bathrooms_count: number;
+  amenities: string[];
+  custom_amenities: string[];
+  booking_type: BookingType;
+  min_stay_nights: number;
+  blocked_dates: string[];
+  lat: number | null;
+  lng: number | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type Notification = {
+  id: string;
+  user_id: string | null;
+  type: string;
+  title: string;
+  message: string | null;
+  is_read: boolean;
+  metadata: Record<string, any>;
+  created_at: string;
+};
+
+export type NotificationSettings = {
+  id: string;
+  event_type: string;
+  dashboard_enabled: boolean;
+  email_enabled: boolean;
+  whatsapp_enabled: boolean;
   updated_at: string;
 };
 
@@ -222,6 +295,21 @@ export interface Database {
         Insert: Partial<SiteContent>;
         Update: Partial<SiteContent>;
       };
+      accommodations: {
+        Row: Accommodation;
+        Insert: Partial<Accommodation>;
+        Update: Partial<Accommodation>;
+      };
+      notifications: {
+        Row: Notification;
+        Insert: Partial<Notification>;
+        Update: Partial<Notification>;
+      };
+      notification_settings: {
+        Row: NotificationSettings;
+        Insert: Partial<NotificationSettings>;
+        Update: Partial<NotificationSettings>;
+      };
     };
     Views: {
       [_ in never]: never;
@@ -234,4 +322,3 @@ export interface Database {
     };
   };
 }
-

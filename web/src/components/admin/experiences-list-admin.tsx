@@ -99,6 +99,9 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
 
     setSelectedExp({
       ...exp,
+      category: exp.category || "Bateau privé",
+      departure_location: exp.departure_location || "Port de Plaisance de Béjaïa",
+      route_description: exp.route_description || "",
       images: exp.images || [exp.main_image_url || "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020"],
       availabilitySettings: availSettings || {
         workingHours: { start: "08:00", end: "20:00" },
@@ -115,6 +118,9 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
       id: "", // Creation mode marker
       title: "",
       type: "private",
+      category: "Bateau privé",
+      departure_location: "Port de Plaisance de Béjaïa",
+      route_description: "",
       price_total: 1500000, // 15,000 DA in cents
       price_per_seat: null,
       duration_minutes: 120,
@@ -146,6 +152,7 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
     const payload = {
       title: selectedExp.title,
       type: selectedExp.type,
+      category: selectedExp.category,
       price_total: selectedExp.type === "shared" ? null : selectedExp.price_total,
       price_per_seat: selectedExp.type === "shared" ? selectedExp.price_per_seat : null,
       duration_minutes: selectedExp.duration_minutes,
@@ -160,6 +167,8 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
       images: selectedExp.images,
       included_services: selectedExp.included_services,
       requirements: selectedExp.requirements,
+      departure_location: selectedExp.departure_location,
+      route_description: selectedExp.route_description,
       availabilitySettings: selectedExp.availabilitySettings
     };
 
@@ -593,6 +602,37 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
                             ))}
                           </select>
                         </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold text-on-surface-variant uppercase">Label / Thème (ex: Sunset Cruise)</label>
+                          <Input
+                            value={selectedExp.category || ""}
+                            onChange={(e) => setSelectedExp({ ...selectedExp, category: e.target.value })}
+                            className="w-full bg-white border-outline-variant rounded-xl text-xs py-2"
+                            placeholder="Ex: Sunset Cruise, Randonnée Jet Ski"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold text-on-surface-variant uppercase">Lieu de départ (Embarquement)</label>
+                          <Input
+                            value={selectedExp.departure_location || ""}
+                            onChange={(e) => setSelectedExp({ ...selectedExp, departure_location: e.target.value })}
+                            className="w-full bg-white border-outline-variant rounded-xl text-xs py-2"
+                            placeholder="Ex: Port de Plaisance de Béjaïa"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold text-on-surface-variant uppercase">Itinéraire / Description de la route</label>
+                        <Input
+                          value={selectedExp.route_description || ""}
+                          onChange={(e) => setSelectedExp({ ...selectedExp, route_description: e.target.value })}
+                          className="w-full bg-white border-outline-variant rounded-xl text-xs py-2"
+                          placeholder="Ex: Port -> Aiguades -> Cap Carbon -> Retour"
+                        />
                       </div>
 
                       <div className="space-y-2">

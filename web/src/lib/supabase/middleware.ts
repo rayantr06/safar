@@ -111,7 +111,11 @@ export async function updateSession(request: NextRequest) {
   if (!user && (path.startsWith("/admin") || path.startsWith("/partner") || path.startsWith("/client"))) {
     // redirect to login if accessing protected route without being logged in
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
+    if (path.startsWith("/admin") || path.startsWith("/partner")) {
+      url.pathname = "/portal-login";
+    } else {
+      url.pathname = "/login";
+    }
     return NextResponse.redirect(url);
   }
 

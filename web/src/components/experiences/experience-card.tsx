@@ -9,7 +9,8 @@ export interface ExperienceSummary {
   id: string;
   title: string;
   slug: string;
-  type: "private" | "shared" | "jetski";
+  type: "private" | "shared" | "jetski" | string;
+  category?: string;
   price_total: number | null;
   price_per_seat: number | null;
   duration_minutes: number;

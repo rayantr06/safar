@@ -1,5 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "../types/database";
+import { IMAGES } from "@/lib/constants";
+
 
 export const createAdminClient = () => {
   const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
@@ -64,10 +66,10 @@ export const createAdminClient = () => {
                       ? "Tour Partagé - Île des Pisans (Boulimate)"
                       : "Balade privée Cap Carbon & Aiguades",
                     main_image_url: item.experience_id === "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e" || item.experience_id === "2"
-                      ? "https://lh3.googleusercontent.com/p/AF1QipP_n0cM3r_G9pE3D_nF8wWvTf2FhQ4-1B1H4o0R=s1360-w1360-h1020"
+                      ? IMAGES.EXPERIENCE_FALAISES
                       : item.experience_id === "c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"
-                      ? "https://lh3.googleusercontent.com/p/AF1QipNjQZ5hNfWw9O9n5zXgZ4E9FkO6W4W3oR2Z8x9C=s1360-w1360-h1020"
-                      : "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
+                      ? IMAGES.EXPERIENCE_PISANS
+                      : IMAGES.EXPERIENCE_CAP_CARBON,
                     duration_minutes: item.duration_minutes || 120,
                     max_guests: 6
                   }

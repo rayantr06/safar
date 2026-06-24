@@ -1,3 +1,6 @@
+import Image from "next/image";
+import Link from "next/link";
+
 export default function AuthLayout({
   children,
 }: {
@@ -7,11 +10,18 @@ export default function AuthLayout({
     <div className="min-h-screen flex items-center justify-center bg-surface-container-low p-4">
       <div className="w-full max-w-md">
         {/* Safar DZ Logo / Branding */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold font-mono tracking-tighter text-primary">
-            Safar<span className="text-tertiary-fixed-dim">DZ</span>
-          </h1>
-          <p className="text-on-surface-variant mt-2">
+        <div className="text-center mb-8 flex flex-col items-center">
+          <Link href="/" className="mb-3 active:scale-95 transition-transform">
+            <Image
+              src="/logo.png"
+              alt="Safar DZ Logo"
+              width={160}
+              height={64}
+              className="h-14 w-auto object-contain"
+              priority
+            />
+          </Link>
+          <p className="text-on-surface-variant">
             Portail Partenaire & Administration
           </p>
         </div>

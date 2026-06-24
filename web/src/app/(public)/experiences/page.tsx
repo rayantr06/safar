@@ -4,19 +4,20 @@ import { MapPin, Clock, Users, ArrowRight, ChevronDown } from "lucide-react";
 import { ExperienceCard } from "@/components/experiences/experience-card";
 import { CatalogFilters } from "@/components/experiences/catalog-filters";
 import { getAllExperiences, getDestinations } from "@/lib/queries/experiences";
+import { IMAGES } from "@/lib/constants";
 
 export default async function ExperiencesPage({
   searchParams,
 }: {
   searchParams: Promise<{
-    type?: string;
+    category?: string;
     destination?: string;
     date?: string;
     guests?: string;
   }>;
 }) {
   const resolvedParams = await searchParams;
-  const paramType = resolvedParams.type || "";
+  const paramCategory = resolvedParams.category || "";
   const paramDest = resolvedParams.destination || "";
   const paramGuests = resolvedParams.guests || "";
 
@@ -27,8 +28,10 @@ export default async function ExperiencesPage({
 
   // Dynamically filter experiences based on query params
   let filteredExperiences = experiences;
-  if (paramType) {
-    filteredExperiences = filteredExperiences.filter((e) => e.type === paramType);
+  if (paramCategory) {
+    filteredExperiences = filteredExperiences.filter(
+      (e) => e.category?.toLowerCase() === paramCategory.toLowerCase()
+    );
   }
   if (paramDest) {
     filteredExperiences = filteredExperiences.filter(
@@ -49,7 +52,7 @@ export default async function ExperiencesPage({
       <section className="relative h-[85vh] min-h-[600px] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEIO3dJlqQ_hbSiiVKSKpdFN4JsvTmiOhdZzeHndi5mnsSx_-_XZ7MNpFys7CU7LFZaPVi5RzWanUhNrxqZcBKi5Z--Bu5pxF9q1N_I7hyMmLlYTIooCAcOjNoRn9pmROBvwrvibRigKXhYyvNn4aFq926r5eMrEgMI9fud1zdAyrjV9TJM62pJF6pWv2NhlCa93Oi0ZV_j_PGGYpJSgnNGM898KfdKAvHK_CFUSGh4pJKdxKGMAjMXNAdlaGU2ND-SUnCTYx5i2Q"
+            src={IMAGES.CAT_DISCOVER_BEJAIA}
             alt="Vue sur la côte de Béjaïa"
             fill
             className="object-cover"
@@ -88,94 +91,106 @@ export default async function ExperiencesPage({
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
           <div className="max-w-xl">
             <h2 className="font-headline-md text-headline-md text-primary mb-4">
-              Choisissez votre style de navigation
+              Choisissez votre style d&apos;aventure
             </h2>
             <p className="text-on-surface-variant">
-              Que vous cherchiez un moment privé ou une sortie entre amis, nous avons le bateau parfait.
+              Du calme de la voile à l&apos;excitation des sports mécaniques, trouvez l&apos;activité idéale pour votre séjour.
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Private Boats */}
-          <div className="group relative overflow-hidden rounded-3xl bg-white custom-shadow hover:-translate-y-2 transition-all duration-300">
-            <div className="aspect-[4/5] overflow-hidden relative">
-              <Image
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDU0GaWIf8X-AuDtQ4lgbf71u3OX5tkvLks9mFdp9L0DJ3pMDDeu2VHtSMh4moWclv3t8bBF7um-XGmQMexb67oErDcgcrm6RaCBt60Sqfhsd2W3YA0iNrEX8lqkeH9XsMaTCkB4ee3TiE-ilyQIgRSgh2rr0iGBk6iYCy3Zt8WVaLs2rytO6XZJZqyeeKg7vXn0YAAdFzwEos3L04yItTuEinnIN1PGbTFqO8hKOe-U__jnkKp9fuvB_wKi7HUF612op_nq47uzrk"
-                alt="Bateau privé"
-                fill
-                className="object-cover group-hover:scale-110 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            </div>
-            <div className="absolute bottom-0 left-0 p-8 text-white w-full">
-              <span className="inline-block px-3 py-1 bg-primary text-white text-label-sm font-label-sm rounded-full mb-4">
-                Exclusif
-              </span>
-              <h3 className="font-headline-sm text-headline-sm mb-2">Bateaux Privés</h3>
-              <div className="flex flex-col gap-1 text-surface-variant mb-6">
-                <span className="flex items-center gap-2"><Clock className="h-5 w-5" /> 4 à 8 heures</span>
-                <span className="flex items-center gap-2"><Users className="h-5 w-5" /> Jusqu&apos;à 12 pers.</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col">
-                  <span className="text-label-sm opacity-80 uppercase tracking-wider">À partir de</span>
-                  <span className="font-headline-sm text-headline-sm text-tertiary-fixed-dim">15 000 DA</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            {
+              name: "Bateau privé",
+              icon: "🚤",
+              description: "Profitez d'un bateau entier pour vous et vos proches avec skipper.",
+              price: "20 000 DA",
+              duration: "2h",
+              location: "Cap Carbon, Boulimate",
+              image: IMAGES.CAT_PRIVATE_BOATS,
+            },
+            {
+              name: "Bateau par place",
+              icon: "⛵",
+              description: "Réservez vos places individuelles à bord d'une sortie collective.",
+              price: "3 500 DA",
+              duration: "2h30",
+              location: "Île des Pisans",
+              image: IMAGES.CAT_BOAT_RIDE,
+            },
+            {
+              name: "Jet Ski",
+              icon: "⚡",
+              description: "Pilotez un jet ski et ressentez l'adrénaline de la vitesse.",
+              price: "12 000 DA",
+              duration: "1h",
+              location: "Cap Carbon",
+              image: IMAGES.CAT_JET_SKI,
+            },
+            {
+              name: "Kayak",
+              icon: "🛶",
+              description: "Randonnées guidées en kayak le long des falaises sauvages.",
+              price: "2 500 DA",
+              duration: "2h",
+              location: "Les Falaises",
+              image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+            },
+            {
+              name: "Paddle",
+              icon: "🏄",
+              description: "Glissez sur l'eau calme des criques à votre propre rythme.",
+              price: "1 500 DA",
+              duration: "1h30",
+              location: "Île des Pisans",
+              image: "https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=800&q=80",
+            },
+            {
+              name: "Quads",
+              icon: "🏎️",
+              description: "Randonnée terrestre sur les hauteurs du Gouraya.",
+              price: "6 000 DA",
+              duration: "2h",
+              location: "Gouraya",
+              image: "https://images.unsplash.com/photo-1531846802905-2b3f2385e509?auto=format&fit=crop&w=800&q=80",
+            }
+          ].map((cat) => (
+            <div key={cat.name} className="group overflow-hidden rounded-[2.5rem] bg-white border border-surface-container-highest postcard-shadow hover:-translate-y-2 transition-all duration-300 flex flex-col">
+              <div className="aspect-[4/3] overflow-hidden relative shrink-0">
+                <Image
+                  src={cat.image}
+                  alt={cat.name}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-xs text-primary px-3 py-1 rounded-full text-xs font-bold shadow-sm flex items-center gap-1.5">
+                  <span>{cat.icon}</span> <span>{cat.name}</span>
                 </div>
-                <Link href="/experiences" className="bg-white text-primary w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                  <ArrowRight className="h-5 w-5" />
-                </Link>
               </div>
-            </div>
-          </div>
-
-          {/* Shared Boats */}
-          <div className="group relative overflow-hidden rounded-3xl bg-white custom-shadow hover:-translate-y-2 transition-all duration-300">
-            <div className="aspect-[4/5] overflow-hidden relative">
-              <Image
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoAZxfzFEWyFLJ0esVwho9rG-1eoD96aqdNCZl4J8cbyKqlsg8ieNYrv7BpGMeOWXHuZvJ8Ij7J7eS8_A2n09Q1H_dacBtmZPl-fvYV8Tqj8uV9rowsLE6BsGJSlrbidZ74ewuYRgyUMrRC0L9HHn38fCfOPpXoYTSSBYgkJuZllxUixKlU8FWs84xIkwnDsYED74SbedSlKo8H4aYqmNSqWwiu-B2KbGliUuDmXXpWTgRl7f9GVZ8n99_pgeFQT6aJxS-ITkXj5Q"
-                alt="Sortie partagée"
-                fill
-                className="object-cover group-hover:scale-110 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            </div>
-            <div className="absolute bottom-0 left-0 p-8 text-white w-full">
-              <span className="inline-block px-3 py-1 bg-secondary text-white text-label-sm font-label-sm rounded-full mb-4">
-                Social
-              </span>
-              <h3 className="font-headline-sm text-headline-sm mb-2">Places en Bateau</h3>
-              <div className="flex flex-col gap-1 text-surface-variant mb-6">
-                <span className="flex items-center gap-2"><Clock className="h-5 w-5" /> 2 heures</span>
-                <span className="flex items-center gap-2"><Users className="h-5 w-5" /> Par personne</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col">
-                  <span className="text-label-sm opacity-80 uppercase tracking-wider">Par personne</span>
-                  <span className="font-headline-sm text-headline-sm text-tertiary-fixed-dim">2 500 DA</span>
+              <div className="p-6 flex-1 flex flex-col justify-between">
+                <div className="space-y-3">
+                  <h3 className="font-headline-sm text-headline-sm text-primary">{cat.name}</h3>
+                  <p className="text-sm text-on-surface-variant line-clamp-2 leading-relaxed">{cat.description}</p>
+                  <div className="flex flex-col gap-2 pt-2 text-xs text-on-surface-variant">
+                    <span className="flex items-center gap-2"><Clock className="h-4 w-4 text-primary shrink-0" /> {cat.duration}</span>
+                    <span className="flex items-center gap-2"><MapPin className="h-4 w-4 text-primary shrink-0" /> {cat.location}</span>
+                  </div>
                 </div>
-                <Link href="/experiences" className="bg-white text-primary w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                  <ArrowRight className="h-5 w-5" />
-                </Link>
+                <div className="pt-4 mt-6 border-t border-outline-variant/10 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] text-on-surface-variant block uppercase tracking-wider">À partir de</span>
+                    <span className="font-headline-sm text-sm text-primary">{cat.price}</span>
+                  </div>
+                  <Link
+                    href={`/experiences?category=${cat.name}`}
+                    className="bg-primary text-on-primary px-4 py-2 rounded-xl text-xs font-bold hover:bg-primary-container hover:text-on-primary-container transition-all"
+                  >
+                    Voir l&apos;activité
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-
-          {/* Jet Ski Coming Soon */}
-          <div className="group relative overflow-hidden rounded-3xl bg-surface-container-high border-2 border-dashed border-outline-variant flex flex-col items-center justify-center text-center p-8">
-            <div className="w-24 h-24 rounded-full bg-surface-container flex items-center justify-center mb-6 text-primary/30">
-              <span className="text-5xl">🏄</span>
-            </div>
-            <span className="px-3 py-1 bg-tertiary-fixed-dim text-on-tertiary-fixed-variant text-label-sm font-label-sm rounded-full mb-4">
-              Bientôt
-            </span>
-            <h3 className="font-headline-sm text-headline-sm text-on-surface-variant mb-2">Jet Ski</h3>
-            <p className="text-on-surface-variant max-w-[200px]">
-              Nous préparons des aventures à grande vitesse pour la prochaine saison.
-            </p>
-            <button className="mt-8 px-6 py-2 border border-outline text-on-surface-variant rounded-full text-label-md font-label-md">
-              Me prévenir
-            </button>
-          </div>
+          ))}
         </div>
       </section>
 

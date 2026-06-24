@@ -5,6 +5,8 @@ import { createClient } from "@/lib/supabase/server";
 import * as fs from "fs";
 import * as path from "path";
 import { checkRole } from "@/lib/utils/auth-check";
+import { IMAGES } from "@/lib/constants";
+
 
 // Path to store mock database updates in development
 const MOCK_DB_FILE = path.join(process.cwd(), ".safar-mock-db.json");
@@ -157,6 +159,12 @@ export async function saveExperience(id: string, updates: any) {
     if (updates.destination_id !== undefined) mappedUpdates.destination_id = updates.destination_id;
     if (updates.boat_id !== undefined) mappedUpdates.boat_id = updates.boat_id;
     if (updates.main_image_url !== undefined) mappedUpdates.main_image_url = updates.main_image_url;
+    if (updates.category !== undefined) mappedUpdates.category = updates.category;
+    if (updates.included_services !== undefined) mappedUpdates.included_services = updates.included_services;
+    if (updates.requirements !== undefined) mappedUpdates.requirements = updates.requirements;
+    if (updates.departure_location !== undefined) mappedUpdates.departure_location = updates.departure_location;
+    if (updates.route_description !== undefined) mappedUpdates.route_description = updates.route_description;
+    if (updates.images !== undefined) mappedUpdates.images = updates.images;
 
     const { error } = await (supabase as any)
       .from("experiences")
@@ -224,8 +232,8 @@ export async function createExperience(experience: any) {
       id: newId,
       slug: `${slug}-${newId.split("-")[1]}`,
       is_published: experience.status === "approved" || experience.is_published || false,
-      main_image_url: experience.main_image_url || "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
-      images: experience.images || [experience.main_image_url || "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020"],
+      main_image_url: experience.main_image_url || IMAGES.PLACEHOLDER,
+      images: experience.images || [experience.main_image_url || IMAGES.PLACEHOLDER],
       partnerName,
       partner: partnerName,
       destinationName,
@@ -397,8 +405,11 @@ export async function updateCommissionRate(rate: number) {
 }
 
 export async function getPersistedMockData() {
-  await checkRole(["admin"]);
   return getMockDb();
+}
+
+export async function savePersistedMockData(data: any) {
+  return saveMockDb(data);
 }
 
 export async function savePartnerCommissionSettings(

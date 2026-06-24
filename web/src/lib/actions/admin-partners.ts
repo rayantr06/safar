@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { getMockDb, saveMockDb } from "@/lib/supabase/mock-db-helper";
 import { checkRole } from "@/lib/utils/auth-check";
+import { IMAGES } from "@/lib/constants";
+
 
 /**
  * Creates a new partner in the mock DB
@@ -217,7 +219,7 @@ export async function addPartnerEquipment(
       name: equipmentData.name,
       type: equipmentData.type,
       description: equipmentData.description || "",
-      main_image_url: equipmentData.main_image_url || "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
+      main_image_url: equipmentData.main_image_url || IMAGES.PLACEHOLDER,
       capacity: equipmentData.capacity || 2,
       price_total: equipmentData.price_total || 1500000,
       duration_minutes: equipmentData.duration_minutes || 120,

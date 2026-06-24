@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { IMAGES } from "@/lib/constants";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { MapPin, Calendar, Clock, Users, ArrowLeft, MessageCircle, Search, HelpCircle } from "lucide-react";
 import { formatPriceDA, getWhatsAppLink } from "@/lib/utils/format";
@@ -134,7 +135,7 @@ export default async function BookingTrackingPage({
             {/* Experience Image */}
             <div className="md:col-span-4 aspect-video sm:aspect-square relative rounded-xl overflow-hidden border border-outline-variant/35 shadow-sm">
               <img
-                src={booking.experiences?.main_image_url || "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020"}
+                src={booking.experiences?.main_image_url || IMAGES.PLACEHOLDER}
                 alt={booking.experiences?.title || "Expérience"}
                 className="w-full h-full object-cover"
               />

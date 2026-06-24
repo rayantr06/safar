@@ -1,55 +1,25 @@
 import { ExperienceSummary } from "@/components/experiences/experience-card";
-
-// Mock data until DB is fully connected
-export const MOCK_EXPERIENCES: ExperienceSummary[] = [
-  {
-    id: "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
-    title: "Balade privée Cap Carbon & Aiguades",
-    slug: "balade-privee-cap-carbon",
-    type: "private",
-    price_total: 2000000, // 20,000 DA in centimes
-    price_per_seat: null,
-    duration_minutes: 120,
-    max_guests: 6,
-    badge: "Bestseller",
-    destination_name: "Cap Carbon",
-    main_image_url: "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
-    rating: 4.8,
-  },
-  {
-    id: "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
-    title: "Sortie Pêche & Baignade - Les Falaises",
-    slug: "sortie-peche-falaises",
-    type: "private",
-    price_total: 2500000, // 25,000 DA
-    price_per_seat: null,
-    duration_minutes: 180,
-    max_guests: 8,
-    badge: "Idéal Famille",
-    destination_name: "Les Falaises",
-    main_image_url: "https://lh3.googleusercontent.com/p/AF1QipP_n0cM3r_G9pE3D_nF8wWvTf2FhQ4-1B1H4o0R=s1360-w1360-h1020",
-    rating: 4.9,
-  },
-  {
-    id: "c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f",
-    title: "Tour Partagé - Île des Pisans (Boulimate)",
-    slug: "tour-partage-ile-pisans",
-    type: "shared",
-    price_total: null,
-    price_per_seat: 350000, // 3,500 DA
-    duration_minutes: 150,
-    max_guests: 10,
-    badge: "Populaire",
-    destination_name: "Île des Pisans",
-    main_image_url: "https://lh3.googleusercontent.com/p/AF1QipNjQZ5hNfWw9O9n5zXgZ4E9FkO6W4W3oR2Z8x9C=s1360-w1360-h1020",
-    rating: 4.5,
-  },
-];
-
+import { IMAGES } from "@/lib/constants";
 import { getPersistedMockData } from "@/lib/actions/experiences";
 
 export async function getFeaturedExperiences(): Promise<ExperienceSummary[]> {
+  const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
   const exps = await getAllExperiences();
+  
+  if (isPlaceholder) {
+    try {
+      const db = await getPersistedMockData();
+      if (db.cms && db.cms.featured_experiences_ids) {
+        const featuredIds = db.cms.featured_experiences_ids;
+        const featured = exps.filter((e) => featuredIds.includes(e.id));
+        featured.sort((a, b) => featuredIds.indexOf(a.id) - featuredIds.indexOf(b.id));
+        if (featured.length > 0) return featured;
+      }
+    } catch (err) {
+      console.error("Failed to load featured experiences from CMS:", err);
+    }
+  }
+  
   return exps.slice(0, 3);
 }
 
@@ -60,38 +30,61 @@ export async function getAllExperiences(): Promise<any[]> {
     try {
       const db = await getPersistedMockData();
       
-      let list = MOCK_EXPERIENCES.map((exp) => {
-        const updates = db.experiences?.[exp.id];
-        if (updates) {
-          const isPublished = updates.is_published !== undefined 
-            ? updates.is_published 
-            : (updates.status === "approved" || (exp as any).is_published !== false);
-          return {
-            ...exp,
-            ...updates,
-            is_published: isPublished
-          } as any;
+      let list: any[] = [];
+
+      // Load experiences from mock DB
+      if (db.experiences) {
+        for (const [id, exp] of Object.entries(db.experiences)) {
+          const e = exp as any;
+          if (e.is_published !== false) {
+            list.push({
+              id,
+              title: e.title || "",
+              slug: e.slug || `exp-${id}`,
+              type: e.type || "private",
+              category: e.category || (e.type === "private" ? "Bateau privé" : "Bateau par place"),
+              price_total: e.price_total || null,
+              price_per_seat: e.price_per_seat || null,
+              duration_minutes: e.duration_minutes || 120,
+              max_guests: e.max_guests || 6,
+              badge: e.badge || null,
+              destination_name: e.destinationName || e.destination || "Béjaïa",
+              main_image_url: e.main_image_url || IMAGES.PLACEHOLDER,
+              rating: e.rating || 5.0,
+              is_published: true,
+              description: e.description || "",
+              images: e.images || [e.main_image_url || IMAGES.PLACEHOLDER],
+              included_services: e.included_services || "",
+              requirements: e.requirements || "",
+              departure_location: e.departure_location || "",
+              route_description: e.route_description || "",
+            });
+          }
         }
-        return { ...exp, is_published: true } as any;
-      });
+      }
 
       if (db.createdExperiences) {
         const createdMapped = db.createdExperiences.map((c: any) => ({
           id: c.id,
           title: c.title,
           slug: c.slug || `exp-${c.id}`,
-          type: c.type,
+          type: c.type || "shared",
+          category: c.category || (c.type === "private" ? "Bateau privé" : "Bateau par place"),
           price_total: c.price_total || null,
           price_per_seat: c.price_per_seat || null,
           duration_minutes: c.duration_minutes || 120,
           max_guests: c.max_guests || 6,
           badge: c.badge || null,
           destination_name: c.destinationName || c.destination || "Béjaïa",
-          main_image_url: c.main_image_url || "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
+          main_image_url: c.main_image_url || IMAGES.PLACEHOLDER,
           rating: c.rating || 5.0,
-          is_published: c.is_published !== undefined ? c.is_published : (c.status === "approved" || true),
+          is_published: c.is_published !== undefined ? c.is_published : true,
           description: c.description || "",
-          images: c.images || [c.main_image_url || "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020"]
+          images: c.images || [c.main_image_url || IMAGES.PLACEHOLDER],
+          included_services: c.included_services || "",
+          requirements: c.requirements || "",
+          departure_location: c.departure_location || "",
+          route_description: c.route_description || "",
         }));
         list = [...list, ...createdMapped];
       }
@@ -102,35 +95,50 @@ export async function getAllExperiences(): Promise<any[]> {
     }
   }
 
-  await new Promise((resolve) => setTimeout(resolve, 200));
-  return MOCK_EXPERIENCES;
+  return [];
 }
 
 export async function getDestinations() {
-  return [
-    {
-      id: "d1",
-      name: "Cap Carbon",
-      slug: "cap-carbon",
-      description: "L'un des plus hauts phares naturels au monde.",
-      photo_url: "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
-      experience_count: 5,
-    },
-    {
-      id: "d2",
-      name: "Île des Pisans",
-      slug: "ile-des-pisans",
-      description: "Magnifique île sauvage accessible uniquement par bateau.",
-      photo_url: "https://lh3.googleusercontent.com/p/AF1QipNjQZ5hNfWw9O9n5zXgZ4E9FkO6W4W3oR2Z8x9C=s1360-w1360-h1020",
-      experience_count: 3,
-    },
-    {
-      id: "d3",
-      name: "Gouraya",
-      slug: "gouraya",
-      description: "Parc national avec vue imprenable sur la baie.",
-      photo_url: "https://lh3.googleusercontent.com/p/AF1QipO9oV9R-lO7T3p5E6qR2t9U8W1O-vP3Z2J6c3O1=s1360-w1360-h1020",
-      experience_count: 4,
-    },
-  ];
+  const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
+  
+  if (isPlaceholder) {
+    try {
+      const db = await getPersistedMockData();
+      let list: any[] = [];
+
+      // Load destinations from mock DB
+      if (db.destinations) {
+        for (const [id, dest] of Object.entries(db.destinations)) {
+          const d = dest as any;
+          if (d.is_active !== false) {
+            list.push({
+              id,
+              name: d.name || "",
+              slug: d.slug || "",
+              description: d.description || "",
+              photo_url: d.photo_url || IMAGES.PLACEHOLDER,
+              hero_image_url: d.hero_image_url || d.photo_url || IMAGES.PLACEHOLDER,
+              gallery: d.gallery || [],
+              experience_count: d.experience_count || 0,
+              is_active: true,
+              is_featured: d.is_featured || false,
+              location: d.location || "Béjaïa, Algérie",
+              lat: d.lat || null,
+              lng: d.lng || null,
+            });
+          }
+        }
+      }
+
+      if (db.createdDestinations) {
+        list = [...list, ...db.createdDestinations.filter((d: any) => d.is_active !== false)];
+      }
+
+      return list;
+    } catch (err) {
+      console.error("Error loading destinations:", err);
+    }
+  }
+
+  return [];
 }

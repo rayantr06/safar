@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Ship, Compass, ShieldCheck, HelpCircle } from "lucide-react";
+import { IMAGES } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -36,7 +37,7 @@ export default function AboutPage() {
         </div>
         <div className="relative rounded-[3rem] overflow-hidden aspect-[4/3] shadow-2xl border border-outline-variant/30">
           <Image
-            src="https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020"
+            src={IMAGES.DESTINATION_CAP_CARBON}
             alt="Béjaïa coast ship"
             fill
             className="object-cover"

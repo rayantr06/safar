@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { FleetList } from "@/components/partner/fleet-list";
 import { getPersistedMockData } from "@/lib/actions/experiences";
+import { IMAGES } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -18,7 +19,7 @@ export default async function PartnerBoatsPage() {
       duration_minutes: 120,
       max_guests: 6,
       is_published: true,
-      main_image_url: "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
+      main_image_url: IMAGES.EXPERIENCE_CAP_CARBON,
     },
     {
       id: "2",
@@ -29,7 +30,7 @@ export default async function PartnerBoatsPage() {
       duration_minutes: 180,
       max_guests: 8,
       is_published: false,
-      main_image_url: "https://lh3.googleusercontent.com/p/AF1QipP_n0cM3r_G9pE3D_nF8wWvTf2FhQ4-1B1H4o0R=s1360-w1360-h1020",
+      main_image_url: IMAGES.EXPERIENCE_FALAISES,
     }
   ];
 
@@ -51,7 +52,7 @@ export default async function PartnerBoatsPage() {
         duration_minutes: exp.duration_minutes || 120,
         max_guests: exp.max_guests || 6,
         is_published: exp.is_published ?? true,
-        main_image_url: exp.main_image_url || "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
+        main_image_url: exp.main_image_url || IMAGES.PLACEHOLDER,
       }));
     }
   }
