@@ -1,0 +1,96 @@
+/* ============================================
+   SAFAR DZ — Design System Tokens (portable)
+   Import this after Tailwind in your global CSS:
+     @import "tailwindcss";
+     @import "../safar-design-system/tokens.css";
+   ============================================ */
+
+/* JetBrains Mono — free Google Font, substitute for Cascadia Mono
+   (Cascadia Mono itself isn't bundled here; see docs/DESIGN_SYSTEM.md) */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/* Self-hosted brand fonts — see assets/fonts/ */
+@font-face {
+  font-family: 'Pristine Script';
+  src: url('./assets/fonts/PristineScript.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kumquat';
+  src: url('./assets/fonts/Kumquat.otf') format('opentype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@theme inline {
+  /* ---- Brand palette ---- */
+  --color-ocean-blue: #1e4db6;
+  --color-sun-gold: #f9bb1a;
+  --color-soft-ocean: #8195cd;
+  --color-ink: #2e2e2e;
+  --color-cream: #fff8ec;
+  --color-sand: #e8d9be;
+  --color-sunset: #ff7a59;
+
+  /* ---- Brand radius ---- */
+  --radius-safar-sm: 12px;
+  --radius-safar-md: 20px;
+  --radius-safar-premium: 32px;
+
+  /* ---- Brand shadows (soft/premium only) ---- */
+  --shadow-safar-sm: 0 2px 8px rgba(30, 77, 182, 0.08);
+  --shadow-safar-md: 0 8px 24px rgba(30, 77, 182, 0.1);
+  --shadow-safar-lg: 0 16px 40px rgba(30, 77, 182, 0.12);
+  --shadow-safar-premium: 0 24px 64px rgba(30, 77, 182, 0.16);
+
+  /* ---- Brand fonts ---- */
+  --font-cascadia: "JetBrains Mono", "Cascadia Mono", ui-monospace, monospace;
+  --font-pristine: "Pristine Script", cursive;
+  --font-kumquat: "Kumquat", cursive;
+
+  /* ---- Brand motion ---- */
+  --ease-safar: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================
+   Typography Utilities
+   ============================================ */
+
+.text-safar-heading-xl { font-family: var(--font-pristine); font-size: 56px; line-height: 1.1; font-weight: 700; }
+.text-safar-heading-lg { font-family: var(--font-pristine); font-size: 40px; line-height: 1.15; font-weight: 700; }
+.text-safar-heading-md { font-family: var(--font-pristine); font-size: 28px; line-height: 1.2; font-weight: 600; }
+.text-safar-heading-sm { font-family: var(--font-pristine); font-size: 22px; line-height: 1.25; font-weight: 600; }
+.text-safar-heading-adventure { font-family: var(--font-kumquat); font-size: 26px; line-height: 1.2; font-weight: 600; }
+
+.text-safar-body-lg { font-family: var(--font-cascadia); font-size: 18px; line-height: 1.6; font-weight: 400; }
+.text-safar-body-md { font-family: var(--font-cascadia); font-size: 16px; line-height: 1.55; font-weight: 400; }
+.text-safar-body-sm { font-family: var(--font-cascadia); font-size: 14px; line-height: 1.5; font-weight: 400; }
+
+.text-safar-button-lg { font-family: var(--font-cascadia); font-size: 16px; line-height: 1.2; font-weight: 600; letter-spacing: 0.01em; }
+.text-safar-button-md { font-family: var(--font-cascadia); font-size: 14px; line-height: 1.2; font-weight: 600; letter-spacing: 0.01em; }
+.text-safar-button-sm { font-family: var(--font-cascadia); font-size: 13px; line-height: 1.2; font-weight: 600; letter-spacing: 0.01em; }
+
+.text-safar-caption-md { font-family: var(--font-cascadia); font-size: 13px; line-height: 1.4; font-weight: 500; }
+.text-safar-caption-sm { font-family: var(--font-cascadia); font-size: 11px; line-height: 1.4; font-weight: 500; }
+
+/* ============================================
+   Motion — fade / slide / hover-lift only
+   ============================================ */
+
+@keyframes safar-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-safar-fade {
+  animation: safar-fade 250ms var(--ease-safar) both;
+}
+
+@keyframes safar-slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-safar-slide-up {
+  animation: safar-slide-up 400ms var(--ease-safar) both;
+}

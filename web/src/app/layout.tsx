@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, Space_Mono } from "next/font/google";
+import { Inter, Space_Mono, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const inter = Inter({
@@ -11,6 +12,25 @@ const spaceMono = Space_Mono({
   weight: ["400", "700"],
   variable: "--font-mono",
   subsets: ["latin"],
+});
+
+// Safar DZ Design System fonts (src/design-system) — see src/docs/DESIGN_SYSTEM.md
+const cascadia = JetBrains_Mono({
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-cascadia",
+  subsets: ["latin"],
+});
+
+const pristineScript = localFont({
+  src: "../fonts/PristineScript.ttf",
+  variable: "--font-pristine",
+  display: "swap",
+});
+
+const kumquat = localFont({
+  src: "../fonts/Kumquat.otf",
+  variable: "--font-kumquat",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -69,7 +89,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${inter.variable} ${spaceMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${spaceMono.variable} ${cascadia.variable} ${pristineScript.variable} ${kumquat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>

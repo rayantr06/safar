@@ -530,5 +530,15 @@
       "whatsapp_enabled": false
     }
   },
-  "commission_rate": 15
+  "commission_rate": 15,
+  "clients": {
+    "admin@safardz.comafardz.com": {
+      "id": "c-1782715637704",
+      "email": "admin@safardz.comafardz.com",
+      "password": "passworpasswordd123",
+      "name": "admin",
+      "phone": "",
+      "created_at": "2026-06-29T06:47:17.704Z"
+    }
+  }
 }
