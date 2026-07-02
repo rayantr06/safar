@@ -43,9 +43,10 @@ export default async function PublicLayout({
   } as React.CSSProperties;
 
   const contact = cms?.contact_info || {
-    phone: "+213 550 12 34 56",
+    phone: "0556 48 36 34",
     whatsapp: "+213 556 48 36 34",
-    email: "contact@safardz.com",
+    email: "safardz@gmail.com",
+    address: "Béjaïa, Algérie",
     socials: {
       facebook: "https://www.facebook.com/profile.php?id=61590829494331",
       instagram: "https://www.instagram.com/safar_dz/",
