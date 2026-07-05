@@ -3,6 +3,17 @@ import { NextResponse, type NextRequest } from "next/server";
 import { Database } from "../types/database";
 
 export async function updateSession(request: NextRequest) {
+  // Next.js prefetches every visible <Link> in the background (e.g. all admin
+  // sidebar items at once). Each prefetch re-enters this middleware and calls
+  // getUser(), which can trigger a session refresh. Supabase refresh tokens
+  // are single-use, so several concurrent prefetches racing to refresh the
+  // same token invalidate each other, and the very next real navigation then
+  // looks logged-out. Prefetches don't need auth enforcement (the real
+  // navigation still runs full middleware), so skip them entirely.
+  if (request.headers.get("next-router-prefetch") === "1" || request.headers.get("purpose") === "prefetch") {
+    return NextResponse.next({ request });
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   });
@@ -104,6 +115,19 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // A NextResponse.redirect() is a brand-new response object, so it doesn't
+  // carry the refreshed session cookies written above onto supabaseResponse.
+  // Without copying them over, a token refresh that happens right before a
+  // redirect gets silently dropped, leaving the browser holding an
+  // already-rotated (invalid) refresh token on its next request.
+  const redirectWithSession = (url: URL) => {
+    const redirectResponse = NextResponse.redirect(url);
+    supabaseResponse.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie);
+    });
+    return redirectResponse;
+  };
+
   // ROUTE GUARDS
   // Protect admin and partner routes
   const path = request.nextUrl.pathname;
@@ -116,7 +140,7 @@ export async function updateSession(request: NextRequest) {
     } else {
       url.pathname = "/login";
     }
-    return NextResponse.redirect(url);
+    return redirectWithSession(url);
   }
 
   if (user) {
@@ -139,7 +163,7 @@ export async function updateSession(request: NextRequest) {
         } else {
           url.pathname = "/";
         }
-        return NextResponse.redirect(url);
+        return redirectWithSession(url);
       }
     }
 
@@ -153,7 +177,7 @@ export async function updateSession(request: NextRequest) {
         } else {
           url.pathname = "/";
         }
-        return NextResponse.redirect(url);
+        return redirectWithSession(url);
       }
     }
 
@@ -167,7 +191,7 @@ export async function updateSession(request: NextRequest) {
         } else {
           url.pathname = "/";
         }
-        return NextResponse.redirect(url);
+        return redirectWithSession(url);
       }
     }
   }
