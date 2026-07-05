@@ -22,7 +22,3 @@ export async function POST(request: Request) {
   return response;
 }
 
-export async function GET(request: Request) {
-  return POST(request);
-}
-

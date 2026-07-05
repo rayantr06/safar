@@ -71,13 +71,15 @@ export default async function AdminLayout({
               </p>
             </div>
           </div>
-          <Link
-            href="/auth/signout"
-            className="flex items-center gap-3 text-error hover:bg-error-container rounded-lg px-4 py-3 transition-all"
-          >
-            <LogOut className="h-5 w-5" />
-            <span className="text-label-sm font-label-sm">Se déconnecter</span>
-          </Link>
+          <form action="/auth/signout" method="post">
+            <button
+              type="submit"
+              className="w-full flex items-center gap-3 text-error hover:bg-error-container rounded-lg px-4 py-3 transition-all"
+            >
+              <LogOut className="h-5 w-5" />
+              <span className="text-label-sm font-label-sm">Se déconnecter</span>
+            </button>
+          </form>
         </div>
       </aside>
 

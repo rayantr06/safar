@@ -131,12 +131,14 @@ export function ClientDashboardClient({ initialClient, initialBookings }: Client
           >
             <Compass className="h-4.5 w-4.5" /> Explorer des sorties
           </Link>
-          <Link
-            href="/auth/signout"
-            className="px-6 py-3 border border-outline-variant text-on-surface-variant font-bold rounded-xl hover:bg-surface-container transition-all text-xs uppercase tracking-wider active:scale-95"
-          >
-            Se déconnecter
-          </Link>
+          <form action="/auth/signout" method="post">
+            <button
+              type="submit"
+              className="px-6 py-3 border border-outline-variant text-on-surface-variant font-bold rounded-xl hover:bg-surface-container transition-all text-xs uppercase tracking-wider active:scale-95"
+            >
+              Se déconnecter
+            </button>
+          </form>
         </div>
       </div>
 

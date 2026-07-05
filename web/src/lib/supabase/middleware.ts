@@ -131,11 +131,14 @@ export async function updateSession(request: NextRequest) {
   // ROUTE GUARDS
   // Protect admin and partner routes
   const path = request.nextUrl.pathname;
+  // "/partner" is the provider portal; "/partners" is the public marketing
+  // page and must not be swept up by startsWith("/partner").
+  const isPartnerPortal = path === "/partner" || path.startsWith("/partner/");
 
-  if (!user && (path.startsWith("/admin") || path.startsWith("/partner") || path.startsWith("/client"))) {
+  if (!user && (path.startsWith("/admin") || isPartnerPortal || path.startsWith("/client"))) {
     // redirect to login if accessing protected route without being logged in
     const url = request.nextUrl.clone();
-    if (path.startsWith("/admin") || path.startsWith("/partner")) {
+    if (path.startsWith("/admin") || isPartnerPortal) {
       url.pathname = "/portal-login";
     } else {
       url.pathname = "/login";
@@ -167,7 +170,7 @@ export async function updateSession(request: NextRequest) {
       }
     }
 
-    if (path.startsWith("/partner")) {
+    if (isPartnerPortal) {
       if (role !== "provider") {
         const url = request.nextUrl.clone();
         if (role === "admin") {
