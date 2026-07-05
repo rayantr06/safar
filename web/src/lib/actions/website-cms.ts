@@ -4,9 +4,11 @@ import { revalidatePath } from "next/cache";
 import * as fs from "fs";
 import * as path from "path";
 import { checkRole } from "@/lib/utils/auth-check";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { IMAGES } from "@/lib/constants";
 
 const MOCK_DB_FILE = path.join(process.cwd(), ".safar-mock-db.json");
+const isPlaceholder = () => process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
 
 function getMockDb() {
   if (!fs.existsSync(MOCK_DB_FILE)) {
@@ -25,6 +27,60 @@ function saveMockDb(data: any) {
   } catch (err) {
     console.error("Failed to write mock db", err);
   }
+}
+
+// Every CMS section is stored as one row in the generic `site_content` table
+// (section TEXT UNIQUE, content_fr TEXT), content_fr holding JSON.stringify(data).
+// The media library is stored the same way under section = "media_library".
+async function getSiteContentSection(sectionKey: string) {
+  const admin = createAdminClient() as any;
+  const { data, error } = await admin
+    .from("site_content")
+    .select("content_fr")
+    .eq("section", sectionKey)
+    .single();
+  if (error || !data) return null;
+  try {
+    return JSON.parse(data.content_fr);
+  } catch {
+    return null;
+  }
+}
+
+async function saveSiteContentSection(sectionKey: string, data: any) {
+  const admin = createAdminClient() as any;
+  const { error } = await admin
+    .from("site_content")
+    .upsert(
+      { section: sectionKey, content_fr: JSON.stringify(data), updated_at: new Date().toISOString() },
+      { onConflict: "section" }
+    );
+  if (error) throw new Error(error.message);
+}
+
+const ACCOMMODATION_COLUMNS = [
+  "title", "slug", "type", "wilaya", "city", "address", "description", "short_description",
+  "location", "price", "promo_price", "currency", "pricing_type", "image_url", "images",
+  "is_active", "contact_phone", "whatsapp_phone", "max_guests", "rooms_count", "beds_count",
+  "bathrooms_count", "amenities", "custom_amenities", "booking_type", "min_stay_nights",
+  "blocked_dates", "lat", "lng",
+] as const;
+
+function mapAccommodationFields(data: any) {
+  const mapped: any = {};
+  for (const key of ACCOMMODATION_COLUMNS) {
+    if (data[key] !== undefined) mapped[key] = data[key];
+  }
+  return mapped;
+}
+
+function slugify(text: string) {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 const DEFAULT_CMS = {
@@ -113,6 +169,21 @@ const DEFAULT_CMS = {
 };
 
 export async function getCmsConfig() {
+  if (!isPlaceholder()) {
+    const admin = createAdminClient() as any;
+    const { data: rows } = await admin.from("site_content").select("section, content_fr");
+    const cms: any = { ...DEFAULT_CMS };
+    for (const row of rows || []) {
+      if (row.section === "media_library") continue; // fetched separately via getMediaLibrary()
+      try {
+        cms[row.section] = JSON.parse(row.content_fr);
+      } catch {
+        // keep default for this section if stored JSON is malformed
+      }
+    }
+    return cms;
+  }
+
   const db = getMockDb();
   let updated = false;
   if (!db.cms) {
@@ -235,8 +306,20 @@ export async function getCmsConfig() {
 
 export async function saveCmsSection(sectionKey: string, data: any) {
   await checkRole(["admin"]);
+
+  if (!isPlaceholder()) {
+    await saveSiteContentSection(sectionKey, data);
+    revalidatePath("/");
+    revalidatePath("/experiences");
+    revalidatePath("/destinations");
+    revalidatePath("/about");
+    revalidatePath("/contact");
+    const cms = await getCmsConfig();
+    return { success: true, cms };
+  }
+
   const db = getMockDb();
-  
+
   if (!db.cms) {
     db.cms = { ...DEFAULT_CMS };
   }
@@ -255,6 +338,11 @@ export async function saveCmsSection(sectionKey: string, data: any) {
 }
 
 export async function getMediaLibrary() {
+  if (!isPlaceholder()) {
+    const stored = await getSiteContentSection("media_library");
+    return stored || [];
+  }
+
   const db = getMockDb();
   if (!db.cms || !db.cms.media_library) {
     const cms = db.cms || { ...DEFAULT_CMS };
@@ -267,6 +355,15 @@ export async function getMediaLibrary() {
 
 export async function addMediaAsset(asset: { name: string; url: string; folder: string; size: string; type: string }) {
   await checkRole(["admin"]);
+
+  if (!isPlaceholder()) {
+    const library = (await getSiteContentSection("media_library")) || [];
+    const newAsset = { id: `m-${Date.now()}`, ...asset };
+    library.push(newAsset);
+    await saveSiteContentSection("media_library", library);
+    return { success: true, asset: newAsset };
+  }
+
   const db = getMockDb();
   if (!db.cms) {
     db.cms = { ...DEFAULT_CMS };
@@ -287,6 +384,13 @@ export async function addMediaAsset(asset: { name: string; url: string; folder: 
 
 export async function deleteMediaAsset(id: string) {
   await checkRole(["admin"]);
+
+  if (!isPlaceholder()) {
+    const library = (await getSiteContentSection("media_library")) || [];
+    await saveSiteContentSection("media_library", library.filter((m: any) => m.id !== id));
+    return { success: true };
+  }
+
   const db = getMockDb();
   if (!db.cms || !db.cms.media_library) return { success: false };
   
@@ -296,6 +400,13 @@ export async function deleteMediaAsset(id: string) {
 }
 
 export async function getAccommodations() {
+  if (!isPlaceholder()) {
+    const admin = createAdminClient() as any;
+    const { data, error } = await admin.from("accommodations").select("*").order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    return data || [];
+  }
+
   const db = getMockDb();
   if (!db.cms || !db.cms.accommodations) {
     // initialize if missing
@@ -307,6 +418,28 @@ export async function getAccommodations() {
 
 export async function saveAccommodation(id: string | null, data: any) {
   await checkRole(["admin"]);
+
+  if (!isPlaceholder()) {
+    const admin = createAdminClient() as any;
+    const mapped = mapAccommodationFields(data);
+
+    if (id) {
+      const { error } = await admin.from("accommodations").update(mapped).eq("id", id);
+      if (error) throw new Error(error.message);
+    } else {
+      if (!mapped.slug) {
+        mapped.slug = `${slugify(mapped.title || "logement")}-${Date.now()}`;
+      }
+      const { error } = await admin.from("accommodations").insert(mapped);
+      if (error) throw new Error(error.message);
+    }
+
+    revalidatePath("/");
+    revalidatePath("/accommodations");
+    const accommodations = await getAccommodations();
+    return { success: true, accommodations };
+  }
+
   const db = getMockDb();
   if (!db.cms) {
     db.cms = { ...DEFAULT_CMS };
@@ -334,6 +467,17 @@ export async function saveAccommodation(id: string | null, data: any) {
 
 export async function deleteAccommodation(id: string) {
   await checkRole(["admin"]);
+
+  if (!isPlaceholder()) {
+    const admin = createAdminClient() as any;
+    const { error } = await admin.from("accommodations").delete().eq("id", id);
+    if (error) throw new Error(error.message);
+    revalidatePath("/");
+    revalidatePath("/accommodations");
+    const accommodations = await getAccommodations();
+    return { success: true, accommodations };
+  }
+
   const db = getMockDb();
   if (!db.cms || !db.cms.accommodations) return { success: false };
   

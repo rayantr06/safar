@@ -25,19 +25,45 @@ export async function checkConflict(
   startTimeStr: string,
   durationMinutes: number
 ) {
-  const db = getMockDb();
-  const bookings = db.bookings || [];
-  
+  const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
+
+  let bookings: any[];
+  let availability: BoatAvailabilitySettings;
+
+  if (isPlaceholder) {
+    const db = getMockDb();
+    bookings = db.bookings || [];
+    availability = db.boat_availability?.[boatId] || {
+      workingHours: { start: "08:00", end: "20:00" },
+      breakTime: { start: "13:00", end: "14:00" },
+      unavailableDays: [],
+      maintenanceDates: []
+    };
+  } else {
+    const supabase = await createClient();
+    const { data: dbBookings } = await supabase
+      .from("bookings")
+      .select("booking_time, start_time, duration_minutes, booking_ref, boat_id, booking_date, status")
+      .eq("boat_id", boatId)
+      .eq("booking_date", date)
+      .neq("status", "cancelled");
+    bookings = dbBookings || [];
+
+    const { data: dbAvail } = await (supabase as any)
+      .from("boat_availability")
+      .select("settings")
+      .eq("boat_id", boatId)
+      .single();
+    availability = dbAvail?.settings || {
+      workingHours: { start: "08:00", end: "20:00" },
+      breakTime: { start: "13:00", end: "14:00" },
+      unavailableDays: [],
+      maintenanceDates: []
+    };
+  }
+
   const bookStart = timeToMinutes(startTimeStr);
   const bookEnd = bookStart + durationMinutes;
-
-  // 1. Check working hours & break times for this boat
-  const availability: BoatAvailabilitySettings = db.boat_availability?.[boatId] || {
-    workingHours: { start: "08:00", end: "20:00" },
-    breakTime: { start: "13:00", end: "14:00" },
-    unavailableDays: [],
-    maintenanceDates: []
-  };
 
   // Check unavailable day of the week
   if (availability.unavailableDays && availability.unavailableDays.length > 0) {
