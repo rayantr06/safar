@@ -403,7 +403,12 @@ export async function getAccommodations() {
   if (!isPlaceholder()) {
     const admin = createAdminClient() as any;
     const { data, error } = await admin.from("accommodations").select("*").order("created_at", { ascending: false });
-    if (error) throw new Error(error.message);
+    if (error) {
+      // Don't take down public pages (homepage, /accommodations) if the table
+      // is temporarily missing (e.g. migration not yet applied) or errors out.
+      console.error("getAccommodations failed:", error.message);
+      return [];
+    }
     return data || [];
   }
 
