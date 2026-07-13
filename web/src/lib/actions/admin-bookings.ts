@@ -5,6 +5,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { checkRole } from "@/lib/utils/auth-check";
 import { revalidatePath } from "next/cache";
 import { getMockDb, saveMockDb } from "../supabase/mock-db-helper";
+import { createNotification } from "./notifications";
 
 // Helper to convert HH:MM to minutes from midnight
 function timeToMinutes(timeStr: string): number {
@@ -620,9 +621,21 @@ export async function cancelAdminBooking(bookingId: string) {
       if (error) throw error;
     }
 
+    try {
+      await createNotification({
+        type: "cancellation",
+        title: "Réservation annulée",
+        message: `La réservation a été annulée par l'administrateur.`,
+        metadata: { booking_id: bookingId },
+      });
+    } catch (notifErr) {
+      console.error("Failed to create cancellation notification:", notifErr);
+    }
+
     revalidatePath("/admin/bookings");
     revalidatePath("/admin/availability");
     revalidatePath("/partner/bookings");
+    revalidatePath("/admin/notifications");
     return { success: true };
   } catch (error: any) {
     console.error("Cancel failed:", error);
@@ -651,9 +664,21 @@ export async function confirmAdminBooking(bookingId: string) {
       if (error) throw error;
     }
 
+    try {
+      await createNotification({
+        type: "payment_status",
+        title: "Réservation confirmée",
+        message: `La réservation a été confirmée.`,
+        metadata: { booking_id: bookingId },
+      });
+    } catch (notifErr) {
+      console.error("Failed to create confirmation notification:", notifErr);
+    }
+
     revalidatePath("/admin/bookings");
     revalidatePath("/admin/availability");
     revalidatePath("/partner/bookings");
+    revalidatePath("/admin/notifications");
     return { success: true };
   } catch (error: any) {
     console.error("Confirm failed:", error);

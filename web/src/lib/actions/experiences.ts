@@ -68,6 +68,90 @@ export async function toggleExperienceStatus(id: string, isPublished: boolean) {
 
   revalidatePath("/partner/boats");
   revalidatePath("/admin/experiences");
+  revalidatePath("/experiences");
+  revalidatePath("/");
+  return { success: true };
+}
+
+const CONTENT_STATUSES = ["draft", "published", "hidden", "archived"] as const;
+export type ContentStatus = (typeof CONTENT_STATUSES)[number];
+
+export async function setExperienceStatus(id: string, status: ContentStatus) {
+  const { user, role } = await checkRole(["provider", "admin"]);
+  const supabase = await createClient();
+  const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
+
+  if (role === "provider") {
+    if (isPlaceholder) {
+      const db = getMockDb();
+      const exp = db.experiences?.[id] || db.createdExperiences?.find((e: any) => e.id === id);
+      const boatId = exp?.boat_id || id.replace("exp-auto-", "");
+      const boat = db.boats?.[boatId];
+      if (boat && boat.provider_id !== user.id) {
+        throw new Error("Non autorisé : Ce navire ne vous appartient pas");
+      }
+    } else {
+      const { data: exp } = await supabase.from("experiences").select("boat_id, boats(provider_id)").eq("id", id).single() as any;
+      if (exp?.boats?.provider_id !== user.id) {
+        throw new Error("Non autorisé");
+      }
+    }
+  }
+
+  if (isPlaceholder) {
+    const db = getMockDb();
+    if (!db.experiences) db.experiences = {};
+    if (!db.experiences[id]) db.experiences[id] = {};
+    db.experiences[id].status = status;
+    db.experiences[id].is_published = status === "published";
+    saveMockDb(db);
+  } else {
+    // The `status` column drives is_published via a DB trigger (migration 004),
+    // so a single write here keeps both in sync.
+    const { error } = await (supabase as any)
+      .from("experiences")
+      .update({ status })
+      .eq("id", id);
+    if (error) throw new Error(error.message);
+  }
+
+  revalidatePath("/partner/boats");
+  revalidatePath("/admin/experiences");
+  revalidatePath("/experiences");
+  revalidatePath("/");
+  return { success: true };
+}
+
+export async function deleteExperience(id: string) {
+  await checkRole(["admin"]);
+  const supabase = await createClient();
+  const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
+
+  if (isPlaceholder) {
+    const db = getMockDb();
+    const hasBookings = (db.bookings || []).some((b: any) => b.experience_id === id);
+    if (hasBookings) {
+      return { success: false, error: "Impossible de supprimer : cette expérience a des réservations. Archivez-la à la place." };
+    }
+    if (db.experiences) delete db.experiences[id];
+    if (db.createdExperiences) db.createdExperiences = db.createdExperiences.filter((e: any) => e.id !== id);
+    saveMockDb(db);
+  } else {
+    const { count } = await (supabase as any)
+      .from("bookings")
+      .select("id", { count: "exact", head: true })
+      .eq("experience_id", id);
+    if (count && count > 0) {
+      return { success: false, error: "Impossible de supprimer : cette expérience a des réservations. Archivez-la à la place." };
+    }
+
+    const { error } = await (supabase as any).from("experiences").delete().eq("id", id);
+    if (error) throw new Error(error.message);
+  }
+
+  revalidatePath("/admin/experiences");
+  revalidatePath("/experiences");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -176,6 +260,7 @@ export async function saveExperience(id: string, updates: any) {
   revalidatePath("/partner/boats");
   revalidatePath("/admin/experiences");
   revalidatePath("/experiences");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -310,6 +395,69 @@ export async function toggleDestinationStatus(id: string, isActive: boolean) {
   }
 
   revalidatePath("/admin/destinations");
+  revalidatePath("/destinations");
+  revalidatePath("/");
+  return { success: true };
+}
+
+export async function setDestinationStatus(id: string, status: ContentStatus) {
+  await checkRole(["admin"]);
+  const supabase = await createClient();
+  const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
+
+  if (isPlaceholder) {
+    const db = getMockDb();
+    if (!db.destinations) db.destinations = {};
+    if (!db.destinations[id]) db.destinations[id] = {};
+    db.destinations[id].status = status;
+    db.destinations[id].is_active = status === "published";
+    saveMockDb(db);
+  } else {
+    // The `status` column drives is_active via a DB trigger (migration 004).
+    const { error } = await (supabase as any)
+      .from("destinations")
+      .update({ status })
+      .eq("id", id);
+    if (error) throw new Error(error.message);
+  }
+
+  revalidatePath("/admin/destinations");
+  revalidatePath("/destinations");
+  revalidatePath("/");
+  return { success: true };
+}
+
+export async function deleteDestination(id: string) {
+  await checkRole(["admin"]);
+  const supabase = await createClient();
+  const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
+
+  if (isPlaceholder) {
+    const db = getMockDb();
+    const hasExperiences = Object.values(db.experiences || {}).some((e: any) => e.destination_id === id)
+      || (db.createdExperiences || []).some((e: any) => e.destination_id === id);
+    if (hasExperiences) {
+      return { success: false, error: "Impossible de supprimer : des expériences sont rattachées à cette destination. Archivez-la à la place." };
+    }
+    if (db.destinations) delete db.destinations[id];
+    if (db.createdDestinations) db.createdDestinations = db.createdDestinations.filter((d: any) => d.id !== id);
+    saveMockDb(db);
+  } else {
+    const { count } = await (supabase as any)
+      .from("experiences")
+      .select("id", { count: "exact", head: true })
+      .eq("destination_id", id);
+    if (count && count > 0) {
+      return { success: false, error: "Impossible de supprimer : des expériences sont rattachées à cette destination. Archivez-la à la place." };
+    }
+
+    const { error } = await (supabase as any).from("destinations").delete().eq("id", id);
+    if (error) throw new Error(error.message);
+  }
+
+  revalidatePath("/admin/destinations");
+  revalidatePath("/destinations");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -333,6 +481,8 @@ export async function toggleDestinationFeatured(id: string, isFeatured: boolean)
   }
 
   revalidatePath("/admin/destinations");
+  revalidatePath("/destinations");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -358,6 +508,8 @@ export async function saveDestination(id: string, updates: any) {
   }
 
   revalidatePath("/admin/destinations");
+  revalidatePath("/destinations");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -374,6 +526,8 @@ export async function createDestination(destination: any) {
     db.createdDestinations.push(newDest);
     saveMockDb(db);
     revalidatePath("/admin/destinations");
+    revalidatePath("/destinations");
+    revalidatePath("/");
     return { success: true, data: newDest };
   } else {
     const { data, error } = await (supabase as any)
@@ -383,6 +537,8 @@ export async function createDestination(destination: any) {
       .single();
     if (error) throw new Error(error.message);
     revalidatePath("/admin/destinations");
+    revalidatePath("/destinations");
+    revalidatePath("/");
     return { success: true, data };
   }
 }

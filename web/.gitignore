@@ -43,3 +43,6 @@ next-env.d.ts
 /test-results
 
 .vercel
+
+# local-dev-only mock database (never used in production; see isPlaceholder() mode)
+.safar-mock-db.json

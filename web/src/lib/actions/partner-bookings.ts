@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { getMockDb, saveMockDb, BoatAvailabilitySettings } from "../supabase/mock-db-helper";
 import { checkRole } from "@/lib/utils/auth-check";
+import { createNotification } from "./notifications";
 
 // Helper to convert HH:MM to minutes from midnight
 function timeToMinutes(timeStr: string): number {
@@ -261,9 +262,23 @@ export async function updateBookingStatus(bookingId: string, newStatus: string) 
       if (error) throw error;
     }
 
+    if (newStatus === "cancelled" || newStatus === "confirmed" || newStatus === "completed") {
+      try {
+        await createNotification({
+          type: newStatus === "cancelled" ? "cancellation" : "payment_status",
+          title: newStatus === "cancelled" ? "Réservation annulée" : "Statut de réservation mis à jour",
+          message: `Le partenaire a marqué la réservation comme "${newStatus}".`,
+          metadata: { booking_id: bookingId, status: newStatus },
+        });
+      } catch (notifErr) {
+        console.error("Failed to create status-change notification:", notifErr);
+      }
+    }
+
     revalidatePath("/partner/bookings");
     revalidatePath("/partner/availability");
     revalidatePath("/partner");
+    revalidatePath("/admin/notifications");
     return { success: true };
   } catch (error: any) {
     console.error("Failed to update status:", error);

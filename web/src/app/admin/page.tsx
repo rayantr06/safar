@@ -1,29 +1,85 @@
 import { getPersistedMockData } from "@/lib/actions/experiences";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { formatPriceDA } from "@/lib/utils/format";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
+const isPlaceholder = () => process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
+
 export default async function AdminDashboardPage() {
-  const db = await getPersistedMockData();
+  let todayBookingsCount = 0;
+  let totalBookingsCount = 0;
+  let totalRevenue = 0;
+  let totalCommission = 0;
+  let activePartners = 0;
+  let activeBoats = 0;
+  let totalExperiences = 0;
+  let commissionRate = 15;
+  let recentBookings: any[] = [];
 
-  // Calculate real stats from mock DB
-  const bookings = db.bookings || [];
-  const partners = db.partners || {};
-  const boats = db.boats || {};
-  const experiences = db.experiences || {};
-  const createdExperiences = db.createdExperiences || [];
+  if (!isPlaceholder()) {
+    const admin = createAdminClient() as any;
+    const today = new Date().toISOString().split("T")[0];
 
-  const activePartners = Object.values(partners).filter((p: any) => p.status === "active" || !p.is_disabled).length;
-  const activeBoats = Object.values(boats).filter((b: any) => b.is_active !== false).length;
-  const totalExperiences = Object.keys(experiences).length + createdExperiences.length;
+    const [
+      todayRes,
+      totalRes,
+      financeRes,
+      partnersRes,
+      boatsRes,
+      expRes,
+      ratesRes,
+      recentRes,
+    ] = await Promise.all([
+      admin.from("bookings").select("id", { count: "exact", head: true }).eq("booking_date", today),
+      admin.from("bookings").select("id", { count: "exact", head: true }),
+      admin.from("bookings").select("total_amount, commission_amount").neq("status", "cancelled"),
+      admin.from("providers").select("id", { count: "exact", head: true }).eq("is_active", true),
+      admin.from("boats").select("id", { count: "exact", head: true }).eq("is_active", true),
+      admin.from("experiences").select("id", { count: "exact", head: true }),
+      admin.from("providers").select("commission_rate").eq("is_active", true),
+      admin
+        .from("bookings")
+        .select("id, booking_ref, client_name, booking_date, booking_time, total_amount, status")
+        .order("created_at", { ascending: false })
+        .limit(5),
+    ]);
 
-  const today = new Date().toISOString().split("T")[0];
-  const todayBookings = bookings.filter((b: any) => b.booking_date === today);
-  const totalRevenue = bookings.reduce((sum: number, b: any) => sum + (b.total_amount || 0), 0);
-  const totalCommission = bookings.reduce((sum: number, b: any) => sum + (b.commission_amount || 0), 0);
+    todayBookingsCount = todayRes.count || 0;
+    totalBookingsCount = totalRes.count || 0;
+    totalRevenue = (financeRes.data || []).reduce((sum: number, b: any) => sum + (b.total_amount || 0), 0);
+    totalCommission = (financeRes.data || []).reduce((sum: number, b: any) => sum + (b.commission_amount || 0), 0);
+    activePartners = partnersRes.count || 0;
+    activeBoats = boatsRes.count || 0;
+    totalExperiences = expRes.count || 0;
+    if (ratesRes.data && ratesRes.data.length > 0) {
+      commissionRate =
+        ratesRes.data.reduce((sum: number, p: any) => sum + Number(p.commission_rate || 15), 0) /
+        ratesRes.data.length;
+    }
+    recentBookings = recentRes.data || [];
+  } else {
+    const db = await getPersistedMockData();
 
-  const recentBookings = bookings.slice(-5).reverse();
+    const bookings = db.bookings || [];
+    const partners = db.partners || {};
+    const boats = db.boats || {};
+    const experiences = db.experiences || {};
+    const createdExperiences = db.createdExperiences || [];
+
+    activePartners = Object.values(partners).filter((p: any) => p.status === "active" || !p.is_disabled).length;
+    activeBoats = Object.values(boats).filter((b: any) => b.is_active !== false).length;
+    totalExperiences = Object.keys(experiences).length + createdExperiences.length;
+    commissionRate = db.commission_rate || 15;
+
+    const today = new Date().toISOString().split("T")[0];
+    todayBookingsCount = bookings.filter((b: any) => b.booking_date === today).length;
+    totalBookingsCount = bookings.length;
+    totalRevenue = bookings.reduce((sum: number, b: any) => sum + (b.total_amount || 0), 0);
+    totalCommission = bookings.reduce((sum: number, b: any) => sum + (b.commission_amount || 0), 0);
+    recentBookings = bookings.slice(-5).reverse();
+  }
 
   const statusColors: Record<string, string> = {
     new: "bg-blue-100 text-blue-700",
@@ -53,7 +109,7 @@ export default async function AdminDashboardPage() {
           <div>
             <p className="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider mb-1">Réservations Aujourd&apos;hui</p>
             <h3 className="font-headline-sm text-headline-sm font-bold text-2xl">
-              {todayBookings.length} <span className="text-xs text-on-surface-variant font-normal">réservations</span>
+              {todayBookingsCount} <span className="text-xs text-on-surface-variant font-normal">réservations</span>
             </h3>
           </div>
         </div>
@@ -76,7 +132,7 @@ export default async function AdminDashboardPage() {
         <div className="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10 flex flex-col justify-between h-36 hover:shadow-md transition-all duration-300">
           <div className="flex justify-between items-start">
             <span className="p-2 bg-secondary-container rounded-xl text-lg">📈</span>
-            <span className="text-xs font-bold text-primary">{db.commission_rate || 15}%</span>
+            <span className="text-xs font-bold text-primary">{commissionRate.toFixed(0)}%</span>
           </div>
           <div>
             <p className="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider mb-1">Commission Safar DZ</p>
@@ -162,7 +218,7 @@ export default async function AdminDashboardPage() {
                 <p className="text-xs text-on-surface-variant font-bold mt-1">Partenaires</p>
               </div>
               <div className="text-center p-4 bg-surface-container rounded-2xl">
-                <p className="text-2xl font-bold text-primary">{bookings.length}</p>
+                <p className="text-2xl font-bold text-primary">{totalBookingsCount}</p>
                 <p className="text-xs text-on-surface-variant font-bold mt-1">Réservations</p>
               </div>
             </div>

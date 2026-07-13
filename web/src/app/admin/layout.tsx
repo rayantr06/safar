@@ -30,7 +30,17 @@ export default async function AdminLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect("/login");
+  if (!user) redirect("/portal-login");
+
+  // Defense in depth: the middleware already enforces this, but re-check
+  // here so this layout is never reachable by a non-admin regardless of
+  // middleware matcher config.
+  const { data: profile } = (await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()) as any;
+  if (profile?.role !== "admin") redirect("/");
 
   const unreadCount = await getUnreadCount().catch(() => 0);
 

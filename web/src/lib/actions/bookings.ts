@@ -1,8 +1,12 @@
 "use server";
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 import { generateBookingRef, calculateCommission } from "@/lib/utils/booking-ref";
+import { createNotification } from "@/lib/actions/notifications";
 import { revalidatePath } from "next/cache";
+
+const isPlaceholder = () => process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
 
 // Helper to convert HH:MM to minutes from midnight
 function timeToMinutes(timeStr: string): number {
@@ -35,11 +39,24 @@ export type BookingRequest = {
 export async function createBooking(data: BookingRequest) {
   const supabase = createAdminClient() as any;
 
+  // Attach the logged-in client's id when a session exists, so the booking
+  // shows up under their account (/client). Guest checkout stays allowed.
+  let clientId: string | null = null;
+  if (!isPlaceholder()) {
+    try {
+      const sessionClient = await createClient();
+      const { data: { user } } = await sessionClient.auth.getUser();
+      clientId = user?.id ?? null;
+    } catch {
+      clientId = null;
+    }
+  }
+
   try {
-    // 1. Fetch the provider_id and boat_id for this experience
+    // 1. Fetch the provider_id, boat_id and real pricing for this experience
     const { data: expData, error: expError } = await supabase
       .from("experiences")
-      .select("boat_id, boats(provider_id)")
+      .select("boat_id, price_total, price_per_seat, title, boats(provider_id)")
       .eq("id", data.experience_id)
       .single();
 
@@ -47,14 +64,20 @@ export async function createBooking(data: BookingRequest) {
     const providerId = expData?.boats?.provider_id;
     const boatId = expData?.boat_id;
 
-    // Validate that there are no overlapping bookings for the same boat on that date
-    // Note: We bypass this verification since this is now a manual confirmation request system.
-    // The admin will review overlaps manually and confirm/reschedule bookings.
-    /*
+    // Recompute the canonical price server-side instead of trusting the
+    // client-submitted total_amount, which can be tampered with in devtools.
+    let canonicalTotal = data.total_amount;
+    if (!isPlaceholder() && expData) {
+      canonicalTotal =
+        data.booking_type === "shared"
+          ? Math.round((expData.price_per_seat || 0) * data.guest_count)
+          : (expData.price_total || 0);
+    }
+
+    // Validate that there are no overlapping bookings for the same boat on that date.
     if (boatId) {
-      const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
       let activeBookings: any[] = [];
-      if (isPlaceholder) {
+      if (isPlaceholder()) {
         const { getMockDb } = require("../supabase/mock-db-helper");
         const db = getMockDb();
         activeBookings = (db.bookings || []).filter(
@@ -86,7 +109,6 @@ export async function createBooking(data: BookingRequest) {
         }
       }
     }
-    */
 
     // 2. Fetch the provider's commission rate (default to 15)
     let commissionRate = 15.00;
@@ -102,7 +124,7 @@ export async function createBooking(data: BookingRequest) {
     }
 
     // 3. Calculate financial splits with the resolved commission rate
-    const finance = calculateCommission(data.total_amount, commissionRate);
+    const finance = calculateCommission(canonicalTotal, commissionRate);
     const bookingRef = generateBookingRef();
 
     // Calculate end time
@@ -126,6 +148,7 @@ export async function createBooking(data: BookingRequest) {
         experience_id: data.experience_id,
         time_slot_id: data.time_slot_id,
         provider_id: providerId,
+        client_id: clientId,
         client_name: data.client_name,
         client_phone: data.client_phone,
         client_notes: data.client_notes,
@@ -173,8 +196,21 @@ export async function createBooking(data: BookingRequest) {
       note: "Réservation initiale du client",
     });
 
+    // 5. Notify the admin dashboard of the new reservation
+    try {
+      await createNotification({
+        type: "new_reservation",
+        title: "Nouvelle réservation",
+        message: `${data.client_name} a réservé "${expData?.title || "une expérience"}" pour le ${data.booking_date} (${bookingRef}).`,
+        metadata: { booking_id: booking.id, booking_ref: bookingRef },
+      });
+    } catch (notifErr) {
+      console.error("Failed to create booking notification:", notifErr);
+    }
+
     revalidatePath("/admin/bookings");
     revalidatePath("/partner/bookings");
+    revalidatePath("/admin/notifications");
 
     return { success: true, booking_ref: bookingRef };
   } catch (error: any) {

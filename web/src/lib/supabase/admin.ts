@@ -4,7 +4,11 @@ import { IMAGES } from "@/lib/constants";
 
 
 export const createAdminClient = () => {
-  const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
+  // Never allow the local-dev mock DB to activate in a deployed environment,
+  // even if NEXT_PUBLIC_SUPABASE_URL is misconfigured.
+  const isPlaceholder =
+    process.env.NODE_ENV !== "production" &&
+    process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
   if (isPlaceholder) {
     // Return a mocked Supabase client for local development
     const mockClient: any = {

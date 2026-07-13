@@ -3,6 +3,10 @@
 import { getMockDb, saveMockDb } from "@/lib/supabase/mock-db-helper";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+
+const isPlaceholder = () =>
+  process.env.NODE_ENV !== "production" && process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
 
 export async function updateClientProfile(email: string, updates: { name: string; phone: string }) {
   try {
@@ -11,6 +15,17 @@ export async function updateClientProfile(email: string, updates: { name: string
     if (!user) throw new Error("Non autorisé : Veuillez vous connecter");
     if (user.email?.toLowerCase() !== email.toLowerCase()) {
       throw new Error("Non autorisé : Modification d'un autre profil interdite");
+    }
+
+    if (!isPlaceholder()) {
+      const admin = createAdminClient() as any;
+      const { error } = await admin
+        .from("profiles")
+        .update({ full_name: updates.name, phone: updates.phone })
+        .eq("id", user.id);
+      if (error) throw new Error(error.message);
+      revalidatePath("/client");
+      return { success: true };
     }
 
     const db = getMockDb();

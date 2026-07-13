@@ -1,19 +1,14 @@
 import { createClient } from "@/lib/supabase/server";
 import { ExperiencesListAdmin } from "@/components/admin/experiences-list-admin";
 import { getPersistedMockData } from "@/lib/actions/experiences";
-import { IMAGES } from "@/lib/constants";
 import { getAdminPartners } from "@/lib/actions/admin-bookings";
 
 export const dynamic = "force-dynamic";
 
+const isPlaceholder = () => process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
+
 export default async function AdminExperiencesPage() {
   const supabase = await createClient();
-  
-  const INITIAL_EXPERIENCES = [
-    { id: "1", title: "Balade privée Cap Carbon & Aiguades", partner: "Capitaine Salim", provider_id: "mock-partner-id", boat_id: "1", destination: "Cap Carbon", destination_id: "d1", type: "private", price_total: 2000000, price_per_seat: null, duration_minutes: 120, max_guests: 6, status: "approved", main_image_url: IMAGES.EXPERIENCE_CAP_CARBON, description: "Une balade privée exceptionnelle à la découverte du phare de Cap Carbon et des criques des Aiguades." },
-    { id: "2", title: "Sortie Pêche - Les Falaises", partner: "Evasion Marine", provider_id: "p2", boat_id: "2", destination: "Les Falaises", destination_id: "d4", type: "private", price_total: 2500000, price_per_seat: null, duration_minutes: 180, max_guests: 8, status: "pending_approval", main_image_url: IMAGES.EXPERIENCE_FALAISES, description: "Pêchez dans les meilleurs spots côtiers et profitez d'une baignade rafraîchissante dans des criques sauvages." },
-    { id: "3", title: "Tour Partagé - Île des Pisans", partner: "Nautica DZ", provider_id: "mock-partner-id", boat_id: "1", destination: "Île des Pisans", destination_id: "d2", type: "shared", price_total: null, price_per_seat: 350000, duration_minutes: 150, max_guests: 10, status: "approved", main_image_url: IMAGES.EXPERIENCE_PISANS, description: "Rejoignez un groupe et explorez la splendide île sauvage des Pisans près de Boulimate." },
-  ];
 
   let experiences: any[] = [];
   try {
@@ -59,49 +54,48 @@ export default async function AdminExperiencesPage() {
     console.error("Failed to fetch experiences:", err);
   }
 
-  if (experiences.length === 0) {
-    experiences = INITIAL_EXPERIENCES;
-  }
-
-  // Load mock db overrides if placeholder
-  const mockDb = await getPersistedMockData();
-  if (mockDb) {
-    experiences = experiences.map((exp) => {
-      const updates = mockDb.experiences?.[exp.id];
-      if (updates) {
-        const status = updates.is_published !== undefined 
-          ? (updates.is_published ? "approved" : "rejected")
-          : (updates.status || exp.status);
-        return {
-          ...exp,
-          ...updates,
-          status
-        };
+  // The local JSON mock DB is a local-dev-only fallback (isPlaceholder mode);
+  // it must never overlay/replace real Supabase data in production.
+  if (isPlaceholder()) {
+    const mockDb = await getPersistedMockData();
+    if (mockDb) {
+      experiences = experiences.map((exp) => {
+        const updates = mockDb.experiences?.[exp.id];
+        if (updates) {
+          const status = updates.is_published !== undefined
+            ? (updates.is_published ? "approved" : "rejected")
+            : (updates.status || exp.status);
+          return {
+            ...exp,
+            ...updates,
+            status
+          };
+        }
+        return exp;
+      });
+      if (mockDb.createdExperiences) {
+        const mappedCreated = mockDb.createdExperiences.map((c: any) => ({
+          id: c.id,
+          title: c.title,
+          partner: c.partnerName || "Nouveau Partenaire",
+          provider_id: c.provider_id || null,
+          boat_id: c.boat_id || null,
+          destination: c.destinationName || "Béjaïa",
+          destination_id: c.destination_id || null,
+          type: c.type,
+          price_total: c.price_total,
+          price_per_seat: c.price_per_seat,
+          duration_minutes: c.duration_minutes,
+          max_guests: c.max_guests,
+          status: c.is_published ? "approved" : (c.status || "rejected"),
+          main_image_url: c.main_image_url,
+          description: c.description || "",
+          images: c.images || [c.main_image_url],
+          included_services: c.included_services || "",
+          requirements: c.requirements || "",
+        }));
+        experiences = [...experiences, ...mappedCreated];
       }
-      return exp;
-    });
-    if (mockDb.createdExperiences) {
-      const mappedCreated = mockDb.createdExperiences.map((c: any) => ({
-        id: c.id,
-        title: c.title,
-        partner: c.partnerName || "Nouveau Partenaire",
-        provider_id: c.provider_id || null,
-        boat_id: c.boat_id || null,
-        destination: c.destinationName || "Béjaïa",
-        destination_id: c.destination_id || null,
-        type: c.type,
-        price_total: c.price_total,
-        price_per_seat: c.price_per_seat,
-        duration_minutes: c.duration_minutes,
-        max_guests: c.max_guests,
-        status: c.is_published ? "approved" : (c.status || "rejected"),
-        main_image_url: c.main_image_url,
-        description: c.description || "",
-        images: c.images || [c.main_image_url],
-        included_services: c.included_services || "",
-        requirements: c.requirements || "",
-      }));
-      experiences = [...experiences, ...mappedCreated];
     }
   }
 
@@ -110,21 +104,16 @@ export default async function AdminExperiencesPage() {
   const partnersRes = await getAdminPartners();
   if (partnersRes.success && partnersRes.partners) {
     partnersList = partnersRes.partners;
-  } else {
-    partnersList = [
-      { id: "mock-partner-id", name: "Capitaine Salim" },
-      { id: "p2", name: "Evasion Marine" },
-      { id: "p3", name: "Azul Sea Voyager" }
-    ];
   }
 
-  // Define destinations
-  const destinationsList = [
-    { id: "d1", name: "Cap Carbon" },
-    { id: "d2", name: "Île des Pisans" },
-    { id: "d3", name: "Gouraya" },
-    { id: "d4", name: "Les Falaises" }
-  ];
+  // Fetch destinations for the create/edit form dropdown
+  let destinationsList: any[] = [];
+  try {
+    const { data } = await supabase.from("destinations").select("id, name").order("name");
+    destinationsList = data || [];
+  } catch (err) {
+    console.error("Failed to fetch destinations for experiences page:", err);
+  }
 
   return (
     <div className="max-w-container-max mx-auto px-4 md:px-10 py-6">

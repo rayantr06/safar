@@ -1,78 +1,14 @@
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { PartnersListAdmin } from "@/components/admin/partners-list-admin";
 import { getPersistedMockData } from "@/lib/actions/experiences";
 
 export const dynamic = "force-dynamic";
 
+const isPlaceholder = () => process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
+
 export default async function AdminPartnersPage() {
   const supabase = await createClient();
-
-  const MOCK_PARTNERS = [
-    { 
-      id: "mock-partner-id", 
-      name: "Capitaine Salim", 
-      phone: "0550123456", 
-      email: "salim@example.com", 
-      boats: 2, 
-      boatsList: [
-        { id: "mb1", name: "Sirène de Béjaïa", type: "private", capacity: 6 },
-        { id: "mb2", name: "Dauphin Bleu", type: "shared", capacity: 12 }
-      ],
-      joined: "Mai 2026", 
-      status: "active",
-      commission_rate: 15.00,
-      commission_effective_date: "2026-06-18",
-      commission_status: "active",
-      commission_last_modified: new Date().toISOString()
-    },
-    { 
-      id: "p2", 
-      name: "Evasion Marine", 
-      phone: "0660987654", 
-      email: "contact@evasion.dz", 
-      boats: 2, 
-      boatsList: [
-        { id: "mb3", name: "Evasion Marine I", type: "private", capacity: 8 },
-        { id: "mb4", name: "Evasion Marine II", type: "private", capacity: 10 }
-      ],
-      joined: "Avril 2026", 
-      status: "active",
-      commission_rate: 15.00,
-      commission_effective_date: "2026-06-18",
-      commission_status: "active",
-      commission_last_modified: new Date().toISOString()
-    },
-    { 
-      id: "p3", 
-      name: "Nautica DZ", 
-      phone: "0771223344", 
-      email: "nautica@example.com", 
-      boats: 1, 
-      boatsList: [
-        { id: "mb5", name: "Nautica Fast", type: "jetski", capacity: 2 }
-      ],
-      joined: "Juin 2026", 
-      status: "pending",
-      commission_rate: 15.00,
-      commission_effective_date: "2026-06-18",
-      commission_status: "active",
-      commission_last_modified: new Date().toISOString()
-    },
-    { 
-      id: "p4", 
-      name: "Amine Boat", 
-      phone: "0555667788", 
-      email: "amine@example.com", 
-      boats: 0, 
-      boatsList: [],
-      joined: "Aujourd'hui", 
-      status: "pending",
-      commission_rate: 15.00,
-      commission_effective_date: "2026-06-18",
-      commission_status: "active",
-      commission_last_modified: new Date().toISOString()
-    },
-  ];
 
   let partners: any[] = [];
   let bookings: any[] = [];
@@ -99,13 +35,28 @@ export default async function AdminPartnersPage() {
           capacity
         )
       `);
-    
+
     if (!provError && providersList) {
+      // profiles has no email column (email lives on auth.users) — fetch it
+      // via the admin API instead of the earlier bug that displayed avatar_url.
+      let emailById: Record<string, string> = {};
+      if (!isPlaceholder()) {
+        try {
+          const admin = createAdminClient() as any;
+          const { data: usersRes } = await admin.auth.admin.listUsers({ perPage: 1000 });
+          emailById = Object.fromEntries(
+            (usersRes?.users || []).map((u: any) => [u.id, u.email])
+          );
+        } catch (err) {
+          console.error("Failed to fetch partner emails:", err);
+        }
+      }
+
       partners = providersList.map((prov: any) => ({
         id: prov.id,
         name: prov.company_name || prov.profiles?.full_name || "Partenaire Safar",
         phone: prov.profiles?.phone || "0550000000",
-        email: prov.profiles?.avatar_url || "partner@safar.dz",
+        email: emailById[prov.id] || "partner@safar.dz",
         boats: prov.boats?.length || 0,
         boatsList: prov.boats || [],
         joined: "Récemment",
@@ -127,15 +78,14 @@ export default async function AdminPartnersPage() {
     console.error("Error fetching admin partners:", err);
   }
 
-  // Load filesystem mock DB overrides if we are in placeholder mode
-  const mockDb = await getPersistedMockData();
+  // The local JSON mock DB is a local-dev-only fallback (isPlaceholder mode);
+  // it must never overlay/replace real Supabase data in production.
+  const mockDb = isPlaceholder() ? await getPersistedMockData() : null;
   const dbBookings = mockDb?.bookings || bookings;
 
   if (mockDb && mockDb.partners) {
     // Load all partners dynamically from mock DB (including newly created ones)
     partners = Object.values(mockDb.partners);
-  } else if (partners.length === 0) {
-    partners = MOCK_PARTNERS;
   }
 
   // Dynamically resolve fleet count and boats list for each partner from mockDb.boats

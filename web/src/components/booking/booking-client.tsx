@@ -208,13 +208,39 @@ export function BookingClient({ experience }: BookingClientProps) {
   };
 
   const isSlotBlocked = (slotTime: string) => {
-    // Note: Availability is managed manually by the admin, so we do not block hours on the customer side.
-    return false;
+    const slotStart = timeToMinutes(slotTime);
+    const slotEnd = slotStart + durationMinutes;
+
+    if (availabilitySettings) {
+      const workStart = timeToMinutes(availabilitySettings.workingHours?.start || "08:00");
+      const workEnd = timeToMinutes(availabilitySettings.workingHours?.end || "20:00");
+      if (slotStart < workStart || slotEnd > workEnd) return true;
+
+      if (availabilitySettings.breakTime?.start && availabilitySettings.breakTime?.end) {
+        const breakStart = timeToMinutes(availabilitySettings.breakTime.start);
+        const breakEnd = timeToMinutes(availabilitySettings.breakTime.end);
+        if (slotStart < breakEnd && breakStart < slotEnd) return true;
+      }
+    }
+
+    // Overlaps an existing confirmed booking on the same boat/date
+    return busySlots.some((busy) => {
+      const busyStart = timeToMinutes(busy.start);
+      const busyEnd = timeToMinutes(busy.end);
+      return slotStart < busyEnd && busyStart < slotEnd;
+    });
   };
 
   // Date block details helper
   const isDateFullyBlocked = () => {
-    // Note: Availability is managed manually by the admin, so we do not block dates on the customer side.
+    if (!date || !availabilitySettings) return false;
+
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const [y, m, d] = date.split("-").map(Number);
+    const dayName = dayNames[new Date(y, m - 1, d).getDay()];
+
+    if ((availabilitySettings.unavailableDays || []).includes(dayName)) return true;
+    if ((availabilitySettings.maintenanceDates || []).includes(date)) return true;
     return false;
   };
 
@@ -454,6 +480,11 @@ export function BookingClient({ experience }: BookingClientProps) {
                 <div className="flex items-center justify-center py-12 text-on-surface-variant text-xs font-semibold gap-2">
                   <Clock className="h-4 w-4 animate-spin text-primary" /> Chargement...
                 </div>
+              ) : dateBlock ? (
+                <div className="flex items-center gap-2 py-8 px-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-semibold">
+                  <AlertTriangle className="h-4 w-4 flex-shrink-0" />
+                  Cette date n&apos;est pas disponible. Merci de choisir un autre jour.
+                </div>
               ) : (
                 <div className="grid grid-cols-3 gap-2">
                   {[
@@ -461,14 +492,18 @@ export function BookingClient({ experience }: BookingClientProps) {
                     "14:00", "15:00", "16:00", "17:00", "18:00"
                   ].map((time) => {
                     const isSelected = timeSlot === time;
+                    const blocked = isSlotBlocked(time);
 
                     return (
                       <button
                         key={time}
                         type="button"
+                        disabled={blocked}
                         onClick={() => setTimeSlot(`slot-${time}`, time)}
                         className={`flex items-center justify-center py-3.5 px-2 border rounded-xl transition-all active:scale-[0.98] font-mono text-sm font-bold ${
-                          isSelected
+                          blocked
+                            ? "opacity-30 cursor-not-allowed border-outline-variant text-outline line-through"
+                            : isSelected
                             ? "border-2 border-primary bg-primary/5 text-primary shadow-sm"
                             : "border-outline-variant hover:border-primary hover:bg-surface-container text-on-surface"
                         }`}
@@ -483,7 +518,7 @@ export function BookingClient({ experience }: BookingClientProps) {
               <div className="pt-6">
                 <button
                   onClick={nextStep}
-                  disabled={!date || !timeSlot}
+                  disabled={!date || !timeSlot || dateBlock || isSlotBlocked(timeSlot)}
                   className="w-full bg-primary text-on-primary py-3 rounded-xl font-bold hover:opacity-90 disabled:opacity-50 active:scale-95 transition-all text-xs uppercase tracking-wider"
                 >
                   Continuer
