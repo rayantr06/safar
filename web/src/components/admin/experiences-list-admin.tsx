@@ -20,12 +20,13 @@ import {
   Calendar, 
   ShieldAlert 
 } from "lucide-react";
-import { validatePartner, toggleExperienceStatus, saveExperience, createExperience } from "@/lib/actions/experiences";
+import { validatePartner, toggleExperienceStatus, saveExperience, createExperience, setExperienceStatus, deleteExperience, ContentStatus } from "@/lib/actions/experiences";
 import { getExperienceAvailability } from "@/lib/actions/bookings";
 import { formatPriceDA } from "@/lib/utils/format";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { ImageUploader } from "@/components/admin/image-uploader";
 
 interface ExperiencesListAdminProps {
   initialExperiences: any[];
@@ -79,6 +80,33 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
           return item;
         })
       );
+    }
+  };
+
+  const handleSetContentStatus = async (id: string, status: ContentStatus) => {
+    const prevStatus = experiences.find((item) => item.id === id)?.contentStatus;
+    setExperiences((prev) => prev.map((item) => (item.id === id ? { ...item, contentStatus: status } : item)));
+    setSelectedExp((prev: any) => (prev && prev.id === id ? { ...prev, contentStatus: status } : prev));
+    try {
+      await setExperienceStatus(id, status);
+    } catch (err) {
+      console.error("Failed to update content status:", err);
+      setExperiences((prev) => prev.map((item) => (item.id === id ? { ...item, contentStatus: prevStatus } : item)));
+    }
+  };
+
+  const handleDeleteExperience = async (id: string) => {
+    if (!confirm("Supprimer définitivement cette expérience ? Cette action est irréversible.")) return;
+    try {
+      const res = await deleteExperience(id);
+      if (res.success) {
+        setExperiences((prev) => prev.filter((item) => item.id !== id));
+        setSelectedExp(null);
+      } else {
+        alert(res.error || "Échec de la suppression.");
+      }
+    } catch (err: any) {
+      alert(err.message || "Échec de la suppression.");
     }
   };
 
@@ -728,9 +756,25 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
 
                   {modalTab === "gallery" && (
                     <div className="space-y-6 animate-in fade-in duration-200">
-                      {/* Add Image URL */}
+                      {/* Upload Image */}
                       <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-on-surface-variant uppercase">Ajouter une Image (URL)</label>
+                        <label className="text-[10px] font-bold text-on-surface-variant uppercase">Envoyer une Image</label>
+                        <ImageUploader
+                          entity="experiences"
+                          entityId={selectedExp.id || "new"}
+                          onUploaded={(url) => {
+                            setSelectedExp((prev: any) => {
+                              const currentImages = prev.images || [];
+                              if (currentImages.includes(url)) return prev;
+                              return { ...prev, images: [...currentImages, url] };
+                            });
+                          }}
+                        />
+                      </div>
+
+                      {/* Add Image by URL (fallback) */}
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold text-on-surface-variant uppercase">Ou ajouter via une URL externe</label>
                         <div className="flex gap-2">
                           <Input
                             value={newImageUrl}
@@ -738,33 +782,12 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
                             placeholder="Entrez l'URL d'une photo côtière..."
                             className="flex-1 bg-white border-outline-variant rounded-xl text-xs py-2"
                           />
-                          <Button 
+                          <Button
                             onClick={addImageToGallery}
                             className="bg-secondary text-white font-bold text-xs"
                           >
                             Ajouter
                           </Button>
-                        </div>
-                        
-                        {/* Quick Presets for Demo */}
-                        <div className="pt-2">
-                          <span className="text-[9px] text-on-surface-variant font-bold uppercase tracking-wider block mb-1">Preset d&apos;Images Safar:</span>
-                          <div className="flex gap-2 flex-wrap">
-                            {[
-                              { label: "Bateau", url: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80" },
-                              { label: "Jet Ski", url: "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&w=800&q=80" },
-                              { label: "Kayak", url: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=800&q=80" },
-                              { label: "Paddle", url: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80" },
-                            ].map((preset) => (
-                              <button
-                                key={preset.label}
-                                onClick={() => setNewImageUrl(preset.url)}
-                                className="text-[9px] bg-surface-container hover:bg-surface-container-high px-2 py-1 rounded font-bold border text-on-surface-variant transition-colors"
-                              >
-                                {preset.label}
-                              </button>
-                            ))}
-                          </div>
                         </div>
                       </div>
 
@@ -1060,10 +1083,34 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
                     </div>
 
                     {selectedExp.id !== "" && (
+                      <div className="space-y-3 pt-4 border-t border-outline-variant/30">
+                        <p className="text-[10px] text-on-surface-variant uppercase font-bold tracking-wider">Cycle de vie du contenu</p>
+                        <div className="grid grid-cols-2 gap-2">
+                          {(["draft", "published", "hidden", "archived"] as ContentStatus[]).map((s) => (
+                            <button
+                              key={s}
+                              onClick={() => handleSetContentStatus(selectedExp.id, s)}
+                              className={`py-2 rounded-xl text-[11px] font-bold text-center border transition-all capitalize ${
+                                (selectedExp.contentStatus || "draft") === s
+                                  ? "bg-primary border-primary text-white shadow-sm"
+                                  : "bg-white border-outline-variant/40 hover:bg-surface-container text-on-surface-variant"
+                              }`}
+                            >
+                              {s === "draft" ? "Brouillon" : s === "published" ? "Publié" : s === "hidden" ? "Masqué" : "Archivé"}
+                            </button>
+                          ))}
+                        </div>
+                        <p className="text-[10px] text-on-surface-variant/70">
+                          Seul le contenu &quot;Publié&quot; est visible sur le site public.
+                        </p>
+                      </div>
+                    )}
+
+                    {selectedExp.id !== "" && (
                       <div className="pt-4 border-t border-outline-variant/20 space-y-1.5">
                         <p className="text-[10px] text-on-surface-variant uppercase font-bold tracking-wider">Aperçu rapide</p>
                         <a
-                          href={`/experiences/${selectedExp.slug}`}
+                          href={`/experiences/${selectedExp.slug}${(selectedExp.contentStatus || "draft") !== "published" ? "?preview=1" : ""}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-primary font-bold text-xs underline block hover:text-primary/80"
@@ -1078,22 +1125,36 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
             </div>
 
             {/* Modal Footer */}
-            <div className="px-6 py-4 bg-surface-container border-t border-outline-variant/30 flex justify-end gap-3">
-              <Button
-                variant="outline"
-                shape="pill"
-                onClick={() => setSelectedExp(null)}
-                className="font-bold text-xs"
-              >
-                Annuler
-              </Button>
-              <Button
-                shape="pill"
-                onClick={handleSaveExp}
-                className="bg-primary text-white hover:bg-primary/95 font-bold text-xs flex items-center gap-1"
-              >
-                <Save className="h-4 w-4" /> Enregistrer les modifications
-              </Button>
+            <div className="px-6 py-4 bg-surface-container border-t border-outline-variant/30 flex justify-between gap-3">
+              <div>
+                {selectedExp.id !== "" && (
+                  <Button
+                    variant="danger"
+                    shape="pill"
+                    onClick={() => handleDeleteExperience(selectedExp.id)}
+                    className="font-bold text-xs flex items-center gap-1"
+                  >
+                    <Trash2 className="h-4 w-4" /> Supprimer
+                  </Button>
+                )}
+              </div>
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  shape="pill"
+                  onClick={() => setSelectedExp(null)}
+                  className="font-bold text-xs"
+                >
+                  Annuler
+                </Button>
+                <Button
+                  shape="pill"
+                  onClick={handleSaveExp}
+                  className="bg-primary text-white hover:bg-primary/95 font-bold text-xs flex items-center gap-1"
+                >
+                  <Save className="h-4 w-4" /> Enregistrer les modifications
+                </Button>
+              </div>
             </div>
           </div>
         </div>

@@ -1,11 +1,8 @@
-import { getPersistedMockData } from "@/lib/actions/experiences";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { formatPriceDA } from "@/lib/utils/format";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
-
-const isPlaceholder = () => process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
 
 export default async function AdminDashboardPage() {
   let todayBookingsCount = 0;
@@ -18,68 +15,46 @@ export default async function AdminDashboardPage() {
   let commissionRate = 15;
   let recentBookings: any[] = [];
 
-  if (!isPlaceholder()) {
-    const admin = createAdminClient() as any;
-    const today = new Date().toISOString().split("T")[0];
+  const admin = createAdminClient() as any;
+  const today = new Date().toISOString().split("T")[0];
 
-    const [
-      todayRes,
-      totalRes,
-      financeRes,
-      partnersRes,
-      boatsRes,
-      expRes,
-      ratesRes,
-      recentRes,
-    ] = await Promise.all([
-      admin.from("bookings").select("id", { count: "exact", head: true }).eq("booking_date", today),
-      admin.from("bookings").select("id", { count: "exact", head: true }),
-      admin.from("bookings").select("total_amount, commission_amount").neq("status", "cancelled"),
-      admin.from("providers").select("id", { count: "exact", head: true }).eq("is_active", true),
-      admin.from("boats").select("id", { count: "exact", head: true }).eq("is_active", true),
-      admin.from("experiences").select("id", { count: "exact", head: true }),
-      admin.from("providers").select("commission_rate").eq("is_active", true),
-      admin
-        .from("bookings")
-        .select("id, booking_ref, client_name, booking_date, booking_time, total_amount, status")
-        .order("created_at", { ascending: false })
-        .limit(5),
-    ]);
+  const [
+    todayRes,
+    totalRes,
+    financeRes,
+    partnersRes,
+    boatsRes,
+    expRes,
+    ratesRes,
+    recentRes,
+  ] = await Promise.all([
+    admin.from("bookings").select("id", { count: "exact", head: true }).eq("booking_date", today),
+    admin.from("bookings").select("id", { count: "exact", head: true }),
+    admin.from("bookings").select("total_amount, commission_amount").neq("status", "cancelled"),
+    admin.from("providers").select("id", { count: "exact", head: true }).eq("is_active", true),
+    admin.from("boats").select("id", { count: "exact", head: true }).eq("is_active", true),
+    admin.from("experiences").select("id", { count: "exact", head: true }),
+    admin.from("providers").select("commission_rate").eq("is_active", true),
+    admin
+      .from("bookings")
+      .select("id, booking_ref, client_name, booking_date, booking_time, total_amount, status")
+      .order("created_at", { ascending: false })
+      .limit(5),
+  ]);
 
-    todayBookingsCount = todayRes.count || 0;
-    totalBookingsCount = totalRes.count || 0;
-    totalRevenue = (financeRes.data || []).reduce((sum: number, b: any) => sum + (b.total_amount || 0), 0);
-    totalCommission = (financeRes.data || []).reduce((sum: number, b: any) => sum + (b.commission_amount || 0), 0);
-    activePartners = partnersRes.count || 0;
-    activeBoats = boatsRes.count || 0;
-    totalExperiences = expRes.count || 0;
-    if (ratesRes.data && ratesRes.data.length > 0) {
-      commissionRate =
-        ratesRes.data.reduce((sum: number, p: any) => sum + Number(p.commission_rate || 15), 0) /
-        ratesRes.data.length;
-    }
-    recentBookings = recentRes.data || [];
-  } else {
-    const db = await getPersistedMockData();
-
-    const bookings = db.bookings || [];
-    const partners = db.partners || {};
-    const boats = db.boats || {};
-    const experiences = db.experiences || {};
-    const createdExperiences = db.createdExperiences || [];
-
-    activePartners = Object.values(partners).filter((p: any) => p.status === "active" || !p.is_disabled).length;
-    activeBoats = Object.values(boats).filter((b: any) => b.is_active !== false).length;
-    totalExperiences = Object.keys(experiences).length + createdExperiences.length;
-    commissionRate = db.commission_rate || 15;
-
-    const today = new Date().toISOString().split("T")[0];
-    todayBookingsCount = bookings.filter((b: any) => b.booking_date === today).length;
-    totalBookingsCount = bookings.length;
-    totalRevenue = bookings.reduce((sum: number, b: any) => sum + (b.total_amount || 0), 0);
-    totalCommission = bookings.reduce((sum: number, b: any) => sum + (b.commission_amount || 0), 0);
-    recentBookings = bookings.slice(-5).reverse();
+  todayBookingsCount = todayRes.count || 0;
+  totalBookingsCount = totalRes.count || 0;
+  totalRevenue = (financeRes.data || []).reduce((sum: number, b: any) => sum + (b.total_amount || 0), 0);
+  totalCommission = (financeRes.data || []).reduce((sum: number, b: any) => sum + (b.commission_amount || 0), 0);
+  activePartners = partnersRes.count || 0;
+  activeBoats = boatsRes.count || 0;
+  totalExperiences = expRes.count || 0;
+  if (ratesRes.data && ratesRes.data.length > 0) {
+    commissionRate =
+      ratesRes.data.reduce((sum: number, p: any) => sum + Number(p.commission_rate || 15), 0) /
+      ratesRes.data.length;
   }
+  recentBookings = recentRes.data || [];
 
   const statusColors: Record<string, string> = {
     new: "bg-blue-100 text-blue-700",

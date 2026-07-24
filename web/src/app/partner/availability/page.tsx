@@ -2,36 +2,29 @@ import { createClient } from "@/lib/supabase/server";
 import { AvailabilityScheduler } from "@/components/partner/availability-scheduler";
 import { getBoatAvailability } from "@/lib/actions/partner-bookings";
 
-import { getPersistedMockData } from "@/lib/actions/experiences";
-
 export const dynamic = "force-dynamic";
 
 export default async function PartnerAvailabilityPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Load boats dynamically from mock DB
   let boats: any[] = [];
-  const mockDb = await getPersistedMockData();
-  if (user && mockDb && mockDb.boats) {
-    boats = Object.values(mockDb.boats)
-      .filter((boat: any) => boat.provider_id === user.id)
-      .map((boat: any) => ({
+  if (user) {
+    const { data, error } = await supabase
+      .from("boats")
+      .select("id, name, type, capacity")
+      .eq("provider_id", user.id)
+      .eq("is_active", true);
+    if (!error && data) {
+      boats = data.map((boat: any) => ({
         id: boat.id,
         name: boat.name,
         type: (boat.type === "jetski" || boat.type === "kayak" || boat.type === "paddle") ? "private" : boat.type,
         capacity: boat.capacity
       }));
+    }
   }
 
-  // Fallback for default Salim partner if mock DB is not seeded or empty
-  if (boats.length === 0 && user?.id === "mock-partner-id") {
-    boats = [
-      { id: "1", name: "Sirène de Béjaïa", type: "private" as const, capacity: 6 }
-    ];
-  }
-
-  // Fetch bookings
   let bookings: any[] = [];
   if (user) {
     const { data, error } = await supabase
@@ -50,7 +43,6 @@ export default async function PartnerAvailabilityPage() {
     }
   }
 
-  // Fetch availability settings for all boats
   const availabilitySettings: Record<string, any> = {};
   for (const boat of boats) {
     availabilitySettings[boat.id] = await getBoatAvailability(boat.id);
@@ -79,4 +71,3 @@ export default async function PartnerAvailabilityPage() {
     </div>
   );
 }
-

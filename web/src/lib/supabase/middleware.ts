@@ -41,68 +41,7 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  // Never allow the forgeable cookie-based mock auth to activate in a
-  // deployed environment, even if NEXT_PUBLIC_SUPABASE_URL is misconfigured.
-  const isPlaceholder =
-    process.env.NODE_ENV !== "production" &&
-    process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
-  if (isPlaceholder) {
-    const mockAuth = {
-      ...supabase.auth,
-      async getUser() {
-        const role = request.cookies.get("safar_role")?.value;
-        const userId = request.cookies.get("safar_user_id")?.value;
-        if (role === "admin") {
-          return { data: { user: { id: "mock-admin-id", email: "admin@safardz.com", user_metadata: { full_name: "Admin Safar" } } }, error: null };
-        } else if (role === "provider") {
-          return {
-            data: {
-              user: {
-                id: userId || "mock-partner-id",
-                email: "partner@safar.dz",
-                user_metadata: { full_name: "Partenaire Safar" }
-              }
-            },
-            error: null
-          };
-        }
-        return { data: { user: null }, error: null };
-      }
-    };
-
-    const originalFrom = supabase.from.bind(supabase);
-    supabase.from = (table: string) => {
-      if (table === "profiles") {
-        return {
-          select(columns: string) {
-            return {
-              eq(column: string, value: any) {
-                return {
-                  async single() {
-                    const role = request.cookies.get("safar_role")?.value;
-                    return {
-                      data: { role: role === "admin" ? "admin" : "provider" },
-                      error: null
-                    };
-                  }
-                };
-              }
-            };
-          }
-        } as any;
-      }
-      return originalFrom(table);
-    };
-
-    Object.defineProperty(supabase, "auth", {
-      get() {
-        return mockAuth;
-      }
-    });
-  }
-
-
-  // IMPORTANT: You *must* return the supabaseResponse object as it is.
+  // Route guard: check if user is authenticated
   // If you're creating a new response object with NextResponse.next() make sure to:
   // 1. Pass the request in it, like so:
   //    const myNewResponse = NextResponse.next({ request })

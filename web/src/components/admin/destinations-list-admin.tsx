@@ -21,7 +21,8 @@ import {
   Map,
   Save,
 } from "lucide-react";
-import { toggleDestinationStatus, saveDestination, createDestination } from "@/lib/actions/experiences";
+import { toggleDestinationStatus, saveDestination, createDestination, setDestinationStatus, deleteDestination, ContentStatus } from "@/lib/actions/experiences";
+import { ImageUploader } from "@/components/admin/image-uploader";
 
 type Destination = {
   id: string;
@@ -40,6 +41,7 @@ type Destination = {
   gallery?: string[];
   lat?: number;
   lng?: number;
+  contentStatus?: ContentStatus;
 };
 
 export function DestinationsListAdmin({ initialDestinations }: { initialDestinations: Destination[] }) {
@@ -77,6 +79,35 @@ export function DestinationsListAdmin({ initialDestinations }: { initialDestinat
       await toggleDestinationStatus(id, newStatus);
     } catch (err) {
       console.error("Failed to toggle destination status:", err);
+    }
+  };
+
+  const handleSetContentStatus = async (id: string, status: ContentStatus) => {
+    const prevStatus = destinations.find((d) => d.id === id)?.contentStatus;
+    setDestinations((prev) => prev.map((d) => (d.id === id ? { ...d, contentStatus: status } : d)));
+    setSelectedDest((prev) => (prev && prev.id === id ? { ...prev, contentStatus: status } : prev));
+    setEditForm((prev) => (prev.id === id ? { ...prev, contentStatus: status } : prev));
+    try {
+      await setDestinationStatus(id, status);
+    } catch (err) {
+      console.error("Failed to update destination content status:", err);
+      setDestinations((prev) => prev.map((d) => (d.id === id ? { ...d, contentStatus: prevStatus } : d)));
+    }
+  };
+
+  const handleDeleteDestination = async (id: string) => {
+    if (!confirm("Supprimer définitivement cette destination ? Cette action est irréversible.")) return;
+    try {
+      const res = await deleteDestination(id);
+      if (res.success) {
+        setDestinations((prev) => prev.filter((d) => d.id !== id));
+        setSelectedDest(null);
+        setIsEditing(false);
+      } else {
+        alert(res.error || "Échec de la suppression.");
+      }
+    } catch (err: any) {
+      alert(err.message || "Échec de la suppression.");
     }
   };
 
@@ -453,27 +484,39 @@ export function DestinationsListAdmin({ initialDestinations }: { initialDestinat
 
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-widest text-outline mb-2">
-                      URL de la Photo Principale
+                      Photo Principale
                     </label>
+                    <ImageUploader
+                      entity="destinations"
+                      entityId={editForm.id || "new"}
+                      onUploaded={(url) => setEditForm((prev) => ({ ...prev, photo_url: url }))}
+                      className="mb-2"
+                    />
                     <input
                       type="text"
                       value={editForm.photo_url || ""}
                       onChange={(e) => setEditForm({ ...editForm, photo_url: e.target.value })}
                       className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant/30 rounded-xl focus:ring-2 focus:ring-primary text-body-md"
-                      placeholder="https://..."
+                      placeholder="Ou collez une URL externe..."
                     />
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-widest text-outline mb-2">
-                      URL de la Photo Hero (Grande Bannière)
+                      Photo Hero (Grande Bannière)
                     </label>
+                    <ImageUploader
+                      entity="destinations"
+                      entityId={editForm.id || "new"}
+                      onUploaded={(url) => setEditForm((prev) => ({ ...prev, hero_image_url: url }))}
+                      className="mb-2"
+                    />
                     <input
                       type="text"
                       value={editForm.hero_image_url || ""}
                       onChange={(e) => setEditForm({ ...editForm, hero_image_url: e.target.value })}
                       className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant/30 rounded-xl focus:ring-2 focus:ring-primary text-body-md"
-                      placeholder="https://..."
+                      placeholder="Ou collez une URL externe..."
                     />
                   </div>
 
@@ -510,13 +553,23 @@ export function DestinationsListAdmin({ initialDestinations }: { initialDestinat
                     <label className="block text-xs font-bold uppercase tracking-widest text-outline mb-2">
                       Galerie d&apos;Images ({editForm.gallery?.length || 0})
                     </label>
+                    <ImageUploader
+                      entity="destinations"
+                      entityId={editForm.id || "new"}
+                      onUploaded={(url) => {
+                        const currentGallery = editForm.gallery || [];
+                        if (currentGallery.includes(url)) return;
+                        setEditForm((prev) => ({ ...prev, gallery: [...currentGallery, url] }));
+                      }}
+                      className="mb-3"
+                    />
                     <div className="flex gap-2 mb-3">
                       <input
                         type="text"
                         value={newGalleryUrl}
                         onChange={(e) => setNewGalleryUrl(e.target.value)}
                         className="flex-1 px-4 py-2.5 bg-surface-container-low border border-outline-variant/30 rounded-xl focus:ring-2 focus:ring-primary text-body-md"
-                        placeholder="https://..."
+                        placeholder="Ou collez une URL externe..."
                       />
                       <button
                         type="button"
@@ -572,6 +625,30 @@ export function DestinationsListAdmin({ initialDestinations }: { initialDestinat
                       )}
                     </button>
                   </div>
+
+                  {editForm.id && !editForm.id.startsWith("new-") && (
+                    <div className="space-y-3 pt-2">
+                      <label className="block text-xs font-bold uppercase tracking-widest text-outline">
+                        Cycle de vie du contenu
+                      </label>
+                      <div className="grid grid-cols-2 gap-2">
+                        {(["draft", "published", "hidden", "archived"] as ContentStatus[]).map((s) => (
+                          <button
+                            key={s}
+                            type="button"
+                            onClick={() => handleSetContentStatus(editForm.id!, s)}
+                            className={`py-2 rounded-xl text-[11px] font-bold text-center border transition-all ${
+                              (editForm.contentStatus || "draft") === s
+                                ? "bg-primary border-primary text-white shadow-sm"
+                                : "bg-white border-outline-variant/40 hover:bg-surface-container text-on-surface-variant"
+                            }`}
+                          >
+                            {s === "draft" ? "Brouillon" : s === "published" ? "Publié" : s === "hidden" ? "Masqué" : "Archivé"}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <>
@@ -679,6 +756,14 @@ export function DestinationsListAdmin({ initialDestinations }: { initialDestinat
                   >
                     {selectedDest.is_active ? "Archiver" : "Restaurer"}
                   </button>
+                  {!selectedDest.id.startsWith("new-") && (
+                    <button
+                      onClick={() => handleDeleteDestination(selectedDest.id)}
+                      className="px-6 py-4 bg-error/10 text-error font-bold rounded-2xl hover:bg-error/20 transition-colors active:scale-[0.98] transition-all flex items-center gap-2"
+                    >
+                      <Trash2 className="h-4.5 w-4.5" /> Supprimer
+                    </button>
+                  )}
                 </>
               )}
             </div>

@@ -28,7 +28,7 @@ import {
   saveBoatAvailability, 
   checkConflict
 } from "@/lib/actions/partner-bookings";
-import { BoatAvailabilitySettings } from "@/lib/supabase/mock-db-helper";
+import { BoatAvailabilitySettings } from "@/lib/actions/partner-bookings";
 
 interface TimelineItem {
   type: "free" | "break" | "booking" | "unavailable" | "maintenance";

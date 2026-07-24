@@ -6,8 +6,6 @@ import { generateBookingRef, calculateCommission } from "@/lib/utils/booking-ref
 import { createNotification } from "@/lib/actions/notifications";
 import { revalidatePath } from "next/cache";
 
-const isPlaceholder = () => process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
-
 // Helper to convert HH:MM to minutes from midnight
 function timeToMinutes(timeStr: string): number {
   if (!timeStr) return 0;
@@ -31,7 +29,7 @@ export type BookingRequest = {
   guest_count: number;
   booking_date: string;
   booking_time: string;
-  total_amount: number; // calculated in frontend, verified in backend ideally
+  total_amount: number;
   booking_type: "private" | "shared";
   duration_minutes?: number;
 };
@@ -39,21 +37,16 @@ export type BookingRequest = {
 export async function createBooking(data: BookingRequest) {
   const supabase = createAdminClient() as any;
 
-  // Attach the logged-in client's id when a session exists, so the booking
-  // shows up under their account (/client). Guest checkout stays allowed.
   let clientId: string | null = null;
-  if (!isPlaceholder()) {
-    try {
-      const sessionClient = await createClient();
-      const { data: { user } } = await sessionClient.auth.getUser();
-      clientId = user?.id ?? null;
-    } catch {
-      clientId = null;
-    }
+  try {
+    const sessionClient = await createClient();
+    const { data: { user } } = await sessionClient.auth.getUser();
+    clientId = user?.id ?? null;
+  } catch {
+    clientId = null;
   }
 
   try {
-    // 1. Fetch the provider_id, boat_id and real pricing for this experience
     const { data: expData, error: expError } = await supabase
       .from("experiences")
       .select("boat_id, price_total, price_per_seat, title, boats(provider_id)")
@@ -64,53 +57,14 @@ export async function createBooking(data: BookingRequest) {
     const providerId = expData?.boats?.provider_id;
     const boatId = expData?.boat_id;
 
-    // Recompute the canonical price server-side instead of trusting the
-    // client-submitted total_amount, which can be tampered with in devtools.
     let canonicalTotal = data.total_amount;
-    if (!isPlaceholder() && expData) {
+    if (expData) {
       canonicalTotal =
         data.booking_type === "shared"
           ? Math.round((expData.price_per_seat || 0) * data.guest_count)
           : (expData.price_total || 0);
     }
 
-    // Validate that there are no overlapping bookings for the same boat on that date.
-    if (boatId) {
-      let activeBookings: any[] = [];
-      if (isPlaceholder()) {
-        const { getMockDb } = require("../supabase/mock-db-helper");
-        const db = getMockDb();
-        activeBookings = (db.bookings || []).filter(
-          (b: any) =>
-            b.boat_id === boatId &&
-            b.booking_date === data.booking_date &&
-            b.status !== "cancelled"
-        );
-      } else {
-        const { data: dbBookings } = await supabase
-          .from("bookings")
-          .select("booking_time, duration_minutes, booking_ref")
-          .eq("boat_id", boatId)
-          .eq("booking_date", data.booking_date)
-          .neq("status", "cancelled");
-        activeBookings = dbBookings || [];
-      }
-
-      const bookStart = timeToMinutes(data.booking_time);
-      const bookEnd = bookStart + (data.duration_minutes || 120);
-
-      for (const b of activeBookings) {
-        const bStart = timeToMinutes(b.booking_time || b.start_time || "09:00");
-        const bDuration = b.duration_minutes || 120;
-        const bEnd = bStart + bDuration;
-
-        if (bookStart < bEnd && bStart < bookEnd) {
-          throw new Error(`Ce créneau est déjà réservé par la réservation ${b.booking_ref} (${b.booking_time || b.start_time} - ${minutesToTime(bEnd)})`);
-        }
-      }
-    }
-
-    // 2. Fetch the provider's commission rate (default to 15)
     let commissionRate = 15.00;
     if (providerId) {
       const { data: provData } = await supabase
@@ -123,86 +77,41 @@ export async function createBooking(data: BookingRequest) {
       }
     }
 
-    // 3. Calculate financial splits with the resolved commission rate
     const finance = calculateCommission(canonicalTotal, commissionRate);
-    const bookingRef = generateBookingRef();
 
-    // Calculate end time
-    const durationMinutes = data.duration_minutes || 120;
-    const startTime = data.booking_time;
-    let endTime = "";
-    if (startTime) {
-      const [h, m] = startTime.split(":").map(Number);
-      const startMins = h * 60 + m;
-      const endMins = startMins + durationMinutes;
-      const endH = Math.floor(endMins / 60) % 24;
-      const endM = endMins % 60;
-      endTime = `${String(endH).padStart(2, "0")}:${String(endM).padStart(2, "0")}`;
-    }
+    // Use atomic database function with advisory locking to prevent overbooking
+    const { data: result, error: rpcError } = await supabase
+      .rpc("atomic_create_booking", {
+        p_boat_id: boatId,
+        p_booking_date: data.booking_date,
+        p_booking_time: data.booking_time,
+        p_duration_minutes: data.duration_minutes || 120,
+        p_experience_id: data.experience_id,
+        p_client_name: data.client_name,
+        p_client_phone: data.client_phone,
+        p_client_notes: data.client_notes || "",
+        p_guest_count: data.guest_count,
+        p_booking_type: data.booking_type,
+        p_total_amount: finance.totalAmount,
+        p_commission_amount: finance.commissionAmount,
+        p_provider_amount: finance.providerAmount,
+        p_commission_rate: commissionRate,
+        p_provider_id: providerId,
+        p_client_id: clientId,
+        p_time_slot_id: data.time_slot_id,
+      });
 
-    // 4. Insert into bookings table
-    const { data: booking, error: bookingError } = await supabase
-      .from("bookings")
-      .insert({
-        booking_ref: bookingRef,
-        experience_id: data.experience_id,
-        time_slot_id: data.time_slot_id,
-        provider_id: providerId,
-        client_id: clientId,
-        client_name: data.client_name,
-        client_phone: data.client_phone,
-        client_notes: data.client_notes,
-        guest_count: data.guest_count,
-        booking_type: data.booking_type,
-        total_amount: finance.totalAmount,
-        commission_amount: finance.commissionAmount,
-        provider_amount: finance.providerAmount,
-        commission_rate: commissionRate,
-        status: "new",
-        booking_date: data.booking_date,
-        booking_time: data.booking_time,
-        booking_source: "SAFAR_DZ",
-        created_by: "CUSTOMER",
-        duration_minutes: durationMinutes,
-        start_time: startTime,
-        end_time: endTime,
-        boat_id: boatId,
-      })
-      .select()
-      .single();
+    if (rpcError) throw rpcError;
+    if (!result?.success) throw new Error(result?.error || "Échec de la création de la réservation");
 
-    if (bookingError) throw bookingError;
+    const bookingRef = result.booking_ref;
 
-    // 3. Update booked seats in time_slot if it's a shared experience
-    if (data.time_slot_id && data.booking_type === "shared") {
-      const { data: slot } = await supabase
-        .from("time_slots")
-        .select("booked_seats, total_seats")
-        .eq("id", data.time_slot_id)
-        .single();
-        
-      if (slot) {
-        await supabase
-          .from("time_slots")
-          .update({ booked_seats: slot.booked_seats + data.guest_count })
-          .eq("id", data.time_slot_id);
-      }
-    }
-
-    // 4. Log status history
-    await supabase.from("booking_status_history").insert({
-      booking_id: booking.id,
-      new_status: "new",
-      note: "Réservation initiale du client",
-    });
-
-    // 5. Notify the admin dashboard of the new reservation
     try {
       await createNotification({
         type: "new_reservation",
         title: "Nouvelle réservation",
         message: `${data.client_name} a réservé "${expData?.title || "une expérience"}" pour le ${data.booking_date} (${bookingRef}).`,
-        metadata: { booking_id: booking.id, booking_ref: bookingRef },
+        metadata: { booking_id: result.booking_id, booking_ref: bookingRef },
       });
     } catch (notifErr) {
       console.error("Failed to create booking notification:", notifErr);
@@ -221,83 +130,39 @@ export async function createBooking(data: BookingRequest) {
 
 export async function getExperienceAvailability(experienceId: string, date: string) {
   const supabase = createAdminClient() as any;
-  const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
 
   try {
-    let boatId = "";
-    let providerId = "";
-
-    if (isPlaceholder) {
-      const { getMockDb } = require("../supabase/mock-db-helper");
-      const db = getMockDb();
-      
-      // Look for the experience in MOCK_EXPERIENCES or db overrides
-      const exp = (db.createdExperiences || []).find((e: any) => e.id === experienceId) || 
-                  Object.values(db.experiences || {}).find((e: any) => e.id === experienceId);
-      
-      if (exp) {
-        boatId = exp.boat_id || "1";
-      } else {
-        // Fallback for mock IDs
-        if (experienceId === "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d" || experienceId === "1") {
-          boatId = "1";
-        } else if (experienceId === "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e" || experienceId === "2") {
-          boatId = "2";
-        } else {
-          boatId = "1";
-        }
-      }
-      providerId = db.boats?.[boatId]?.provider_id || "mock-partner-id";
-    } else {
-      const { data: expData } = await supabase
-        .from("experiences")
-        .select("boat_id, boats(provider_id)")
-        .eq("id", experienceId)
-        .single();
-      boatId = expData?.boat_id;
-      providerId = expData?.boats?.provider_id;
-    }
+    const { data: expData } = await supabase
+      .from("experiences")
+      .select("boat_id, boats(provider_id)")
+      .eq("id", experienceId)
+      .single();
+    const boatId = expData?.boat_id;
+    const providerId = expData?.boats?.provider_id;
 
     if (!boatId) {
       return { success: true, busySlots: [], availabilitySettings: null };
     }
 
-    let bookings: any[] = [];
-    let availabilitySettings: any = null;
+    const { data: dbBookings } = await supabase
+      .from("bookings")
+      .select("booking_time, start_time, duration_minutes")
+      .eq("boat_id", boatId)
+      .eq("booking_date", date)
+      .neq("status", "cancelled");
+    const bookings = dbBookings || [];
 
-    if (isPlaceholder) {
-      const { getMockDb } = require("../supabase/mock-db-helper");
-      const db = getMockDb();
-      bookings = (db.bookings || []).filter(
-        (b: any) => b.boat_id === boatId && b.booking_date === date && b.status !== "cancelled"
-      );
-      availabilitySettings = db.boat_availability?.[boatId] || {
-        workingHours: { start: "08:00", end: "20:00" },
-        breakTime: { start: "13:00", end: "14:00" },
-        unavailableDays: [],
-        maintenanceDates: []
-      };
-    } else {
-      const { data: dbBookings } = await supabase
-        .from("bookings")
-        .select("booking_time, start_time, duration_minutes")
-        .eq("boat_id", boatId)
-        .eq("booking_date", date)
-        .neq("status", "cancelled");
-      bookings = dbBookings || [];
-
-      const { data: dbAvail } = await supabase
-        .from("boat_availability")
-        .select("settings")
-        .eq("boat_id", boatId)
-        .single();
-      availabilitySettings = dbAvail?.settings || {
-        workingHours: { start: "08:00", end: "20:00" },
-        breakTime: { start: "13:00", end: "14:00" },
-        unavailableDays: [],
-        maintenanceDates: []
-      };
-    }
+    const { data: dbAvail } = await supabase
+      .from("boat_availability")
+      .select("settings")
+      .eq("boat_id", boatId)
+      .single();
+    const availabilitySettings = dbAvail?.settings || {
+      workingHours: { start: "08:00", end: "20:00" },
+      breakTime: { start: "13:00", end: "14:00" },
+      unavailableDays: [],
+      maintenanceDates: []
+    };
 
     const busySlots = bookings.map((b: any) => {
       const start = b.booking_time || b.start_time || "09:00";

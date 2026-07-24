@@ -1,6 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
 import { FinanceClient } from "@/components/admin/finance-client";
-import { getPersistedMockData } from "@/lib/actions/experiences";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +10,6 @@ export default async function AdminFinancePage() {
   let partners: any[] = [];
 
   try {
-    // 1. Fetch bookings with experience and provider details
     const { data: bookingsData, error: bookingsError } = await supabase
       .from("bookings")
       .select(`
@@ -46,7 +44,6 @@ export default async function AdminFinancePage() {
         status: b.status === "completed" ? "Paid" : b.status === "confirmed" ? "Processing" : "Pending",
       }));
 
-      // 2. Aggregate partner payouts dynamically
       const partnersMap: Record<string, any> = {};
       bookingsData.forEach((b: any) => {
         const boat = b.experiences?.boats;
@@ -61,7 +58,7 @@ export default async function AdminFinancePage() {
             name: ownerName,
             trips: 0,
             amountOwed: 0,
-            image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCNjrwGq8MgjrMapq5mDEd6FKw8ThW8zSN3TtsIQYov7aLyaAB72oRtdKbe2XD8eVciZaTSiGgGSnKfUY_V1lRqUSRHs0S_Gg4NE83_2S1c6ygxInCX_-rGHTsufI-qUKr17rQpEuRBySl3Uhvg4ikOnOVeauNkSS1pFWEGIf4GO5pOSLHJ_obPinnX0nXhBXb1kmi_xZuYHghTjRlysvSD0_uflU6ESH_wa7VLEeojHn3QKoY6TQLk41Lg-Y3cOM9IviVXREbpktA", // Captain default
+            image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCNjrwGq8MgjrMapq5mDEd6FKw8ThW8zSN3TtsIQYov7aLyaAB72oRtdKbe2XD8eVciZaTSiGgGSnKfUY_V1lRqUSRHs0S_Gg4NE83_2S1c6ygxInCX_-rGHTsufI-qUKr17rQpEuRBySl3Uhvg4ikOnOVeauNkSS1pFWEGIf4GO5pOSLHJ_obPinnX0nXhBXb1kmi_xZuYHghTjRlysvSD0_uflU6ESH_wa7VLEeojHn3QKoY6TQLk41Lg-Y3cOM9IviVXREbpktA",
             status: "unsettled",
           };
         }
@@ -78,18 +75,11 @@ export default async function AdminFinancePage() {
     console.error("Error loading admin finance data from DB:", err);
   }
 
-  // Load commission rate override from mock db
-  let initialCommissionRate = 15;
-  const mockDb = await getPersistedMockData();
-  if (mockDb && typeof mockDb.commission_rate === "number") {
-    initialCommissionRate = mockDb.commission_rate;
-  }
-
   return (
     <FinanceClient
       initialTransactions={transactions.length > 0 ? transactions : undefined}
       initialPartners={partners.length > 0 ? partners : undefined}
-      initialCommissionRate={initialCommissionRate}
+      initialCommissionRate={15}
     />
   );
 }

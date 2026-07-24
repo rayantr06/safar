@@ -1,37 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import * as fs from "fs";
-import * as path from "path";
 import { checkRole } from "@/lib/utils/auth-check";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { IMAGES } from "@/lib/constants";
 
-const MOCK_DB_FILE = path.join(process.cwd(), ".safar-mock-db.json");
-const isPlaceholder = () => process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
-
-function getMockDb() {
-  if (!fs.existsSync(MOCK_DB_FILE)) {
-    return {};
-  }
-  try {
-    return JSON.parse(fs.readFileSync(MOCK_DB_FILE, "utf-8"));
-  } catch {
-    return {};
-  }
-}
-
-function saveMockDb(data: any) {
-  try {
-    fs.writeFileSync(MOCK_DB_FILE, JSON.stringify(data, null, 2), "utf-8");
-  } catch (err) {
-    console.error("Failed to write mock db", err);
-  }
-}
-
-// Every CMS section is stored as one row in the generic `site_content` table
-// (section TEXT UNIQUE, content_fr TEXT), content_fr holding JSON.stringify(data).
-// The media library is stored the same way under section = "media_library".
 async function getSiteContentSection(sectionKey: string) {
   const admin = createAdminClient() as any;
   const { data, error } = await admin
@@ -83,6 +55,102 @@ function slugify(text: string) {
     .replace(/^-+|-+$/g, "");
 }
 
+export async function getCmsConfig() {
+  const admin = createAdminClient() as any;
+  const { data: rows } = await admin.from("site_content").select("section, content_fr");
+  const cms: any = { ...DEFAULT_CMS };
+  for (const row of rows || []) {
+    if (row.section === "media_library") continue;
+    try {
+      cms[row.section] = JSON.parse(row.content_fr);
+    } catch {
+      // keep default for this section if stored JSON is malformed
+    }
+  }
+  return cms;
+}
+
+export async function saveCmsSection(sectionKey: string, data: any) {
+  await checkRole(["admin"]);
+
+  await saveSiteContentSection(sectionKey, data);
+  revalidatePath("/");
+  revalidatePath("/experiences");
+  revalidatePath("/destinations");
+  revalidatePath("/about");
+  revalidatePath("/contact");
+  const cms = await getCmsConfig();
+  return { success: true, cms };
+}
+
+export async function getMediaLibrary() {
+  const stored = await getSiteContentSection("media_library");
+  return stored || [];
+}
+
+export async function addMediaAsset(asset: { name: string; url: string; folder: string; size: string; type: string }) {
+  await checkRole(["admin"]);
+
+  const library = (await getSiteContentSection("media_library")) || [];
+  const newAsset = { id: `m-${Date.now()}`, ...asset };
+  library.push(newAsset);
+  await saveSiteContentSection("media_library", library);
+  return { success: true, asset: newAsset };
+}
+
+export async function deleteMediaAsset(id: string) {
+  await checkRole(["admin"]);
+
+  const library = (await getSiteContentSection("media_library")) || [];
+  await saveSiteContentSection("media_library", library.filter((m: any) => m.id !== id));
+  return { success: true };
+}
+
+export async function getAccommodations() {
+  const admin = createAdminClient() as any;
+  const { data, error } = await admin.from("accommodations").select("*").order("created_at", { ascending: false });
+  if (error) {
+    console.error("getAccommodations failed:", error.message);
+    return [];
+  }
+  return data || [];
+}
+
+export async function saveAccommodation(id: string | null, data: any) {
+  await checkRole(["admin"]);
+
+  const admin = createAdminClient() as any;
+  const mapped = mapAccommodationFields(data);
+
+  if (id) {
+    const { error } = await admin.from("accommodations").update(mapped).eq("id", id);
+    if (error) throw new Error(error.message);
+  } else {
+    if (!mapped.slug) {
+      mapped.slug = `${slugify(mapped.title || "logement")}-${Date.now()}`;
+    }
+    const { error } = await admin.from("accommodations").insert(mapped);
+    if (error) throw new Error(error.message);
+  }
+
+  revalidatePath("/");
+  revalidatePath("/accommodations");
+  const accommodations = await getAccommodations();
+  return { success: true, accommodations };
+}
+
+export async function deleteAccommodation(id: string) {
+  await checkRole(["admin"]);
+
+  const admin = createAdminClient() as any;
+  const { error } = await admin.from("accommodations").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/");
+  revalidatePath("/accommodations");
+  const accommodations = await getAccommodations();
+  return { success: true, accommodations };
+}
+
 const DEFAULT_CMS = {
   hero: {
     title: "Choisissez votre prochaine aventure",
@@ -116,19 +184,19 @@ const DEFAULT_CMS = {
       title: "Safar DZ - Sorties en mer & Activités nautiques à Béjaïa",
       description: "Réservez vos sorties en bateau privé ou collectif, jet-ski et kayak à Béjaïa avec Safar DZ.",
       keywords: "bateau, bejaia, mediterranee, algerie, jet ski, kayak, cap carbon",
-      og_image: IMAGES.HERO_BANNER
+      og_image: ""
     },
     experiences: {
       title: "Activités nautiques & Sorties en mer - Safar DZ",
       description: "Découvrez toutes nos aventures de navigation en Méditerranée à Béjaïa.",
       keywords: "bateau privé, jet ski, kayak, paddle, bejaia",
-      og_image: IMAGES.CAT_PRIVATE_BOATS
+      og_image: ""
     },
     destinations: {
       title: "Destinations de rêve à Béjaïa - Safar DZ",
       description: "Cap Carbon, Île des Pisans, Gouraya, les falaises sauvages accessibles en bateau.",
       keywords: "cap carbon, pisans, boulimate, gouraya, bejaia",
-      og_image: IMAGES.DESTINATION_CAP_CARBON
+      og_image: ""
     }
   },
   contact_info: {
@@ -167,327 +235,3 @@ const DEFAULT_CMS = {
     { id: "cat-6", name: "Quads", is_active: true, icon: "🏎️", description: "Partez à l'aventure sur les pistes de terre longeant la côte et les montagnes." }
   ]
 };
-
-export async function getCmsConfig() {
-  if (!isPlaceholder()) {
-    const admin = createAdminClient() as any;
-    const { data: rows } = await admin.from("site_content").select("section, content_fr");
-    const cms: any = { ...DEFAULT_CMS };
-    for (const row of rows || []) {
-      if (row.section === "media_library") continue; // fetched separately via getMediaLibrary()
-      try {
-        cms[row.section] = JSON.parse(row.content_fr);
-      } catch {
-        // keep default for this section if stored JSON is malformed
-      }
-    }
-    return cms;
-  }
-
-  const db = getMockDb();
-  let updated = false;
-  if (!db.cms) {
-    db.cms = { ...DEFAULT_CMS };
-    updated = true;
-  }
-  if (!db.cms.categories) {
-    db.cms.categories = [...DEFAULT_CMS.categories];
-    updated = true;
-  }
-  if (!db.cms.accommodations || (db.cms.accommodations.length > 0 && !db.cms.accommodations[0].type)) {
-    db.cms.accommodations = [
-      {
-        id: "acc-1",
-        title: "Villa Vue sur Mer - Boulimate",
-        type: "villa",
-        wilaya: "Béjaïa",
-        city: "Boulimate",
-        address: "Route Nationale 24, Boulimate Plage",
-        short_description: "Superbe villa face à la mer avec piscine et terrasse panoramique.",
-        description: "Superbe villa avec accès direct à la plage, piscine privative et terrasse panoramique. Idéal pour les familles ou groupes d'amis.",
-        location: "Boulimate, Béjaïa",
-        price: 25000,
-        promo_price: 22000,
-        currency: "DA",
-        pricing_type: "night",
-        availability: "Disponible",
-        image_url: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80",
-        images: [
-          "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80",
-          "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
-          "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80"
-        ],
-        is_active: true,
-        contact_phone: "+213 550 12 34 56",
-        max_guests: 8,
-        rooms_count: 4,
-        beds_count: 6,
-        bathrooms_count: 3,
-        amenities: ["Wi-Fi", "Climatisation", "Piscine", "Parking gratuit", "Cuisine équipée", "Vue sur mer", "Terrasse / Balcon"],
-        custom_amenities: ["Barbecue extérieur", "Transats"],
-        booking_type: "whatsapp",
-        whatsapp_phone: "+213 556 48 36 34",
-        min_stay_nights: 2,
-        blocked_dates: []
-      },
-      {
-        id: "acc-2",
-        title: "Appartement Cosy - Centre-ville",
-        type: "appartement",
-        wilaya: "Béjaïa",
-        city: "Centre-ville",
-        address: "12 Boulevard de la Liberté, Béjaïa",
-        short_description: "Appartement moderne et climatisé tout équipé en plein centre-ville.",
-        description: "Appartement tout équipé et climatisé au centre de Béjaïa, proche de toutes commodités et du port de plaisance.",
-        location: "Centre-ville, Béjaïa",
-        price: 8000,
-        currency: "DA",
-        pricing_type: "night",
-        availability: "Disponible",
-        image_url: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80",
-        images: [
-          "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80",
-          "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
-          "https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=800&q=80"
-        ],
-        is_active: true,
-        contact_phone: "+213 550 12 34 56",
-        max_guests: 4,
-        rooms_count: 2,
-        beds_count: 3,
-        bathrooms_count: 1,
-        amenities: ["Wi-Fi", "Climatisation", "Cuisine équipée"],
-        custom_amenities: ["Machine à café Nespresso"],
-        booking_type: "whatsapp",
-        whatsapp_phone: "+213 556 48 36 34",
-        min_stay_nights: 1,
-        blocked_dates: []
-      },
-      {
-        id: "acc-3",
-        title: "Cabane Nature - Aokas",
-        type: "studio",
-        wilaya: "Béjaïa",
-        city: "Aokas",
-        address: "Forêt des Oliviers, Aokas Plage",
-        short_description: "Logement insolite en pleine nature entre mer et montagne.",
-        description: "Logement insolite niché entre mer et forêt à Aokas. Parfait pour les amoureux de la nature en quête de calme.",
-        location: "Aokas, Béjaïa",
-        price: 12000,
-        currency: "DA",
-        pricing_type: "night",
-        availability: "Disponible",
-        image_url: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=800&q=80",
-        images: [
-          "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=800&q=80",
-          "https://images.unsplash.com/photo-1449034446853-66c86144b0ad?auto=format&fit=crop&w=800&q=80"
-        ],
-        is_active: true,
-        contact_phone: "+213 550 12 34 56",
-        max_guests: 2,
-        rooms_count: 1,
-        beds_count: 1,
-        bathrooms_count: 1,
-        amenities: ["Vue sur montagne", "Terrasse / Balcon", "Parking gratuit"],
-        custom_amenities: ["Hamac", "Feu de camp"],
-        booking_type: "whatsapp",
-        whatsapp_phone: "+213 556 48 36 34",
-        min_stay_nights: 2,
-        blocked_dates: []
-      }
-    ];
-    updated = true;
-  }
-  if (updated) {
-    saveMockDb(db);
-  }
-  return db.cms;
-}
-
-export async function saveCmsSection(sectionKey: string, data: any) {
-  await checkRole(["admin"]);
-
-  if (!isPlaceholder()) {
-    await saveSiteContentSection(sectionKey, data);
-    revalidatePath("/");
-    revalidatePath("/experiences");
-    revalidatePath("/destinations");
-    revalidatePath("/about");
-    revalidatePath("/contact");
-    const cms = await getCmsConfig();
-    return { success: true, cms };
-  }
-
-  const db = getMockDb();
-
-  if (!db.cms) {
-    db.cms = { ...DEFAULT_CMS };
-  }
-  
-  db.cms[sectionKey] = data;
-  saveMockDb(db);
-  
-  // Revalidate public routes to make edits appear instantly
-  revalidatePath("/");
-  revalidatePath("/experiences");
-  revalidatePath("/destinations");
-  revalidatePath("/about");
-  revalidatePath("/contact");
-  
-  return { success: true, cms: db.cms };
-}
-
-export async function getMediaLibrary() {
-  if (!isPlaceholder()) {
-    const stored = await getSiteContentSection("media_library");
-    return stored || [];
-  }
-
-  const db = getMockDb();
-  if (!db.cms || !db.cms.media_library) {
-    const cms = db.cms || { ...DEFAULT_CMS };
-    cms.media_library = DEFAULT_CMS.media_library;
-    db.cms = cms;
-    saveMockDb(db);
-  }
-  return db.cms.media_library;
-}
-
-export async function addMediaAsset(asset: { name: string; url: string; folder: string; size: string; type: string }) {
-  await checkRole(["admin"]);
-
-  if (!isPlaceholder()) {
-    const library = (await getSiteContentSection("media_library")) || [];
-    const newAsset = { id: `m-${Date.now()}`, ...asset };
-    library.push(newAsset);
-    await saveSiteContentSection("media_library", library);
-    return { success: true, asset: newAsset };
-  }
-
-  const db = getMockDb();
-  if (!db.cms) {
-    db.cms = { ...DEFAULT_CMS };
-  }
-  if (!db.cms.media_library) {
-    db.cms.media_library = [...DEFAULT_CMS.media_library];
-  }
-  
-  const newAsset = {
-    id: `m-${Date.now()}`,
-    ...asset
-  };
-  
-  db.cms.media_library.push(newAsset);
-  saveMockDb(db);
-  return { success: true, asset: newAsset };
-}
-
-export async function deleteMediaAsset(id: string) {
-  await checkRole(["admin"]);
-
-  if (!isPlaceholder()) {
-    const library = (await getSiteContentSection("media_library")) || [];
-    await saveSiteContentSection("media_library", library.filter((m: any) => m.id !== id));
-    return { success: true };
-  }
-
-  const db = getMockDb();
-  if (!db.cms || !db.cms.media_library) return { success: false };
-  
-  db.cms.media_library = db.cms.media_library.filter((m: any) => m.id !== id);
-  saveMockDb(db);
-  return { success: true };
-}
-
-export async function getAccommodations() {
-  if (!isPlaceholder()) {
-    const admin = createAdminClient() as any;
-    const { data, error } = await admin.from("accommodations").select("*").order("created_at", { ascending: false });
-    if (error) {
-      // Don't take down public pages (homepage, /accommodations) if the table
-      // is temporarily missing (e.g. migration not yet applied) or errors out.
-      console.error("getAccommodations failed:", error.message);
-      return [];
-    }
-    return data || [];
-  }
-
-  const db = getMockDb();
-  if (!db.cms || !db.cms.accommodations) {
-    // initialize if missing
-    await getCmsConfig();
-    return getMockDb().cms.accommodations || [];
-  }
-  return db.cms.accommodations;
-}
-
-export async function saveAccommodation(id: string | null, data: any) {
-  await checkRole(["admin"]);
-
-  if (!isPlaceholder()) {
-    const admin = createAdminClient() as any;
-    const mapped = mapAccommodationFields(data);
-
-    if (id) {
-      const { error } = await admin.from("accommodations").update(mapped).eq("id", id);
-      if (error) throw new Error(error.message);
-    } else {
-      if (!mapped.slug) {
-        mapped.slug = `${slugify(mapped.title || "logement")}-${Date.now()}`;
-      }
-      const { error } = await admin.from("accommodations").insert(mapped);
-      if (error) throw new Error(error.message);
-    }
-
-    revalidatePath("/");
-    revalidatePath("/accommodations");
-    const accommodations = await getAccommodations();
-    return { success: true, accommodations };
-  }
-
-  const db = getMockDb();
-  if (!db.cms) {
-    db.cms = { ...DEFAULT_CMS };
-  }
-  if (!db.cms.accommodations) {
-    db.cms.accommodations = [];
-  }
-  
-  if (id) {
-    const idx = db.cms.accommodations.findIndex((a: any) => a.id === id);
-    if (idx !== -1) {
-      db.cms.accommodations[idx] = { ...db.cms.accommodations[idx], ...data };
-    } else {
-      db.cms.accommodations.push({ id, ...data });
-    }
-  } else {
-    const newId = `acc-${Date.now()}`;
-    db.cms.accommodations.push({ id: newId, ...data });
-  }
-  
-  saveMockDb(db);
-  revalidatePath("/");
-  return { success: true, accommodations: db.cms.accommodations };
-}
-
-export async function deleteAccommodation(id: string) {
-  await checkRole(["admin"]);
-
-  if (!isPlaceholder()) {
-    const admin = createAdminClient() as any;
-    const { error } = await admin.from("accommodations").delete().eq("id", id);
-    if (error) throw new Error(error.message);
-    revalidatePath("/");
-    revalidatePath("/accommodations");
-    const accommodations = await getAccommodations();
-    return { success: true, accommodations };
-  }
-
-  const db = getMockDb();
-  if (!db.cms || !db.cms.accommodations) return { success: false };
-  
-  db.cms.accommodations = db.cms.accommodations.filter((a: any) => a.id !== id);
-  saveMockDb(db);
-  revalidatePath("/");
-  return { success: true, accommodations: db.cms.accommodations };
-}

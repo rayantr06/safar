@@ -31,6 +31,7 @@ import {
 import { saveCmsSection, addMediaAsset, deleteMediaAsset, saveAccommodation, deleteAccommodation } from "@/lib/actions/website-cms";
 import { saveExperience } from "@/lib/actions/experiences";
 import { IMAGES } from "@/lib/constants";
+import { ImageUploader } from "@/components/admin/image-uploader";
 
 interface WebsiteCmsAdminProps {
   initialCms: any;
@@ -785,13 +786,19 @@ export function WebsiteCmsAdmin({ initialCms, experiences, destinations, accommo
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-on-surface-variant mb-1">URL du Logo (carré)</label>
+                      <label className="block text-xs font-bold text-on-surface-variant mb-1">Logo (carré)</label>
+                      <ImageUploader
+                        entity="cms"
+                        entityId="partners"
+                        onUploaded={(url) => setNewPartner({ ...newPartner, logo_url: url })}
+                        className="mb-2"
+                      />
                       <input
                         type="text"
                         value={newPartner.logo_url}
                         onChange={(e) => setNewPartner({ ...newPartner, logo_url: e.target.value })}
                         className="w-full px-3 py-2 bg-surface-container-low border border-outline-variant/30 rounded-lg text-sm"
-                        placeholder="https://..."
+                        placeholder="Ou collez une URL externe..."
                       />
                     </div>
                     <button
@@ -2406,13 +2413,29 @@ export function WebsiteCmsAdmin({ initialCms, experiences, destinations, accommo
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <h4 className="font-bold text-xs uppercase text-primary tracking-wider">Galerie Multi-Images</h4>
-                    <p className="text-xs text-on-surface-variant font-medium">Saisissez l&apos;adresse URL d&apos;une image pour l&apos;ajouter au bien. Définissez l&apos;image principale (couverture) et réordonnez la galerie.</p>
+                    <p className="text-xs text-on-surface-variant font-medium">Envoyez une ou plusieurs images, ou collez une URL externe. Définissez l&apos;image principale (couverture) et réordonnez la galerie.</p>
                   </div>
+
+                  <ImageUploader
+                    entity="accommodations"
+                    entityId={editingAccommodation.id || "new"}
+                    onUploaded={(url) => {
+                      const currentImages = editingAccommodation.images || [];
+                      if (currentImages.includes(url)) return;
+                      const updatedImages = [...currentImages, url];
+                      const coverUrl = editingAccommodation.image_url || url;
+                      setEditingAccommodation({
+                        ...editingAccommodation,
+                        images: updatedImages,
+                        image_url: coverUrl
+                      });
+                    }}
+                  />
 
                   <div className="flex gap-2">
                     <input
                       type="text"
-                      placeholder="https://images.unsplash.com/..."
+                      placeholder="Ou collez une URL externe..."
                       value={newImageUrl}
                       onChange={(e) => setNewImageUrl(e.target.value)}
                       className="flex-1 px-3 py-2 bg-surface-container-low border border-outline-variant/30 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:outline-none"

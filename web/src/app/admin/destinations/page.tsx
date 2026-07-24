@@ -1,10 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { DestinationsListAdmin } from "@/components/admin/destinations-list-admin";
-import { getPersistedMockData } from "@/lib/actions/experiences";
 
 export const dynamic = "force-dynamic";
-
-const isPlaceholder = () => process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
 
 export default async function AdminDestinationsPage() {
   const supabase = await createClient();
@@ -19,10 +16,15 @@ export default async function AdminDestinationsPage() {
         slug: d.slug,
         description: d.description || "",
         photo_url: d.photo_url || "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
+        hero_image_url: d.hero_image_url || "",
+        gallery: d.gallery || [],
+        lat: d.lat ?? undefined,
+        lng: d.lng ?? undefined,
         experience_count: 0,
         is_active: d.is_active ?? true,
-        is_featured: false,
-        location: "Béjaïa, Algérie",
+        is_featured: d.is_featured || false,
+        contentStatus: d.status || "draft",
+        location: d.location || "Béjaïa, Algérie",
         bookings_count: 0,
         revenue_dzd: "0",
         rating: 4.8,
@@ -30,25 +32,6 @@ export default async function AdminDestinationsPage() {
     }
   } catch (err) {
     console.error("Failed to fetch destinations:", err);
-  }
-
-  // The local JSON mock DB is a local-dev-only fallback (isPlaceholder mode);
-  // it must never overlay/replace real Supabase data in production.
-  if (isPlaceholder()) {
-    const mockDb = await getPersistedMockData();
-    if (mockDb) {
-      destinations = destinations.map((d) => {
-        const updates = mockDb.destinations?.[d.id];
-        if (updates) {
-          return { ...d, ...updates };
-        }
-        return d;
-      });
-
-      if (mockDb.createdDestinations) {
-        destinations = [...destinations, ...mockDb.createdDestinations];
-      }
-    }
   }
 
   return (

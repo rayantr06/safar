@@ -8,20 +8,10 @@ const BUCKET = "media";
 const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif", "image/gif"];
 
-const isPlaceholder = () =>
-  process.env.NODE_ENV !== "production" && process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
-
 export type UploadableEntity = "experiences" | "destinations" | "accommodations" | "cms";
 
 export async function uploadImage(entity: UploadableEntity, entityId: string, formData: FormData) {
   await checkRole(["admin", "provider"]);
-
-  if (isPlaceholder()) {
-    return {
-      success: false,
-      error: "L'upload d'images nécessite un projet Supabase réel (indisponible en mode local de démonstration). Utilisez le champ URL ci-dessous.",
-    };
-  }
 
   const file = formData.get("file") as File | null;
   if (!file) {

@@ -16,7 +16,8 @@ import {
   Award,
   ChevronRight,
 } from "lucide-react";
-import { getAllExperiences } from "@/lib/queries/experiences";
+import { getAllExperiences, getExperienceBySlugForPreview } from "@/lib/queries/experiences";
+import { checkRole } from "@/lib/utils/auth-check";
 import { Badge } from "@/components/ui/badge";
 import { formatPriceDA } from "@/lib/utils/format";
 import { BookingWidget } from "@/components/experiences/booking-widget";
@@ -25,13 +26,28 @@ export const dynamic = "force-dynamic";
 
 export default async function ExperienceDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ preview?: string }>;
 }) {
   const { slug } = await params;
-  const experiences = await getAllExperiences();
+  const { preview } = await searchParams;
 
-  const experience = experiences.find((e) => e.slug === slug);
+  let experience: any = null;
+  if (preview === "1") {
+    try {
+      await checkRole(["admin"]);
+      experience = await getExperienceBySlugForPreview(slug);
+    } catch {
+      // Not an admin — fall through to the normal published-only lookup below.
+    }
+  }
+
+  if (!experience) {
+    const experiences = await getAllExperiences();
+    experience = experiences.find((e) => e.slug === slug) || null;
+  }
 
   if (!experience) {
     notFound();

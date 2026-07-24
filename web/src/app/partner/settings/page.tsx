@@ -1,34 +1,181 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { IMAGES } from "@/lib/constants";
-import { User, Phone, MapPin, Shield, Mail, Key, LogOut, HelpCircle, Info, Landmark, Banknote } from "lucide-react";
+import {
+  User,
+  Phone,
+  MapPin,
+  LogOut,
+  HelpCircle,
+  Info,
+  Save,
+  CheckCircle,
+  AlertCircle,
+  Loader2,
+  Building2,
+  MessageSquare,
+  FileText,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  getPartnerSettings,
+  updatePartnerSettings,
+} from "@/lib/actions/partner-settings";
 
 export default function PartnerSettingsPage() {
-  const [name, setName] = useState("Ahmed Mansouri");
-  const [phone, setPhone] = useState("+213 550 12 34 56");
-  const [boatName, setBoatName] = useState("The Mediterranean Pearl");
-  const [payoutMethod, setPayoutMethod] = useState<"bank" | "cash">("bank");
-  const [ribNumber, setRibNumber] = useState("007 99999 000000000000 00");
-  const [lang, setLang] = useState<"fr" | "ar" | "en">("fr");
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
-  const handleSave = () => {
-    alert("Paramètres enregistrés avec succès !");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [portLocation, setPortLocation] = useState("");
+  const [bio, setBio] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
+  const [address, setAddress] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [boatName, setBoatName] = useState("");
+  const [providerCreatedAt, setProviderCreatedAt] = useState<string | null>(
+    null
+  );
+
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    const result = await getPartnerSettings();
+    if (result.success && result.data) {
+      const d = result.data;
+      setName(d.full_name);
+      setPhone(d.phone);
+      setCompanyName(d.company_name);
+      setPortLocation(d.port_location);
+      setBio(d.bio);
+      setWhatsapp(d.whatsapp);
+      setAddress(d.address);
+      setAvatarUrl(d.avatar_url);
+      setBoatName(d.boat_name);
+      setProviderCreatedAt(d.provider_created_at);
+    } else {
+      setError(result.error || "Erreur de chargement");
+    }
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const handleSave = async () => {
+    setSaving(true);
+    setError(null);
+    setSuccess(false);
+
+    const result = await updatePartnerSettings({
+      full_name: name,
+      phone: phone,
+      company_name: companyName,
+      port_location: portLocation,
+      bio: bio,
+      whatsapp: whatsapp,
+      address: address,
+    });
+
+    if (result.success) {
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } else {
+      setError(result.error || "Erreur de sauvegarde");
+    }
+    setSaving(false);
   };
+
+  const formatMemberSince = (dateStr: string | null) => {
+    if (!dateStr) return "Partenaire";
+    try {
+      const date = new Date(dateStr);
+      const month = date.toLocaleDateString("fr-FR", { month: "long" });
+      const year = date.getFullYear();
+      return `Partenaire depuis ${month.charAt(0).toUpperCase() + month.slice(1)} ${year}`;
+    } catch {
+      return "Partenaire";
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="max-w-container-max mx-auto px-4 md:px-10 py-6 space-y-10 animate-fade-in">
+        <div>
+          <h1 className="font-display-lg text-display-lg text-primary mb-1">
+            Paramètres
+          </h1>
+          <p className="text-body-lg text-on-surface-variant">
+            Gérez votre profil public et vos informations de contact.
+          </p>
+        </div>
+        <div className="flex items-center justify-center py-20">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error && !name && !companyName) {
+    return (
+      <div className="max-w-container-max mx-auto px-4 md:px-10 py-6 space-y-10 animate-fade-in">
+        <div>
+          <h1 className="font-display-lg text-display-lg text-primary mb-1">
+            Paramètres
+          </h1>
+        </div>
+        <div className="bg-error/10 border border-error/30 rounded-2xl p-8 text-center space-y-4">
+          <AlertCircle className="h-10 w-10 text-error mx-auto" />
+          <p className="text-on-surface font-bold">{error}</p>
+          <Button
+            onClick={fetchData}
+            shape="pill"
+            className="bg-primary text-white"
+          >
+            Réessayer
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-container-max mx-auto px-4 md:px-10 py-6 space-y-10 animate-fade-in">
       {/* Header */}
       <div>
-        <h1 className="font-display-lg text-display-lg text-primary mb-1">Paramètres</h1>
+        <h1 className="font-display-lg text-display-lg text-primary mb-1">
+          Paramètres
+        </h1>
         <p className="text-body-lg text-on-surface-variant">
-          Gérez votre profil public, vos méthodes de paiement et vos préférences système.
+          Gérez votre profil public et vos informations de contact.
         </p>
       </div>
+
+      {/* Success Toast */}
+      {success && (
+        <div className="bg-green-50 border border-green-200 rounded-2xl p-4 flex items-center gap-3 animate-in fade-in duration-200">
+          <CheckCircle className="h-5 w-5 text-green-600 shrink-0" />
+          <p className="text-green-800 font-bold text-sm">
+            Paramètres enregistrés avec succès !
+          </p>
+        </div>
+      )}
+
+      {/* Error Toast */}
+      {error && (
+        <div className="bg-error/10 border border-error/30 rounded-2xl p-4 flex items-center gap-3 animate-in fade-in duration-200">
+          <AlertCircle className="h-5 w-5 text-error shrink-0" />
+          <p className="text-error font-bold text-sm">{error}</p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Main Forms Section */}
@@ -39,14 +186,26 @@ export default function PartnerSettingsPage() {
               <h2 className="text-xl font-bold text-primary flex items-center gap-2">
                 <User className="h-5 w-5" /> Informations de profil
               </h2>
-              <Button onClick={handleSave} shape="pill" className="bg-primary text-white font-bold px-6">
-                Enregistrer
+              <Button
+                onClick={handleSave}
+                disabled={saving}
+                shape="pill"
+                className="bg-primary text-white font-bold px-6"
+              >
+                {saving ? (
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                ) : (
+                  <Save className="h-4 w-4 mr-2" />
+                )}
+                {saving ? "Enregistrement..." : "Enregistrer"}
               </Button>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-on-surface-variant px-1">Nom du Partenaire / Capitaine</label>
+                <label className="text-xs font-bold text-on-surface-variant px-1">
+                  Nom du Partenaire / Capitaine
+                </label>
                 <Input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -54,7 +213,9 @@ export default function PartnerSettingsPage() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-on-surface-variant px-1">Numéro de téléphone</label>
+                <label className="text-xs font-bold text-on-surface-variant px-1">
+                  Numéro de téléphone
+                </label>
                 <div className="relative">
                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-on-surface-variant/75" />
                   <Input
@@ -65,144 +226,117 @@ export default function PartnerSettingsPage() {
                   />
                 </div>
               </div>
-              <div className="sm:col-span-2 space-y-2">
-                <label className="text-xs font-bold text-on-surface-variant px-1">Nom de votre bateau principal</label>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-on-surface-variant px-1">
+                  Nom de l&apos;entreprise
+                </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-lg">⛵</span>
+                  <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-on-surface-variant/75" />
                   <Input
-                    value={boatName}
-                    onChange={(e) => setBoatName(e.target.value)}
+                    value={companyName}
+                    onChange={(e) => setCompanyName(e.target.value)}
+                    className="w-full bg-white border border-outline-variant rounded-xl pl-10 py-3"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-on-surface-variant px-1">
+                  Port d&apos;attache
+                </label>
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-on-surface-variant/75" />
+                  <Input
+                    value={portLocation}
+                    onChange={(e) => setPortLocation(e.target.value)}
+                    className="w-full bg-white border border-outline-variant rounded-xl pl-10 py-3"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-2 space-y-2">
+                <label className="text-xs font-bold text-on-surface-variant px-1">
+                  Description / Bio
+                </label>
+                <div className="relative">
+                  <FileText className="absolute left-3 top-3 h-4 w-4 text-on-surface-variant/75" />
+                  <textarea
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    rows={3}
+                    maxLength={500}
+                    className="w-full bg-white border border-outline-variant rounded-xl pl-10 py-3 px-4 text-sm resize-none"
+                  />
+                </div>
+                <p className="text-[10px] text-on-surface-variant text-right">
+                  {bio.length}/500
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Information */}
+          <div className="bg-surface-container-lowest p-6 md:p-8 rounded-[2rem] border border-outline-variant shadow-sm space-y-6">
+            <h2 className="text-xl font-bold text-primary flex items-center gap-2 border-b border-outline-variant/35 pb-4">
+              <MessageSquare className="h-5 w-5" /> Informations de contact
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-on-surface-variant px-1">
+                  WhatsApp
+                </label>
+                <div className="relative">
+                  <MessageSquare className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-on-surface-variant/75" />
+                  <Input
+                    type="tel"
+                    value={whatsapp}
+                    onChange={(e) => setWhatsapp(e.target.value)}
+                    placeholder="Numéro WhatsApp"
+                    className="w-full bg-white border border-outline-variant rounded-xl pl-10 py-3"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-on-surface-variant px-1">
+                  Adresse
+                </label>
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-on-surface-variant/75" />
+                  <Input
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="Adresse du bureau"
                     className="w-full bg-white border border-outline-variant rounded-xl pl-10 py-3"
                   />
                 </div>
               </div>
             </div>
           </div>
-
-          {/* Payment Setup */}
-          <div className="bg-surface-container-lowest p-6 md:p-8 rounded-[2rem] border border-outline-variant shadow-sm space-y-6">
-            <h2 className="text-xl font-bold text-primary flex items-center gap-2 border-b border-outline-variant/35 pb-4">
-              💰 Mode de versement
-            </h2>
-
-            <div className="space-y-4">
-              <label className="text-xs font-bold text-on-surface-variant px-1">Méthode de paiement préférée</label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Bank Transfer */}
-                <div
-                  onClick={() => setPayoutMethod("bank")}
-                  className={`border-2 rounded-2xl p-4 cursor-pointer flex items-center gap-4 transition-all duration-200 ${
-                    payoutMethod === "bank"
-                      ? "border-primary bg-primary/[0.03]"
-                      : "border-outline-variant bg-white hover:border-primary/50"
-                  }`}
-                >
-                  <div className={`h-10 w-10 rounded-full flex items-center justify-center ${payoutMethod === "bank" ? "bg-primary/10 text-primary" : "bg-surface-container text-on-surface-variant"}`}>
-                    <Landmark className="h-5 w-5" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-bold text-sm text-on-surface">Virement Bancaire (RIB)</div>
-                    <div className="text-[10px] text-on-surface-variant">Directement sur votre compte algérien</div>
-                  </div>
-                  {payoutMethod === "bank" && <span className="text-primary font-bold">✓</span>}
-                </div>
-
-                {/* Cash */}
-                <div
-                  onClick={() => setPayoutMethod("cash")}
-                  className={`border-2 rounded-2xl p-4 cursor-pointer flex items-center gap-4 transition-all duration-200 ${
-                    payoutMethod === "cash"
-                      ? "border-primary bg-primary/[0.03]"
-                      : "border-outline-variant bg-white hover:border-primary/50"
-                  }`}
-                >
-                  <div className={`h-10 w-10 rounded-full flex items-center justify-center ${payoutMethod === "cash" ? "bg-primary/10 text-primary" : "bg-surface-container text-on-surface-variant"}`}>
-                    <Banknote className="h-5 w-5" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-bold text-sm text-on-surface">Retrait en Espèces</div>
-                    <div className="text-[10px] text-on-surface-variant">Récupération à nos bureaux à Béjaïa</div>
-                  </div>
-                  {payoutMethod === "cash" && <span className="text-primary font-bold">✓</span>}
-                </div>
-              </div>
-
-              {payoutMethod === "bank" && (
-                <div className="space-y-2 pt-4 border-t border-outline-variant/30 animate-in fade-in duration-200">
-                  <label className="text-xs font-bold text-on-surface-variant px-1">Numéro de RIB</label>
-                  <Input
-                    value={ribNumber}
-                    onChange={(e) => setRibNumber(e.target.value)}
-                    className="w-full bg-white border border-outline-variant rounded-xl px-4 py-3 font-mono text-sm tracking-wider"
-                    placeholder="007 99999 000000000000 00"
-                  />
-                </div>
-              )}
-            </div>
-          </div>
         </section>
 
         {/* Sidebar Info Section */}
         <section className="lg:col-span-4 space-y-8">
-          {/* Language Selection */}
-          <div className="bg-surface-container-lowest p-6 rounded-[2rem] border border-outline-variant shadow-sm space-y-6">
-            <h3 className="text-xs font-bold text-on-surface uppercase tracking-wider">Sélection de la Langue</h3>
-            <div className="space-y-3">
-              {(["fr", "ar", "en"] as const).map((langCode) => {
-                const labels = { fr: "Français", ar: "العربية", en: "English" };
-                const flags = { fr: "🇫🇷", ar: "🇩🇿", en: "🇬🇧" };
-                const isSelected = lang === langCode;
-                return (
-                  <div
-                    key={langCode}
-                    onClick={() => setLang(langCode)}
-                    className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all duration-200 ${
-                      isSelected
-                        ? "bg-surface-container-high border-primary/50 text-primary font-bold"
-                        : "border-outline-variant/60 hover:bg-surface-container-low"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3 text-sm">
-                      <span>{flags[langCode]}</span>
-                      <span>{labels[langCode]}</span>
-                    </div>
-                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${isSelected ? "border-primary text-primary" : "border-outline-variant"}`}>
-                      {isSelected && <div className="w-2.5 h-2.5 rounded-full bg-primary" />}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Profile Card & Password */}
+          {/* Profile Card */}
           <div className="bg-surface-container-lowest p-6 rounded-[2rem] border border-outline-variant shadow-sm text-center space-y-6">
             <div className="relative h-24 w-24 mx-auto">
               <div className="h-full w-full rounded-full border-4 border-surface-container-high overflow-hidden relative">
                 <Image
-                  src={IMAGES.GUIDE_IMAGE}
+                  src={avatarUrl || IMAGES.GUIDE_IMAGE}
                   alt="Partner Avatar"
                   fill
                   className="object-cover"
                 />
               </div>
-              <button className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-transform text-xs">
-                ✏️
-              </button>
             </div>
             <div>
-              <p className="font-bold text-on-surface text-sm">{name}</p>
-              <p className="text-[10px] text-on-surface-variant font-bold">Partenaire depuis Mars 2026</p>
+              <p className="font-bold text-on-surface text-sm">
+                {name || "Partenaire"}
+              </p>
+              <p className="text-[10px] text-on-surface-variant font-bold">
+                {formatMemberSince(providerCreatedAt)}
+              </p>
             </div>
 
             <div className="flex flex-col gap-3 pt-2 border-t border-outline-variant/30">
-              <Button
-                variant="outline"
-                shape="pill"
-                className="w-full flex items-center justify-center gap-2 border-outline-variant font-bold text-xs"
-              >
-                <Key className="h-3.5 w-3.5" /> Changer le mot de passe
-              </Button>
               <Button
                 variant="outline"
                 shape="pill"
@@ -220,11 +354,17 @@ export default function PartnerSettingsPage() {
           <div className="bg-tertiary-container text-on-tertiary-container p-6 rounded-[2rem] relative overflow-hidden shadow-sm">
             <div className="relative z-10 space-y-4">
               <Info className="h-7 w-7 text-tertiary-fixed-dim" />
-              <h3 className="font-headline-sm text-sm font-bold text-white">Besoin d&apos;aide ?</h3>
+              <h3 className="font-headline-sm text-sm font-bold text-white">
+                Besoin d&apos;aide ?
+              </h3>
               <p className="text-xs opacity-95 text-white leading-relaxed">
-                Notre équipe de support partenaires est disponible pour répondre à vos questions techniques ou de paiement.
+                Notre équipe de support partenaires est disponible pour
+                répondre à vos questions techniques ou de paiement.
               </p>
-              <a className="text-white text-xs font-bold underline flex items-center gap-1 cursor-pointer" href="#">
+              <a
+                className="text-white text-xs font-bold underline flex items-center gap-1 cursor-pointer"
+                href="#"
+              >
                 Contacter le support →
               </a>
             </div>

@@ -2,7 +2,6 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-import { getMockDb, saveMockDb, BoatAvailabilitySettings } from "../supabase/mock-db-helper";
 import { checkRole } from "@/lib/utils/auth-check";
 import { createNotification } from "./notifications";
 
@@ -20,55 +19,46 @@ function minutesToTime(mins: number): string {
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 
+export interface BoatAvailabilitySettings {
+  workingHours: { start: string; end: string };
+  breakTime: { start: string; end: string };
+  unavailableDays: string[];
+  maintenanceDates: string[];
+}
+
 export async function checkConflict(
   boatId: string,
   date: string,
   startTimeStr: string,
   durationMinutes: number
 ) {
-  const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
+  const supabase = await createClient();
 
-  let bookings: any[];
-  let availability: BoatAvailabilitySettings;
+  const { data: dbBookings } = await supabase
+    .from("bookings")
+    .select("booking_time, start_time, duration_minutes, booking_ref, boat_id, booking_date, status")
+    .eq("boat_id", boatId)
+    .eq("booking_date", date)
+    .neq("status", "cancelled") as { data: { booking_time: string; start_time: string; duration_minutes: number; booking_ref: string; boat_id: string; booking_date: string; status: string }[] | null };
+  const bookings = dbBookings || [];
 
-  if (isPlaceholder) {
-    const db = getMockDb();
-    bookings = db.bookings || [];
-    availability = db.boat_availability?.[boatId] || {
-      workingHours: { start: "08:00", end: "20:00" },
-      breakTime: { start: "13:00", end: "14:00" },
-      unavailableDays: [],
-      maintenanceDates: []
-    };
-  } else {
-    const supabase = await createClient();
-    const { data: dbBookings } = await supabase
-      .from("bookings")
-      .select("booking_time, start_time, duration_minutes, booking_ref, boat_id, booking_date, status")
-      .eq("boat_id", boatId)
-      .eq("booking_date", date)
-      .neq("status", "cancelled");
-    bookings = dbBookings || [];
-
-    const { data: dbAvail } = await (supabase as any)
-      .from("boat_availability")
-      .select("settings")
-      .eq("boat_id", boatId)
-      .single();
-    availability = dbAvail?.settings || {
-      workingHours: { start: "08:00", end: "20:00" },
-      breakTime: { start: "13:00", end: "14:00" },
-      unavailableDays: [],
-      maintenanceDates: []
-    };
-  }
+  const { data: dbAvail } = await (supabase as any)
+    .from("boat_availability")
+    .select("settings")
+    .eq("boat_id", boatId)
+    .single();
+  const availability: BoatAvailabilitySettings = dbAvail?.settings || {
+    workingHours: { start: "08:00", end: "20:00" },
+    breakTime: { start: "13:00", end: "14:00" },
+    unavailableDays: [],
+    maintenanceDates: []
+  };
 
   const bookStart = timeToMinutes(startTimeStr);
   const bookEnd = bookStart + durationMinutes;
 
   // Check unavailable day of the week
   if (availability.unavailableDays && availability.unavailableDays.length > 0) {
-    // Get day name in English (e.g. "Monday")
     const dateObj = new Date(date);
     const dayName = dateObj.toLocaleDateString("en-US", { weekday: "long" });
     if (availability.unavailableDays.includes(dayName)) {
@@ -107,7 +97,7 @@ export async function checkConflict(
     };
   }
 
-  // 2. Check overlap with other active bookings for the same boat
+  // Check overlap with other active bookings for the same boat
   const activeBookings = bookings.filter(
     (b: any) =>
       b.boat_id === boatId &&
@@ -120,7 +110,6 @@ export async function checkConflict(
     const otherDuration = b.duration_minutes || 120;
     const otherEnd = otherStart + otherDuration;
 
-    // Check overlap: startA < endB and startB < endA
     if (bookStart < otherEnd && otherStart < bookEnd) {
       return {
         conflict: true,
@@ -146,79 +135,31 @@ export async function createManualBooking(bookingData: {
   try {
     const { user, role } = await checkRole(["provider", "admin"]);
     const supabase = await createClient();
-    const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
 
-    // Check conflicts first
-    const conflictRes = await checkConflict(
-      bookingData.boat_id,
-      bookingData.booking_date,
-      bookingData.booking_time,
-      bookingData.duration_minutes
-    );
-
-    if (conflictRes.conflict) {
-      return { success: false, error: conflictRes.reason };
+    const { data: boat } = await supabase.from("boats").select("provider_id").eq("id", bookingData.boat_id).single() as any;
+    if (role === "provider" && boat && boat.provider_id !== user.id) {
+      throw new Error("Non autorisé : Ce navire ne vous appartient pas");
     }
 
-    if (isPlaceholder) {
-      const db = getMockDb();
-      const boat = db.boats?.[bookingData.boat_id];
-      if (role === "provider" && boat && boat.provider_id !== user.id) {
-        throw new Error("Non autorisé : Ce navire ne vous appartient pas");
-      }
-    } else {
-      const { data: boat } = await supabase.from("boats").select("provider_id").eq("id", bookingData.boat_id).single() as any;
-      if (role === "provider" && boat && boat.provider_id !== user.id) {
-        throw new Error("Non autorisé : Ce navire ne vous appartient pas");
-      }
-    }
+    const providerId = user?.id || "unknown";
 
-    const providerId = user?.id || "mock-partner-id";
+    // Use atomic database function with advisory locking to prevent overbooking
+    const { data: result, error: rpcError } = await (supabase as any)
+      .rpc("atomic_create_partner_booking", {
+        p_boat_id: bookingData.boat_id,
+        p_booking_date: bookingData.booking_date,
+        p_booking_time: bookingData.booking_time,
+        p_duration_minutes: bookingData.duration_minutes,
+        p_client_name: bookingData.client_name,
+        p_client_phone: bookingData.client_phone,
+        p_client_notes: bookingData.client_notes || "",
+        p_guest_count: bookingData.guest_count,
+        p_total_amount: bookingData.total_amount,
+        p_provider_id: providerId,
+      });
 
-    const startTime = bookingData.booking_time;
-    const endTimeMins = timeToMinutes(startTime) + bookingData.duration_minutes;
-    const endTime = minutesToTime(endTimeMins);
-
-    const newBooking = {
-      booking_ref: `#PR-${Math.floor(1000 + Math.random() * 9000)}`,
-      client_name: bookingData.client_name,
-      client_phone: bookingData.client_phone,
-      booking_date: bookingData.booking_date,
-      booking_time: bookingData.booking_time,
-      duration_minutes: bookingData.duration_minutes,
-      start_time: startTime,
-      end_time: endTime,
-      guest_count: bookingData.guest_count,
-      booking_type: "private",
-      total_amount: bookingData.total_amount,
-      commission_amount: 0, // No commission for manual bookings
-      provider_amount: bookingData.total_amount,
-      commission_rate: 0, // 0% commission for partner direct
-      status: "confirmed" as const, // Auto-confirmed
-      booking_source: "PARTNER_DIRECT" as const,
-      created_by: "PARTNER" as const,
-      boat_id: bookingData.boat_id,
-      provider_id: providerId,
-      client_notes: bookingData.client_notes || "",
-      experience_id: "1" // Fallback link
-    };
-
-    if (isPlaceholder) {
-      const db = getMockDb();
-      if (!db.bookings) db.bookings = [];
-      const created = {
-        id: `b-manual-${Date.now()}`,
-        created_at: new Date().toISOString(),
-        ...newBooking
-      };
-      db.bookings.push(created);
-      saveMockDb(db);
-    } else {
-      const { error } = await (supabase as any)
-        .from("bookings")
-        .insert(newBooking);
-      if (error) throw error;
-    }
+    if (rpcError) throw rpcError;
+    if (!result?.success) throw new Error(result?.error || "Échec de la création de la réservation");
 
     revalidatePath("/partner/bookings");
     revalidatePath("/partner/availability");
@@ -234,33 +175,17 @@ export async function updateBookingStatus(bookingId: string, newStatus: string) 
   try {
     const { user, role } = await checkRole(["provider", "admin"]);
     const supabase = await createClient();
-    const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
 
-    if (isPlaceholder) {
-      const db = getMockDb();
-      const list = db.bookings || [];
-      const booking = list.find((b: any) => b.id === bookingId);
-      if (!booking) throw new Error("Réservation introuvable");
-
-      if (role === "provider" && booking.provider_id !== user.id) {
-        throw new Error("Non autorisé : Cette réservation ne vous appartient pas");
-      }
-
-      booking.status = newStatus;
-      db.bookings = list;
-      saveMockDb(db);
-    } else {
-      const { data: booking } = await supabase.from("bookings").select("provider_id").eq("id", bookingId).single() as any;
-      if (role === "provider" && booking?.provider_id !== user.id) {
-        throw new Error("Non autorisé : Cette réservation ne vous appartient pas");
-      }
-
-      const { error } = await (supabase as any)
-        .from("bookings")
-        .update({ status: newStatus })
-        .eq("id", bookingId);
-      if (error) throw error;
+    const { data: booking } = await supabase.from("bookings").select("provider_id").eq("id", bookingId).single() as any;
+    if (role === "provider" && booking?.provider_id !== user.id) {
+      throw new Error("Non autorisé : Cette réservation ne vous appartient pas");
     }
+
+    const { error } = await (supabase as any)
+      .from("bookings")
+      .update({ status: newStatus })
+      .eq("id", bookingId);
+    if (error) throw error;
 
     if (newStatus === "cancelled" || newStatus === "confirmed" || newStatus === "completed") {
       try {
@@ -289,30 +214,17 @@ export async function updateBookingStatus(bookingId: string, newStatus: string) 
 export async function saveBoatAvailability(boatId: string, settings: BoatAvailabilitySettings) {
   try {
     const { user, role } = await checkRole(["provider", "admin"]);
-    const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
+    const supabase = await createClient();
 
-    if (isPlaceholder) {
-      const db = getMockDb();
-      const boat = db.boats?.[boatId];
-      if (role === "provider" && boat && boat.provider_id !== user.id) {
-        throw new Error("Non autorisé : Ce navire ne vous appartient pas");
-      }
-
-      if (!db.boat_availability) db.boat_availability = {};
-      db.boat_availability[boatId] = settings;
-      saveMockDb(db);
-    } else {
-      const supabase = await createClient();
-      const { data: boat } = await supabase.from("boats").select("provider_id").eq("id", boatId).single() as any;
-      if (role === "provider" && boat && boat.provider_id !== user.id) {
-        throw new Error("Non autorisé : Ce navire ne vous appartient pas");
-      }
-
-      const { error } = await (supabase as any)
-        .from("boat_availability")
-        .upsert({ boat_id: boatId, settings });
-      if (error) throw error;
+    const { data: boat } = await supabase.from("boats").select("provider_id").eq("id", boatId).single() as any;
+    if (role === "provider" && boat && boat.provider_id !== user.id) {
+      throw new Error("Non autorisé : Ce navire ne vous appartient pas");
     }
+
+    const { error } = await (supabase as any)
+      .from("boat_availability")
+      .upsert({ boat_id: boatId, settings });
+    if (error) throw error;
 
     revalidatePath("/partner/availability");
     return { success: true };
@@ -324,39 +236,29 @@ export async function saveBoatAvailability(boatId: string, settings: BoatAvailab
 
 export async function getBoatAvailability(boatId: string): Promise<BoatAvailabilitySettings> {
   const { user, role } = await checkRole(["provider", "admin"]);
-  const db = getMockDb();
-  const defaultSettings = {
+  const defaultSettings: BoatAvailabilitySettings = {
     workingHours: { start: "08:00", end: "20:00" },
     breakTime: { start: "13:00", end: "14:00" },
     unavailableDays: [],
     maintenanceDates: []
   };
 
-  const isPlaceholder = process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
-  if (isPlaceholder) {
-    const boat = db.boats?.[boatId];
+  try {
+    const supabase = await createClient();
+    const { data: boat } = await supabase.from("boats").select("provider_id").eq("id", boatId).single() as any;
     if (role === "provider" && boat && boat.provider_id !== user.id) {
       throw new Error("Non autorisé : Ce navire ne vous appartient pas");
     }
-    return db.boat_availability?.[boatId] || defaultSettings;
-  } else {
-    try {
-      const supabase = await createClient();
-      const { data: boat } = await supabase.from("boats").select("provider_id").eq("id", boatId).single() as any;
-      if (role === "provider" && boat && boat.provider_id !== user.id) {
-        throw new Error("Non autorisé : Ce navire ne vous appartient pas");
-      }
 
-      const { data, error } = await (supabase as any)
-        .from("boat_availability")
-        .select("settings")
-        .eq("boat_id", boatId)
-        .single();
-      if (error || !data) return defaultSettings;
-      return data.settings as BoatAvailabilitySettings;
-    } catch (err: any) {
-      if (err.message?.includes("Non autorisé")) throw err;
-      return defaultSettings;
-    }
+    const { data, error } = await (supabase as any)
+      .from("boat_availability")
+      .select("settings")
+      .eq("boat_id", boatId)
+      .single();
+    if (error || !data) return defaultSettings;
+    return data.settings as BoatAvailabilitySettings;
+  } catch (err: any) {
+    if (err.message?.includes("Non autorisé")) throw err;
+    return defaultSettings;
   }
 }
