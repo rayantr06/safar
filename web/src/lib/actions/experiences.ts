@@ -143,6 +143,7 @@ export async function createExperience(experience: any) {
   revalidatePath("/partner/boats");
   revalidatePath("/admin/experiences");
   revalidatePath("/experiences");
+  revalidatePath("/");
   return { success: true, data };
 }
 
@@ -250,9 +251,10 @@ export async function createDestination(destination: any) {
   await checkRole(["admin"]);
   const supabase = await createClient();
 
+  const { id: _tempId, ...destinationPayload } = destination;
   const { data, error } = await (supabase as any)
     .from("destinations")
-    .insert(destination)
+    .insert(destinationPayload)
     .select()
     .single();
   if (error) throw new Error(error.message);

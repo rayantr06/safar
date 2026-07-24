@@ -153,10 +153,10 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
       price_per_seat: null,
       duration_minutes: 120,
       max_guests: 6,
-      status: "pending_approval",
-      destination_id: destinations[0]?.id || "d1",
-      provider_id: partners[0]?.id || "mock-partner-id",
-      boat_id: "1",
+      status: "draft",
+      destination_id: destinations[0]?.id || null,
+      provider_id: partners[0]?.id || "",
+      boat_id: partners[0]?.boatsList?.[0]?.id || "",
       description: "",
       main_image_url: "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
       images: ["https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020"],
@@ -175,7 +175,19 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
   const handleSaveExp = async () => {
     if (!selectedExp) return;
     const isNew = selectedExp.id === "";
-    const isApproved = selectedExp.status === "approved";
+
+    if (!selectedExp.title?.trim()) {
+      alert("Le titre est obligatoire");
+      return;
+    }
+    if (!selectedExp.boat_id) {
+      alert("Veuillez sélectionner un bateau");
+      return;
+    }
+
+    const validStatuses = ["draft", "published", "hidden", "archived"];
+    const status = validStatuses.includes(selectedExp.status) ? selectedExp.status : "draft";
+    const isPublished = status === "published";
 
     const payload = {
       title: selectedExp.title,
@@ -185,10 +197,10 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
       price_per_seat: selectedExp.type === "shared" ? selectedExp.price_per_seat : null,
       duration_minutes: selectedExp.duration_minutes,
       max_guests: selectedExp.max_guests,
-      is_published: isApproved,
-      status: selectedExp.status,
+      is_published: isPublished,
+      status,
       description: selectedExp.description,
-      destination_id: selectedExp.destination_id,
+      destination_id: selectedExp.destination_id || null,
       provider_id: selectedExp.provider_id,
       boat_id: selectedExp.boat_id,
       main_image_url: selectedExp.main_image_url,
@@ -208,7 +220,8 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
             ...res.data,
             partner: partners.find(p => p.id === res.data.provider_id)?.name || "Partenaire",
             destination: destinations.find(d => d.id === res.data.destination_id)?.name || "Béjaïa",
-            status: res.data.is_published ? "approved" : "rejected"
+            status: res.data.is_published ? "approved" : "rejected",
+            contentStatus: res.data.status || "draft"
           }]);
         }
       } else {
@@ -216,15 +229,18 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
         if (res.success) {
           setExperiences((prev) => prev.map((e) => e.id === selectedExp.id ? {
             ...selectedExp,
+            ...payload,
             partner: partners.find(p => p.id === selectedExp.provider_id)?.name || selectedExp.partner,
             destination: destinations.find(d => d.id === selectedExp.destination_id)?.name || selectedExp.destination,
-            status: isApproved ? "approved" : (selectedExp.status === "pending_approval" ? "pending_approval" : "rejected")
+            status: isPublished ? "approved" : "rejected",
+            contentStatus: status
           } : e));
         }
       }
       setSelectedExp(null);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Failed to save experience:", err);
+      alert("Erreur: " + (err.message || "Échec de la sauvegarde"));
     }
   };
 

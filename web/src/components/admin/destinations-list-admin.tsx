@@ -129,7 +129,6 @@ export function DestinationsListAdmin({ initialDestinations }: { initialDestinat
       bookings_count: 0,
       revenue_dzd: "0",
       rating: 4.8,
-      is_active: false,
       is_featured: false,
     };
     setSelectedDest(newDest as Destination);
@@ -160,31 +159,39 @@ export function DestinationsListAdmin({ initialDestinations }: { initialDestinat
     if (!selectedDest || !editForm.id) return;
     const isNew = editForm.id.startsWith("new-");
 
-    const savedDest = {
-      ...selectedDest,
-      ...editForm,
-    } as Destination;
-
-    setDestinations((prev) => {
-      if (isNew) {
-        return [...prev, savedDest];
-      } else {
-        return prev.map((d) => (d.id === editForm.id ? savedDest : d));
-      }
-    });
-
     try {
       if (isNew) {
-        await createDestination(savedDest);
+        const { id: _tempId, ...destinationPayload } = {
+          ...selectedDest,
+          ...editForm,
+        } as Destination;
+        const res = await createDestination(destinationPayload);
+        if (res?.success && res?.data) {
+          setDestinations((prev) => [...prev, {
+            ...res.data,
+            experience_count: 0,
+            bookings_count: 0,
+            revenue_dzd: "0",
+            rating: 4.8,
+          }]);
+        }
       } else {
+        const savedDest = {
+          ...selectedDest,
+          ...editForm,
+        } as Destination;
+        setDestinations((prev) => prev.map((d) => (d.id === editForm.id ? savedDest : d)));
         await saveDestination(editForm.id, editForm);
       }
-    } catch (err) {
+      setIsEditing(false);
+      setSelectedDest(null);
+    } catch (err: any) {
       console.error("Failed to save destination:", err);
+      alert("Erreur: " + (err.message || "Échec de la sauvegarde"));
+      if (isNew) {
+        setDestinations((prev) => prev.filter((d) => d.id !== `new-${Date.now()}` || d.name !== "Nouvelle Destination"));
+      }
     }
-
-    setIsEditing(false);
-    setSelectedDest(null);
   };
 
   // Filter & Sort

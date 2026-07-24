@@ -17,6 +17,7 @@ import {
   Globe,
   Home,
   Bell,
+  Mail,
 } from "lucide-react";
 import { getUnreadCount } from "@/lib/actions/notifications";
 
@@ -153,6 +154,7 @@ function AdminSidebarNav() {
     { href: "/admin/finance", label: "Finance", icon: DollarSign },
     { href: "/admin/destinations", label: "Destinations", icon: MapPin },
     { href: "/admin/notifications", label: "Notifications", icon: Bell },
+    { href: "/admin/messages", label: "Messages", icon: Mail },
     { href: "/admin/website", label: "Gestion du site", icon: Globe },
   ];
 
