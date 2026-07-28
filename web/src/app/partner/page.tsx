@@ -62,18 +62,26 @@ export default async function PartnerDashboardPage() {
   );
   
   const monthlyRevenue = monthlyActiveBookings.reduce((sum, b) => {
-    if (b.booking_source === "PARTNER_DIRECT" || b.booking_source === "PARTNER_MANUAL") {
+    if (b.booking_source === "PARTNER_DIRECT") {
       return sum + (b.total_amount || 0);
     }
     return sum + (b.provider_amount || 0); // safar amount minus commission
   }, 0);
 
   // 4. Safar vs Manual bookings count
-  const safarBookings = allBookings.filter((b) => b.booking_source !== "PARTNER_DIRECT" && b.booking_source !== "PARTNER_MANUAL");
-  const manualBookings = allBookings.filter((b) => b.booking_source === "PARTNER_DIRECT" || b.booking_source === "PARTNER_MANUAL");
+  const safarBookings = allBookings.filter((b) => b.booking_source !== "PARTNER_DIRECT");
+  const manualBookings = allBookings.filter((b) => b.booking_source === "PARTNER_DIRECT");
 
   // 5. Available boats
-  const availableBoatsCount = 2; // Sirène de Béjaïa and Le Pêcheur II are both active
+  let availableBoatsCount = 0;
+  if (user) {
+    const { count } = await supabase
+      .from("boats")
+      .select("id", { count: "exact", head: true })
+      .eq("provider_id", user.id)
+      .eq("is_active", true);
+    availableBoatsCount = count || 0;
+  }
 
   // Next trip today
   const nextTrip = todayTrips.find(
@@ -209,9 +217,9 @@ export default async function PartnerDashboardPage() {
                 <div className="flex justify-between text-xs font-bold py-1 border-b border-outline-variant/20">
                   <span className="text-on-surface-variant">Source de réservation</span>
                   <span className={`px-2 py-0.5 rounded-full text-[9px] uppercase ${
-                    (nextTrip.booking_source === "PARTNER_DIRECT" || nextTrip.booking_source === "PARTNER_MANUAL") ? "bg-green-100 text-green-800" : "bg-blue-100 text-blue-800"
+                    (nextTrip.booking_source === "PARTNER_DIRECT") ? "bg-green-100 text-green-800" : "bg-blue-100 text-blue-800"
                   }`}>
-                    {(nextTrip.booking_source === "PARTNER_DIRECT" || nextTrip.booking_source === "PARTNER_MANUAL") ? "Manuel" : "Safar DZ"}
+                    {(nextTrip.booking_source === "PARTNER_DIRECT") ? "Manuel" : "Safar DZ"}
                   </span>
                 </div>
                 {nextTrip.client_notes && (
@@ -267,7 +275,7 @@ export default async function PartnerDashboardPage() {
               </div>
             ) : (
               allBookings.slice(0, 5).map((b) => {
-                const isManual = b.booking_source === "PARTNER_DIRECT" || b.booking_source === "PARTNER_MANUAL";
+                const isManual = b.booking_source === "PARTNER_DIRECT";
                 const isPending = b.status === "new" || b.status === "pending";
 
                 return (

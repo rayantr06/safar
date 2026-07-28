@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { ImageUploader } from "@/components/admin/image-uploader";
+import { toast } from "sonner";
 
 interface ExperiencesListAdminProps {
   initialExperiences: any[];
@@ -103,10 +104,10 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
         setExperiences((prev) => prev.filter((item) => item.id !== id));
         setSelectedExp(null);
       } else {
-        alert(res.error || "Échec de la suppression.");
+        toast.error(res.error || "Échec de la suppression.");
       }
     } catch (err: any) {
-      alert(err.message || "Échec de la suppression.");
+      toast.error(err.message || "Échec de la suppression.");
     }
   };
 
@@ -177,11 +178,11 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
     const isNew = selectedExp.id === "";
 
     if (!selectedExp.title?.trim()) {
-      alert("Le titre est obligatoire");
+      toast.error("Le titre est obligatoire");
       return;
     }
     if (!selectedExp.boat_id) {
-      alert("Veuillez sélectionner un bateau");
+      toast.error("Veuillez sélectionner un bateau");
       return;
     }
 
@@ -240,7 +241,7 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
       setSelectedExp(null);
     } catch (err: any) {
       console.error("Failed to save experience:", err);
-      alert("Erreur: " + (err.message || "Échec de la sauvegarde"));
+      toast.error("Erreur: " + (err.message || "Échec de la sauvegarde"));
     }
   };
 
@@ -880,7 +881,7 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
                               value={selectedExp.provider_id || ""}
                               onChange={(e) => {
                                 const provId = e.target.value;
-                                const firstBoat = partners.find(p => p.id === provId)?.boatsList?.[0]?.id || "1";
+                                const firstBoat = partners.find(p => p.id === provId)?.boatsList?.[0]?.id || "";
                                 setSelectedExp({ ...selectedExp, provider_id: provId, boat_id: firstBoat });
                               }}
                               className="w-full bg-white border border-outline-variant rounded-xl text-xs p-2.5 font-bold"
@@ -901,7 +902,7 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
                                 <option key={b.id} value={b.id}>⛵ {b.name} ({b.type})</option>
                               ))}
                               {selectedPartnerBoats.length === 0 && (
-                                <option value="1">Salim Boat (Yacht)</option>
+                                <option value="" disabled>Aucun bateau disponible</option>
                               )}
                             </select>
                           </div>

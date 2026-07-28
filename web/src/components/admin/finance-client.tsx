@@ -51,87 +51,21 @@ export function FinanceClient({
   initialPartners,
   initialCommissionRate = 15,
 }: FinanceClientProps) {
-  // Default fallback data matching mockup exactly
-  const DEFAULT_TRANSACTIONS: Transaction[] = [
-    {
-      id: "1",
-      ref: "#SF-9042",
-      client: "Kader B.",
-      experience: "Sunset Cruise",
-      partner: "Captain Amine Tours",
-      total: 12500,
-      commission: 1875,
-      net: 10625,
-      status: "Paid",
-    },
-    {
-      id: "2",
-      ref: "#SF-9045",
-      client: "Zahra L.",
-      experience: "Gouraya Day Trip",
-      partner: "Béjaïa Sea Escapes",
-      total: 45000,
-      commission: 6750,
-      net: 38250,
-      status: "Processing",
-    },
-    {
-      id: "3",
-      ref: "#SF-9048",
-      client: "Mourad S.",
-      experience: "Yacht Party",
-      partner: "Vieux Port Adventures",
-      total: 110000,
-      commission: 16500,
-      net: 93500,
-      status: "Pending",
-    },
-  ];
-
-  const DEFAULT_PARTNERS: PartnerPayout[] = [
-    {
-      id: "p1",
-      name: "Captain Amine Tours",
-      trips: 24,
-      amountOwed: 145000,
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCNjrwGq8MgjrMapq5mDEd6FKw8ThW8zSN3TtsIQYov7aLyaAB72oRtdKbe2XD8eVciZaTSiGgGSnKfUY_V1lRqUSRHs0S_Gg4NE83_2S1c6ygxInCX_-rGHTsufI-qUKr17rQpEuRBySl3Uhvg4ikOnOVeauNkSS1pFWEGIf4GO5pOSLHJ_obPinnX0nXhBXb1kmi_xZuYHghTjRlysvSD0_uflU6ESH_wa7VLEeojHn3QKoY6TQLk41Lg-Y3cOM9IviVXREbpktA",
-      status: "unsettled",
-    },
-    {
-      id: "p2",
-      name: "Béjaïa Sea Escapes",
-      trips: 12,
-      amountOwed: 82000,
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAE2aVqvXvv2iHa_ymSDgYD-rFCDiFJAcWtaqPBfBxujqeMgECFo4hHLt8oOl813SEItN3lXH0bKUwGqkU6AzWhG4zN_ABdkbsG5DdajUyOLoGujhccNCJL9P4IM4M8-FTlQ1IIa66aQYfobNX8-YxMnUbFV798ihb9knBp5YUsNQXaYFRU9XLIqJcgqP0eVJ7GwDxwtNqrC6X-GcZNEqtmYDAR9Bm8lU4UAdc_Zb-BQU2W-lqZG5hPlf4y6UGygZsmPqT3t1nOxPE",
-      status: "unsettled",
-    },
-    {
-      id: "p3",
-      name: "Vieux Port Adventures",
-      trips: 8,
-      amountOwed: 34500,
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA-hsd5neeEWH641eaXHhT3hmu4laHv4-XN8JL2ULI3rKmUbohpAve13sZcaUHo2rLS-iQC_QPqTnMG8WH5q4uLXE_O1n900QC6PW3rxV9lqFdGSnBzgVdcmOcoKM5-TBikHxJXASBQ-w_9cPTuSYu2c8ALxv2455NyE8iDIn8YVPfMq78_u2K1AB_I_0iJCW8_Di1JfzAMFVa9GL2xGQqyH6pTtpK41UXKiN02iHOtLL7Iv9WDhJg7SqgNUCt_TMzg6kC4M2bTcnI",
-      status: "unsettled",
-    },
-  ];
-
   // States
   const [commissionRate, setCommissionRate] = useState<number>(initialCommissionRate);
   const [payouts, setPayouts] = useState<PartnerPayout[]>(
-    initialPartners || DEFAULT_PARTNERS
+    initialPartners || []
   );
   const [transactions] = useState<Transaction[]>(
-    initialTransactions || DEFAULT_TRANSACTIONS
+    initialTransactions || []
   );
   const [showCommissionToast, setShowCommissionToast] = useState(false);
 
-  // Totals calculations based on dataset
-  const totalRevenue = transactions.reduce((acc, t) => acc + t.total, 0) * 1000; // Scaled to look realistic (e.g. 12.5M vs single transactions sum)
-  // Let's match mockup numbers exactly for the visuals
-  const mockRevenue = 12500000; // 12.5M DA
-  const mockCommission = (mockRevenue * commissionRate) / 100;
-  const mockNet = mockRevenue - mockCommission;
-  const mockPending = payouts
+  // Compute real totals from actual transaction data
+  const totalRevenue = transactions.reduce((acc, t) => acc + t.total, 0);
+  const totalCommission = transactions.reduce((acc, t) => acc + t.commission, 0);
+  const netPartner = transactions.reduce((acc, t) => acc + t.net, 0);
+  const totalPending = payouts
     .filter((p) => p.status !== "settled")
     .reduce((acc, p) => acc + p.amountOwed, 0);
 
@@ -196,7 +130,7 @@ export function FinanceClient({
             Volume d'Affaires
           </p>
           <p className="font-headline-sm text-headline-sm font-bold text-primary tracking-tight">
-            {formatPriceDA(mockRevenue)}
+            {formatPriceDA(totalRevenue * 100)}
           </p>
         </div>
 
@@ -215,7 +149,7 @@ export function FinanceClient({
             Commission Safar
           </p>
           <p className="font-headline-sm text-headline-sm font-bold text-tertiary tracking-tight">
-            {formatPriceDA(mockCommission)}
+            {formatPriceDA(totalCommission * 100)}
           </p>
         </div>
 
@@ -234,7 +168,7 @@ export function FinanceClient({
             Part Partenaires
           </p>
           <p className="font-headline-sm text-headline-sm font-bold text-primary tracking-tight">
-            {formatPriceDA(mockNet)}
+            {formatPriceDA(netPartner * 100)}
           </p>
         </div>
 
@@ -245,7 +179,7 @@ export function FinanceClient({
             <span className="p-2 bg-error-container text-error rounded-lg">
               <Clock className="h-6 w-6" />
             </span>
-            {mockPending > 0 ? (
+            {totalPending > 0 ? (
               <span className="text-xs font-bold text-error bg-error-container/50 px-2 py-1 rounded">
                 Urgent
               </span>
@@ -259,7 +193,7 @@ export function FinanceClient({
             Reversements Dus
           </p>
           <p className="font-headline-sm text-headline-sm font-bold text-error tracking-tight">
-            {formatPriceDA(mockPending)}
+            {formatPriceDA(totalPending * 100)}
           </p>
         </div>
       </div>

@@ -1,8 +1,9 @@
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { IMAGES } from "@/lib/constants";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { MessageCircle, CheckCircle, Users, Calendar, ArrowRight, Anchor } from "lucide-react";
+import { MessageCircle, CheckCircle, Users, Calendar, ArrowRight, Anchor, XCircle } from "lucide-react";
 import { formatPriceDA, getWhatsAppLink } from "@/lib/utils/format";
 
 export const dynamic = "force-dynamic";
@@ -37,13 +38,16 @@ export default async function BookingConfirmationPage({
     console.error("Error fetching booking confirmation details:", err);
   }
 
-  // Fallback default details
-  const experienceTitle = booking?.experiences?.title || "Balade privée Cap Carbon";
-  const experienceImage = booking?.experiences?.main_image_url || IMAGES.EXPERIENCE_CAP_CARBON;
-  const guestCount = booking?.guest_count || 5;
-  const bookingDate = booking?.booking_date || "2026-08-15";
-  const bookingTime = booking?.booking_time || "15:00";
-  const totalAmount = booking?.total_amount ? booking.total_amount / 100 : 20000;
+  if (!booking) {
+    notFound();
+  }
+
+  const experienceTitle = booking.experiences?.title;
+  const experienceImage = booking.experiences?.main_image_url || IMAGES.EXPERIENCE_CAP_CARBON;
+  const guestCount = booking.guest_count;
+  const bookingDate = booking.booking_date;
+  const bookingTime = booking.booking_time;
+  const totalAmount = booking.total_amount / 100;
 
   const whatsappLink = getWhatsAppLink(
     process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "213556483634",

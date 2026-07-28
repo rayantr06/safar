@@ -1,0 +1,117 @@
+
+> web@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.5:3000
+- Environments: .env.local
+✓ Ready in 620ms
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\Users\msdnl\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\Users\msdnl\safar dz 2.0\web\package-lock.json
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+
+Image with src "https://user16156.na.imgto.link/public/20260705/image.avif" is using quality "90" which is not configured in images.qualities [75]. Please update your config to [75, 90].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities
+ GET / 200 in 2.4s (next.js: 217ms, proxy.ts: 63ms, application-code: 2.1s)
+ GET / 200 in 1057ms (next.js: 8ms, proxy.ts: 10ms, application-code: 1039ms)
+[browser] Image with src "https://user16156.na.imgto.link/public/20260705/image.avif" is using quality "90" which is not configured in images.qualities [75]. Please update your config to [75, 90].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities (chrome-extension://kiilhncajadbgbmdbdcopdpnmdhlbdle/assets/js/content.js:13:96450)
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html
+                          lang="fr"
+                          className="inter_786c1081-module__J60SBq__variable space_mono_a64b21f6-module__DgXEGW__varia..."
+-                         crxlauncher=""
+                        >
+                          <body
+                            className="min-h-full flex flex-col font-sans"
+-                           data-new-gr-c-s-check-loaded="14.1313.0"
+-                           data-gr-ext-installed=""
+                          >
+                  ...
+ 
+    at <unknown> (chrome-extension://kiilhncajadbgbmdbdcopdpnmdhlbdle/assets/js/content.js:13:96450)
+    at d (chrome-extension://kiilhncajadbgbmdbdcopdpnmdhlbdle/assets/js/content.js:13:96560)
+    at f (chrome-extension://kiilhncajadbgbmdbdcopdpnmdhlbdle/assets/js/content.js:13:96661) (chrome-extension://kiilhncajadbgbmdbdcopdpnmdhlbdle/assets/js/content.js:13:96450)
+[browser] Image with src "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+ GET /ADMIN 404 in 380ms (next.js: 328ms, proxy.ts: 8ms, application-code: 44ms)
+ GET /login 200 in 761ms (next.js: 639ms, proxy.ts: 6ms, application-code: 117ms)
+ POST /login 200 in 848ms (next.js: 9ms, proxy.ts: 4ms, application-code: 835ms)
+  └─ ƒ login({}) in 818ms src/app/(auth)/login/actions.ts
+ GET /admin 200 in 3.5s (next.js: 469ms, proxy.ts: 579ms, application-code: 2.4s)
+ POST /login 303 in 4.7s (next.js: 6ms, proxy.ts: 5ms, application-code: 4.7s)
+  └─ ƒ login({}) in 1196ms src/app/(auth)/login/actions.ts
+ GET /admin/destinations 200 in 1341ms (next.js: 433ms, proxy.ts: 615ms, application-code: 293ms)
+ GET /admin/destinations 200 in 1469ms (next.js: 7ms, proxy.ts: 1153ms, application-code: 309ms)
+ GET /login 200 in 811ms (next.js: 6ms, proxy.ts: 784ms, application-code: 22ms)
+ POST /login 200 in 1272ms (next.js: 7ms, proxy.ts: 758ms, application-code: 507ms)
+  └─ ƒ login({}) in 497ms src/app/(auth)/login/actions.ts
+ GET /partner 200 in 2.1s (next.js: 348ms, proxy.ts: 815ms, application-code: 890ms)
+ POST /login 303 in 4.4s (next.js: 7ms, proxy.ts: 1120ms, application-code: 3.2s)
+  └─ ƒ login({}) in 1163ms src/app/(auth)/login/actions.ts
+ GET /partner/bookings 200 in 2.1s (next.js: 520ms, proxy.ts: 813ms, application-code: 717ms)
+Failed to create manual booking: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.atomic_create_partner_booking with parameters p_boat_id, p_booking_date, p_booking_time, p_client_name, p_client_notes, p_client_phone, p_duration_minutes, p_guest_count, p_provider_id, p_total_amount or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: null,
+  message: 'Could not find the function public.atomic_create_partner_booking(p_boat_id, p_booking_date, p_booking_time, p_client_name, p_client_notes, p_client_phone, p_duration_minutes, p_guest_count, p_provider_id, p_total_amount) in the schema cache'
+}
+ POST /partner/bookings 200 in 2.1s (next.js: 8ms, proxy.ts: 783ms, application-code: 1302ms)
+  └─ ƒ createManualBooking({"boat_id":"2","booking_date":"2026-07-25","booking_time":"14:00","...":"6 items not stringified"}) in 1291ms src/lib/actions/partner-bookings.ts
+ GET /partner/settings 200 in 1535ms (next.js: 340ms, proxy.ts: 1163ms, application-code: 32ms)
+ POST /partner/settings 200 in 1947ms (next.js: 7ms, proxy.ts: 615ms, application-code: 1324ms)
+  └─ ƒ getPartnerSettings() in 1317ms src/lib/actions/partner-settings.ts
+[browser] Image with src "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+ POST /partner/settings 200 in 1658ms (next.js: 5ms, proxy.ts: 565ms, application-code: 1088ms)
+  └─ ƒ getPartnerSettings() in 1081ms src/lib/actions/partner-settings.ts
+ GET /partner/earnings 200 in 1825ms (next.js: 317ms, proxy.ts: 637ms, application-code: 871ms)
+ GET /partner/availability 200 in 2.4s (next.js: 366ms, proxy.ts: 1014ms, application-code: 978ms)
+✓ Compiled in 102ms
+ GET /partner/availability 200 in 1896ms (next.js: 107ms, proxy.ts: 1701ms, application-code: 88ms)
+✓ Compiled in 63ms
+ GET /partner/availability 200 in 7.7s (next.js: 64ms, proxy.ts: 7.5s, application-code: 73ms)
+✓ Compiled in 122ms
+ GET /partner/availability 200 in 993ms (next.js: 88ms, proxy.ts: 776ms, application-code: 128ms)
+ GET /partner/availability 200 in 660ms (next.js: 6ms, proxy.ts: 602ms, application-code: 52ms)
+ GET /partner/availability 200 in 929ms (next.js: 4ms, proxy.ts: 884ms, application-code: 40ms)
+ GET /partner/availability 200 in 626ms (next.js: 5ms, proxy.ts: 585ms, application-code: 37ms)
+✓ Compiled in 74ms
+ GET /partner/availability 200 in 2.9s (next.js: 66ms, proxy.ts: 2.7s, application-code: 92ms)
+ GET /partner/availability 200 in 779ms (next.js: 4ms, proxy.ts: 741ms, application-code: 34ms)
+ GET /partner/availability 200 in 1049ms (next.js: 4ms, proxy.ts: 1011ms, application-code: 35ms)
+ GET /partner/availability 200 in 1045ms (next.js: 4ms, proxy.ts: 1014ms, application-code: 27ms)
+
+C:\Users\msdnl\safar dz 2.0\web>

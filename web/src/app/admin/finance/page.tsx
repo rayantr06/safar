@@ -8,6 +8,7 @@ export default async function AdminFinancePage() {
 
   let transactions: any[] = [];
   let partners: any[] = [];
+  let defaultCommissionRate = 15;
 
   try {
     const { data: bookingsData, error: bookingsError } = await supabase
@@ -71,15 +72,29 @@ export default async function AdminFinancePage() {
 
       partners = Object.values(partnersMap);
     }
-  } catch (err) {
+    } catch (err) {
     console.error("Error loading admin finance data from DB:", err);
+  }
+
+  // Compute default commission rate from real partners data
+  try {
+    const { data: providers } = await supabase
+      .from("providers")
+      .select("commission_rate")
+      .not("commission_rate", "is", null);
+    if (providers && providers.length > 0) {
+      const totalRate = providers.reduce((sum: number, p: any) => sum + Number(p.commission_rate || 0), 0);
+      defaultCommissionRate = Math.round(totalRate / providers.length);
+    }
+  } catch (err) {
+    console.error("Error fetching commission rates:", err);
   }
 
   return (
     <FinanceClient
       initialTransactions={transactions.length > 0 ? transactions : undefined}
       initialPartners={partners.length > 0 ? partners : undefined}
-      initialCommissionRate={15}
+      initialCommissionRate={defaultCommissionRate}
     />
   );
 }

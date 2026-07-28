@@ -1,11 +1,10 @@
-import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { PartnersListAdmin } from "@/components/admin/partners-list-admin";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminPartnersPage() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   let partners: any[] = [];
   let bookings: any[] = [];
@@ -77,7 +76,7 @@ export default async function AdminPartnersPage() {
     );
     const safarBookings = pBookings.filter((b: any) => b.booking_source === "SAFAR_DZ");
     const directBookings = pBookings.filter(
-      (b: any) => b.booking_source === "PARTNER_DIRECT" || b.booking_source === "PARTNER_MANUAL"
+      (b: any) => b.booking_source === "PARTNER_DIRECT"
     );
 
     const safarRevenue = safarBookings.reduce((sum: number, b: any) => sum + Number(b.total_amount || 0), 0) / 100;

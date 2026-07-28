@@ -262,6 +262,18 @@ export type BoatAvailability = {
   updated_at: string;
 };
 
+export type ContactMessageRow = {
+  id: string;
+  full_name: string;
+  email: string;
+  phone: string | null;
+  subject: string | null;
+  message: string;
+  status: string;
+  admin_note: string | null;
+  created_at: string;
+};
+
 // ============ RPC Function Types ============
 
 export type AtomicCreateBookingInput = {
@@ -316,76 +328,97 @@ export interface Database {
         Row: Profile;
         Insert: Partial<Profile> & { id: string; full_name: string };
         Update: Partial<Profile>;
+        Relationships: [];
       };
       providers: {
         Row: Provider;
         Insert: Partial<Provider> & { id: string; company_name: string };
         Update: Partial<Provider>;
+        Relationships: [];
       };
       boats: {
         Row: Boat;
         Insert: Partial<Boat> & { name: string; type: BoatType; capacity: number; provider_id: string };
         Update: Partial<Boat>;
+        Relationships: [];
       };
       destinations: {
         Row: Destination;
         Insert: Partial<Destination> & { name: string; slug: string };
         Update: Partial<Destination>;
+        Relationships: [];
       };
       experiences: {
         Row: Experience;
         Insert: Partial<Experience> & { title: string; slug: string; type: ExperienceType; boat_id: string };
         Update: Partial<Experience>;
+        Relationships: [];
       };
       experience_images: {
         Row: ExperienceImage;
         Insert: Partial<ExperienceImage> & { experience_id: string; image_url: string };
         Update: Partial<ExperienceImage>;
+        Relationships: [];
       };
       time_slots: {
         Row: TimeSlot;
         Insert: Partial<TimeSlot> & { experience_id: string; date: string; start_time: string; end_time: string; total_seats: number };
         Update: Partial<TimeSlot>;
+        Relationships: [];
       };
       bookings: {
         Row: Booking;
         Insert: Partial<Booking> & { booking_ref: string };
         Update: Partial<Booking>;
+        Relationships: [];
       };
       booking_status_history: {
         Row: BookingStatusHistory;
         Insert: Partial<BookingStatusHistory> & { booking_id: string; new_status: string };
         Update: Partial<BookingStatusHistory>;
+        Relationships: [];
       };
       provider_payouts: {
         Row: ProviderPayout;
         Insert: Partial<ProviderPayout> & { provider_id: string; amount: number; period_start: string; period_end: string };
         Update: Partial<ProviderPayout>;
+        Relationships: [];
       };
       site_content: {
         Row: SiteContent;
         Insert: Partial<SiteContent> & { section: string; content_fr: string };
         Update: Partial<SiteContent>;
+        Relationships: [];
       };
       accommodations: {
         Row: Accommodation;
         Insert: Partial<Accommodation> & { title: string; slug: string; type: AccommodationType };
         Update: Partial<Accommodation>;
+        Relationships: [];
       };
       notifications: {
         Row: Notification;
         Insert: Partial<Notification> & { type: string; title: string };
         Update: Partial<Notification>;
+        Relationships: [];
       };
       notification_settings: {
         Row: NotificationSettings;
         Insert: Partial<NotificationSettings> & { event_type: string };
         Update: Partial<NotificationSettings>;
+        Relationships: [];
       };
       boat_availability: {
         Row: BoatAvailability;
         Insert: Partial<BoatAvailability> & { boat_id: string; settings: unknown };
         Update: Partial<BoatAvailability>;
+        Relationships: [];
+      };
+      contact_messages: {
+        Row: ContactMessageRow;
+        Insert: Partial<ContactMessageRow> & { full_name: string; email: string; message: string };
+        Update: Partial<ContactMessageRow>;
+        Relationships: [];
       };
     };
     Views: {

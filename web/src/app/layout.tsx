@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Mono, JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const inter = Inter({
@@ -91,7 +92,10 @@ export default function RootLayout({
       lang="fr"
       className={`${inter.variable} ${spaceMono.variable} ${cascadia.variable} ${pristineScript.variable} ${kumquat.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        {children}
+        <Toaster position="top-right" richColors closeButton />
+      </body>
     </html>
   );
 }

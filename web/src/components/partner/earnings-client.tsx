@@ -53,7 +53,7 @@ export function EarningsClient({ bookings }: EarningsClientProps) {
     let marketplaceCount = 0;
 
     filteredActiveBookings.forEach(b => {
-      const isDirect = b.booking_source === "PARTNER_DIRECT" || b.booking_source === "PARTNER_MANUAL";
+      const isDirect = b.booking_source === "PARTNER_DIRECT";
       const amount = Number(b.total_amount || b.provider_amount || 0);
 
       if (isDirect) {
@@ -102,7 +102,7 @@ export function EarningsClient({ bookings }: EarningsClientProps) {
     let monthNet = 0;
 
     activeBookings.forEach(b => {
-      const isDirect = b.booking_source === "PARTNER_DIRECT" || b.booking_source === "PARTNER_MANUAL";
+      const isDirect = b.booking_source === "PARTNER_DIRECT";
       const amount = Number(b.total_amount || 0);
       const netAmount = isDirect ? amount : Number(b.provider_amount || (amount * 0.85));
 
@@ -315,7 +315,7 @@ export function EarningsClient({ bookings }: EarningsClientProps) {
                   </tr>
                 ) : (
                   filteredBookings.map((tx) => {
-                    const isDirect = tx.booking_source === "PARTNER_DIRECT" || tx.booking_source === "PARTNER_MANUAL";
+                    const isDirect = tx.booking_source === "PARTNER_DIRECT";
                     const gross = Number(tx.total_amount || tx.provider_amount || 0);
                     const rate = isDirect ? 0 : Number(tx.commission_rate || 15);
                     const commission = isDirect ? 0 : Number(tx.commission_amount || (gross * (rate / 100)));

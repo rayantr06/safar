@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
+import { checkRole } from "@/lib/utils/auth-check";
 
 export type ContactMessage = {
   id: string;
@@ -48,7 +49,7 @@ export async function submitContactMessage(data: ContactFormData) {
     if (message.length > 5000)
       throw new Error("Le message ne peut pas dépasser 5000 caractères");
 
-    const supabase = (await createClient()) as any;
+    const supabase = await createClient();
 
     const { error } = await supabase.from("contact_messages").insert({
       full_name: fullName,
@@ -73,7 +74,8 @@ export async function submitContactMessage(data: ContactFormData) {
 
 export async function getContactMessages() {
   try {
-    const admin = createAdminClient() as any;
+    await checkRole(["admin"]);
+    const admin = createAdminClient();
 
     const { data, error } = await admin
       .from("contact_messages")
@@ -98,7 +100,8 @@ export async function updateContactMessageStatus(
   status: string
 ) {
   try {
-    const admin = createAdminClient() as any;
+    await checkRole(["admin"]);
+    const admin = createAdminClient();
 
     const { error } = await admin
       .from("contact_messages")
@@ -123,7 +126,8 @@ export async function updateContactMessageNote(
   adminNote: string
 ) {
   try {
-    const admin = createAdminClient() as any;
+    await checkRole(["admin"]);
+    const admin = createAdminClient();
 
     const { error } = await admin
       .from("contact_messages")
@@ -145,7 +149,8 @@ export async function updateContactMessageNote(
 
 export async function deleteContactMessage(id: string) {
   try {
-    const admin = createAdminClient() as any;
+    await checkRole(["admin"]);
+    const admin = createAdminClient();
 
     const { error } = await admin
       .from("contact_messages")

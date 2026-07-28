@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { toggleDestinationStatus, saveDestination, createDestination, setDestinationStatus, deleteDestination, ContentStatus } from "@/lib/actions/experiences";
 import { ImageUploader } from "@/components/admin/image-uploader";
+import { toast } from "sonner";
 
 type Destination = {
   id: string;
@@ -104,10 +105,10 @@ export function DestinationsListAdmin({ initialDestinations }: { initialDestinat
         setSelectedDest(null);
         setIsEditing(false);
       } else {
-        alert(res.error || "Échec de la suppression.");
+        toast.error(res.error || "Échec de la suppression.");
       }
     } catch (err: any) {
-      alert(err.message || "Échec de la suppression.");
+      toast.error(err.message || "Échec de la suppression.");
     }
   };
 
@@ -187,7 +188,7 @@ export function DestinationsListAdmin({ initialDestinations }: { initialDestinat
       setSelectedDest(null);
     } catch (err: any) {
       console.error("Failed to save destination:", err);
-      alert("Erreur: " + (err.message || "Échec de la sauvegarde"));
+      toast.error("Erreur: " + (err.message || "Échec de la sauvegarde"));
       if (isNew) {
         setDestinations((prev) => prev.filter((d) => d.id !== `new-${Date.now()}` || d.name !== "Nouvelle Destination"));
       }

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 import { useBookingStore } from "@/stores/booking-store";
 import { createBooking, getExperienceAvailability } from "@/lib/actions/bookings";
 import { Button } from "@/components/ui/button";
@@ -245,19 +246,32 @@ export function BookingClient({ experience }: BookingClientProps) {
   };
 
   const handleConfirm = async () => {
-    if (isSubmitting) return; // STRICT GUARD: Prevent duplicate submissions
+    if (isSubmitting) return;
+    if (!date || !timeSlot) {
+      toast.error("Veuillez sélectionner une date et un horaire.");
+      return;
+    }
+    if (!clientName || !clientName.trim()) {
+      toast.error("Veuillez saisir votre nom complet.");
+      return;
+    }
+    if (!clientPhone || !clientPhone.trim()) {
+      toast.error("Veuillez saisir votre numéro de téléphone.");
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
       const result = await createBooking({
         experience_id: experience.id,
-        time_slot_id: timeSlotId || "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9b",
-        client_name: clientName || "Client Sans Nom",
-        client_phone: clientPhone || "0500000000",
+        time_slot_id: timeSlotId || null,
+        client_name: clientName.trim(),
+        client_phone: clientPhone.trim(),
         client_notes: clientNotes || "",
         guest_count: guestCount,
-        booking_date: date || new Date().toISOString().split('T')[0],
-        booking_time: timeSlot || "10:00",
+        booking_date: date,
+        booking_time: timeSlot,
         total_amount: totalAmount,
         booking_type: experience.type === "shared" ? "shared" : "private",
         duration_minutes: durationMinutes,
@@ -267,11 +281,11 @@ export function BookingClient({ experience }: BookingClientProps) {
         useBookingStore.getState().reset();
         router.push(`/booking/confirmation/${result.booking_ref}`);
       } else {
-        alert("Erreur lors de la réservation : " + result.error);
+        toast.error("Erreur lors de la réservation : " + result.error);
       }
     } catch (err: any) {
       console.error("Booking submission error:", err);
-      alert("Erreur de communication : " + (err.message || err));
+      toast.error("Erreur de communication : " + (err.message || err));
     } finally {
       setIsSubmitting(false);
     }

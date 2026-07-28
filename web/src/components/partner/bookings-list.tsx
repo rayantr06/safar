@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,15 +12,17 @@ import { updateBookingStatus, createManualBooking } from "@/lib/actions/partner-
 
 interface BookingsListProps {
   initialBookings: any[];
+  boats: Array<{ id: string; name: string; boat_type?: string }>;
 }
 
-export function BookingsList({ initialBookings }: BookingsListProps) {
+export function BookingsList({ initialBookings, boats }: BookingsListProps) {
+  const router = useRouter();
   const [bookings, setBookings] = useState(initialBookings);
   const [selectedBooking, setSelectedBooking] = useState<any | null>(null);
   
   // Filters state
   const [searchQuery, setSearchQuery] = useState("");
-  const [sourceFilter, setSourceFilter] = useState<"all" | "SAFAR_DZ" | "PARTNER_DIRECT" | "PARTNER_MANUAL">("all");
+  const [sourceFilter, setSourceFilter] = useState<"all" | "SAFAR_DZ" | "PARTNER_DIRECT">("all");
   const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "confirmed" | "completed" | "cancelled">("all");
   const [dateFilter, setDateFilter] = useState<"all" | "today" | "week" | "month">("all");
 
@@ -33,7 +37,7 @@ export function BookingsList({ initialBookings }: BookingsListProps) {
     booking_time: "09:00",
     duration_hours: 2,
     guest_count: 2,
-    boat_id: "1",
+    boat_id: boats.length > 0 ? boats[0].id : "",
     total_amount: 15000,
     client_notes: ""
   });
@@ -51,7 +55,7 @@ export function BookingsList({ initialBookings }: BookingsListProps) {
         setSelectedBooking((prev: any) => ({ ...prev, status }));
       }
     } else {
-      alert("Erreur lors de la mise à jour : " + res.error);
+      toast.error("Erreur lors de la mise à jour : " + res.error);
     }
     setActionLoading(null);
   };
@@ -75,31 +79,7 @@ export function BookingsList({ initialBookings }: BookingsListProps) {
       });
 
       if (res.success) {
-        // Optimistic refresh by adding locally (or let it reload)
-        const mockNew = {
-          id: `b-manual-opt-${Date.now()}`,
-          booking_ref: `#SF-M${Math.floor(1000 + Math.random() * 9000)}`,
-          client_name: addForm.client_name,
-          client_phone: addForm.client_phone,
-          booking_date: addForm.booking_date,
-          booking_time: addForm.booking_time,
-          duration_minutes: addForm.duration_hours * 60,
-          guest_count: addForm.guest_count,
-          total_amount: addForm.total_amount * 100,
-          provider_amount: addForm.total_amount * 100,
-          status: "confirmed",
-          booking_source: "PARTNER_DIRECT",
-          created_by: "PARTNER",
-          boat_id: addForm.boat_id,
-          experiences: {
-            title: addForm.boat_id === "2" ? "Sortie Pêche - Les Falaises" : "Balade privée Cap Carbon & Aiguades",
-            duration_minutes: addForm.duration_hours * 60,
-            max_guests: 12
-          }
-        };
-        setBookings((prev) => [mockNew, ...prev]);
         setIsAddModalOpen(false);
-        // Reset form
         setAddForm({
           client_name: "",
           client_phone: "",
@@ -107,10 +87,11 @@ export function BookingsList({ initialBookings }: BookingsListProps) {
           booking_time: "09:00",
           duration_hours: 2,
           guest_count: 2,
-          boat_id: "1",
+          boat_id: boats.length > 0 ? boats[0].id : "",
           total_amount: 15000,
           client_notes: ""
         });
+        router.refresh();
       } else {
         setFormError(res.error || "Une erreur est survenue.");
       }
@@ -261,7 +242,7 @@ export function BookingsList({ initialBookings }: BookingsListProps) {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredBookings.map((booking) => {
-            const isManual = booking.booking_source === "PARTNER_DIRECT" || booking.booking_source === "PARTNER_MANUAL";
+            const isManual = booking.booking_source === "PARTNER_DIRECT";
             const isPending = booking.status === "pending" || booking.status === "new";
             const isConfirmed = booking.status === "confirmed";
             const isLoading = actionLoading === booking.id;
@@ -472,8 +453,13 @@ export function BookingsList({ initialBookings }: BookingsListProps) {
                     onChange={(e) => setAddForm({ ...addForm, boat_id: e.target.value })}
                     className="bg-surface border border-outline-variant rounded-xl p-2.5 text-sm"
                   >
-                    <option value="1">Sirène de Béjaïa</option>
-                    <option value="2">Le Pêcheur II</option>
+                    {boats.length === 0 ? (
+                      <option value="" disabled>Aucun bateau disponible</option>
+                    ) : (
+                      boats.map((b) => (
+                        <option key={b.id} value={b.id}>{b.name}</option>
+                      ))
+                    )}
                   </select>
                 </div>
 
@@ -564,7 +550,7 @@ export function BookingsList({ initialBookings }: BookingsListProps) {
                   <div>
                     <p className="font-headline-sm text-xl">{selectedBooking.client_name}</p>
                     <p className="text-on-surface-variant text-sm">
-                      {(selectedBooking.booking_source === "PARTNER_DIRECT" || selectedBooking.booking_source === "PARTNER_MANUAL") ? "Client Direct" : "Client Safar DZ"}
+                      {(selectedBooking.booking_source === "PARTNER_DIRECT") ? "Client Direct" : "Client Safar DZ"}
                     </p>
                   </div>
                 </div>
@@ -584,7 +570,7 @@ export function BookingsList({ initialBookings }: BookingsListProps) {
                   <div className="flex justify-between items-center py-2 border-b border-outline-variant/50">
                     <span className="text-on-surface-variant text-sm">Bateau</span>
                     <span className="font-bold text-sm">
-                      {selectedBooking.boat_id === "2" ? "Le Pêcheur II" : "Sirène de Béjaïa"}
+                      {selectedBooking.boats?.name || selectedBooking.experiences?.title || "—"}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-outline-variant/50">
@@ -605,8 +591,8 @@ export function BookingsList({ initialBookings }: BookingsListProps) {
                   </div>
                   <div className="flex justify-between items-center py-2">
                     <span className="text-on-surface-variant text-sm">Source</span>
-                    <Badge variant={(selectedBooking.booking_source === "PARTNER_DIRECT" || selectedBooking.booking_source === "PARTNER_MANUAL") ? "success" : "default"}>
-                      {(selectedBooking.booking_source === "PARTNER_DIRECT" || selectedBooking.booking_source === "PARTNER_MANUAL") ? "Direct" : "Safar DZ"}
+                    <Badge variant={(selectedBooking.booking_source === "PARTNER_DIRECT") ? "success" : "default"}>
+                      {(selectedBooking.booking_source === "PARTNER_DIRECT") ? "Direct" : "Safar DZ"}
                     </Badge>
                   </div>
                 </div>
@@ -632,7 +618,7 @@ export function BookingsList({ initialBookings }: BookingsListProps) {
                     <span>Montant Client</span>
                     <span className="font-mono">{formatPriceDA(selectedBooking.total_amount || selectedBooking.provider_amount)}</span>
                   </div>
-                  {!(selectedBooking.booking_source === "PARTNER_DIRECT" || selectedBooking.booking_source === "PARTNER_MANUAL") && (
+                  {!(selectedBooking.booking_source === "PARTNER_DIRECT") && (
                     <div className="flex justify-between text-on-surface-variant italic">
                       <span>Commission Safar ({selectedBooking.commission_rate || 15}%)</span>
                       <span className="font-mono">- {formatPriceDA((selectedBooking.total_amount || 0) * ((selectedBooking.commission_rate || 15) / 100))}</span>
@@ -641,7 +627,7 @@ export function BookingsList({ initialBookings }: BookingsListProps) {
                   <div className="flex justify-between text-lg font-bold pt-4 text-primary border-t border-outline-variant mt-2">
                     <span>Revenu Partenaire</span>
                     <span className="font-mono">
-                      {(selectedBooking.booking_source === "PARTNER_DIRECT" || selectedBooking.booking_source === "PARTNER_MANUAL") 
+                      {(selectedBooking.booking_source === "PARTNER_DIRECT") 
                         ? formatPriceDA(selectedBooking.total_amount) 
                         : formatPriceDA(selectedBooking.provider_amount)}
                     </span>

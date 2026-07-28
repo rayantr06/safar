@@ -33,6 +33,7 @@ import {
   cancelAdminBooking,
   confirmAdminBooking
 } from "@/lib/actions/admin-bookings";
+import { toast } from "sonner";
 
 interface BookingsListAdminProps {
   initialBookings: any[];
@@ -284,10 +285,10 @@ export function BookingsListAdmin({ initialBookings, partners }: BookingsListAdm
           router.refresh();
         });
       } else {
-        alert(res.error || "Impossible d'annuler.");
+        toast.error(res.error || "Impossible d'annuler.");
       }
     } catch (err: any) {
-      alert(err.message || "Erreur lors de l'annulation.");
+      toast.error(err.message || "Erreur lors de l'annulation.");
     }
   };
 
@@ -306,10 +307,10 @@ export function BookingsListAdmin({ initialBookings, partners }: BookingsListAdm
           router.refresh();
         });
       } else {
-        alert(res.error || "Impossible de confirmer.");
+        toast.error(res.error || "Impossible de confirmer.");
       }
     } catch (err: any) {
-      alert(err.message || "Erreur lors de la confirmation.");
+      toast.error(err.message || "Erreur lors de la confirmation.");
     }
   };
 

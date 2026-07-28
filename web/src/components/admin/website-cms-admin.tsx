@@ -32,6 +32,7 @@ import { saveCmsSection, addMediaAsset, deleteMediaAsset, saveAccommodation, del
 import { saveExperience } from "@/lib/actions/experiences";
 import { IMAGES } from "@/lib/constants";
 import { ImageUploader } from "@/components/admin/image-uploader";
+import { toast } from "sonner";
 
 interface WebsiteCmsAdminProps {
   initialCms: any;
@@ -115,7 +116,7 @@ export function WebsiteCmsAdmin({ initialCms, experiences, destinations, accommo
   // Accommodations Handlers
   const handleSaveAccommodationLocal = async () => {
     if (!editingAccommodation.title) {
-      alert("Veuillez saisir un nom pour l'hébergement.");
+      toast.error("Veuillez saisir un nom pour l'hébergement.");
       return;
     }
 
@@ -161,7 +162,7 @@ export function WebsiteCmsAdmin({ initialCms, experiences, destinations, accommo
   // Category Handlers
   const handleAddCategoryLocal = async () => {
     if (!newCategoryName) {
-      alert("Veuillez saisir un nom pour la catégorie.");
+      toast.error("Veuillez saisir un nom pour la catégorie.");
       return;
     }
     const newCat = {
@@ -238,7 +239,7 @@ export function WebsiteCmsAdmin({ initialCms, experiences, destinations, accommo
   // Partner Handlers
   const handleAddPartner = async () => {
     if (!newPartner.name || !newPartner.logo_url) {
-      alert("Veuillez remplir tous les champs du partenaire.");
+      toast.error("Veuillez remplir tous les champs du partenaire.");
       return;
     }
     const updatedList = [...partners, { id: `p-${Date.now()}`, ...newPartner }];
@@ -279,7 +280,7 @@ export function WebsiteCmsAdmin({ initialCms, experiences, destinations, accommo
   // Media Library Handlers
   const handleAddMedia = async () => {
     if (!newMediaForm.name || !newMediaForm.url) {
-      alert("Veuillez saisir un nom et une URL.");
+      toast.error("Veuillez saisir un nom et une URL.");
       return;
     }
     const asset = {

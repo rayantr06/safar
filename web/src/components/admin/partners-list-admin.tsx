@@ -21,6 +21,7 @@ import {
   deletePartnerEquipment,
   togglePartnerEquipmentStatus
 } from "@/lib/actions/admin-partners";
+import { toast } from "sonner";
 
 interface PartnersListAdminProps {
   initialPartners: any[];
@@ -135,9 +136,9 @@ export function PartnersListAdmin({ initialPartners }: PartnersListAdminProps) {
           );
           setSelectedPartner(updatedPartner);
           setIsPartnerModalOpen(false);
-          alert("Partenaire mis à jour avec succès !");
+          toast.success("Partenaire mis à jour avec succès !");
         } else {
-          alert("Erreur : " + res.error);
+          toast.error("Erreur : " + res.error);
         }
       } else {
         const res = await createPartner(partnerForm);
@@ -167,13 +168,13 @@ export function PartnersListAdmin({ initialPartners }: PartnersListAdminProps) {
           setPartners((prev) => [...prev, newPartner]);
           setSelectedPartner(newPartner);
           setIsPartnerModalOpen(false);
-          alert("Partenaire et compte de connexion créés avec succès !");
+          toast.success("Partenaire et compte de connexion créés avec succès !");
         } else {
-          alert("Erreur : " + res.error);
+          toast.error("Erreur : " + res.error);
         }
       }
     } catch (err: any) {
-      alert("Erreur lors de la sauvegarde : " + err.message);
+      toast.error("Erreur lors de la sauvegarde : " + err.message);
     } finally {
       setSaveLoading(false);
     }
@@ -213,12 +214,12 @@ export function PartnersListAdmin({ initialPartners }: PartnersListAdminProps) {
       if (res.success) {
         setIsPasswordModalOpen(false);
         setNewPassword("");
-        alert("Mot de passe réinitialisé avec succès !");
+        toast.success("Mot de passe réinitialisé avec succès !");
       } else {
-        alert("Erreur : " + res.error);
+        toast.error("Erreur : " + res.error);
       }
     } catch (err: any) {
-      alert("Erreur : " + err.message);
+      toast.error("Erreur : " + err.message);
     } finally {
       setSaveLoading(false);
     }
@@ -236,10 +237,10 @@ export function PartnersListAdmin({ initialPartners }: PartnersListAdminProps) {
         );
         setSelectedPartner((prev: any) => ({ ...prev, is_disabled: isDisabled, status: nextStatus }));
       } else {
-        alert("Erreur : " + res.error);
+        toast.error("Erreur : " + res.error);
       }
     } catch (err: any) {
-      alert("Erreur : " + err.message);
+      toast.error("Erreur : " + err.message);
     }
   };
 
@@ -278,12 +279,12 @@ export function PartnersListAdmin({ initialPartners }: PartnersListAdminProps) {
           prev.map((p) => (p.id === selectedPartner.id ? updated : p))
         );
         setSelectedPartner(updated);
-        alert("Paramètres de commission mis à jour avec succès !");
+        toast.success("Paramètres de commission mis à jour avec succès !");
       } else {
-        alert("Erreur : " + res.error);
+        toast.error("Erreur : " + res.error);
       }
     } catch (err: any) {
-      alert("Erreur : " + err.message);
+      toast.error("Erreur : " + err.message);
     } finally {
       setSaveLoading(false);
     }
@@ -332,9 +333,9 @@ export function PartnersListAdmin({ initialPartners }: PartnersListAdminProps) {
           setSelectedPartner(updatedPartner);
           setIsEquipModalOpen(false);
           setEditingEquip(null);
-          alert("Équipement mis à jour avec succès !");
+          toast.success("Équipement mis à jour avec succès !");
         } else {
-          alert("Erreur : " + res.error);
+          toast.error("Erreur : " + res.error);
         }
       } else {
         const res = await addPartnerEquipment(selectedPartner.id, payload);
@@ -358,13 +359,13 @@ export function PartnersListAdmin({ initialPartners }: PartnersListAdminProps) {
           );
           setSelectedPartner(updatedPartner);
           setIsEquipModalOpen(false);
-          alert("Nouvel équipement créé et associé !");
+          toast.success("Nouvel équipement créé et associé !");
         } else {
-          alert("Erreur : " + res.error);
+          toast.error("Erreur : " + res.error);
         }
       }
     } catch (err: any) {
-      alert("Erreur : " + err.message);
+      toast.error("Erreur : " + err.message);
     } finally {
       setSaveLoading(false);
     }
@@ -387,12 +388,12 @@ export function PartnersListAdmin({ initialPartners }: PartnersListAdminProps) {
           prev.map((p) => (p.id === selectedPartner.id ? updatedPartner : p))
         );
         setSelectedPartner(updatedPartner);
-        alert("Équipement supprimé avec succès.");
+        toast.success("Équipement supprimé avec succès.");
       } else {
-        alert("Erreur : " + res.error);
+        toast.error("Erreur : " + res.error);
       }
     } catch (err: any) {
-      alert("Erreur : " + err.message);
+      toast.error("Erreur : " + err.message);
     }
   };
 
@@ -415,10 +416,10 @@ export function PartnersListAdmin({ initialPartners }: PartnersListAdminProps) {
         );
         setSelectedPartner(updatedPartner);
       } else {
-        alert("Erreur : " + res.error);
+        toast.error("Erreur : " + res.error);
       }
     } catch (err: any) {
-      alert("Erreur : " + err.message);
+      toast.error("Erreur : " + err.message);
     }
   };
 

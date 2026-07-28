@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
+import type { Profile, Provider } from "@/lib/types/database";
 
 export type PartnerSettingsData = {
   full_name?: string;
@@ -16,7 +17,7 @@ export type PartnerSettingsData = {
 
 export async function getPartnerSettings() {
   try {
-    const supabase = (await createClient()) as any;
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -112,9 +113,9 @@ export async function updatePartnerSettings(settings: PartnerSettingsData) {
         throw new Error("L'adresse ne peut pas dépasser 200 caractères");
     }
 
-    const admin = createAdminClient() as any;
+    const admin = createAdminClient();
 
-    const profileUpdates: Record<string, string> = {};
+    const profileUpdates: Partial<Profile> = {};
     if (settings.full_name !== undefined)
       profileUpdates.full_name = settings.full_name.trim();
     if (settings.phone !== undefined)
@@ -128,7 +129,7 @@ export async function updatePartnerSettings(settings: PartnerSettingsData) {
       if (error) throw new Error(error.message);
     }
 
-    const providerUpdates: Record<string, string> = {};
+    const providerUpdates: Partial<Provider> = {};
     if (settings.company_name !== undefined)
       providerUpdates.company_name = settings.company_name.trim();
     if (settings.port_location !== undefined)

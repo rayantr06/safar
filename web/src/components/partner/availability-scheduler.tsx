@@ -29,6 +29,7 @@ import {
   checkConflict
 } from "@/lib/actions/partner-bookings";
 import { BoatAvailabilitySettings } from "@/lib/actions/partner-bookings";
+import { toast } from "sonner";
 
 interface TimelineItem {
   type: "free" | "break" | "booking" | "unavailable" | "maintenance";
@@ -257,7 +258,7 @@ export function AvailabilityScheduler({
       }));
       setIsSettingsOpen(false);
     } else {
-      alert("Erreur lors de la sauvegarde: " + res.error);
+      toast.error("Erreur lors de la sauvegarde: " + res.error);
     }
     setSettingsLoading(false);
   };
@@ -445,7 +446,7 @@ export function AvailabilityScheduler({
     if (b.status === "cancelled") {
       return "bg-neutral-50 text-neutral-500 border-neutral-200 hover:bg-neutral-100";
     }
-    if (b.booking_source === "PARTNER_DIRECT" || b.booking_source === "PARTNER_MANUAL") {
+    if (b.booking_source === "PARTNER_DIRECT") {
       return "bg-green-50 text-green-700 border-green-200 hover:bg-green-100";
     }
     return "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"; // Safar DZ booking (Default)
@@ -453,7 +454,7 @@ export function AvailabilityScheduler({
 
   const getBookingLabel = (b: any) => {
     if (b.status === "cancelled") return "Annulé";
-    if (b.booking_source === "PARTNER_DIRECT" || b.booking_source === "PARTNER_MANUAL") return "Partner Direct";
+    if (b.booking_source === "PARTNER_DIRECT") return "Partner Direct";
     return "Safar DZ";
   };
 
@@ -795,7 +796,7 @@ export function AvailabilityScheduler({
                         className={`text-[9px] font-bold px-1.5 py-0.5 rounded truncate border ${
                           b.status === "cancelled"
                             ? "bg-neutral-100 text-neutral-500 border-neutral-200"
-                            : b.booking_source === "PARTNER_DIRECT" || b.booking_source === "PARTNER_MANUAL"
+                            : b.booking_source === "PARTNER_DIRECT"
                             ? "bg-green-100 text-green-800 border-green-200"
                             : "bg-blue-100 text-blue-800 border-blue-200"
                         }`}
@@ -1008,7 +1009,7 @@ export function AvailabilityScheduler({
                   </div>
                   <div>
                     <p className="font-bold text-lg">{selectedBooking.client_name}</p>
-                    <p className="text-on-surface-variant text-xs">{(selectedBooking.booking_source === "PARTNER_DIRECT" || selectedBooking.booking_source === "PARTNER_MANUAL") ? "Client Direct" : "Client Safar DZ"}</p>
+                    <p className="text-on-surface-variant text-xs">{(selectedBooking.booking_source === "PARTNER_DIRECT") ? "Client Direct" : "Client Safar DZ"}</p>
                   </div>
                 </div>
                 <div className="p-3 bg-surface-container rounded-lg">
@@ -1038,8 +1039,8 @@ export function AvailabilityScheduler({
                   </div>
                   <div className="flex justify-between items-center py-2">
                     <span className="text-on-surface-variant">Source</span>
-                    <Badge variant={(selectedBooking.booking_source === "PARTNER_DIRECT" || selectedBooking.booking_source === "PARTNER_MANUAL") ? "warning" : "default"}>
-                      {(selectedBooking.booking_source === "PARTNER_DIRECT" || selectedBooking.booking_source === "PARTNER_MANUAL") ? "Manuel" : "Safar DZ"}
+                    <Badge variant={(selectedBooking.booking_source === "PARTNER_DIRECT") ? "warning" : "default"}>
+                      {(selectedBooking.booking_source === "PARTNER_DIRECT") ? "Manuel" : "Safar DZ"}
                     </Badge>
                   </div>
                 </div>
@@ -1061,7 +1062,7 @@ export function AvailabilityScheduler({
                     <span>Tarif Client</span>
                     <span className="font-mono">{formatPriceDA(selectedBooking.total_amount)}</span>
                   </div>
-                  {!(selectedBooking.booking_source === "PARTNER_DIRECT" || selectedBooking.booking_source === "PARTNER_MANUAL") && (
+                  {!(selectedBooking.booking_source === "PARTNER_DIRECT") && (
                     <div className="flex justify-between text-on-surface-variant italic">
                       <span>Commission Safar ({selectedBooking.commission_rate || 15}%)</span>
                       <span className="font-mono">- {formatPriceDA((selectedBooking.total_amount || 0) * ((selectedBooking.commission_rate || 15) / 100))}</span>
@@ -1070,7 +1071,7 @@ export function AvailabilityScheduler({
                   <div className="flex justify-between text-lg font-bold pt-4 text-primary border-t border-outline-variant mt-2">
                     <span>Revenu Net</span>
                     <span className="font-mono">
-                      {(selectedBooking.booking_source === "PARTNER_DIRECT" || selectedBooking.booking_source === "PARTNER_MANUAL") 
+                      {(selectedBooking.booking_source === "PARTNER_DIRECT") 
                         ? formatPriceDA(selectedBooking.total_amount) 
                         : formatPriceDA(selectedBooking.provider_amount)}
                     </span>
