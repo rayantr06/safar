@@ -216,6 +216,10 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
     try {
       if (isNew) {
         const res = await createExperience(payload);
+        if (!res.success) {
+          toast.error("Erreur: " + (res.error || "Échec de la création"));
+          return;
+        }
         if (res.success && res.data) {
           setExperiences((prev) => [...prev, {
             ...res.data,

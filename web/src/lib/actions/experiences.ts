@@ -123,53 +123,61 @@ export async function saveExperience(id: string, updates: any) {
 }
 
 export async function createExperience(experience: any) {
-  const { user, role } = await checkRole(["provider", "admin"]);
-  const supabase = await createClient();
+  try {
+    const { user, role } = await checkRole(["provider", "admin"]);
+    const supabase = await createClient();
 
-  if (role === "provider") {
-    experience.provider_id = user.id;
-    const { data: boat } = await supabase.from("boats").select("provider_id").eq("id", experience.boat_id).single() as any;
-    if (boat && boat.provider_id !== user.id) {
-      throw new Error("Non autorisé : Ce navire ne vous appartient pas");
+    if (role === "provider") {
+      experience.provider_id = user.id;
+      const { data: boat } = await supabase.from("boats").select("provider_id").eq("id", experience.boat_id).single() as any;
+      if (boat && boat.provider_id !== user.id) {
+        return { success: false, error: "Non autorisé : Ce navire ne vous appartient pas" };
+      }
     }
-  }
 
-  // Generate slug from title if not provided
-  let slug = experience.slug;
-  if (!slug && experience.title) {
-    slug = experience.title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
-  }
-
-  // Strip fields that don't exist as columns on the experiences table
-  const allowedColumns = [
-    "title", "slug", "type", "category", "price_total", "price_per_seat",
-    "duration_minutes", "max_guests", "is_published", "status",
-    "description", "destination_id", "boat_id", "main_image_url",
-    "included_services", "requirements", "departure_location",
-    "route_description", "badge",
-  ];
-  const insertPayload: Record<string, any> = {};
-  for (const key of allowedColumns) {
-    if (experience[key] !== undefined) {
-      insertPayload[key] = experience[key];
+    // Generate slug from title if not provided
+    let slug = experience.slug;
+    if (!slug && experience.title) {
+      slug = experience.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
     }
-  }
-  if (slug) insertPayload.slug = slug;
+    if (!slug) {
+      slug = "exp-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
+    }
 
-  const { data, error } = await (supabase as any)
-    .from("experiences")
-    .insert(insertPayload)
-    .select()
-    .single();
-  if (error) throw new Error(error.message);
-  revalidatePath("/partner/boats");
-  revalidatePath("/admin/experiences");
-  revalidatePath("/experiences");
-  revalidatePath("/");
-  return { success: true, data };
+    // Strip fields that don't exist as columns on the experiences table
+    const allowedColumns = [
+      "title", "slug", "type", "category", "price_total", "price_per_seat",
+      "duration_minutes", "max_guests", "is_published", "status",
+      "description", "destination_id", "boat_id", "main_image_url",
+      "included_services", "requirements", "departure_location",
+      "route_description", "badge",
+    ];
+    const insertPayload: Record<string, any> = {};
+    for (const key of allowedColumns) {
+      if (experience[key] !== undefined) {
+        insertPayload[key] = experience[key];
+      }
+    }
+    insertPayload.slug = slug;
+
+    const { data, error } = await (supabase as any)
+      .from("experiences")
+      .insert(insertPayload)
+      .select()
+      .single();
+    if (error) return { success: false, error: error.message };
+    revalidatePath("/partner/boats");
+    revalidatePath("/admin/experiences");
+    revalidatePath("/experiences");
+    revalidatePath("/");
+    return { success: true, data };
+  } catch (err: any) {
+    console.error("createExperience error:", err);
+    return { success: false, error: err.message || "Erreur inconnue" };
+  }
 }
 
 export async function validatePartner(id: string, status: "active" | "pending") {
