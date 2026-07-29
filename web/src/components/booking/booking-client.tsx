@@ -77,7 +77,7 @@ export function BookingClient({ experience }: BookingClientProps) {
 
   useEffect(() => {
     if (dateParam) setDate(dateParam);
-    if (timeParam) setTimeSlot(`slot-${timeParam}`, timeParam);
+    if (timeParam) setTimeSlot("", timeParam);
     if (seatsParam) setGuestCount(parseInt(seatsParam, 10));
     if (durationParam) setDurationMinutes(parseInt(durationParam, 10));
   }, [dateParam, timeParam, seatsParam, durationParam, setDate, setTimeSlot, setGuestCount]);
@@ -265,7 +265,7 @@ export function BookingClient({ experience }: BookingClientProps) {
     try {
       const result = await createBooking({
         experience_id: experience.id,
-        time_slot_id: timeSlotId || null,
+        time_slot_id: null,
         client_name: clientName.trim(),
         client_phone: clientPhone.trim(),
         client_notes: clientNotes || "",
@@ -513,7 +513,7 @@ export function BookingClient({ experience }: BookingClientProps) {
                         key={time}
                         type="button"
                         disabled={blocked}
-                        onClick={() => setTimeSlot(`slot-${time}`, time)}
+                        onClick={() => setTimeSlot(time, time)}
                         className={`flex items-center justify-center py-3.5 px-2 border rounded-xl transition-all active:scale-[0.98] font-mono text-sm font-bold ${
                           blocked
                             ? "opacity-30 cursor-not-allowed border-outline-variant text-outline line-through"
