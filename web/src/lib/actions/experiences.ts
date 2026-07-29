@@ -134,9 +134,24 @@ export async function createExperience(experience: any) {
     }
   }
 
+  // Strip fields that don't exist as columns on the experiences table
+  const allowedColumns = [
+    "title", "type", "category", "price_total", "price_per_seat",
+    "duration_minutes", "max_guests", "is_published", "status",
+    "description", "destination_id", "boat_id", "main_image_url",
+    "included_services", "requirements", "departure_location",
+    "route_description", "badge",
+  ];
+  const insertPayload: Record<string, any> = {};
+  for (const key of allowedColumns) {
+    if (experience[key] !== undefined) {
+      insertPayload[key] = experience[key];
+    }
+  }
+
   const { data, error } = await (supabase as any)
     .from("experiences")
-    .insert(experience)
+    .insert(insertPayload)
     .select()
     .single();
   if (error) throw new Error(error.message);
