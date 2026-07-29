@@ -295,8 +295,8 @@ export async function createAdminBooking(bookingData: {
       commissionRate = (prov as any)?.commission_rate ?? 15;
     }
 
-    const gross = bookingData.total_amount;
-    const commAmount = gross * (commissionRate / 100);
+    const gross = Math.round(bookingData.total_amount);
+    const commAmount = Math.round(gross * (commissionRate / 100));
     const netAmount = gross - commAmount;
 
     const newBooking = {
@@ -321,8 +321,23 @@ export async function createAdminBooking(bookingData: {
       created_by: "ADMIN" as const,
       provider_id: bookingData.provider_id || null,
       boat_id: bookingData.boat_id || null,
-      experience_id: null
+      experience_id: null,
+      accommodation_id: null
     };
+
+    // If boat_id is provided, look up the associated experience to satisfy the FK constraint
+    if (bookingData.boat_id) {
+      const { data: experience } = await supabase
+        .from("experiences")
+        .select("id")
+        .eq("boat_id", bookingData.boat_id)
+        .eq("status", "published")
+        .limit(1)
+        .maybeSingle() as any;
+      if (experience) {
+        newBooking.experience_id = experience.id;
+      }
+    }
 
     const { error } = await (supabase
       .from("bookings") as any)
