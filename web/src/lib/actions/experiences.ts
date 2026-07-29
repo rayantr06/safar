@@ -80,46 +80,56 @@ export async function deleteExperience(id: string) {
 }
 
 export async function saveExperience(id: string, updates: any) {
-  const { user, role } = await checkRole(["provider", "admin"]);
-  const supabase = await createClient();
+  try {
+    const { user, role } = await checkRole(["provider", "admin"]);
+    const supabase = await createClient();
 
-  if (role === "provider") {
-    const { data: exp } = await supabase.from("experiences").select("boat_id, boats(provider_id)").eq("id", id).single() as any;
-    if (exp?.boats?.provider_id !== user.id) {
-      throw new Error("Non autorisé");
+    if (role === "provider") {
+      const { data: exp } = await supabase.from("experiences").select("boat_id, boats(provider_id)").eq("id", id).single() as any;
+      if (exp?.boats?.provider_id !== user.id) {
+        return { success: false, error: "Non autorisé" };
+      }
     }
+
+    // Generate slug if title changed
+    let slug: string | undefined;
+    if (updates.title) {
+      slug = updates.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+      if (!slug) slug = "exp-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
+    }
+
+    const mappedUpdates: Record<string, any> = {};
+    const allowedUpdateColumns = [
+      "title", "price_total", "price_per_seat", "duration_minutes", "max_guests",
+      "is_published", "description", "type", "destination_id", "boat_id",
+      "main_image_url", "category", "included_services", "requirements",
+      "departure_location", "route_description", "badge", "status",
+    ];
+    for (const key of allowedUpdateColumns) {
+      if (updates[key] !== undefined) {
+        mappedUpdates[key] = updates[key];
+      }
+    }
+    if (slug) mappedUpdates.slug = slug;
+
+    const { error } = await (supabase as any)
+      .from("experiences")
+      .update(mappedUpdates)
+      .eq("id", id);
+    if (error) return { success: false, error: error.message };
+
+    revalidatePath("/partner/boats");
+    revalidatePath("/admin/experiences");
+    revalidatePath("/experiences");
+    revalidatePath("/");
+    return { success: true };
+  } catch (err: any) {
+    console.error("saveExperience error:", err);
+    return { success: false, error: err.message || "Erreur inconnue" };
   }
-
-  const mappedUpdates: any = {};
-  if (updates.title !== undefined) mappedUpdates.title = updates.title;
-  if (updates.price_total !== undefined) mappedUpdates.price_total = updates.price_total;
-  if (updates.price_per_seat !== undefined) mappedUpdates.price_per_seat = updates.price_per_seat;
-  if (updates.duration_minutes !== undefined) mappedUpdates.duration_minutes = updates.duration_minutes;
-  if (updates.max_guests !== undefined) mappedUpdates.max_guests = updates.max_guests;
-  if (updates.is_published !== undefined) mappedUpdates.is_published = updates.is_published;
-  if (updates.description !== undefined) mappedUpdates.description = updates.description;
-  if (updates.type !== undefined) mappedUpdates.type = updates.type;
-  if (updates.destination_id !== undefined) mappedUpdates.destination_id = updates.destination_id;
-  if (updates.boat_id !== undefined) mappedUpdates.boat_id = updates.boat_id;
-  if (updates.main_image_url !== undefined) mappedUpdates.main_image_url = updates.main_image_url;
-  if (updates.category !== undefined) mappedUpdates.category = updates.category;
-  if (updates.included_services !== undefined) mappedUpdates.included_services = updates.included_services;
-  if (updates.requirements !== undefined) mappedUpdates.requirements = updates.requirements;
-  if (updates.departure_location !== undefined) mappedUpdates.departure_location = updates.departure_location;
-  if (updates.route_description !== undefined) mappedUpdates.route_description = updates.route_description;
-  if (updates.images !== undefined) mappedUpdates.images = updates.images;
-
-  const { error } = await (supabase as any)
-    .from("experiences")
-    .update(mappedUpdates)
-    .eq("id", id);
-  if (error) throw new Error(error.message);
-
-  revalidatePath("/partner/boats");
-  revalidatePath("/admin/experiences");
-  revalidatePath("/experiences");
-  revalidatePath("/");
-  return { success: true };
 }
 
 export async function createExperience(experience: any) {

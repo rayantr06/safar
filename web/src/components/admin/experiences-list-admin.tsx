@@ -156,7 +156,7 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
       max_guests: 6,
       status: "draft",
       destination_id: destinations[0]?.id || null,
-      provider_id: partners[0]?.id || "",
+      provider_id: partners[0]?.id || "__platform__",
       boat_id: partners[0]?.boatsList?.[0]?.id || "",
       description: "",
       main_image_url: "https://lh3.googleusercontent.com/p/AF1QipMw74G13kE4fHCHpA2r_sR6u0g_z_B4c5f-o4xZ=s1360-w1360-h1020",
@@ -221,9 +221,12 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
           return;
         }
         if (res.success && res.data) {
+          const partnerName = selectedExp.provider_id === "__platform__"
+            ? "Safar DZ"
+            : partners.find(p => p.id === selectedExp.provider_id)?.name || "Safar DZ";
           setExperiences((prev) => [...prev, {
             ...res.data,
-            partner: partners.find(p => p.id === res.data.provider_id)?.name || "Partenaire",
+            partner: partnerName,
             destination: destinations.find(d => d.id === res.data.destination_id)?.name || "Béjaïa",
             status: res.data.is_published ? "approved" : "rejected",
             contentStatus: res.data.status || "draft"
@@ -231,11 +234,18 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
         }
       } else {
         const res = await saveExperience(selectedExp.id, payload);
+        if (!res.success) {
+          toast.error("Erreur: " + (res.error || "Échec de la sauvegarde"));
+          return;
+        }
         if (res.success) {
+          const partnerName = selectedExp.provider_id === "__platform__"
+            ? "Safar DZ"
+            : partners.find(p => p.id === selectedExp.provider_id)?.name || selectedExp.partner;
           setExperiences((prev) => prev.map((e) => e.id === selectedExp.id ? {
             ...selectedExp,
             ...payload,
-            partner: partners.find(p => p.id === selectedExp.provider_id)?.name || selectedExp.partner,
+            partner: partnerName,
             destination: destinations.find(d => d.id === selectedExp.destination_id)?.name || selectedExp.destination,
             status: isPublished ? "approved" : "rejected",
             contentStatus: status
@@ -346,9 +356,12 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
     }));
   };
 
-  // Active boats list filtered by selected partner
+  // All boats from all partners + any extra platform boats
+  const allBoats = partners.flatMap(p => p.boatsList || []);
+  // When 'Safar DZ (Plateforme)' is selected, show all boats from every partner
+  const isPlatformMode = selectedExp?.provider_id === "__platform__";
   const selectedPartnerBoats = selectedExp
-    ? partners.find(p => p.id === selectedExp.provider_id)?.boatsList || []
+    ? (isPlatformMode ? allBoats : partners.find(p => p.id === selectedExp.provider_id)?.boatsList || [])
     : [];
 
   const filteredExps = experiences.filter((exp) => {
@@ -885,11 +898,17 @@ export function ExperiencesListAdmin({ initialExperiences, partners, destination
                               value={selectedExp.provider_id || ""}
                               onChange={(e) => {
                                 const provId = e.target.value;
-                                const firstBoat = partners.find(p => p.id === provId)?.boatsList?.[0]?.id || "";
-                                setSelectedExp({ ...selectedExp, provider_id: provId, boat_id: firstBoat });
+                                if (provId === "__platform__") {
+                                  const firstBoat = allBoats[0]?.id || "";
+                                  setSelectedExp({ ...selectedExp, provider_id: "__platform__", boat_id: firstBoat });
+                                } else {
+                                  const firstBoat = partners.find(p => p.id === provId)?.boatsList?.[0]?.id || "";
+                                  setSelectedExp({ ...selectedExp, provider_id: provId, boat_id: firstBoat });
+                                }
                               }}
                               className="w-full bg-white border border-outline-variant rounded-xl text-xs p-2.5 font-bold"
                             >
+                              <option value="__platform__">🚢 Safar DZ (Plateforme)</option>
                               {partners.map(p => (
                                 <option key={p.id} value={p.id}>{p.name}</option>
                               ))}

@@ -32,7 +32,7 @@ export default async function AdminExperiencesPage() {
       experiences = data.map((e: any) => ({
         id: e.id,
         title: e.title,
-        partner: e.boats?.providers?.company_name || "Partenaire",
+        partner: e.boats?.providers?.company_name || "Safar DZ",
         provider_id: e.boats?.providers?.id || null,
         boat_id: e.boats?.id || null,
         destination: e.destinations?.name || "Béjaïa",

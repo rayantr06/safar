@@ -120,6 +120,7 @@ export async function getAdminBookings() {
       .select(`
         *,
         experiences ( title, duration_minutes ),
+        boats ( id, name ),
         providers ( company_name )
       `)
       .order("booking_date", { ascending: false });
