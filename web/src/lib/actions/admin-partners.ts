@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { checkRole } from "@/lib/utils/auth-check";
+import { randomBytes } from "crypto";
 
 export async function createPartner(partnerData: {
   name: string;
@@ -24,7 +25,7 @@ export async function createPartner(partnerData: {
 
     const { data: created, error: createUserError } = await admin.auth.admin.createUser({
       email: partnerData.email,
-      password: partnerData.password || Math.random().toString(36).slice(-10),
+      password: partnerData.password || randomBytes(8).toString("hex"),
       email_confirm: true,
       user_metadata: { full_name: partnerData.name },
     });
@@ -54,7 +55,7 @@ export async function createPartner(partnerData: {
       address: partnerData.address || "",
       notes: partnerData.notes || "",
       commission_type: partnerData.commission_type || "percentage",
-      commission_rate: partnerData.commission_value || 15,
+      commission_rate: partnerData.commission_value ?? 15,
       commission_effective_date: new Date().toISOString().split("T")[0],
       commission_status: "active",
       is_active: true,

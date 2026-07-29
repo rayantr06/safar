@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin/", "/partner/", "/client/", "/login", "/auth/"],
       },
     ],
-    sitemap: "https://safardz.com/sitemap.xml",
+    sitemap: "https://safardz.net/sitemap.xml",
   };
 }

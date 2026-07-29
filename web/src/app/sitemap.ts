@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://safardz.com";
+  const baseUrl = "https://safardz.net";
 
   // Static URLs
   const staticUrls = [

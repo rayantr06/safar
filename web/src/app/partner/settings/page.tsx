@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { IMAGES } from "@/lib/constants";
 import {
   User,
@@ -361,12 +362,12 @@ export default function PartnerSettingsPage() {
                 Notre équipe de support partenaires est disponible pour
                 répondre à vos questions techniques ou de paiement.
               </p>
-              <a
+              <Link
                 className="text-white text-xs font-bold underline flex items-center gap-1 cursor-pointer"
-                href="#"
+                href="/contact"
               >
                 Contacter le support →
-              </a>
+              </Link>
             </div>
             <div className="absolute -right-4 -bottom-4 opacity-10 text-[100px] select-none">
               📞

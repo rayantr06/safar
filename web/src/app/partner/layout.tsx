@@ -110,13 +110,13 @@ export default async function PartnerLayout({
               </p>
             </div>
             <div className="flex flex-wrap justify-center gap-6">
-              <Link href="#" className="text-on-surface-variant hover:text-primary underline transition-all">
+              <Link href="/legal" className="text-on-surface-variant hover:text-primary underline transition-all">
                 Conditions
               </Link>
-              <Link href="#" className="text-on-surface-variant hover:text-primary underline transition-all">
+              <Link href="/legal" className="text-on-surface-variant hover:text-primary underline transition-all">
                 Confidentialité
               </Link>
-              <Link href="#" className="text-on-surface-variant hover:text-primary underline transition-all">
+              <Link href="/contact" className="text-on-surface-variant hover:text-primary underline transition-all">
                 Support
               </Link>
             </div>

@@ -46,3 +46,6 @@ next-env.d.ts
 
 # local-dev-only mock database (never used in production; see isPlaceholder() mode)
 .safar-mock-db.json
+
+# server logs
+server-log*.txt

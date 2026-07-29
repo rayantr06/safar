@@ -531,7 +531,7 @@ export function PartnersListAdmin({ initialPartners }: PartnersListAdminProps) {
                     address: "",
                     location: "Port de Béjaïa",
                     notes: "",
-                    password: "password123",
+    password: Array.from(crypto.getRandomValues(new Uint8Array(8)), (b) => b.toString(16).padStart(2, "0")).join(""),
                     commission_type: "percentage",
                     commission_value: 15,
                   });

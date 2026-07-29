@@ -43,14 +43,14 @@ export const metadata: Metadata = {
   keywords: ["safar dz", "sortie en mer bejaia", "balade bateau bejaia", "location jet ski bejaia", "activites nautiques algerie", "bateau de plaisance bejaia", "ile des pisans", "cap carbon"],
   authors: [{ name: "Safar DZ Team" }],
   creator: "Safar DZ",
-  metadataBase: new URL("https://safardz.com"),
+  metadataBase: new URL("https://safardz.net"),
   alternates: {
     canonical: "/"
   },
   openGraph: {
     type: "website",
     locale: "fr_DZ",
-    url: "https://safardz.com",
+    url: "https://safardz.net",
     title: "Safar DZ | Sorties en Mer, Balades & Activités Nautiques à Béjaïa",
     description: "Réservez les meilleures sorties en mer, balades en bateau privé, jet-ski et activités nautiques à Béjaïa, Algérie. Profitez d'une expérience maritime unique et sécurisée.",
     siteName: "Safar DZ",

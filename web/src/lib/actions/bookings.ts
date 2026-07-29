@@ -49,13 +49,17 @@ export async function createBooking(data: BookingRequest) {
   try {
     const { data: expData, error: expError } = await supabase
       .from("experiences")
-      .select("boat_id, price_total, price_per_seat, title, boats(provider_id)")
+      .select("boat_id, price_total, price_per_seat, title, max_guests, boats(provider_id)")
       .eq("id", data.experience_id)
       .single();
 
     if (expError) throw new Error("Experience introuvable");
     const providerId = expData?.boats?.provider_id;
     const boatId = expData?.boat_id;
+
+    if (expData?.max_guests && data.guest_count > expData.max_guests) {
+      throw new Error(`Le nombre de participants dépasse la capacité maximale (${expData.max_guests} personnes).`);
+    }
 
     let canonicalTotal = data.total_amount;
     if (expData) {

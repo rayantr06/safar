@@ -63,7 +63,7 @@ export function SidebarNav() {
 
         {/* Help */}
         <Link
-          href="#"
+          href="/contact"
           className="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-6 py-3 transition-all mx-2"
         >
           <HelpCircle className="h-5 w-5" />

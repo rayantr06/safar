@@ -211,7 +211,7 @@ export async function assignBookingToPartner(
       .eq("id", providerId)
       .single();
     
-    const commRate = (prov as any)?.commission_rate || 15.00;
+    const commRate = (prov as any)?.commission_rate ?? 15.00;
 
     const { data: bAmounts } = await supabase
       .from("bookings")
@@ -292,7 +292,7 @@ export async function createAdminBooking(bookingData: {
         .select("commission_rate")
         .eq("id", bookingData.provider_id)
         .single();
-      commissionRate = (prov as any)?.commission_rate || 15;
+      commissionRate = (prov as any)?.commission_rate ?? 15;
     }
 
     const gross = bookingData.total_amount;
