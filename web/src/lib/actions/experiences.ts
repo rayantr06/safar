@@ -134,9 +134,18 @@ export async function createExperience(experience: any) {
     }
   }
 
+  // Generate slug from title if not provided
+  let slug = experience.slug;
+  if (!slug && experience.title) {
+    slug = experience.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
   // Strip fields that don't exist as columns on the experiences table
   const allowedColumns = [
-    "title", "type", "category", "price_total", "price_per_seat",
+    "title", "slug", "type", "category", "price_total", "price_per_seat",
     "duration_minutes", "max_guests", "is_published", "status",
     "description", "destination_id", "boat_id", "main_image_url",
     "included_services", "requirements", "departure_location",
@@ -148,6 +157,7 @@ export async function createExperience(experience: any) {
       insertPayload[key] = experience[key];
     }
   }
+  if (slug) insertPayload.slug = slug;
 
   const { data, error } = await (supabase as any)
     .from("experiences")

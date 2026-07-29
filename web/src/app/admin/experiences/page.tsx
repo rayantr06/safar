@@ -9,14 +9,13 @@ export default async function AdminExperiencesPage() {
 
   let experiences: any[] = [];
   try {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("experiences")
       .select(`
         *,
         boats (
           id,
           name,
-          owner_name,
           providers (
             id,
             company_name
@@ -27,12 +26,13 @@ export default async function AdminExperiencesPage() {
           name
         )
       `);
+    if (error) throw error;
       
     if (data && data.length > 0) {
       experiences = data.map((e: any) => ({
         id: e.id,
         title: e.title,
-        partner: e.boats?.providers?.company_name || e.boats?.owner_name || "Partenaire",
+        partner: e.boats?.providers?.company_name || "Partenaire",
         provider_id: e.boats?.providers?.id || null,
         boat_id: e.boats?.id || null,
         destination: e.destinations?.name || "Béjaïa",

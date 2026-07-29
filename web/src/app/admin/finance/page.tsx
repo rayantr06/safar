@@ -24,8 +24,7 @@ export default async function AdminFinancePage() {
         experiences (
           title,
           boats (
-            owner_name,
-            owner_phone,
+            name,
             provider_id
           )
         )
@@ -38,7 +37,7 @@ export default async function AdminFinancePage() {
         ref: b.booking_ref || `#SF-${b.id.substring(0, 4)}`,
         client: b.client_name || "Client Safar",
         experience: b.experiences?.title || "Aventure Marine",
-        partner: b.experiences?.boats?.owner_name || "Partenaire Safar",
+        partner: b.experiences?.boats?.name || "Partenaire Safar",
         total: b.total_amount ? b.total_amount / 100 : 0,
         commission: b.commission_amount ? b.commission_amount / 100 : 0,
         net: b.provider_amount ? b.provider_amount / 100 : 0,
@@ -51,7 +50,7 @@ export default async function AdminFinancePage() {
         if (!boat) return;
 
         const providerId = boat.provider_id || "unknown";
-        const ownerName = boat.owner_name || "Partenaire Safar";
+        const ownerName = boat.name || "Partenaire Safar";
 
         if (!partnersMap[providerId]) {
           partnersMap[providerId] = {
