@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { 
-  Clock, 
-  Users, 
-  ArrowRight, 
-  MessageSquare, 
-  Settings, 
-  Map, 
-  TrendingUp, 
+import {
+  Clock,
+  Users,
+  ArrowRight,
+  MessageSquare,
+  Settings,
+  Map,
+  TrendingUp,
   Calendar,
   Anchor,
   Smartphone,
@@ -71,17 +71,6 @@ export default async function PartnerDashboardPage() {
   // 4. Safar vs Manual bookings count
   const safarBookings = allBookings.filter((b) => b.booking_source !== "PARTNER_DIRECT");
   const manualBookings = allBookings.filter((b) => b.booking_source === "PARTNER_DIRECT");
-
-  // 5. Available boats
-  let availableBoatsCount = 0;
-  if (user) {
-    const { count } = await supabase
-      .from("boats")
-      .select("id", { count: "exact", head: true })
-      .eq("provider_id", user.id)
-      .eq("is_active", true);
-    availableBoatsCount = count || 0;
-  }
 
   // Next trip today
   const nextTrip = todayTrips.find(
@@ -321,25 +310,6 @@ export default async function PartnerDashboardPage() {
           </div>
         </section>
       </div>
-
-      {/* Available Fleet Info */}
-      <section className="bg-surface-container-low p-6 rounded-3xl border border-outline-variant/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-primary-container text-on-primary-container flex items-center justify-center">
-            <Anchor className="h-6 w-6" />
-          </div>
-          <div>
-            <h3 className="font-bold text-base text-on-surface">Votre flotte en service</h3>
-            <p className="text-xs text-on-surface-variant">{availableBoatsCount} bateaux configurés et disponibles aux réservations.</p>
-          </div>
-        </div>
-        <Link 
-          href="/partner/boats" 
-          className="border border-outline-variant bg-surface hover:bg-surface-container font-bold text-xs px-5 py-3 rounded-xl transition-all"
-        >
-          Gérer la Flotte
-        </Link>
-      </section>
 
       {/* Quick Actions Footer */}
       <div className="flex flex-wrap gap-4 pt-4">

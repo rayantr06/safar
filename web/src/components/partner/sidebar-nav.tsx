@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   CalendarDays,
-  Ship,
   Wallet,
   Star,
   HelpCircle,
@@ -14,7 +13,6 @@ import {
 const NAV_ITEMS = [
   { href: "/partner", label: "Dashboard", icon: LayoutDashboard },
   { href: "/partner/bookings", label: "Réservations", icon: CalendarDays },
-  { href: "/partner/boats", label: "Ma Flotte", icon: Ship },
   { href: "/partner/availability", label: "Calendrier", icon: CalendarDays },
   { href: "/partner/earnings", label: "Revenus", icon: Wallet },
   { href: "/partner/settings", label: "Paramètres", icon: Star },

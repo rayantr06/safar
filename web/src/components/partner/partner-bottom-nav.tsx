@@ -10,7 +10,7 @@ export function PartnerBottomNav() {
   const isDashboardActive = pathname === "/partner";
   const isBookingsActive = pathname.startsWith("/partner/bookings");
   const isEarningsActive = pathname.startsWith("/partner/earnings");
-  const isSettingsActive = pathname.startsWith("/partner/settings") || pathname.startsWith("/partner/availability") || pathname.startsWith("/partner/boats");
+  const isSettingsActive = pathname.startsWith("/partner/settings") || pathname.startsWith("/partner/availability");
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant z-50 px-4 py-3 flex justify-around items-center shadow-[0_-4px_12px_rgba(0,0,0,0.05)] pb-6">
